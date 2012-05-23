@@ -11,7 +11,6 @@ body{
    margin: 0px;
 }
 
-
 #Company_Information {
   min-height: 100px;
 }
@@ -21,11 +20,17 @@ body{
   display: none;
 }
 
+#contacts {
+  margin-top: 30px;
+  border: 1px solid #b3b3b3;    
+}
 #contacts li {
+  border-bottom: 1px solid #2b81af;
   padding:5px;
 }
 
 .Contact_Entity {
+  background-color: #fcfcfc;
   list-style: none;
 }
 
@@ -38,7 +43,7 @@ body{
 }
 
 .Contact_Entity {
-   padding:5px; 
+  padding:5px; 
 }
 
 
@@ -91,7 +96,7 @@ body{
 }
 
 #tabs>ul>li {
-    display: inline;
+  display: inline;
 }
 
 /* search form 
@@ -101,23 +106,22 @@ body{
 }
 
 #search input[type="text"] {
-    background: url(img/search-dark.png) no-repeat 10px 6px #fcfcfc;
-    border: 0 none;
-    font: bold 3em Arial,Helvetica,Sans-serif;
-    color: #6a6f75;
-    min-width:80%;
-    padding: 6px 15px 6px 35px;
-    -webkit-border-radius: 0.5em;
-    -moz-border-radius: 0.5em;
-    border-radius: 0.5em;
-    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
-    -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2) inset;
-    -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2) inset;
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2) inset;
-    }
+  background: url(../img/search-dark.png) no-repeat 10px 6px #fcfcfc;
+  border: 0 none;
+  font: bold 2em Arial,Helvetica,Sans-serif;
+  color: #6a6f75;
+  min-width:80%;
+  padding: 6px 15px 6px 35px;
+  -webkit-border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+  border-radius: 0.5em;
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2) inset;
+  -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2) inset;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2) inset;
+}
 
 #search input[type="text"]:focus {
-  background: url(search-dark.png) no-repeat 10px 6px #fcfcfc;
   -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(0, 0, 0, 0.9) inset;
   -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(0, 0, 0, 0.9) inset;
 }

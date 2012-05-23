@@ -15,13 +15,19 @@ Copyright goes here
  */
 function Intialize () {
     // HTML5 tests
-    if(!Supports_HTML5_localStorage) {
+    if(!Supports_HTML5_localStorage()) {
         AdaHeads_Log(Log_Level.Error,"localStorage not supported!");
         return false;
     } else {
         AdaHeads_Log(Log_Level.Information,"localStorage supported");
     }
     
+    if(!Supports_HTML5_indexedDB()) {
+        AdaHeads_Log(Log_Level.Error,"indexedDB not supported!");
+        return false;
+    } else {
+        AdaHeads_Log(Log_Level.Information,"indexedDB supported");
+    }    
     // Start the periodic polling
     Update_Queue();
     
@@ -46,6 +52,7 @@ function AdaHeads_Take_Call() {
   // Update the UI
   Hide_Call_List();
   Unhide_Company_Info();
+  Unhide_Search_Field();
   Set_Greeting(Standard_Greeting + "<navn> ");
 
   // Download the JSON object for the current organization
@@ -95,6 +102,26 @@ function AdaHeads_Take_Call_real() {
   .error(function() {console.log("AdaHeads_Take_Call: error!");});
   $("#contacts").show();
  }
+ 
+function AdaHeads_Get_Contact(ce_id) {
+// Get the data object
+  AdaHeads_Log(Log_Level.Debug, Alice_Server.URI+Get_Contact+"?ce_id="+ce_id+"&jsoncallback=?");
+  $.getJSON(Alice_Server.URI+Get_Contact+"?ce_id="+ce_id+"&jsoncallback=?",
+  function(data){
+    if (data.length === 0 || data === undefined) {
+      alert("AdaHeads_Get_Contact: No contact received!");
+      return;
+    };
+    // Cache the object
+    localStorage.setItem('Contact_Cache', JSON.stringify(data));
+  })
+  /* Response handlers */
+  .success(function() {
+    Show_Contact(JSON.parse(localStorage.getItem('Contact_Cache')));
+      
+  })
+  .error(function() {console.log("AdaHeads_Get_Contact: error!");});
+ }
 
 function AdaHeads_End_Call() {
     Current_State = "Idle";
@@ -102,6 +129,7 @@ function AdaHeads_End_Call() {
     Unhide_Call_List();
     Update_Queue();
     Hide_Contact_Entity_List();
+    Hide_Search_Field();
 
     Set_Greeting(":-)");
 }

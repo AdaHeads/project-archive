@@ -4,6 +4,7 @@
  * Author: Kim Rostgaard Christensen
  */
 
+
 function Filter_Contact_Entity_List() {
   //alert($("#Tags").value);
   //$('#debugfield').empty();
@@ -11,28 +12,38 @@ function Filter_Contact_Entity_List() {
 
   var json = JSON.parse(localStorage.getItem('Organization_Cache'));
   if (json  === null) {
-      return false;
+      return;
+  }
+  
+  if($("#Contact_Search_Field").val() === "") {
+    AdaHeads_Log(Log_Level.Debug,"Search area cleared; showing all");
+    $.each(json.contacts, function(i,contact){
+      $("#ce_id_"+i).show();
+    });
+    return;
   }
   
   $.each(json.contacts, function(i,contact){
-    var match = false;
-
-
-    //TODO - loop through every tag in the search field
+    var Matches = 0;
+    var Number_Of_Keywords = -1;
+    // Loop through every keyword in the search field
     var Keywords = $("#Contact_Search_Field").val().toLowerCase().split(" ");
-    
-    $.each(Keywords, function(i,keyword) {
+    Number_Of_Keywords = Keywords.length;
+    $.each(Keywords, function(j,keyword) {
+      // The split returns an empty string when search string ends with a space
+      if(keyword === "") {
+        Number_Of_Keywords--;
+        return;
+      }
       // First, search the names
       if(contact.name.toLowerCase().indexOf(keyword) >= 0) {
-        match = true;
-        //console.log(contact.name.toLowerCase()+" matches on " + $("#Tags").val().toLowerCase());
-        return false; // This really means break
+        Matches++;
+        AdaHeads_Log(Log_Level.Debug,contact.name.toLowerCase()+" matches on " + keyword + " keyword.length: "+ Keywords.length);
       }
+          
     });  
 
-
-
-    if(match) {
+    if(Matches === Number_Of_Keywords) {
       $("#ce_id_"+i).show();
     }
     else {
@@ -75,7 +86,16 @@ function Filter_Contact_Entity_List() {
 }
 
 function Clear_Search_Field() {
-  console.log("Clear_Search_Field - Not implemented!");
+  AdaHeads_Log(Log_Level.Fatal,"Not implemented!");
+}
+
+function Hide_Search_Field() {
+  $("#search").hide();
+}
+
+function Unhide_Search_Field() {
+  $("#search").show();
+  $("#Contact_Search_Field").focus();
 }
 
 /* */
@@ -118,6 +138,7 @@ function Set_Greeting(greeting) {
 }
 
 function Show_Contact(contact) {
+  AdaHeads_Log(Log_Level.Debug, "nooo");
   $("#Contact_Entity_View").empty();
   $("#Contact_Entity_View").append();
 
@@ -126,7 +147,7 @@ function Show_Contact(contact) {
   //add modal background
   $('<div />').addClass('lightbox_bg').appendTo('body').show();
   //add modal window
-  $('<div />').text(contact.text()).addClass('Contact_Entity_View').appendTo('body');
+  $('<div />').text(contact.name).addClass('Contact_Entity_View').appendTo('body');
 }
 
 /* Updates the contactlist based on the id parameter */
@@ -158,10 +179,11 @@ function Populate_Contact_Entity_List(data) {
       //TODO: Attach real tags
 
       // Attach a click handler
-      $(".Contact_Entity").click(function () {
+      Current_Li.click(function () {
         $("#contacts").find(".Contact_Entity").removeClass("activeitem");
         $(this).addClass("activeitem");
-        Show_Contact($(this));
+        AdaHeads_Get_Contact(contact.db_columns.ce_id);
+        return;
       });
   })
 
@@ -193,3 +215,6 @@ function Update_Call_List(json) {
       $("<li>").text("Date: " +item.UTC_start_date+ " Caller: " + item.caller + " Callee: " + item.callee).appendTo("#Call_List_Low_Priority");
     });
 };
+
+
+Array.prototype.last = function() {return this[this.length-1];}

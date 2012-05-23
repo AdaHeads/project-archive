@@ -4,9 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <title>Ugly Bob</title>
   <link type="text/css" href="css/style.css" rel="stylesheet" />
-  
   <script type="text/javascript" src="lib/js/jquery-1.7.2.min.js"></script>
-  <!--<script type="text/javascript" src="js/jquery-ui-1.8.19.custom.min.js"></script>-->
   <script type="text/javascript" src="js/Client_State.js"></script>
   <script type="text/javascript" src="js/User_Interface_Utilities.js"></script>
   <script type="text/javascript" src="js/IndexedDB.js"></script>
@@ -17,75 +15,35 @@
   <script type="text/javascript" src="js/Click_Handlers.js"></script>
   <script type="text/javascript" src="js/Queue_Thread.js"></script>
 
-<!-- Initialize everything -->
-<script>
-  $(document).ready(Intialize);
-</script>
-
+  <!-- Initialize everything -->
+  <script>  $(document).ready(Intialize); </script>
  </head>
  <body>
   <div id="Container">
    <div id="Left_Container" style="width: 65%;float: left; margin:2%">
+   
+    <!-- Various UI control buttons -->
     <button id="Contacts_Search">Kontakter</button>
     <button id="Organization_List">Firmaliste</button>
     <button id="Statistics">Statistik</button>    
-      <h1 id="Greeting">Velkommen til. Du ser godt ud i dag.</h1>
-      <div class="ui-widget">
-      
-          <div id="search">
-<form method="get" action="/search" id="search">
-    <input name="Contact_Search_Field" id="Contact_Search_Field" type="text" placeholder="Navn eller n&oslash;gleord..." />
-</form>
-</div>
-
-      </div>
-      <ul id="contacts"></ul>
-       <div id="Contact_Entity_View">
-       </div>
-<script>
-    $("li").click(function () {
-      //alert($(this).text());
-
-      $("#Contact_Entity_View").empty();
-      //$("#Contact_Entity_View").append();
-
-      //add modal background
-      $('<div />').addClass('lightbox_bg').appendTo('body').show();
-      //add modal window
-      $('<div />').text($(this).text()).addClass('Contact_Entity_View').appendTo('body');
-
-    });
-</script>
-
-  <!--
-        <h1>ToDo list - IndexedDB Example</h1>
-    <ul id="todoItems"></ul>
-    <input type="text" id="todo" name="todo" placeholder="What do you need to do?" />
-    <input type="submit" value="Add Todo Item" onclick="addTodo(); return false;" />
-
-    <h3>Todos</h3>
-    <input type="submit" value="Show All Todos" onclick="showAll(); return false;" />
-    <div id="ourList">
--->
+    <h1 id="Greeting">Velkommen til. Du ser godt ud i dag.</h1>
+    <div id="search" style="display: none">
+     <form method="get" action="/search" id="search">
+      <input name="Contact_Search_Field" id="Contact_Search_Field" type="text" placeholder="Navn eller n&oslash;gleord..." />
+     </form>
     </div>
-
+    <ul id="contacts"></ul>
+    <div id="Contact_Entity_View">
+    </div>
+   </div>
    <div class="sidebar" id="sideRight" style="float: left; width: 30%; min-height: 100px; overflow:none; font-size:9px;">
-
-    <button id="Take_Call_Button">Tag kald (+)</button>
+    <button id="Take_Call_Button">Tag kald (Alt+a)</button>
+    <script> $("#Take_Call_Button").click(function() {AdaHeads_Take_Call_Button_Click();});</script>
     <button id="End_Call_Button" disabled="disabled">Slut kald (Alt+s)</button>
-<script>
-  $("#Take_Call_Button").click(function() {
-    AdaHeads_Take_Call_Button_Click();}
-    );
-
-  $("#End_Call_Button").click(function() {
-    AdaHeads_End_Call_Button_Click();
-  }); 
-
-</script>
-     <ul id="Call_List_High_Priority"></ul>
- 	   <ul id="Call_List_Normal_Priority"></ul>
-	   <ul id="Call_List_Low_Priority"></ul>
+    <script>$("#End_Call_Button").click(function() {AdaHeads_End_Call_Button_Click();}); </script>
+    <ul id="Call_List_High_Priority"></ul>
+    <ul id="Call_List_Normal_Priority"></ul>
+    <ul id="Call_List_Low_Priority"></ul>
    </div><!-- .sidebar#sideRight -->
    <div id="bobBox" style="position: absolute; bottom: 5%; right: 10%"><img src="img/Ugly_Bob.jpg" alt="Ugly Bob"/> <h2>One Bob - to rule them all</h2></div>
   </div> <!-- container -->

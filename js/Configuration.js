@@ -38,8 +38,9 @@ var Answer_Call_Handler = "Call/Answer";
 var End_Call_Handler    = "Call/End";
 var Get_Queue_Handler   = "get/queue";
 var Get_Org_Contacts    = "get/org_contacts";
-//var Get_Org_Contacts    = "ce_id1.json"; //XXX temporary
+var Get_Contact         = "get/contact"
 
+/* Global configuration values */
 var Alice_Server = new AdaHeads_Alice_Server();
 var Config = new Configuration_Values();
 var Standard_Greeting = "Velkommen til "

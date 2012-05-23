@@ -91,11 +91,23 @@ $(function() {
             }
             break;
 
+        //a
+        case 65:
+          if(Alt_Pressed) {
+              $("#Take_Call_Button").click();
+          };
+          break;
+
         // s
         case 83:
           if(Alt_Pressed) {
-            $("#End_Call_Button").click();;
+            $("#End_Call_Button").click();
           };
+          break;
+
+        // t
+        case 84:
+ 
           break;
         // Super
         case 91:
@@ -104,7 +116,8 @@ $(function() {
 
         // +
         case 191:
-          $("#Take_Call_Button").click();
+          break;
+          
           break;
         default:
           //alert(e.which);
