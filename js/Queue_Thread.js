@@ -1,14 +1,7 @@
 function Update_Queue(){
-
-  if (Current_State == "Idle")  {
-    $.getJSON(Alice_Server.URI+Get_Queue_Handler+"?jsoncallback=?",
-    function(data){
-      Update_Call_List(data);
-    })
-    // Schedule a new polling
-    .success(function() {setTimeout(Update_Queue,1500);})
-    .error(function() { alert("Update_Queue: error!"); setTimeout(Update_Queue,10000); })
-    .complete(function() {;});
+  if (Client.Current_State === Client_State.Idle)  {
+    Alice_Server2.Get_Queue(Update_Call_List);
+    setTimeout(Update_Queue,1500);
   }
 };
 

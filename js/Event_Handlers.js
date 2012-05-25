@@ -9,7 +9,6 @@ Copyright goes here
  * More descriptive information goes here.
  */
 
-
 /**
  * Bootstraps the entire application, and does various techology checks
  */
@@ -27,9 +26,13 @@ function Intialize () {
         return false;
     } else {
         AdaHeads_Log(Log_Level.Information,"indexedDB supported");
-    }    
+    }
+    
     // Start the periodic polling
-    Update_Queue();
+    $.getScript('js/Queue_Thread.js', function() {
+      Update_Queue();
+    });
+    
     
 
   // Style the buttons with jQuery
@@ -42,74 +45,65 @@ function Intialize () {
     
 }
 
-/**
- * Dummy function - remove when there is an actual call/get API call 
- */
-function AdaHeads_Take_Call() {
-  var org_id=Math.ceil(Math.random()*3);
-  var data;
-  Current_State = "In_Call";
-  // Update the UI
-  Hide_Call_List();
-  Unhide_Company_Info();
-  Unhide_Search_Field();
-  Set_Greeting(Standard_Greeting + "<navn> ");
 
-  // Download the JSON object for the current organization
-  $.getJSON(Alice_Server.URI+Get_Org_Contacts+"?org_id="+org_id+"&jsoncallback=?",
-    function(data){
-      // Put the resulting JSON in a localStorage cache
-      localStorage.setItem('Organization_Cache', JSON.stringify(data)); 
-    })
 
-  /* Response handlers */
-  .success(function() {
-    // And update the contact entity list
-    AdaHeads_Log(Log_Level.Debug, "Took call "+org_id);
-    Populate_Contact_Entity_List(JSON.parse(localStorage.getItem('Organization_Cache')));
-  })
-  .error(function() {
-      AdaHeads_Log(Log_Level.Error, "getJSON failed to download"+Alice_Server.URI+Get_Org_Contacts+"?org_id="+org_id+"&jsoncallback=?");
-  });
-}
 
 /*
  * Method for picking up a call. Sends a request to the server and updates
  * The corresponding UI elements
  */
-function AdaHeads_Take_Call_real() {
- // Get the data object
- var ce_id;
- //alert(Alice_Server.URI+Answer_Call_Handler+"?jsoncallback=?");
- $.getJSON(Alice_Server.URI+Answer_Call_Handler+"?jsoncallback=?",
+function AdaHeads_Take_Call() {
+  // Internal Call handler
+  function Call_Handler (data) {
+    if (data.length === 0 || data === undefined) {
+      AdaHeads_Log(Log_Level.Error,"No organization received!");
+      return false;
+    };
+    
+    Client.Change_State(Client_State.In_Call);
+    // Update the UI
+    Hide_Call_List();
+    //AdaHeads_Get_Organization(data.org_id);
+    Unhide_Search_Field();
+
+// Download the JSON object for the current organization
+  $.getJSON(Alice_Server.URI+Get_Org_Contacts_Full+"?org_id="+data.org_id+"&jsoncallback=?",
+    function(data){
+      Populate_Contact_Entity_List(data);
+    })
+   AdaHeads_Log(Log_Level.Debug, "Took call "+data.org_id);
+  }  
+  
+  Alice_Server2.Get_Next_Call(Call_Handler);
+  $("#contacts").show();
+ 
+}
+
+function AdaHeads_Get_Organization(org_id) {
+// Get the data object
+  AdaHeads_Log(Log_Level.Debug, Alice_Server.URI+Get_Organization+"?org_id="+org_id+"&jsoncallback=?");
+  $.getJSON(Alice_Server.URI+Get_Organization+"?org_id="+org_id+"&jsoncallback=?",
   function(data){
     if (data.length === 0 || data === undefined) {
-      alert("AdaHeads_Take_Call: No organization received!");
+      AdaHeads_Log(Log_Level.Error,"AdaHeads_Get_Organization: No contact received!");
       return;
     };
-    ce_id = data.ce_id;
+    // Cache the object
+    localStorage.setItem('Organization_Cache', JSON.stringify(data));
+    Update_Company_Info(data,true);
   })
   /* Response handlers */
-  .success(function() {
-     Current_State = "In_Call";
-     // Update the UI
-     Hide_Call_List();
-     Unhide_Company_Info();
-     Set_Greeting(Standard_Greeting + "<navn> ");
-     Populate_Contact_Entity_List(ce_id);
+  .success(function() {;})
+  .error(function() {AdaHeads_Log(Log_Level.Error,"getJSON failed");});
+}
 
-  })
-  .error(function() {console.log("AdaHeads_Take_Call: error!");});
-  $("#contacts").show();
- }
- 
 function AdaHeads_Get_Contact(ce_id) {
 // Get the data object
-  AdaHeads_Log(Log_Level.Debug, Alice_Server.URI+Get_Contact+"?ce_id="+ce_id+"&jsoncallback=?");
-  $.getJSON(Alice_Server.URI+Get_Contact+"?ce_id="+ce_id+"&jsoncallback=?",
+  AdaHeads_Log(Log_Level.Debug, Alice_Server.URI+Get_Contact_Full+"?ce_id="+ce_id+"&jsoncallback=?");
+  $.getJSON(Alice_Server.URI+Get_Contact_Full+"?ce_id="+ce_id+"&jsoncallback=?",
   function(data){
     if (data.length === 0 || data === undefined) {
-      alert("AdaHeads_Get_Contact: No contact received!");
+      AdaHeads_Log(Log_Level.Error,"No contact received!");
       return;
     };
     // Cache the object
@@ -117,14 +111,12 @@ function AdaHeads_Get_Contact(ce_id) {
   })
   /* Response handlers */
   .success(function() {
-    Show_Contact(JSON.parse(localStorage.getItem('Contact_Cache')));
-      
+    Contact_Card_Update(JSON.parse(localStorage.getItem('Contact_Cache')));
   })
-  .error(function() {console.log("AdaHeads_Get_Contact: error!");});
- }
+  .error(function() {AdaHeads_Log(Log_Level.Error,"AdaHeads_Get_Contact: error!");});
+}
 
 function AdaHeads_End_Call() {
-    Current_State = "Idle";
     Hide_Company_Info();
     Unhide_Call_List();
     Update_Queue();
@@ -151,7 +143,6 @@ function AdaHeads_End_Call_real() {
     alert(data);
   }
    }).done(function() { 
-    Current_State = "Idle";
     Hide_Company_Info();
     Unhide_Call_List();
     Update_Queue();
@@ -172,7 +163,12 @@ function AdaHeads_End_Call_real() {
  
  /* Syslog-ish interface for various debugging messages */
  function AdaHeads_Log(level,msg) {
-     if(Config.Debug_Enabled) {
-         console.log(level +" " +arguments.callee.caller.name+": "+msg);
+     if(Configuration.Debug_Enabled) {
+         var callee = arguments.callee.caller.name;
+         if(callee === "") {
+             //TODO - maybe trace this one further
+             callee = "callback";
+         }
+         console.log(level +" " +callee+": "+msg);
      }
  }

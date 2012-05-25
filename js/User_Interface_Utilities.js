@@ -4,17 +4,26 @@
  * Author: Kim Rostgaard Christensen
  */
 
+/**
+ * Updates the Call Chain DOM node with the information supplied in the JSON
+ * Object
+ * @param Call_Chain_JSON The
+ */
+function Call_Chain_View_Update(Call_Chain_JSON,Call_Chain_DOM_Element){
+    
+}
 
+// This function hides every element that does not match any search terms
 function Filter_Contact_Entity_List() {
-  //alert($("#Tags").value);
-  //$('#debugfield').empty();
-  // This function hides every element that does not match any search terms
-
-  var json = JSON.parse(localStorage.getItem('Organization_Cache'));
-  if (json  === null) {
+  // TODO: Change this to IndexedDB. This will remove the JSON.parse overhead
+  //var json = JSON.parse(localStorage.getItem('Organization_Cache'));
+  var json = $("#contacts").data("JSON");
+  // Sanity checks
+  if (json === null || json === undefined || jQuery.isEmptyObject(json)) {
       return;
   }
   
+  // Unhide every contact, if the search field is cleared
   if($("#Contact_Search_Field").val() === "") {
     AdaHeads_Log(Log_Level.Debug,"Search area cleared; showing all");
     $.each(json.contacts, function(i,contact){
@@ -23,27 +32,46 @@ function Filter_Contact_Entity_List() {
     return;
   }
   
+  // Loop through every contact
   $.each(json.contacts, function(i,contact){
     var Matches = 0;
     var Number_Of_Keywords = -1;
     // Loop through every keyword in the search field
     var Keywords = $("#Contact_Search_Field").val().toLowerCase().split(" ");
     Number_Of_Keywords = Keywords.length;
+    
+    // Match each contact's name to each keyword
     $.each(Keywords, function(j,keyword) {
-      // The split returns an empty string when search string ends with a space
+      /* The split returns an extra empty keyword when search string ends with 
+         a space. This is compensation. */
       if(keyword === "") {
         Number_Of_Keywords--;
         return;
       }
-      // First, search the names
+      
+      // If any part of their names matches, we're good.
       if(contact.name.toLowerCase().indexOf(keyword) >= 0) {
         Matches++;
-        AdaHeads_Log(Log_Level.Debug,contact.name.toLowerCase()+" matches on " + keyword + " keyword.length: "+ Keywords.length);
+        AdaHeads_Log(Log_Level.Debug,contact.name.toLowerCase()+" matches on " + keyword);
       }
-          
+      
+      /* At this point we can break, if we have already found every match.
+         We should also break if the contact has no tags */
+      if(Matches >= Number_Of_Keywords || contact.attributes.tags === undefined) {
+        return;
+      }
+    
+      // Otherwise we do a full search on tags
+      $.each(contact.attributes.tags, function(j,tag) {
+        if(tag.toLowerCase().indexOf(keyword) >= 0) {
+          Matches++;
+          AdaHeads_Log(Log_Level.Debug,contact.name+"'s tag "+tag +" matches on " + keyword);
+        }
+      });
     });  
 
-    if(Matches === Number_Of_Keywords) {
+    // This
+    if(Matches >= Number_Of_Keywords) {
       $("#ce_id_"+i).show();
     }
     else {
@@ -55,34 +83,6 @@ function Filter_Contact_Entity_List() {
       }
     }
   });
- /*
-  $('.Contact_Entity').each(function(index) {
-    var match = false;
-
-    // Split up the names, and search for a match in either
-    var names = $(this).find('a').text().split(" ");
-    jQuery.each(names, function(i,name) {
-      if(name.toLowerCase().indexOf($("#Tags").val()) >= 0) {
-        match = true;
-      }
-    });
-
-    // Loop through every tag element, and see if we have a match
-   //jQuery.each($(this).find(".Tag"), function(i,tag) {
-   //   alert("hat" +tag.html());
-   //   $('<p>').text(tag.hmtl()).appendTo($('#debugfield'));
-   // });
-
-    // If anything matches, we keep/unhide the element - otherwise hide it
-    if(match) {
-      $(this).show();
-      //$('<p>').text($(this).find('a').text()).appendTo($('#debugfield'));
-    }
-    else {
-      $(this).hide();
-    }
-  });
-*/
 }
 
 function Clear_Search_Field() {
@@ -111,83 +111,119 @@ function Unhide_Call_List(){
   $("#Call_List_High_Priority").show();
 }
 
-function Unhide_Company_Info() {
+function Update_Company_Info(company,unhide) {
+  if(company === null || company === undefined) {
+      AdaHeads_Log(Log_Level.Error, "company object is not set");
+      return;
+  }
+  
+  if(jQuery.isEmptyObject(company)) {
+      AdaHeads_Log(Log_Level.Error, "company object empty");
+      return;
+  }
+  AdaHeads_Log(Log_Level.Debug, JSON.stringify(company));
+  
   // There is no div box to fill the content into; create it!
   if ($("#Company_Information").length === 0) {
   	$("<div>").appendTo("#sideRight").attr("id","Company_Information");
   }
 
   $('#Company_Information').first().show();
-  //$('#Company_Information').first().append();
   
-  $("<h2>").text("Organisationsnavn").addClass("Organization_Name").appendTo("#Company_Information");
-  $("<p>").text("Beskrivelse/").addClass("Company_Description").appendTo("#Company_Information");
+  $("<h2>").text(company.name).addClass("Organization_Name").appendTo("#Company_Information");
+  $("<p>").text(company.db_columns.identifier).addClass("Company_Description").appendTo("#Company_Information");
   $("<p>").text("Address").addClass("Company_Address").appendTo("#Company_Information");
   $("<p>").text("Opening Hours").addClass("Company_Opening_Hours").appendTo("#Company_Information");
+  
+  Set_Greeting(Standard_Greeting + company.name);
 }
 
 function Hide_Company_Info() {
   if ($("#Company_Information").length > 0) {
-  	$('#Company_Information').first().hide();
-  	$('#Company_Information').first().empty();
+    $('#Company_Information').first().hide();
+    $('#Company_Information').first().empty();
   }
 }
 
 function Set_Greeting(greeting) {
-	$('#Greeting').text(greeting);
+  $('#Greeting').text(greeting);
 }
 
-function Show_Contact(contact) {
-  AdaHeads_Log(Log_Level.Debug, "nooo");
-  $("#Contact_Entity_View").empty();
-  $("#Contact_Entity_View").append();
+function Contact_Card_Update(contact) {
+  // Create the contact card DOM object, if it doesn't
+  if($("#Contact_Entity_View").length === 0) {
+    $('<div>').attr('id','Contact_Entity_View').appendTo('body');
+  } else {
+    $("#Contact_Entity_View").empty();
+  }
 
-  $("body").find(".lightbox_bg").remove();
-  $("body").find(".Contact_Entity_View").remove();
-  //add modal background
-  $('<div />').addClass('lightbox_bg').appendTo('body').show();
-  //add modal window
-  $('<div />').text(contact.name).addClass('Contact_Entity_View').appendTo('body');
+  // Unhide the overlay
+  if($('.lightbox_bg').length !== 0 ) {
+    $('.lightbox_bg').first().show();
+  } else {
+    $('<div>').addClass('lightbox_bg').appendTo('body');
+    $('.lightbox_bg').first().show();
+  }
+  
+  // Fill out the contact card
+  $('<h2>').text(contact.name).appendTo($("#Contact_Entity_View"));
+  
+  $('<h3>').text(contact.type).appendTo($("#Contact_Entity_View"));
+  //$('<pre>').text(contact.attributes[0].email).appendTo($("#Contact_Entity_View"));
+  
+  $("#Contact_Entity_View").show();
+}
+
+function Contact_Card_Hide() {
+    $("#Contact_Entity_View").hide();
 }
 
 /* Updates the contactlist based on the id parameter */
 function Populate_Contact_Entity_List(data) {
-  	$("#contacts").empty();
+  $("#contacts").empty();
 
-  	if (data.contacts.length === 0 || data.contacts.length === undefined) { 
-      $('<p>').text("No contacts found!").appendTo("#contacts");
-  	  console.log("Populate_Contact_Entity_List: No contacts found!");
-  	  return;
+  $("#contacts").data("JSON", data);
+  if (data.contacts.length === 0 || data.contacts.length === undefined) { 
+    $('<p>').text("No contacts found!").appendTo("#contacts");
+    console.log("Populate_Contact_Entity_List: No contacts found!");
+    return;
+  };
+
+  $.each(data.contacts, function(i,contact){
+    var Current_Li = $("<li>").addClass("Contact_Entity").appendTo("#contacts");
+
+    if(i === 0) {
+      Current_Li.addClass("activeitem");
+      $("<a>").text(contact.name).attr("href","#").appendTo(Current_Li);
+    }
+    else {
+      $("<a>").text(contact.name).attr("href","#").appendTo("#contacts").appendTo(Current_Li)	;
     };
-
-    $.each(data.contacts, function(i,contact){
-      var Current_Li = $("<li>").addClass("Contact_Entity").appendTo("#contacts");
-
-      if(i === 0) {
-        Current_Li.addClass("activeitem");
-      	$("<a>").text(contact.name).attr("href","#").appendTo(Current_Li);
-
-        $("<span>").text("Slackware").addClass("Tag").appendTo(Current_Li);
-      }
-      else {
-        $("<a>").text(contact.name).attr("href","#").appendTo("#contacts").appendTo(Current_Li)	;
-        $("<span>").text("Ada").addClass("Tag").appendTo(Current_Li);
-      };
-      // Every element has an id based on organization and iterator id;
-      Current_Li.attr("id","ce_id_"+i);
-
-      //TODO: Attach real tags
-
-      // Attach a click handler
-      Current_Li.click(function () {
-        $("#contacts").find(".Contact_Entity").removeClass("activeitem");
-        $(this).addClass("activeitem");
-        AdaHeads_Get_Contact(contact.db_columns.ce_id);
-        return;
+    
+    AdaHeads_Log(Log_Level.Debug,JSON.stringify(contact));
+    if(contact.attributes.tags !== undefined) {
+      $.each(contact.attributes.tags, function(j,tag) {
+        $("<span>").text(tag).addClass("Tag").appendTo(Current_Li); 
       });
-  })
+    }
+  
+    // Every element has an id based on organization and iterator id;
+    Current_Li.attr("id","ce_id_"+i);
+  
+    // Add their type as a class
+    Current_Li.addClass(contact.type);
 
-
+     
+    // Attach a click handler
+    Current_Li.click(function () {
+      $("#contacts").find(".Contact_Entity").removeClass("activeitem");
+      $(this).addClass("activeitem");
+      AdaHeads_Get_Contact(contact.db_columns.ce_id);
+      return;
+    });
+  });
+  
+  // Set the visibility to true
   $("#contacts").show();
 }
 
@@ -196,25 +232,26 @@ function Hide_Contact_Entity_List(){
 }
 
 function Update_Call_List(json) {
-    /* Clear out old queue lists */
-    $("#Call_List_Low_Priority").empty();
-    $("#Call_List_Normal_Priority").empty();
-    $("#Call_List_High_Priority").empty();
+  /* Clear out old queue lists */
+  $("#Call_List_Low_Priority").empty();
+  $("#Call_List_Normal_Priority").empty();
+  $("#Call_List_High_Priority").empty();
 
-    //$("<ul>").appenddTo("#sideRight").attr("id","Call_List_High_Priority");
-
-    $.each(json.high, function(i,item){
-      $("<li>").text("Date: " +item.UTC_start_date+ " Caller: " + item.caller + " Callee: " + item.callee).appendTo("#Call_List_High_Priority");
-    });
+  //$("<ul>").appenddTo("#sideRight").attr("id","Call_List_High_Priority");
+  $.each(json.high, function(i,item){
+    $("<li>").text("Date: " +item.UTC_start_date+ " Caller: " + item.caller + " Callee: " + item.callee).appendTo("#Call_List_High_Priority");
+  });
     
-    $.each(json.normal, function(i,item){
-      $("<li>").text("Date: " +item.UTC_start_date+ " Caller: " + item.caller + " Callee: " + item.callee).appendTo("#Call_List_Normal_Priority");
-    });
+  $.each(json.normal, function(i,item){
+    $("<li>").text("Date: " +item.UTC_start_date+ " Caller: " + item.caller + " Callee: " + item.callee).appendTo("#Call_List_Normal_Priority");
+  });
 
-    $.each(json.low, function(i,item){
-      $("<li>").text("Date: " +item.UTC_start_date+ " Caller: " + item.caller + " Callee: " + item.callee).appendTo("#Call_List_Low_Priority");
-    });
+  $.each(json.low, function(i,item){
+    $("<li>").text("Date: " +item.UTC_start_date+ " Caller: " + item.caller + " Callee: " + item.callee).appendTo("#Call_List_Low_Priority");
+  });
 };
 
-
-Array.prototype.last = function() {return this[this.length-1];}
+/**
+ * Function definition that enables .last on jQuery Arrary objects.
+ */
+Array.prototype.last = function() {return this[this.length-1];};

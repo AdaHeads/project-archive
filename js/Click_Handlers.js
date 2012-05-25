@@ -2,8 +2,11 @@
  * Click_Handlers.js - callback handlers for UI-element clicks
  */
 
+/**
+ * Event sequence for a take_call click
+ */
 function AdaHeads_Take_Call_Button_Click() {
-  // Create a new call object
+  // Create a new call object, not implemented
   Current_Call = new AdaHeads_Call();
 
   // Disable the take call button and enable the end call button

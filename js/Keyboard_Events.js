@@ -6,7 +6,6 @@ var Super_Pressed = false;
 
 $(window).load(function(){
 $(function() {
-  var contacsLeft  = 100;
   var currentVert  =   0;
 
   //TODO - update this, so it only finds elements that are not hidden
@@ -28,7 +27,7 @@ $(function() {
 
         // Enter
         case 13 :
-          if (Current_State === "In_Call") {
+          if (Client.Current_State === Client_State.In_Call) {
             $("#contacts").find(".activeitem").click();
           };
           break;
@@ -51,7 +50,7 @@ $(function() {
         // Escape
         case 27:
             $("body").find(".lightbox_bg").hide();
-            $("body").find(".Contact_Entity_View").remove();
+            $("#Contact_Entity_View").hide();
             break;
         // Left
         case 37: 
