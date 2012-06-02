@@ -1,22 +1,5 @@
-/* Various "Enum" declarations */
-//TODO: Change the string implementations to this "enum" type
-var Log_Level = Object.freeze({
-         Information: "INFO",
-         Warning:     "WARN",
-         Debug:       "DEBUG",
-         Error:       "ERROR",
-         Fatal:       "FATAL"
-});
-
-var Client_State = Object.freeze({
-         In_Call: "In_Call",
-         Pause:   "Pause",
-         Idle:    "Idle",
-         Auto:    "Auto"
-});
-
-
 /* Basic class describing our server and its interfaces */
+//XXX Remove these when every call is moved to the new Alice server class
 function AdaHeads_Alice_Server (type) {
    this.type = type;
    this.URI = "http://delta.adaheads.com:4242/";
@@ -25,14 +8,15 @@ function AdaHeads_Alice_Server (type) {
    };
 }
 
-function Configuration_Values (type) {
-   this.type = type;
-   this.Polling_Interval = 2000;
-   this.Debug_Enabled = true;
-   this.Alice_URI = "http://delta.adaheads.com:4242/";
+/* Confiugration object */
+var Configuration =  {
+  Polling_Interval : 2000,
+  Debug_Enabled : true,
+  Alice_URI : "http://delta.adaheads.com:4242/"
 }
 
 /* Protocol specific handlers */
+//XXX Remove these when every call is moved to the new Alice server class
 var Get_Queue_Handler     = "get/queue";
 var Get_Org_Contacts      = "get/org_contacts";
 var Get_Org_Contacts_Full = "get/org_contacts_full";
@@ -45,7 +29,7 @@ var Answer_Call_Handler   = "get/call";
 var End_Call_Handler      = "call/end";
 
 /* Global configuration values */
-var Configuration = new Configuration_Values();
+//var Configuration = new Configuration_Values();
 var Alice_Server = new AdaHeads_Alice_Server();
 var Alice_Server2 =  {};
 
@@ -55,3 +39,6 @@ $.getScript('js/Classes/Alice.js', function() {
 });
 
 var Standard_Greeting = "Velkommen til "
+
+// Enable CORS
+jQuery.support.cors = true;

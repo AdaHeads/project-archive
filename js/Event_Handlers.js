@@ -12,7 +12,7 @@ Copyright goes here
 /**
  * Bootstraps the entire application, and does various techology checks
  */
-function Intialize () {
+function Initialize () {
     // HTML5 tests
     if(!Supports_HTML5_localStorage()) {
         AdaHeads_Log(Log_Level.Error,"localStorage not supported!");
@@ -32,8 +32,6 @@ function Intialize () {
     $.getScript('js/Queue_Thread.js', function() {
       Update_Queue();
     });
-    
-    
 
   // Style the buttons with jQuery
   //$(document).ready(function() {$("button").button();});
@@ -42,40 +40,33 @@ function Intialize () {
   //$(function(){
   //  $('#tabs').tabs();
   //});
-    
+  return true;
 }
-
-
-
 
 /*
  * Method for picking up a call. Sends a request to the server and updates
  * The corresponding UI elements
  */
-function AdaHeads_Take_Call() {
+function AdaHeads_Take_Call(id) {
   // Internal Call handler
-  function Call_Handler (data) {
-    if (data.length === 0 || data === undefined) {
-      AdaHeads_Log(Log_Level.Error,"No organization received!");
-      return false;
-    };
-    
-    Client.Change_State(Client_State.In_Call);
+  
+  org_id = Alice_Server2.Get_Next_Call();
+  
+  if(org_id == false) {
+    AdaHeads_Log(Log_Level.Fatal, "Failed to pickup next call"); 
+    return false;
+  }
+ 
+  Bob.Change_State(Client_State.In_Call);
     // Update the UI
     Hide_Call_List();
-    //AdaHeads_Get_Organization(data.org_id);
-    Unhide_Search_Field();
+    Search_Field_Unhide();
+    
+    //TODO set a loading box where the contacts are located
 
 // Download the JSON object for the current organization
-  $.getJSON(Alice_Server.URI+Get_Org_Contacts_Full+"?org_id="+data.org_id+"&jsoncallback=?",
-    function(data){
-      Populate_Contact_Entity_List(data);
-    })
-   AdaHeads_Log(Log_Level.Debug, "Took call "+data.org_id);
-  }  
-  
-  Alice_Server2.Get_Next_Call(Call_Handler);
-  $("#contacts").show();
+  Alice_Server2.Get_Org_Contacts_Full(org_id,Populate_Contact_Entity_List);
+   AdaHeads_Log(Log_Level.Debug, "Took call "+org_id); 
  
 }
 
@@ -117,13 +108,11 @@ function AdaHeads_Get_Contact(ce_id) {
 }
 
 function AdaHeads_End_Call() {
-    Hide_Company_Info();
-    Unhide_Call_List();
-    Update_Queue();
-    Hide_Contact_Entity_List();
-    Hide_Search_Field();
-
-    Set_Greeting(":-)");
+  Hide_Company_Info();
+  Unhide_Call_List();
+  Hide_Contact_Entity_List();
+  Search_Field_Hide();
+  Set_Greeting(":-)");
 }
 
 /*
@@ -145,7 +134,7 @@ function AdaHeads_End_Call_real() {
    }).done(function() { 
     Hide_Company_Info();
     Unhide_Call_List();
-    Update_Queue();
+    //Update_Queue();
     Hide_Contact_Entity_List();
 
     Set_Greeting(":-)");
@@ -159,16 +148,4 @@ function AdaHeads_End_Call_real() {
       //Current_Call.Organization_JSON = {};
       //jQuery.extend(true, Current_Call.Organization_JSON, data);
       null;
- }
- 
- /* Syslog-ish interface for various debugging messages */
- function AdaHeads_Log(level,msg) {
-     if(Configuration.Debug_Enabled) {
-         var callee = arguments.callee.caller.name;
-         if(callee === "") {
-             //TODO - maybe trace this one further
-             callee = "callback";
-         }
-         console.log(level +" " +callee+": "+msg);
-     }
  }

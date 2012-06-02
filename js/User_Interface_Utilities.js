@@ -20,7 +20,8 @@ function Filter_Contact_Entity_List() {
   var json = $("#contacts").data("JSON");
   // Sanity checks
   if (json === null || json === undefined || jQuery.isEmptyObject(json)) {
-      return;
+    AdaHead_Log(Log_Level.Error,"Empty JSON");
+    return;
   }
   
   // Unhide every contact, if the search field is cleared
@@ -70,15 +71,14 @@ function Filter_Contact_Entity_List() {
       });
     });  
 
-    // This
     if(Matches >= Number_Of_Keywords) {
-      $("#ce_id_"+i).show();
+      $("#ce_id_"+contact.db_columns.ce_id).show();
     }
     else {
-      $("#ce_id_"+i).hide();
+      $("#ce_id_"+contact.db_columns.ce_id).hide();
       // if this is the selected element, we must find another to make active
-      if ($("#ce_id_"+i).hasClass('activeitem')) {
-        $("#ce_id_"+i).removeClass('activeitem');
+      if ($("#ce_id_"+contact.db_columns.ce_id).hasClass('activeitem')) {
+        $("#ce_id_"+contact.db_columns.ce_id).removeClass('activeitem');
         $('.Contact_Entity').filter(":visible").first().addClass('activeitem');
       }
     }
@@ -89,11 +89,11 @@ function Clear_Search_Field() {
   AdaHeads_Log(Log_Level.Fatal,"Not implemented!");
 }
 
-function Hide_Search_Field() {
+function Search_Field_Hide() {
   $("#search").hide();
 }
 
-function Unhide_Search_Field() {
+function Search_Field_Unhide() {
   $("#search").show();
   $("#Contact_Search_Field").focus();
 }
@@ -121,7 +121,7 @@ function Update_Company_Info(company,unhide) {
       AdaHeads_Log(Log_Level.Error, "company object empty");
       return;
   }
-  AdaHeads_Log(Log_Level.Debug, JSON.stringify(company));
+  //AdaHeads_Log(Log_Level.Debug, JSON.stringify(company));
   
   // There is no div box to fill the content into; create it!
   if ($("#Company_Information").length === 0) {
@@ -179,17 +179,17 @@ function Contact_Card_Hide() {
 }
 
 /* Updates the contactlist based on the id parameter */
-function Populate_Contact_Entity_List(data) {
+function Populate_Contact_Entity_List(jsondata) {
   $("#contacts").empty();
 
-  $("#contacts").data("JSON", data);
-  if (data.contacts.length === 0 || data.contacts.length === undefined) { 
+  $("#contacts").data("JSON", jsondata);
+  if (jsondata.contacts.length === 0 || jsondata.contacts.length === undefined) { 
     $('<p>').text("No contacts found!").appendTo("#contacts");
     console.log("Populate_Contact_Entity_List: No contacts found!");
     return;
   };
 
-  $.each(data.contacts, function(i,contact){
+  $.each(jsondata.contacts, function(i,contact){
     var Current_Li = $("<li>").addClass("Contact_Entity").appendTo("#contacts");
 
     if(i === 0) {
@@ -200,7 +200,7 @@ function Populate_Contact_Entity_List(data) {
       $("<a>").text(contact.name).attr("href","#").appendTo("#contacts").appendTo(Current_Li)	;
     };
     
-    AdaHeads_Log(Log_Level.Debug,JSON.stringify(contact));
+    //AdaHeads_Log(Log_Level.Debug,JSON.stringify(contact));
     if(contact.attributes.tags !== undefined) {
       $.each(contact.attributes.tags, function(j,tag) {
         $("<span>").text(tag).addClass("Tag").appendTo(Current_Li); 
@@ -208,7 +208,7 @@ function Populate_Contact_Entity_List(data) {
     }
   
     // Every element has an id based on organization and iterator id;
-    Current_Li.attr("id","ce_id_"+i);
+    Current_Li.attr("id","ce_id_"+contact.db_columns.ce_id);
   
     // Add their type as a class
     Current_Li.addClass(contact.type);

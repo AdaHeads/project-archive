@@ -26,8 +26,8 @@ $(function() {
           break;
 
         // Enter
-        case 13 :
-          if (Client.Current_State === Client_State.In_Call) {
+        case 13:
+          if (Bob.Current_State === Client_State.In_Call) {
             $("#contacts").find(".activeitem").click();
           };
           break;
@@ -119,7 +119,7 @@ $(function() {
           
           break;
         default:
-          //alert(e.which);
+          //alert(e.which); 
           break;
         }
     });

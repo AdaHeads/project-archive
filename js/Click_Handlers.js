@@ -1,4 +1,5 @@
 /**
+ * @file
  * Click_Handlers.js - callback handlers for UI-element clicks
  */
 
@@ -16,9 +17,9 @@ function AdaHeads_Take_Call_Button_Click() {
 
 function AdaHeads_End_Call_Button_Click() {
   if(Current_Call !== null ) {
-  	// Call the destructor function
+    // Call the destructor function
     Current_Call.End();
-
+    Bob.Change_State(Client_State.Idle);
     // Disable the end call button and enable the take call button
     $("#End_Call_Button").attr("disabled", "disabled");
     $("#Take_Call_Button").removeAttr("disabled");
