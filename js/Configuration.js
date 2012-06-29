@@ -2,7 +2,7 @@
 //XXX Remove these when every call is moved to the new Alice server class
 function AdaHeads_Alice_Server (type) {
    this.type = type;
-   this.URI = "http://delta.adaheads.com:4242/";
+   this.URI = "http://alice.adaheads.com:4242/";
    this.getInfo = function() {
       return this.URI + ' ' + this.type + ' AdaHeads_Alice_Server';
    };
@@ -12,7 +12,7 @@ function AdaHeads_Alice_Server (type) {
 var Configuration =  {
   Polling_Interval : 2000,
   Debug_Enabled : true,
-  Alice_URI : "http://delta.adaheads.com:4242/"
+  Alice_URI : "http://alice.adaheads.com:4242/"
 }
 
 /* Protocol specific handlers */

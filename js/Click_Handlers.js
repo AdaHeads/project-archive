@@ -15,6 +15,21 @@ function AdaHeads_Take_Call_Button_Click() {
   $("#End_Call_Button").removeAttr("disabled");
 }
 
+function AdaHeads_SIP_Register_Button_Click() {
+    $.ajax({
+	type: 'GET',
+	url: "http://localhost:30200/reg",
+    });
+}
+
+
+function AdaHeads_SIP_Unregister_Button_Click() {
+    $.ajax({
+	type: 'GET',
+	url: "http://localhost:30200/unr",
+    });
+}
+
 function AdaHeads_End_Call_Button_Click() {
   if(Current_Call !== null ) {
     // Call the destructor function
