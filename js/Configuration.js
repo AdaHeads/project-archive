@@ -18,8 +18,8 @@ var Configuration =  {
 /* Protocol specific handlers */
 //XXX Remove these when every call is moved to the new Alice server class
 var Get_Queue_Handler     = "get/queue";
-var Get_Org_Contacts      = "get/org_contacts";
-var Get_Org_Contacts_Full = "get/org_contacts_full";
+var Get_Org_Contacts      = "get/organization_contacts";
+var Get_Org_Contacts_Full = "get/organization_contacts_full";
 var Get_Contact           = "get/contact"
 var Get_Contact_Full      = "get/contact_full"
 var Get_Organization      = "get/organization";
