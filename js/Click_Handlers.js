@@ -18,7 +18,7 @@ function AdaHeads_Take_Call_Button_Click() {
 function AdaHeads_SIP_Register_Button_Click() {
     $.ajax({
 	type: 'GET',
-	url: "http://localhost:30200/reg",
+	url: "http://localhost:30200/connect",
     });
 }
 
@@ -26,7 +26,7 @@ function AdaHeads_SIP_Register_Button_Click() {
 function AdaHeads_SIP_Unregister_Button_Click() {
     $.ajax({
 	type: 'GET',
-	url: "http://localhost:30200/unr",
+	url: "http://localhost:30200/disconnect",
     });
 }
 
