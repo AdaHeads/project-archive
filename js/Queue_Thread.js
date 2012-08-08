@@ -1,5 +1,5 @@
 
-//TODO, rewrite this to use Server Send events, and IPC
+//TODO, rewrite this to use Server Send events/Websockets, and IPC
 function Update_Queue(){
 //  AdaHeads_Log(Log_Level.Debug, "Updating queue");
   if (Bob.Current_State === Client_State.Idle)  {

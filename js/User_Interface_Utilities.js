@@ -238,16 +238,16 @@ function Update_Call_List(json) {
   $("#Call_List_High_Priority").empty();
 
   //$("<ul>").appenddTo("#sideRight").attr("id","Call_List_High_Priority");
-  $.each(json.high, function(i,item){
-    $("<li>").text("Date: " +item.UTC_start_date+ " Caller: " + item.caller + " Callee: " + item.callee).appendTo("#Call_List_High_Priority");
+  $.each(json.HIGH, function(i,call){
+    $("<li>").text("Date: " +call.Arrived+ " Caller: " + call.CallerIDNum + " Uniqueid: " + call.Uniqueid).appendTo("#Call_List_High_Priority");
   });
     
-  $.each(json.normal, function(i,item){
-    $("<li>").text("Date: " +item.UTC_start_date+ " Caller: " + item.caller + " Callee: " + item.callee).appendTo("#Call_List_Normal_Priority");
+  $.each(json.NORMAL, function(i,call){
+    $("<li>").text("Date: " +call.Arrived+ " Caller: " + call.CallerIDNum + " Callee: " + call.Uniqueid).appendTo("#Call_List_Normal_Priority");
   });
 
-  $.each(json.low, function(i,item){
-    $("<li>").text("Date: " +item.UTC_start_date+ " Caller: " + item.caller + " Callee: " + item.callee).appendTo("#Call_List_Low_Priority");
+  $.each(json.LOW, function(i,call){
+    $("<li>").text("Date: " +call.Arrived+ " Caller: " + call.CallerIDNum + " Callee: " + call.Uniqueid).appendTo("#Call_List_Low_Priority");
   });
 };
 

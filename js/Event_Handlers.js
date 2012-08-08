@@ -32,6 +32,10 @@ function Initialize () {
     $.getScript('js/Queue_Thread.js', function() {
       Update_Queue();
     });
+    
+    PJSUA_Client.Ping();
+    PJSUA_Client.Get_State();
+    PJSUA_Update_UI();
 
   // Style the buttons with jQuery
   //$(document).ready(function() {$("button").button();});
