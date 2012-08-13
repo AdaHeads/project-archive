@@ -1,60 +1,59 @@
 <!DOCTYPE html>
 <html>
- <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-  <title>Ugly Bob</title>
-  <link type="text/css" href="css/style.css" rel="stylesheet" />
-  <script type="text/javascript" src="lib/js/jquery-1.7.2.min.js"></script> 
-<!--  <script type="text/javascript" src="js/Classes/PJSUA_HTTPD.js"></script> -->
-  <script type="text/javascript" src="js/Configuration.js"></script>
-  <script type="text/javascript" src="js/Log_Subsystem.js"></script>
-  <script type="text/javascript" src="js/Protocol.js"></script>
-  <script type="text/javascript" src="js/Client_State.js"></script>
-  <script type="text/javascript" src="js/User_Interface_Utilities.js"></script>
-  <script type="text/javascript" src="js/IndexedDB.js"></script>
-  <script type="text/javascript" src="js/HTML5_Tests.js"></script>
-  <script type="text/javascript" src="js/Event_Handlers.js"></script>
-  <script type="text/javascript" src="js/Keyboard_Events.js"></script>
-  <script type="text/javascript" src="js/Click_Handlers.js"></script>
-  
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Ugly Bob</title>
+    <link type="text/css" href="css/style.css" rel="stylesheet" />
+    <script type="text/javascript" src="lib/js/jquery-1.7.2.min.js"></script> 
+    <!--  <script type="text/javascript" src="js/Classes/PJSUA_HTTPD.js"></script> -->
+    <script type="text/javascript" src="js/Configuration.js"></script>
+    <script type="text/javascript" src="js/Log_Subsystem.js"></script>
+    <script type="text/javascript" src="js/Protocol.js"></script>
+    <script type="text/javascript" src="js/Client_State.js"></script>
+    <script type="text/javascript" src="js/User_Interface_Utilities.js"></script>
+    <script type="text/javascript" src="js/HTML5_Tests.js"></script>
+    <script type="text/javascript" src="js/Event_Handlers.js"></script>
+    <script type="text/javascript" src="js/Keyboard_Events.js"></script>
+    <script type="text/javascript" src="js/Click_Handlers.js"></script>
 
-  <!-- Initialize everything -->
-  <script>  $(document).ready(Initialize); </script>
- </head>
- <body>
-  <div id="Container">
-   <div id="Left_Container" style="width: 65%;float: left; margin:2%">
-   
-    <!-- Various UI control buttons -->
-    <button id="Contacts_Search">Kontakter</button>
-    <button id="Organization_List">Firmaliste</button>
-    <button id="Statistics">Statistik</button>
-    <h1 id="Greeting">Velkommen til. Du ser godt ud i dag.</h1>
-    <div id="search" style="display: none">
-      <input name="Contact_Search_Field" id="Contact_Search_Field" type="text" placeholder="Navn eller n&oslash;gleord..." autocomplete="off" />
-    </div>
-    <ul id="contacts"></ul>
-   </div>
-   <div class="sidebar" id="sideRight" style="float: left; width: 30%; min-height: 100px; overflow:none; font-size:9px;">
-    <button id="Take_Call_Button">Tag kald (Alt+a)</button>
-    <script> $("#Take_Call_Button").click(AdaHeads_Take_Call_Button_Click);</script>
-    <button id="End_Call_Button" disabled="disabled">Slut kald (Alt+s)</button>
-    <script>$("#End_Call_Button").click(AdaHeads_End_Call_Button_Click); </script>
-    <ul id="Call_List_High_Priority"></ul>
-    <ul id="Call_List_Normal_Priority"></ul>
-    <ul id="Call_List_Low_Priority"></ul>
-   
-    <div id="PJSUA_Control"><h2>PJSUA Control</h2>
-    <button id="PJSUA_Get_State">Opdatér status</button>
-    <script> $("#PJSUA_Get_State").click(PJSUA_Update_UI);</script>
-    <div id="PJSUA_Status"></div>
-    
-    </div>
-   </div><!-- .sidebar#sideRight -->
-   <div id="bobBox" style="position: absolute; bottom: 5%; right: 10%"><img src="img/Ugly_Bob.jpg" alt="Ugly Bob"/> <h2>One Bob - to rule them all <br/> - And in a VoIP system, bind them</h2></div>
-  </div> <!-- container -->
-  <!-- TODO: Add global click_handler_attach .js file -->
- </body>
+
+    <!-- Initialize everything -->
+    <script>  $(document).ready(Initialize); </script>
+  </head>
+  <body>
+    <div id="Container">
+      <div id="Left_Container" style="width: 65%;float: left; margin:2%">
+
+        <!-- Various UI control buttons -->
+        <button id="Contacts_Search">Kontakter</button>
+        <button id="Organization_List">Firmaliste</button>
+        <button id="Statistics">Statistik</button>
+        <h1 id="Greeting">Velkommen til. Du ser godt ud i dag.</h1>
+        <div id="search" style="display: none">
+          <input name="Contact_Search_Field" id="Contact_Search_Field" type="text" placeholder="Navn eller n&oslash;gleord..." autocomplete="off" />
+        </div>
+        <ul id="contacts"></ul>
+      </div>
+      <div class="sidebar" id="sideRight" style="float: left; width: 30%; min-height: 100px; overflow:none; font-size:9px;">
+        <button id="Take_Call_Button">Tag kald (Alt+a)</button>
+        <script> $("#Take_Call_Button").click(AdaHeads_Take_Call_Button_Click);</script>
+        <button id="End_Call_Button" disabled="disabled">Slut kald (Alt+s)</button>
+        <script>$("#End_Call_Button").click(AdaHeads_End_Call_Button_Click); </script>
+        <ul id="Call_List_High_Priority"></ul>
+        <ul id="Call_List_Normal_Priority"></ul>
+        <ul id="Call_List_Low_Priority"></ul>
+
+        <div id="PJSUA_Control"><h2>PJSUA Control</h2>
+          <button id="PJSUA_Get_State">Opdatér status</button>
+          <script> $("#PJSUA_Get_State").click(PJSUA_Update_UI);</script>
+          <div id="PJSUA_Status"></div>
+
+        </div>
+      </div><!-- .sidebar#sideRight -->
+      <div id="bobBox" style="position: absolute; bottom: 5%; right: 10%"><img src="img/Ugly_Bob.jpg" alt="Ugly Bob"/> <h2>One Bob - to rule them all <br/> - And in a VoIP system, bind them</h2></div>
+    </div> <!-- container -->
+    <!-- TODO: Add global click_handler_attach .js file -->
+  </body>
 </html>
 
 

@@ -1,4 +1,9 @@
 /* Basic class describing our server and its interfaces */
+
+//var AdaHeads = {}; // Namespace "declaration"
+
+
+
 //XXX Remove these when every call is moved to the new Alice server class
 function AdaHeads_Alice_Server (type) {
    this.type = type;
@@ -51,6 +56,7 @@ $.ajax({url: 'js/Classes/PJSUA_HTTPD.js', async: false,  dataType: "script"});
 var PJSUA_Client =  new PJSUA_HTTPD_Class();
 
 var Standard_Greeting = "Velkommen til "
+
 
 // Enable CORS
 jQuery.support.cors = true;

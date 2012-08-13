@@ -1,6 +1,5 @@
 /*
 Event handler procedures for events triggered in the UI, or by server push.
-Copyright goes here
 
 */
 
@@ -13,29 +12,29 @@ Copyright goes here
  * Bootstraps the entire application, and does various techology checks
  */
 function Initialize () {
-    // HTML5 tests
-    if(!Supports_HTML5_localStorage()) {
-        AdaHeads_Log(Log_Level.Error,"localStorage not supported!");
-        return false;
-    } else {
-        AdaHeads_Log(Log_Level.Information,"localStorage supported");
-    }
+  // HTML5 tests
+  if(!Supports_HTML5_localStorage()) {
+    AdaHeads_Log(Log_Level.Error,"localStorage not supported!");
+    return false;
+  } else {
+    AdaHeads_Log(Log_Level.Information,"localStorage supported");
+  }
     
-    if(!Supports_HTML5_indexedDB()) {
-        AdaHeads_Log(Log_Level.Error,"indexedDB not supported!");
-        return false;
-    } else {
-        AdaHeads_Log(Log_Level.Information,"indexedDB supported");
-    }
+  if(!Supports_HTML5_indexedDB()) {
+    AdaHeads_Log(Log_Level.Error,"indexedDB not supported!");
+    return false;
+  } else {
+    AdaHeads_Log(Log_Level.Information,"indexedDB supported");
+  }
     
-    // Start the periodic polling
-    $.getScript('js/Queue_Thread.js', function() {
-      Update_Queue();
-    });
+  // Start the periodic polling
+  $.getScript('js/Queue_Thread.js', function() {
+    Update_Queue();
+  });
     
-    PJSUA_Client.Ping();
-    PJSUA_Client.Get_State();
-    PJSUA_Update_UI();
+  PJSUA_Client.Ping();
+  PJSUA_Client.Get_State();
+  PJSUA_Update_UI();
 
   // Style the buttons with jQuery
   //$(document).ready(function() {$("button").button();});
@@ -62,53 +61,59 @@ function AdaHeads_Take_Call(id) {
   }
  
   Bob.Change_State(Client_State.In_Call);
-    // Update the UI
-    Hide_Call_List();
-    Search_Field_Unhide();
+  // Update the UI
+  Hide_Call_List();
+  Search_Field_Unhide();
     
-    //TODO set a loading box where the contacts are located
+  //TODO set a loading box where the contacts are located
 
-// Download the JSON object for the current organization
+  // Download the JSON object for the current organization
   Alice_Server2.Get_Org_Contacts_Full(org_id,Populate_Contact_Entity_List);
-   AdaHeads_Log(Log_Level.Debug, "Took call "+org_id); 
+  AdaHeads_Log(Log_Level.Debug, "Took call "+org_id); 
  
 }
 
 function AdaHeads_Get_Organization(org_id) {
-// Get the data object
+  // Get the data object
   AdaHeads_Log(Log_Level.Debug, Alice_Server.URI+Get_Organization+"?org_id="+org_id+"&jsoncallback=?");
   $.getJSON(Alice_Server.URI+Get_Organization+"?org_id="+org_id+"&jsoncallback=?",
-  function(data){
-    if (data.length === 0 || data === undefined) {
-      AdaHeads_Log(Log_Level.Error,"AdaHeads_Get_Organization: No contact received!");
-      return;
-    };
-    // Cache the object
-    localStorage.setItem('Organization_Cache', JSON.stringify(data));
-    Update_Company_Info(data,true);
-  })
+    function(data){
+      if (data.length === 0 || data === undefined) {
+        AdaHeads_Log(Log_Level.Error,"AdaHeads_Get_Organization: No contact received!");
+        return;
+      };
+      // Cache the object
+      localStorage.setItem('Organization_Cache', JSON.stringify(data));
+      Update_Company_Info(data,true);
+    })
   /* Response handlers */
-  .success(function() {;})
-  .error(function() {AdaHeads_Log(Log_Level.Error,"getJSON failed");});
+  .success(function() {
+    ;
+    })
+  .error(function() {
+    AdaHeads_Log(Log_Level.Error,"getJSON failed");
+  });
 }
 
 function AdaHeads_Get_Contact(ce_id) {
-// Get the data object
+  // Get the data object
   AdaHeads_Log(Log_Level.Debug, Alice_Server.URI+Get_Contact_Full+"?ce_id="+ce_id+"&jsoncallback=?");
   $.getJSON(Alice_Server.URI+Get_Contact_Full+"?ce_id="+ce_id+"&jsoncallback=?",
-  function(data){
-    if (data.length === 0 || data === undefined) {
-      AdaHeads_Log(Log_Level.Error,"No contact received!");
-      return;
-    };
-    // Cache the object
-    localStorage.setItem('Contact_Cache', JSON.stringify(data));
-  })
+    function(data){
+      if (data.length === 0 || data === undefined) {
+        AdaHeads_Log(Log_Level.Error,"No contact received!");
+        return;
+      };
+      // Cache the object
+      localStorage.setItem('Contact_Cache', JSON.stringify(data));
+    })
   /* Response handlers */
   .success(function() {
     Contact_Card_Update(JSON.parse(localStorage.getItem('Contact_Cache')));
   })
-  .error(function() {AdaHeads_Log(Log_Level.Error,"AdaHeads_Get_Contact: error!");});
+  .error(function() {
+    AdaHeads_Log(Log_Level.Error,"AdaHeads_Get_Contact: error!");
+  });
 }
 
 function AdaHeads_End_Call() {
@@ -124,32 +129,32 @@ function AdaHeads_End_Call() {
  * The corresponding UI elements
  */
 function AdaHeads_End_Call_real() {
-    $.ajax({
-     url: Alice_Server.URI+End_Call_Handler+"&jsoncallback=?",
-     crossDomain: true,
-     statusCode: {
-       404: function() {
-         alert("404: " + Alice_Server.URI+End_Call_Handler);
-       }
-     },
-  error: function(data) {
-    alert(data);
-  }
-   }).done(function() { 
+  $.ajax({
+    url: Alice_Server.URI+End_Call_Handler+"&jsoncallback=?",
+    crossDomain: true,
+    statusCode: {
+      404: function() {
+        alert("404: " + Alice_Server.URI+End_Call_Handler);
+      }
+    },
+    error: function(data) {
+      alert(data);
+    }
+  }).done(function() { 
     Hide_Company_Info();
     Unhide_Call_List();
     //Update_Queue();
     Hide_Contact_Entity_List();
 
     Set_Greeting(":-)");
-     //alert("200: " + Alice_Server.URI+End_Call_Handler);
-   });
- }
+  //alert("200: " + Alice_Server.URI+End_Call_Handler);
+  });
+}
 
- /*XXX Does not belong here, but a primitive clone method for call-by-value */
- function stupidCloning() {
-      // Clone the json object received and store it in our local call object
-      //Current_Call.Organization_JSON = {};
-      //jQuery.extend(true, Current_Call.Organization_JSON, data);
-      null;
- }
+/*XXX Does not belong here, but a primitive clone method for call-by-value */
+function stupidCloning() {
+  // Clone the json object received and store it in our local call object
+  //Current_Call.Organization_JSON = {};
+  //jQuery.extend(true, Current_Call.Organization_JSON, data);
+  null;
+}
