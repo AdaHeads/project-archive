@@ -3,18 +3,12 @@ var WebSocket_Class = function(url)
 	var callbacks = {};
 	var ws_url = url;
 	var conn;
-
+      
 	this.bind = function(event_name, callback){
-
+        AdaHeads_Log(Log_Level.Debug,"Attached callback to "+event_name);
 		callbacks[event_name] = callbacks[event_name] || [];
 		callbacks[event_name].push(callback);
 		return this;// chainable
-	};
-
-	this.send = function(event_name, event_data){
-            console.log(event_data);
-		this.conn.send( event_data );
-		return this;
 	};
 
 	this.connect = function() {
@@ -27,17 +21,21 @@ var WebSocket_Class = function(url)
 		this.conn.onmessage = function(evt){
               var data = JSON.parse(evt.data);
               
-              console.log("Dispatching to "+data.notification.type);
-			dispatch(data.notification.type, evt.data);
+              
+              console.log("Dispatching to "+data.notification.event);
+              console.log(data.notification);
+			dispatch(data.notification.event, data.notification);
 			//dispatch('message', evt.data);
 		};
 
 		this.conn.onclose = function(){dispatch('close',null)}
 		this.conn.onopen = function(){dispatch('open',null)}
+              AdaHeads_Log(Log_Level.Information,"Connected WebSocket on "+url);
 	};
 
 	this.disconnect = function() {
 		this.conn.close();
+              AdaHeads_Log(Log_Level.Information,"Disconnected WebSocket "+url);
 	};
 
 	var dispatch = function(event_name, message){

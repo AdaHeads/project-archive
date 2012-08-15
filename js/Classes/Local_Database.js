@@ -82,20 +82,27 @@ function Local_Database_Class (Database_Configuration) {
     
   }
   
-      
-  this.deleteTodo = function(id) {
+  /**
+   * Removes an object from a given store. Needs the key - an index - to 
+   * perform the delete operation.
+   * 
+   * @param Object_ID A key in the store
+   * @param Store_Name The store to remove the value from.
+   */
+  this.Remove_Object = function(Object_ID, Store_Name) {
     var db = dbHandle.indexedDB.db;
-    var trans = db.transaction(["todo"], IDBTransaction.READ_WRITE);
-    var store = trans.objectStore("todo");
-      
-    var request = store.delete(id);
+    var trans = db.transaction(Store_Name, IDBTransaction.READ_WRITE);
+    var store = trans.objectStore(Store_Name);
+    console.log("Deleting: "+Object_ID);
+    var request = store.delete(Object_ID);
       
     request.onsuccess = function(e) {
-      db.getAllTodoItems();
+      AdaHeads_Log(Log_Level.Debug,"Removed object from "
+        +Store_Name +" with ID " + Object_ID);
     };
       
     request.onerror = function(e) {
-      console.log("Error removing ", e);
+      AdaHeads_Log(Log_Level.Error,"Error removing " +e);
     };
   };
       

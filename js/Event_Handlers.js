@@ -1,9 +1,10 @@
 /*
 Event handler procedures for events triggered in the UI, or by server push.
 
-*/
+ */
 AdaHeads.require_script('js/Classes/Local_Database.js');
 AdaHeads.require_script('js/Classes/Call_Queue.js');
+AdaHeads.require_script('js/Classes/Websocket.js');
 AdaHeads.require_script('js/HTML5_Tests.js');
 
 /**
@@ -24,7 +25,33 @@ function Initialize () {
   
   // Start the notification socket
   Notification_Socket = new WebSocket_Class('ws://127.0.0.1:9300');
+  Notification_Socket.bind("New_Call", Call_Queue.Add_Call);
+  
+  Notification_Socket.bind("Hangup_Call", Call_Queue.Remove_Call);
+  Notification_Socket.connect();
+  
+  var Call_List_Add_View_Observer = new Observer_Class( "Call_List_Add_View_Observer", function (call) {
     
+    if($("#call_id_"+call.call_id).length === 0) {
+      var li = $("<li>").text("Date: " +call.arrived_at
+        + " Caller ID: " + call.caller_id
+        + " Call ID: " + call.call_id);
+    
+      li.attr("id","call_id_"+call.call_id);    
+    
+      li.appendTo("#Call_List_High_Priority");
+    }
+  });
+
+  var Call_List_Remove_View_Observer = new Observer_Class( "Call_List_Remove_View_Observer", function (call) {
+    $("#call_id_"+call.call_id).remove();
+  });
+
+
+  Call_Queue.Subscribe("Add_Call", Call_List_Add_View_Observer );
+  Call_Queue.Subscribe("Remove_Call", Call_List_Remove_View_Observer);
+  
+   
   // Start the periodic polling
   $.getScript('js/Queue_Thread.js', function() {
     Update_Queue();
@@ -48,9 +75,9 @@ function Initialize () {
 }
 
 /*
- * Method for picking up a call. Sends a request to the server and updates
- * The corresponding UI elements
- */
+* Method for picking up a call. Sends a request to the server and updates
+* The corresponding UI elements
+*/
 function AdaHeads_Take_Call(id) {
   // Internal Call handler
   
@@ -126,9 +153,9 @@ function AdaHeads_End_Call() {
 }
 
 /*
- * Method for ending a call. Sends a request to the server and updates
- * The corresponding UI elements
- */
+* Method for ending a call. Sends a request to the server and updates
+* The corresponding UI elements
+*/
 function AdaHeads_End_Call_real() {
   $.ajax({
     url: Alice_Server.URI+End_Call_Handler+"&jsoncallback=?",

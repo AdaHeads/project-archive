@@ -57,15 +57,16 @@
           <button id="Insert_Call">Insert_Call<button>
               <script>$("#Insert_Call").click(
                 function () {
-                  var call = {
-                    arrival_time: 1343827055,
-                    caller_id: "TP-Softphone",
-                    call_id: "1343827055.2",
-                    channel: "SIP/TP-Softphone-000000a3",
-                    org_id: 2
+                  var call = {call :{
+                      arrival_time: 1343827055,
+                      caller_id: "TP-Softphone",
+                      call_id: "134382705",
+                      channel: "SIP/TP-Softphone-000000a3",
+                      org_id: 2}
                   }
 
-                  Call_Queue.Subscribe ("Add_Call", new Observer_Class("New_Call_Listener",function (obj) {console.log(obj)}));
+                  
+
         
                   Call_Queue.Add_Call(call);
                 }); </script>

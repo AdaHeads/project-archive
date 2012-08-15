@@ -45,14 +45,23 @@ function Call_Queue_Class (Database_Connection,Store_Name) {
 
   /**
    * Adds a call to the local Call_Queue model and notifies its observers
-   * @param call The call object to insert into the database
+   * @param notification The call object to insert into the database
    */
-  this.Add_Call = function(call) {
-    DB_Handle.Add_Object(call,DB_Store);
-    notify(call,"Add_Call"); // This really should be a dynamic name instead
+  this.Add_Call = function(notification) {
+    DB_Handle.Add_Object(notification.call,DB_Store);
+    notify(notification.call,"Add_Call"); // This really should be a dynamic name instead
   };
   
-  
+  /**
+   * Adds a call to the local Call_Queue model and notifies its observers
+   * @param notification The call object to insert into the database
+   */
+  this.Remove_Call = function(notification) {
+    DB_Handle.Remove_Object(notification.call.call_id,DB_Store);
+    notify(notification.call,"Remove_Call"); // This really should be a dynamic name instead
+  };
+
+
   /**
    * Private method for notifying the observers
    */
@@ -66,6 +75,10 @@ function Call_Queue_Class (Database_Connection,Store_Name) {
       chain[i].callback(obj);
     }
     
+  }
+  
+  this.To_DOM = function () {
+    //Bla bla bla
   }
 
 }
