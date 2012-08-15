@@ -2,35 +2,31 @@
 Event handler procedures for events triggered in the UI, or by server push.
 
 */
-
-/**
- * @file
- * More descriptive information goes here.
- */
+AdaHeads.require_script('js/Classes/Local_Database.js');
+AdaHeads.require_script('js/Classes/Call_Queue.js');
 
 /**
  * Bootstraps the entire application, and does various techology checks
  */
 function Initialize () {
+
   // HTML5 tests
   if(!Supports_HTML5_localStorage()) {
     AdaHeads_Log(Log_Level.Error,"localStorage not supported!");
     return false;
   } else {
     AdaHeads_Log(Log_Level.Information,"localStorage supported");
-  }
-    
-  if(!Supports_HTML5_indexedDB()) {
-    AdaHeads_Log(Log_Level.Error,"indexedDB not supported!");
-    return false;
-  } else {
-    AdaHeads_Log(Log_Level.Information,"indexedDB supported");
+    Local_Database = new Local_Database_Class(Database_Configuration);
+    Local_Database.open();
+    Call_Queue = new Call_Queue_Class(Local_Database, "Call_Queue");
   }
     
   // Start the periodic polling
   $.getScript('js/Queue_Thread.js', function() {
     Update_Queue();
   });
+  
+
     
   PJSUA_Client.Ping();
   PJSUA_Client.Get_State();
@@ -40,9 +36,10 @@ function Initialize () {
   //$(document).ready(function() {$("button").button();});
 
   // Style+create the tabs with jQueryTabs (requires jquery-ui)
-  //$(function(){
+  //$(function(){_
   //  $('#tabs').tabs();
   //});
+  
   return true;
 }
 
@@ -53,7 +50,7 @@ function Initialize () {
 function AdaHeads_Take_Call(id) {
   // Internal Call handler
   
-  org_id = Alice_Server2.Get_Next_Call();
+  org_id = Alice_Server.Get_Next_Call();
   
   if(org_id == false) {
     AdaHeads_Log(Log_Level.Fatal, "Failed to pickup next call"); 
@@ -68,7 +65,7 @@ function AdaHeads_Take_Call(id) {
   //TODO set a loading box where the contacts are located
 
   // Download the JSON object for the current organization
-  Alice_Server2.Get_Org_Contacts_Full(org_id,Populate_Contact_Entity_List);
+  Alice_Server.Get_Org_Contacts_Full(org_id,Populate_Contact_Entity_List);
   AdaHeads_Log(Log_Level.Debug, "Took call "+org_id); 
  
 }
@@ -158,3 +155,4 @@ function stupidCloning() {
   //jQuery.extend(true, Current_Call.Organization_JSON, data);
   null;
 }
+

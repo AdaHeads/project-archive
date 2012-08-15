@@ -13,8 +13,6 @@ function Alice_Server_Class (type) {
    
   /* Pickup the next call in the queue, regardless of id. Synchronously!
    * returns the org_id or false on error */
-  
-  // {"Arrived":"1343827055", "Position":1, "Picked_Up":"1343827063", "CallerIDNum":"TP-Softphone", "Uniqueid":"1343827055.2", "CompanyName":"testqueue1", "Count":1, "Channel":"SIP/TP-Softphone-00000002", "CallerIDName":"unknown"}
   this.Get_Next_Call = function() {
     org_id = null;
     AdaHeads_Log(Log_Level.Debug,"GET:"+ this.URI+Alice_Protocol.Answer_Call_Handler+'?agent='+Configuration.SIP_Username);
@@ -41,6 +39,35 @@ function Alice_Server_Class (type) {
   }
   
   /**
+   * Fetches the Contact_Entity object with the supplied ce_id
+   */
+  this.Get_Contact_Full = function(ce_id) {
+    contact = null;
+    AdaHeads_Log(Log_Level.Debug,"GET:"+ 
+      this.URI+Alice_Protocol.Get_Contact_Full+'?ce_id='+ce_id);
+    $.ajax({
+      type: 'GET',
+      url: this.URI+Alice_Protocol.Get_Contact_Full+'?ce_id='+ce_id,
+      dataType: 'json',
+      success: function(data) {
+        if (data.length === 0 || data === undefined) {
+          AdaHeads_Log(Log_Level.Error,"No organization received!");
+          return false;
+        };
+        // if everything is ok return 
+        contact = data;
+      },
+      error: function () {
+        return false
+        },
+      data: {},
+      async: false
+    });
+    AdaHeads_Log(Log_Level.Debug,"Got:"+JSON.stringify(contact));
+    return contact;
+  }
+  
+  /**
    * Hangup the current call.
    */
   this.Hangup_Call = function() {
@@ -55,8 +82,6 @@ function Alice_Server_Class (type) {
           AdaHeads_Log(Log_Level.Error,"No organization received!");
           return false;
         };
-        // if everything is ok return 
-        org_id = data.CompanyID;
       },
       error: function () {
         return false
@@ -64,9 +89,9 @@ function Alice_Server_Class (type) {
       data: {},
       async: false
     });
-    return org_id;
   }
-   
+
+
   function ping(){
     AdaHeads_Log(Log_Level.Fatal,"Ping not implemented!");
   }

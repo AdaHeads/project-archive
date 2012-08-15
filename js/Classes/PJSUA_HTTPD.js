@@ -115,15 +115,18 @@ function PJSUA_Update_UI (selector) {
   $("#PJSUA_Status").text(PJSUA_Client.Get_State());
   var Account_State = PJSUA_Client.Get_Account_State();
   
-  if(Account_State.account.acc_uri === undefined) {
-    AdaHeads_Log(Log_Level.Information, "No account defined - adding one");
-    PJSUA_Client.Add_Account(Configuration.SIP_Account);
+  if(Account_State !== undefined) {
+    if(Account_State.account.acc_uri === undefined) {
+      AdaHeads_Log(Log_Level.Information, "No account defined - adding one");
+      PJSUA_Client.Add_Account(Configuration.SIP_Account);
     
-    // Refetch the account state
-    Account_State = PJSUA_Client.Get_Account_State();
-  }
+      // Refetch the account state
+      Account_State = PJSUA_Client.Get_Account_State();
+    }
   
-  $("#PJSUA_Status").append("<br/>URI:"+Account_State.account.acc_uri);
-  $("#PJSUA_Status").append("<br/>status:"+Account_State.account.status);
+    $("#PJSUA_Status").append("<br/>URI:"+Account_State.account.acc_uri);
+    $("#PJSUA_Status").append("<br/>status:"+Account_State.account.status);
+    
+  }
   
 }

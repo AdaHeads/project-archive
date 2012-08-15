@@ -1,27 +1,38 @@
-/* Basic class describing our server and its interfaces */
+/* Load the required files */
+AdaHeads.require_script('js/Log_Subsystem.js');
+AdaHeads.require_script('js/Classes/Alice.js');
+AdaHeads.require_script('js/Classes/PJSUA_HTTPD.js');
 
-//var AdaHeads = {}; // Namespace "declaration"
-
-
-
-//XXX Remove these when every call is moved to the new Alice server class
-function AdaHeads_Alice_Server (type) {
-   this.type = type;
-   this.URI = "http://alice.adaheads.com:4242/";
-   this.getInfo = function() {
-      return this.URI + ' ' + this.type + ' AdaHeads_Alice_Server';
-   };
-}
-
-/* Configuration object */
+/* Global configuration */
 var Configuration =  {
-  Polling_Interval : 2000,
+  Standard_Greeting : "Velkommen til ",
+
+  /* Use the queue polling feature */
+  Enable_Polling : false,
+  
+  /* This is the polling interval for queue updates, lower means more frequent
+   * updates, but more network load.*/
+  Polling_Interval : 2000, 
+  
+  /* How much information is written to the console */
   Debug_Enabled : true,
+
+  /* Our SIP registration server */
   SIP_PBX : 'asterisk1.adaheads.com',
+  
+  /* SIP registration username */
   SIP_Username : 'softphone1',
+  
+  /* SIP registration password */
   SIP_Password : '12345',
+  
+  /* Alice server URI */
   Alice_URI : "http://alice.adaheads.com:4242/",
+  
+  /* The control interface for the PSJUA SIP component */
   PJSUA_HTTPD_URI : "http://localhost:30200",
+  
+  /* SIP Account information */
   SIP_Account : {
     Domain : "asterisk1.adaheads.com",
     Username : "softphone1",
@@ -29,33 +40,42 @@ var Configuration =  {
   }
 }
 
-/* Protocol specific handlers */
-//XXX Remove these when every call is moved to the new Alice server class
-var Get_Queue_Handler     = "get/queue";
-var Get_Org_Contacts      = "get/org_contacts";
-var Get_Org_Contacts_Full = "get/org_contacts_full";
-var Get_Contact           = "get/contact"
-var Get_Contact_Full      = "get/contact_full"
-var Get_Organization      = "get/organization";
-var Park_Call             = "call/park";
-var Unpark_Call           = "call/unpark";
-var Answer_Call_Handler   = "get/call";
-var End_Call_Handler      = "call/end";
+/**
+ * Database Configuration for indexedDB component
+ */
+Database_Configuration = {
+  
+  /* Global name of the database */
+  Database_Name : "Local_Cache",
+  
+  /* IndexedDB databases has versions which can be used internally to handle 
+   * schema changes. Increment this every time the object stored within changes 
+   */
+  Version : "0.07",
+  
+  /*
+   * These are the actual stores (tables) for objects in the database. Each
+   * Have a unique key that indexes them, and a type. The type refers to the 
+   * type stored within the store.
+   */
+  Stores : [
+  {
+    Name : "Contact_Entities",
+    Type : "Contact_Entity",
+    Key : "ce_id"
+  },
+  {
+    Name : "Call_Queue",
+    Type : "Call",
+    Key : "call_id"
+  }
+  ]
+}
 
-/* Global configuration values */
-//var Configuration = new Configuration_Values();
-var Alice_Server = new AdaHeads_Alice_Server();
-var Alice_Server2 =  {};
-
-// Dynamically load the required class
-$.getScript('js/Classes/Alice.js', function() {
-  Alice_Server2 = new Alice_Server_Class();
-});
-
-$.ajax({url: 'js/Classes/PJSUA_HTTPD.js', async: false,  dataType: "script"});
+var Local_Database = {};
+var Call_Queue = {};
+var Alice_Server = new Alice_Server_Class();
 var PJSUA_Client =  new PJSUA_HTTPD_Class();
-
-var Standard_Greeting = "Velkommen til "
 
 
 // Enable CORS

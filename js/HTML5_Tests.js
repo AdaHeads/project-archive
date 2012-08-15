@@ -16,8 +16,13 @@ function Supports_HTML5_localStorage() {
 
 function Supports_HTML5_indexedDB() {
   // Handle the prefix of Chrome to IDBTransaction/IDBKeyRange.
+  var indexedDB = window.indexedDB || window.webkitIndexedDB ||
+  window.mozIndexedDB;
+
   if ('webkitIndexedDB' in window) {
-      return true;
+    window.IDBTransaction = window.webkitIDBTransaction;
+    window.IDBKeyRange = window.webkitIDBKeyRange;
+    return true;
   }
   return false;
 }

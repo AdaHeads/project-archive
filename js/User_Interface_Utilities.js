@@ -135,7 +135,7 @@ function Update_Company_Info(company,unhide) {
   $("<p>").text("Address").addClass("Company_Address").appendTo("#Company_Information");
   $("<p>").text("Opening Hours").addClass("Company_Opening_Hours").appendTo("#Company_Information");
   
-  Set_Greeting(Standard_Greeting + company.name);
+  Set_Greeting(Configuration.Standard_Greeting + company.name);
 }
 
 function Hide_Company_Info() {

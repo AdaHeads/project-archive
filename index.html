@@ -5,9 +5,9 @@
     <title>Ugly Bob</title>
     <link type="text/css" href="css/style.css" rel="stylesheet" />
     <script type="text/javascript" src="lib/js/jquery-1.7.2.min.js"></script> 
-    <!--  <script type="text/javascript" src="js/Classes/PJSUA_HTTPD.js"></script> -->
+    <script type="text/javascript" src="js/AdaHeads.js"></script> 
     <script type="text/javascript" src="js/Configuration.js"></script>
-    <script type="text/javascript" src="js/Log_Subsystem.js"></script>
+
     <script type="text/javascript" src="js/Protocol.js"></script>
     <script type="text/javascript" src="js/Client_State.js"></script>
     <script type="text/javascript" src="js/User_Interface_Utilities.js"></script>
@@ -15,20 +15,91 @@
     <script type="text/javascript" src="js/Event_Handlers.js"></script>
     <script type="text/javascript" src="js/Keyboard_Events.js"></script>
     <script type="text/javascript" src="js/Click_Handlers.js"></script>
-
+    <script type="text/javascript" src="js/fancywebsocket.js"></script>
 
     <!-- Initialize everything -->
-    <script>  $(document).ready(Initialize); </script>
+<script>  $(document).ready(Initialize); </script>
+
+	<script>
+		var Server;
+
+		function log( text ) {
+
+			$log = $('#log');
+			//Add text to log
+			$log.append(text);
+			//Autoscroll
+			$log[0].scrollTop = $log[0].scrollHeight - $log[0].clientHeight;
+		}
+
+		function send( text ) {
+			Server.send( 'message', text );
+		}
+
+		$(document).ready(function() {
+			log('Connecting...');
+			Server = new FancyWebSocket('ws://127.0.0.1:9300');
+
+			$('#message').keypress(function(e) {
+				if ( e.keyCode == 13 && this.value ) {
+					log( 'You: ' + this.value );
+					send( this.value );
+
+					$(this).val('');
+				}
+			});
+
+			//Let the user know we're connected
+			Server.bind('open', function() {
+				log( "Connected." );
+			});
+
+			//OH NOES! Disconnection occurred.
+			Server.bind('close', function( data ) {
+				log( "Disconnected." );
+			});
+
+			//Log any messages sent from server
+			Server.bind('message', function( payload ) {
+				log( payload );
+                        console.log(payload);
+                        var data = JSON.parse(payload);
+			});
+                  
+                  //Log any Queue_Events sent from server
+			Server.bind('queue_event', function( payload ) {
+                        console.log("queue event handler");
+				log('queue_event:'+ payload );
+			});
+			Server.bind('queue_event', function( payload ) {
+                        console.log("queue event handler 2");
+				log('queue_event:'+ payload );
+			});
+
+Server.connect();
+		});
+	</script>    
+
+    
   </head>
   <body>
     <div id="Container">
       <div id="Left_Container" style="width: 65%;float: left; margin:2%">
 
+        
+       
         <!-- Various UI control buttons -->
         <button id="Contacts_Search">Kontakter</button>
         <button id="Organization_List">Firmaliste</button>
         <button id="Statistics">Statistik</button>
         <h1 id="Greeting">Velkommen til. Du ser godt ud i dag.</h1>
+
+	<div id='body'>
+		<textarea id='log' name='log' readonly='readonly' style="width:100%;height:400px"></textarea><br/>
+		<input type='text' id='message' name='message' />
+	</div>
+
+
         <div id="search" style="display: none">
           <input name="Contact_Search_Field" id="Contact_Search_Field" type="text" placeholder="Navn eller n&oslash;gleord..." autocomplete="off" />
         </div>
@@ -47,6 +118,18 @@
           <button id="PJSUA_Get_State">Opdatér status</button>
           <script> $("#PJSUA_Get_State").click(PJSUA_Update_UI);</script>
           <div id="PJSUA_Status"></div>
+        <button id="Insert_Call">Insert_Call<button>
+        <script>$("#Insert_Call").click(
+          function () {
+            var call = {
+            arrival_time: 1343827055,
+            caller_id: "TP-Softphone",
+            call_id: "1343827055.2",
+            channel: "SIP/TP-Softphone-000000a3",
+            org_id: 2
+        }
+           Local_Database.Add_Object(call,"Call_Queue"); 
+          }); </script>
 
         </div>
       </div><!-- .sidebar#sideRight -->
