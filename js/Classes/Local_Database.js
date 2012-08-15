@@ -82,37 +82,6 @@ function Local_Database_Class (Database_Configuration) {
     
   }
   
-  //this.addTodo = function(todoText) {
-  //    if (initialized) {
-  //      var db = dbHandle.indexedDB.db;
-  //      var trans = db.transaction(["todo"], IDBTransaction.READ_WRITE);
-  //      var store = trans.objectStore("todo");
-  //      
-  //      var data = {
-  //        "text": todoText,
-  //        "timeStamp": new Date().getTime()
-  //      };
-  //      
-  //      var request = store.put(data);
-  //      
-  //      request.onsuccess = function(e) {
-  //        console.log("added an iitem")
-  //      };
-  //      
-  //      request.onerror = function(e) {
-  //        console.log("Error Adding: ", e);
-  //      };
-  //    } else {
-  //      //Fixme: This needs to be turned into a real observer pattern
-  //      console.log("Not initialized yet, try again later");
-  //      if (request) {
-  //        request.addEventListener ("success" , function() { 
-  //          console.log("Re-adding")
-  //          dbHandle.indexedDB.addTodo(todoText);
-  //        }, false);
-  //      }
-  //    }
-  //  };
       
   this.deleteTodo = function(id) {
     var db = dbHandle.indexedDB.db;

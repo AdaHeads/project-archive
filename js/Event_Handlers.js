@@ -4,6 +4,7 @@ Event handler procedures for events triggered in the UI, or by server push.
 */
 AdaHeads.require_script('js/Classes/Local_Database.js');
 AdaHeads.require_script('js/Classes/Call_Queue.js');
+AdaHeads.require_script('js/HTML5_Tests.js');
 
 /**
  * Bootstraps the entire application, and does various techology checks
@@ -14,12 +15,15 @@ function Initialize () {
   if(!Supports_HTML5_localStorage()) {
     AdaHeads_Log(Log_Level.Error,"localStorage not supported!");
     return false;
-  } else {
-    AdaHeads_Log(Log_Level.Information,"localStorage supported");
-    Local_Database = new Local_Database_Class(Database_Configuration);
-    Local_Database.open();
-    Call_Queue = new Call_Queue_Class(Local_Database, "Call_Queue");
   }
+  
+  // Create the IndexedDB
+  Local_Database = new Local_Database_Class(Database_Configuration);
+  Local_Database.open();
+  Call_Queue = new Call_Queue_Class(Local_Database, "Call_Queue");
+  
+  // Start the notification socket
+  Notification_Socket = new WebSocket_Class('ws://127.0.0.1:9300');
     
   // Start the periodic polling
   $.getScript('js/Queue_Thread.js', function() {
@@ -144,7 +148,7 @@ function AdaHeads_End_Call_real() {
     Hide_Contact_Entity_List();
 
     Set_Greeting(":-)");
-  //alert("200: " + Alice_Server.URI+End_Call_Handler);
+  //alert("200: " + Alice_Notification_Socket.URI+End_Call_Handler);
   });
 }
 

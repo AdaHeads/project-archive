@@ -1,6 +1,7 @@
 /* Load the required files */
 AdaHeads.require_script('js/Log_Subsystem.js');
 AdaHeads.require_script('js/Classes/Alice.js');
+AdaHeads.require_script('js/Classes/Observer.js');
 AdaHeads.require_script('js/Classes/PJSUA_HTTPD.js');
 
 /* Global configuration */
@@ -71,7 +72,7 @@ Database_Configuration = {
   }
   ]
 }
-
+var Notification_Socket;
 var Local_Database = {};
 var Call_Queue = {};
 var Alice_Server = new Alice_Server_Class();

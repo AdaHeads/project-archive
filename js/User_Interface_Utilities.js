@@ -20,7 +20,7 @@ function Filter_Contact_Entity_List() {
   var json = $("#contacts").data("JSON");
   // Sanity checks
   if (json === null || json === undefined || jQuery.isEmptyObject(json)) {
-    AdaHead_Log(Log_Level.Error,"Empty JSON");
+    AdaHeads_Log(Log_Level.Error,"Empty JSON");
     return;
   }
   

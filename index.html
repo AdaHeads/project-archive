@@ -11,93 +11,29 @@
     <script type="text/javascript" src="js/Protocol.js"></script>
     <script type="text/javascript" src="js/Client_State.js"></script>
     <script type="text/javascript" src="js/User_Interface_Utilities.js"></script>
-    <script type="text/javascript" src="js/HTML5_Tests.js"></script>
     <script type="text/javascript" src="js/Event_Handlers.js"></script>
     <script type="text/javascript" src="js/Keyboard_Events.js"></script>
     <script type="text/javascript" src="js/Click_Handlers.js"></script>
-    <script type="text/javascript" src="js/fancywebsocket.js"></script>
 
     <!-- Initialize everything -->
-<script>  $(document).ready(Initialize); </script>
-
-	<script>
-		var Server;
-
-		function log( text ) {
-
-			$log = $('#log');
-			//Add text to log
-			$log.append(text);
-			//Autoscroll
-			$log[0].scrollTop = $log[0].scrollHeight - $log[0].clientHeight;
-		}
-
-		function send( text ) {
-			Server.send( 'message', text );
-		}
-
-		$(document).ready(function() {
-			log('Connecting...');
-			Server = new FancyWebSocket('ws://127.0.0.1:9300');
-
-			$('#message').keypress(function(e) {
-				if ( e.keyCode == 13 && this.value ) {
-					log( 'You: ' + this.value );
-					send( this.value );
-
-					$(this).val('');
-				}
-			});
-
-			//Let the user know we're connected
-			Server.bind('open', function() {
-				log( "Connected." );
-			});
-
-			//OH NOES! Disconnection occurred.
-			Server.bind('close', function( data ) {
-				log( "Disconnected." );
-			});
-
-			//Log any messages sent from server
-			Server.bind('message', function( payload ) {
-				log( payload );
-                        console.log(payload);
-                        var data = JSON.parse(payload);
-			});
-                  
-                  //Log any Queue_Events sent from server
-			Server.bind('queue_event', function( payload ) {
-                        console.log("queue event handler");
-				log('queue_event:'+ payload );
-			});
-			Server.bind('queue_event', function( payload ) {
-                        console.log("queue event handler 2");
-				log('queue_event:'+ payload );
-			});
-
-Server.connect();
-		});
-	</script>    
-
-    
+    <script>  $(document).ready(Initialize); </script>
   </head>
   <body>
     <div id="Container">
       <div id="Left_Container" style="width: 65%;float: left; margin:2%">
 
-        
-       
+
+
         <!-- Various UI control buttons -->
         <button id="Contacts_Search">Kontakter</button>
         <button id="Organization_List">Firmaliste</button>
         <button id="Statistics">Statistik</button>
         <h1 id="Greeting">Velkommen til. Du ser godt ud i dag.</h1>
 
-	<div id='body'>
-		<textarea id='log' name='log' readonly='readonly' style="width:100%;height:400px"></textarea><br/>
-		<input type='text' id='message' name='message' />
-	</div>
+        <div id='body'>
+          <textarea id='log' name='log' readonly='readonly' style="width:100%;height:400px"></textarea><br/>
+          <input type='text' id='message' name='message' />
+        </div>
 
 
         <div id="search" style="display: none">
@@ -118,25 +54,28 @@ Server.connect();
           <button id="PJSUA_Get_State">Opdatér status</button>
           <script> $("#PJSUA_Get_State").click(PJSUA_Update_UI);</script>
           <div id="PJSUA_Status"></div>
-        <button id="Insert_Call">Insert_Call<button>
-        <script>$("#Insert_Call").click(
-          function () {
-            var call = {
-            arrival_time: 1343827055,
-            caller_id: "TP-Softphone",
-            call_id: "1343827055.2",
-            channel: "SIP/TP-Softphone-000000a3",
-            org_id: 2
-        }
-           Local_Database.Add_Object(call,"Call_Queue"); 
-          }); </script>
+          <button id="Insert_Call">Insert_Call<button>
+              <script>$("#Insert_Call").click(
+                function () {
+                  var call = {
+                    arrival_time: 1343827055,
+                    caller_id: "TP-Softphone",
+                    call_id: "1343827055.2",
+                    channel: "SIP/TP-Softphone-000000a3",
+                    org_id: 2
+                  }
 
-        </div>
-      </div><!-- .sidebar#sideRight -->
-      <div id="bobBox" style="position: absolute; bottom: 5%; right: 10%"><img src="img/Ugly_Bob.jpg" alt="Ugly Bob"/> <h2>One Bob - to rule them all <br/> - And in a VoIP system, bind them</h2></div>
-    </div> <!-- container -->
-    <!-- TODO: Add global click_handler_attach .js file -->
-  </body>
-</html>
+                  Call_Queue.Subscribe ("Add_Call", new Observer_Class("New_Call_Listener",function (obj) {console.log(obj)}));
+        
+                  Call_Queue.Add_Call(call);
+                }); </script>
+
+              </div>
+              </div><!-- .sidebar#sideRight -->
+              <div id="bobBox" style="position: absolute; bottom: 5%; right: 10%"><img src="img/Ugly_Bob.jpg" alt="Ugly Bob"/> <h2>One Bob - to rule them all <br/> - And in a VoIP system, bind them</h2></div>
+              </div> <!-- container -->
+              <!-- TODO: Add global click_handler_attach .js file -->
+              </body>
+              </html>
 
 
