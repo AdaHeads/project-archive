@@ -9,6 +9,7 @@ function Call_Queue_Class (Database_Connection,Store_Name) {
   var DB_Handle = Database_Connection;
   var DB_Store  = Store_Name;
   var Observers = {};
+  var Call_Queue_Class = this;
   
   if(!Database_Connection) {
     AdaHeads.Log(Log_Level.Fatal,"No database connection!");
@@ -20,7 +21,6 @@ function Call_Queue_Class (Database_Connection,Store_Name) {
    * primitive methods that fires notify()
    */
   this.Subscribe = function (Event_Name, Observer) {
-    console.log(Observer);
     if(!Observer.Observer_ID) {
       AdaHeads.Log(Log_Level.Error,
         "Observer must specify Observer_ID! ("+Event_Name+")");
@@ -48,23 +48,22 @@ function Call_Queue_Class (Database_Connection,Store_Name) {
 
   /**
    * Adds a call to the local Call_Queue model and notifies its observers
-   * @param notification The call object to insert into the database
+   * @param call The call object to insert into the database
    */
-  this.Add_Call = function(notification) {
-    DB_Handle.Add_Object(notification.call,DB_Store);
-    notify("Add_Call",notification.call); // This really should be a dynamic name instead
+  this.Add_Call = function(call) {
+    DB_Handle.Add_Object(call,DB_Store);
+    notify("Add_Call",call); // This really should be a dynamic name instead
   };
-  var Add_Call = this.Add_Call;
+  //var Add_Call = this.Add_Call; // Declares the method for internal use
   
   /**
-   * Adds a call to the local Call_Queue model and notifies its observers
-   * @param notification The call object to insert into the database
+   * Removes a call to the local Call_Queue model and notifies its observers
+   * @param call The call object to insert into the database
    */
-  this.Remove_Call = function(notification) {
-    DB_Handle.Remove_Object(notification.call.call_id,DB_Store);
-    notify("Remove_Call",notification.call); // This really should be a dynamic name instead
+  this.Remove_Call = function(call) {
+    DB_Handle.Remove_Object(call.call_id,DB_Store);
+    notify("Remove_Call",call); // This really should be a dynamic name instead
   };
-
 
   /**
    * Returns the call with the higest priority
@@ -89,19 +88,32 @@ function Call_Queue_Class (Database_Connection,Store_Name) {
     return Oldest_Call;
   }
   
-  /**/
+  /**
+   *
+   */
   this.Reload = function () {
-    DB_Handle.Purge("Call_Queue");
-    notify("Purge");
+    // Start by flushing the call queue
+    purge();
 
     Alice_Server.Get_Queue(function (json) {
-      console.log(json);
-    })
+      jQuery.each(json.call, function (i, call)  {
+        Call_Queue_Class.Add_Call(call);
+      })
+    });
 
     DB_Handle.Get_All_Objects("Call_Queue", function (call) {
       notify("Add_Call",call);
     });
 
+  }
+  
+  /**
+   * Purge the call queue
+   */
+  
+  function purge() {
+    DB_Handle.Purge("Call_Queue");
+    notify("Purge");
   }
 
   /**

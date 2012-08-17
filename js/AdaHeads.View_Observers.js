@@ -31,15 +31,23 @@ AdaHeads.View_Observers.Attach = function () {
   });
 
  /**
-  * Reload the call list
+  * Reponds to purges in the call list
   */
   var Call_List_Purge_View_Observer = new Observer_Class( "Call_List_Purge_View_Observer", function (call) {
     $("#Call_List_High_Priority").empty();
     console.log("Emptied call list");
+  });
+  
+ /**
+  * UI Reponses to call_pick events
+  */
+  var Call_Pickup_View_Observer = new Observer_Class( "Call_Pickup_View_Observer", function (call) {
+    AdaHead_Debug("Call_Pickup_View_Observer: Currently unsupported");
   });
 
   /* Subscribe the events the call queue */
   Call_Queue.Subscribe("Add_Call", Call_List_Add_View_Observer );
   Call_Queue.Subscribe("Remove_Call", Call_List_Remove_View_Observer);
   Call_Queue.Subscribe("Purge", Call_List_Purge_View_Observer);
+  Call_Queue.Subscribe("Pickup_Call", Call_Pickup_View_Observer);
 }

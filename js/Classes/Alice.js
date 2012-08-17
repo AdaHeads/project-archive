@@ -103,7 +103,8 @@ AdaHeads.Alice_Server = function (type) {
   
   this.Get_Queue = function (callback){
     AdaHeads.Log(Log_Level.Debug,"GET:"+ this.URI+Alice_Protocol.Get_Queue_Handler);
-    $.getJSON(this.URI+Alice_Protocol.Get_Queue_Handler,callback);
+    //$.getJSON(this.URI+Alice_Protocol.Get_Queue_Handler,callback);
+    $.getJSON("static_queue.json",callback);
   };
   
   this.Get_Organization = function (callback) {

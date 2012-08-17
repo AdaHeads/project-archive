@@ -24,10 +24,15 @@ function Initialize () {
   Call_Queue = new Call_Queue_Class(Local_Database, "Call_Queue");
   
   // Start the notification socket
-  Notification_Socket = new WebSocket_Class('ws://127.0.0.1:9300');
-  Notification_Socket.bind("New_Call", Call_Queue.Add_Call);
+  Notification_Socket = new WebSocket_Class('ws://127.0.0.1:9300',true);
   
-  Notification_Socket.bind("Hangup_Call", Call_Queue.Remove_Call);
+  Notification_Socket.bind("New_Call", function (notification) {
+    Call_Queue.Add_Call(notification.call);
+  });
+  
+  Notification_Socket.bind("Hangup_Call", function (notification) {
+    Call_Queue.Remove_Call(notification.call);
+  });
   Notification_Socket.connect();
   
    
