@@ -1,8 +1,7 @@
-function WebSocket_Class (url,reconnect) {
+function WebSocket_Class (url) {
   var callbacks = {};
   var ws_url = url;
   var conn;
-  var try_reconnect = reconnect;
   var WebSocket_Class = this;
       
   this.bind = function(event_name, callback){
@@ -31,14 +30,14 @@ function WebSocket_Class (url,reconnect) {
 
     this.conn.onclose = function(){
       AdaHeads.Log(Log_Level.Error,"WebSocket "+url + " disconnected");
-      if (try_reconnect) {
-        setTimeout(WebSocket_Class.connect,Configuration.Polling_Interval); 
+      if (Configuration.Websocket.Reconnect) {
+        setTimeout(WebSocket_Class.connect,Configuration.Websocket.Reconnect_Interval); 
       }
-      dispatch('close',null)
+      dispatch('Disconnected',null)
     }
     this.conn.onopen = function(){
       AdaHeads.Log(Log_Level.Information,"Connected WebSocket on "+url);
-      dispatch('open',null)
+      dispatch('Connected',null)
     }
     
     this.conn.onerror = function () {

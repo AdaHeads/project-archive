@@ -7,6 +7,7 @@ AdaHeads.require_script('js/Classes/Call_Queue.js');
 AdaHeads.require_script('js/Classes/Websocket.js');
 AdaHeads.require_script('js/HTML5_Tests.js');
 AdaHeads.require_script('js/AdaHeads.View_Observers.js');
+AdaHeads.require_script('js/Classes/Contact_Entity_Database.js');
 
 /**
  * Bootstraps the entire application, and does various techology checks
@@ -22,12 +23,26 @@ function Initialize () {
   Local_Database = new Local_Database_Class(Database_Configuration);
   Local_Database.open();
   Call_Queue = new Call_Queue_Class(Local_Database, "Call_Queue");
+  Contact_Entity_Database = new Contact_Entity_Database_Class(Local_Database, "Contact_Entities")
   
+ 
   // Start the notification socket
-  Notification_Socket = new WebSocket_Class('ws://127.0.0.1:9300',true);
+  Notification_Socket = new WebSocket_Class(Configuration.Websocket.URI);
   
   Notification_Socket.bind("New_Call", function (notification) {
     Call_Queue.Add_Call(notification.call);
+  });
+  
+  Notification_Socket.bind("Connected", function (notification) {
+    $("#Websocket_Status").text("Websocket Connected");
+  });
+
+Notification_Socket.bind("Disconnected", function (notification) {
+    $("#Websocket_Status").text("Websocket Disconnected");
+  });
+  
+  Notification_Socket.bind("open", function (notification) {
+    $("#Websocket_Status").text("Websocket Connected");
   });
   
   Notification_Socket.bind("Hangup_Call", function (notification) {

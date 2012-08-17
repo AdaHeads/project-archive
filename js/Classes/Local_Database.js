@@ -79,7 +79,6 @@ function Local_Database_Class (Database_Configuration) {
     request.onerror = function(e) {
       console.log("IndexedDB: Adding: ", e);
     };
-    
   }
   
   /**
@@ -105,7 +104,22 @@ function Local_Database_Class (Database_Configuration) {
       AdaHeads.Log(Log_Level.Error,"Error removing " +e);
     };
   };
-      
+ 
+
+  this.Get_Object = function(Store_Name, id, callback) {
+    var db = dbHandle.indexedDB.db;
+    var trans = db.transaction([Store_Name],IDBTransaction.READ_WRITE);
+    var getRequest = trans.objectStore(Store_Name).get(id);
+    getRequest.onsuccess = function(e) {
+      var obj = e.target.result;
+      if(obj) {
+        callback(obj.value);
+      } else {
+        callback();
+      }
+    };
+  }
+  
   this.Get_All_Objects = function(Store_Name, Each_Callback) {
     var db = dbHandle.indexedDB.db;
     var trans = db.transaction([Store_Name], "readwrite");

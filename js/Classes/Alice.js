@@ -41,30 +41,11 @@ AdaHeads.Alice_Server = function (type) {
   /**
    * Fetches the Contact_Entity object with the supplied ce_id
    */
-  this.Get_Contact_Full = function(ce_id) {
-    contact = null;
+  this.Get_Contact_Full = function(ce_id, callback) {
     AdaHeads.Log(Log_Level.Debug,"GET:"+ 
       this.URI+Alice_Protocol.Get_Contact_Full+'?ce_id='+ce_id);
-    $.ajax({
-      type: 'GET',
-      url: this.URI+Alice_Protocol.Get_Contact_Full+'?ce_id='+ce_id,
-      dataType: 'json',
-      success: function(data) {
-        if (data.length === 0 || data === undefined) {
-          AdaHeads.Log(Log_Level.Error,"No organization received!");
-          return false;
-        };
-        // if everything is ok return 
-        contact = data;
-      },
-      error: function () {
-        return false
-      },
-      data: {},
-      async: false
-    });
-    AdaHeads.Log(Log_Level.Debug,"Got:"+JSON.stringify(contact));
-    return contact;
+    $.getJSON(this.URI+Alice_Protocol.Get_Contact_Full+'?ce_id='+ce_id,
+      callback)
   }
   
   /**
@@ -97,7 +78,7 @@ AdaHeads.Alice_Server = function (type) {
   }
   
   this.Get_Org_Contacts_Full = function (org_id,callback) {
-    $.getJSON(this.URI+Alice_Protocol.Get_Org_Contacts_Full+"?org_id="+org_id+"&jsoncallback=?",
+    $.getJSON(this.URI+Alice_Protocol.Get_Org_Contacts_Full+"?org_id="+org_id,
       callback)
     }
   

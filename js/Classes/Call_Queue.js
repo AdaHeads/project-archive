@@ -57,8 +57,8 @@ function Call_Queue_Class (Database_Connection,Store_Name) {
   //var Add_Call = this.Add_Call; // Declares the method for internal use
   
   /**
-   * Removes a call to the local Call_Queue model and notifies its observers
-   * @param call The call object to insert into the database
+   * Removes a call from the local Call_Queue model and notifies the observers
+   * @param call The call object to remove from the database
    */
   this.Remove_Call = function(call) {
     DB_Handle.Remove_Object(call.call_id,DB_Store);
@@ -89,7 +89,7 @@ function Call_Queue_Class (Database_Connection,Store_Name) {
   }
   
   /**
-   *
+   * TODO
    */
   this.Reload = function () {
     // Start by flushing the call queue
@@ -100,11 +100,6 @@ function Call_Queue_Class (Database_Connection,Store_Name) {
         Call_Queue_Class.Add_Call(call);
       })
     });
-
-    DB_Handle.Get_All_Objects("Call_Queue", function (call) {
-      notify("Add_Call",call);
-    });
-
   }
   
   /**
@@ -112,7 +107,7 @@ function Call_Queue_Class (Database_Connection,Store_Name) {
    */
   
   function purge() {
-    DB_Handle.Purge("Call_Queue");
+    DB_Handle.Purge(Store_Name);
     notify("Purge");
   }
 
@@ -123,7 +118,7 @@ function Call_Queue_Class (Database_Connection,Store_Name) {
   function notify(event,obj) {
     var chain = Observers [event];
     if(typeof chain == 'undefined') {
-      AdaHeads.Log(Log_Level.Debug,"Found no subscribers");
+      AdaHeads.Log(Log_Level.Debug,"Found no subscribers to "+event);
       return; // no callbacks for this event
     }
     for(var i = 0; i < chain.length; i++){

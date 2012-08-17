@@ -38,6 +38,13 @@ var Configuration =  {
     Domain : "asterisk1.adaheads.com",
     Username : "softphone1",
     Password : "12345"
+  },
+  
+  /* Websocket configuration */
+  Websocket : {
+    URI : "ws://127.0.0.1:9300",
+    Reconnect : true,
+    Reconnect_Interval : 1000
   }
 }
 
@@ -52,7 +59,7 @@ Database_Configuration = {
   /* IndexedDB databases has versions which can be used internally to handle 
    * schema changes. Increment this every time the object stored within changes 
    */
-  Version : "0.07",
+  Version : "0.08",
   
   /*
    * These are the actual stores (tables) for objects in the database. Each
@@ -74,6 +81,7 @@ Database_Configuration = {
 }
 var Notification_Socket;
 var Local_Database = {};
+var Contact_Entity_Database = {};
 var Call_Queue = {};
 var Alice_Server = new AdaHeads.Alice_Server();
 var PJSUA_Client =  new PJSUA_HTTPD_Class();

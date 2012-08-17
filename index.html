@@ -42,6 +42,7 @@
         <ul id="contacts"></ul>
       </div>
       <div class="sidebar" id="sideRight" style="float: left; width: 30%; min-height: 100px; overflow:none; font-size:9px;">
+        <div id="Websocket_Status"></div>
         <button id="Take_Call_Button">Tag kald (Alt+a)</button>
         <script> $("#Take_Call_Button").click(AdaHeads_Take_Call_Button_Click);</script>
         <button id="End_Call_Button" disabled="disabled">Slut kald (Alt+s)</button>
@@ -67,7 +68,7 @@
 
                   
 
-        
+              
               Call_Queue.Add_Call(call);
             }); </script>
 
@@ -79,7 +80,12 @@
           </script>
 
 
-
+          <button id="Fetch_Contact_Entity">Fetch_Contact_Entity</button>
+          <script>$("#Fetch_Contact_Entity").click(
+            function () {
+             Contact_Entity_Database.Get_Contact_Entity(2);
+            });
+          </script>
         </div>
 
       </div><!-- .sidebar#sideRight -->
