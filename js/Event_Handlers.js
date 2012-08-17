@@ -6,6 +6,7 @@ AdaHeads.require_script('js/Classes/Local_Database.js');
 AdaHeads.require_script('js/Classes/Call_Queue.js');
 AdaHeads.require_script('js/Classes/Websocket.js');
 AdaHeads.require_script('js/HTML5_Tests.js');
+AdaHeads.require_script('js/AdaHeads.View_Observers.js');
 
 /**
  * Bootstraps the entire application, and does various techology checks
@@ -14,8 +15,7 @@ function Initialize () {
 
   // HTML5 tests
   if(!Supports_HTML5_localStorage()) {
-    AdaHeads_Log(Log_Level.Error,"localStorage not supported!");
-    return false;
+    AdaHeads.Log(Log_Level.Error,"localStorage not supported!");
   }
   
   // Create the IndexedDB
@@ -30,34 +30,14 @@ function Initialize () {
   Notification_Socket.bind("Hangup_Call", Call_Queue.Remove_Call);
   Notification_Socket.connect();
   
-  var Call_List_Add_View_Observer = new Observer_Class( "Call_List_Add_View_Observer", function (call) {
-    
-    if($("#call_id_"+call.call_id).length === 0) {
-      var li = $("<li>").text("Date: " +call.arrived_at
-        + " Caller ID: " + call.caller_id
-        + " Call ID: " + call.call_id);
-    
-      li.attr("id","call_id_"+call.call_id);    
-    
-      li.appendTo("#Call_List_High_Priority");
-    }
-  });
-
-  var Call_List_Remove_View_Observer = new Observer_Class( "Call_List_Remove_View_Observer", function (call) {
-    $("#call_id_"+call.call_id).remove();
-  });
-
-
-  Call_Queue.Subscribe("Add_Call", Call_List_Add_View_Observer );
-  Call_Queue.Subscribe("Remove_Call", Call_List_Remove_View_Observer);
-  
    
   // Start the periodic polling
   $.getScript('js/Queue_Thread.js', function() {
     Update_Queue();
   });
   
-
+  AdaHeads.View_Observers.Attach();
+  
     
   PJSUA_Client.Ping();
   PJSUA_Client.Get_State();
@@ -79,12 +59,11 @@ function Initialize () {
 * The corresponding UI elements
 */
 function AdaHeads_Take_Call(id) {
-  // Internal Call handler
   
   org_id = Alice_Server.Get_Next_Call();
   
-  if(org_id == false) {
-    AdaHeads_Log(Log_Level.Fatal, "Failed to pickup next call"); 
+  if(!org_id) {
+    AdaHeads.Log(Log_Level.Fatal, "Failed to pickup next call"); 
     return false;
   }
  
@@ -97,17 +76,17 @@ function AdaHeads_Take_Call(id) {
 
   // Download the JSON object for the current organization
   Alice_Server.Get_Org_Contacts_Full(org_id,Populate_Contact_Entity_List);
-  AdaHeads_Log(Log_Level.Debug, "Took call "+org_id); 
+  AdaHeads.Log(Log_Level.Debug, "Took call "+org_id); 
  
 }
 
 function AdaHeads_Get_Organization(org_id) {
   // Get the data object
-  AdaHeads_Log(Log_Level.Debug, Alice_Server.URI+Get_Organization+"?org_id="+org_id+"&jsoncallback=?");
+  AdaHeads.Log(Log_Level.Debug, Alice_Server.URI+Get_Organization+"?org_id="+org_id+"&jsoncallback=?");
   $.getJSON(Alice_Server.URI+Get_Organization+"?org_id="+org_id+"&jsoncallback=?",
     function(data){
       if (data.length === 0 || data === undefined) {
-        AdaHeads_Log(Log_Level.Error,"AdaHeads_Get_Organization: No contact received!");
+        AdaHeads.Log(Log_Level.Error,"AdaHeads_Get_Organization: No contact received!");
         return;
       };
       // Cache the object
@@ -119,17 +98,17 @@ function AdaHeads_Get_Organization(org_id) {
     ;
     })
   .error(function() {
-    AdaHeads_Log(Log_Level.Error,"getJSON failed");
+    AdaHeads.Log(Log_Level.Error,"getJSON failed");
   });
 }
 
 function AdaHeads_Get_Contact(ce_id) {
   // Get the data object
-  AdaHeads_Log(Log_Level.Debug, Alice_Server.URI+Get_Contact_Full+"?ce_id="+ce_id+"&jsoncallback=?");
+  AdaHeads.Log(Log_Level.Debug, Alice_Server.URI+Get_Contact_Full+"?ce_id="+ce_id+"&jsoncallback=?");
   $.getJSON(Alice_Server.URI+Get_Contact_Full+"?ce_id="+ce_id+"&jsoncallback=?",
     function(data){
       if (data.length === 0 || data === undefined) {
-        AdaHeads_Log(Log_Level.Error,"No contact received!");
+        AdaHeads.Log(Log_Level.Error,"No contact received!");
         return;
       };
       // Cache the object
@@ -140,7 +119,7 @@ function AdaHeads_Get_Contact(ce_id) {
     Contact_Card_Update(JSON.parse(localStorage.getItem('Contact_Cache')));
   })
   .error(function() {
-    AdaHeads_Log(Log_Level.Error,"AdaHeads_Get_Contact: error!");
+    AdaHeads.Log(Log_Level.Error,"AdaHeads_Get_Contact: error!");
   });
 }
 

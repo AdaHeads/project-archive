@@ -10,7 +10,7 @@ function Local_Database_Class (Database_Configuration) {
   // Map for selecting which store to access based on input type
   var DB_Configuration = Database_Configuration;
        
-  AdaHeads_Log(Log_Level.Debug, "Opening "+DB_Configuration.Database_Name 
+  AdaHeads.Log(Log_Level.Debug, "Opening "+DB_Configuration.Database_Name 
     +"(Version "+DB_Configuration.Version+")");
         
   if ('webkitIndexedDB' in window) {
@@ -27,13 +27,13 @@ function Local_Database_Class (Database_Configuration) {
   
   
   this.open = function() {
-    request = indexedDB.open(DB_Configuration.Database_Name );
+    request = indexedDB.open(DB_Configuration.Database_Name, DB_Configuration.Version );
     request.onsuccess = function(e) {
       dbHandle.indexedDB.db = e.target.result;
       var db = dbHandle.indexedDB.db;
       // We can only create Object stores in a setVersion transaction;
       if (DB_Configuration.Version!= db.version) {
-        AdaHeads_Log(Log_Level.Information, DB_Configuration.Database_Name 
+        AdaHeads.Log(Log_Level.Information, DB_Configuration.Database_Name 
           +" Version changed from "+db.version+ " to " +DB_Configuration.Version+")");
         var setVrequest = db.setVersion(DB_Configuration.Version);
       
@@ -43,11 +43,11 @@ function Local_Database_Class (Database_Configuration) {
 
           // Create the object stores
           jQuery.each(DB_Configuration.Stores, function (i, store)  {
-            AdaHeads_Log(Log_Level.Information, "indexedDB: (re)creating "+store.Name)
+            AdaHeads.Log(Log_Level.Information, "indexedDB: (re)creating "+store.Name)
             if(db.objectStoreNames.contains(store.Name)) {
               db.deleteObjectStore(store.Name);
             } else {
-              AdaHeads_Log(Log_Level.Error, "indexedDB: Could not delete "+store.Name)  
+              AdaHeads.Log(Log_Level.Error, "indexedDB: Could not delete "+store.Name)  
             }
 
             var new_store = db.createObjectStore(store.Name,
@@ -57,12 +57,12 @@ function Local_Database_Class (Database_Configuration) {
           })
         };
       }
-      AdaHeads_Log(Log_Level.Debug,"Database opened OK");
+      AdaHeads.Log(Log_Level.Debug,"Database opened OK");
       initialized = true;
     };
       
     request.onerror = function (e) {
-      AdaHeads_Log(Log_Level.Error, "indexedDB: Could not Open "+store.Name)  
+      AdaHeads.Log(Log_Level.Error, "indexedDB: Could not Open "+store.Name)  
     }
   }
 
@@ -97,37 +97,51 @@ function Local_Database_Class (Database_Configuration) {
     var request = store.delete(Object_ID);
       
     request.onsuccess = function(e) {
-      AdaHeads_Log(Log_Level.Debug,"Removed object from "
+      AdaHeads.Log(Log_Level.Debug,"Removed object from "
         +Store_Name +" with ID " + Object_ID);
     };
       
     request.onerror = function(e) {
-      AdaHeads_Log(Log_Level.Error,"Error removing " +e);
+      AdaHeads.Log(Log_Level.Error,"Error removing " +e);
     };
   };
       
-  this.getAllTodoItems = function() {
-    var todos = document.getElementById("todoItems");
-    todos.innerHTML = "";
-      
+  this.Get_All_Objects = function(Store_Name, Each_Callback) {
     var db = dbHandle.indexedDB.db;
-    var trans = db.transaction(["todo"], IDBTransaction.READ_WRITE);
-    var store = trans.objectStore("todo");
+    var trans = db.transaction([Store_Name], "readwrite");
+    var store = trans.objectStore(Store_Name);
       
     // Get everything in the store;
     var keyRange = IDBKeyRange.lowerBound(0);
     var cursorRequest = store.openCursor(keyRange);
       
     cursorRequest.onsuccess = function(e) {
-      var result = e.target.result;
-      if(!!result == false)
+      var obj = e.target.result;
+      if(!!obj == false)
         return;
       
-      renderTodo(result.value);
-      result.continue();
+      Each_Callback(obj.value);
+      obj.continue();
     };
       
     cursorRequest.onerror = dbHandle.indexedDB.onerror;
+  };
+
+  /**
+   * Purges an IndexedDB store of objects.
+   * 
+   * @param Store_Name The store to purge
+   */
+  this.Purge = function(Store_Name) {
+    var db = dbHandle.indexedDB.db;
+    var clearTransaction = db.transaction([Store_Name], IDBTransaction.READ_WRITE);
+    var clearRequest = clearTransaction.objectStore(Store_Name).clear();
+
+    clearRequest.onsuccess = function(event){
+      AdaHeads.Log(Log_Level.Debug, "Purged "+Store_Name);
+    }
+      
+    clearRequest.onerror = dbHandle.indexedDB.onerror;
   };
 }
 

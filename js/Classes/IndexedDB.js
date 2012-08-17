@@ -16,7 +16,7 @@ AdaHeads.indexedDB.onerror = function(e) {
 };
 
 AdaHeads.indexedDB.open = function() {
-  AdaHeads_Log(Log_Level.Debug,"Opening indexedDB");
+  AdaHeads.Log(Log_Level.Debug,"Opening indexedDB");
   var request = indexedDB.open("Application_Cache");
 
   request.onsuccess = function(e) {
@@ -31,7 +31,7 @@ AdaHeads.indexedDB.open = function() {
       // onsuccess is the only place we can create Object Stores
       setVrequest.onerror = AdaHeads.indexedDB.onerror;
       setVrequest.onsuccess = function(e) {
-        AdaHeads_Log(Log_Level.Debug,"Creating stores");
+        AdaHeads.Log(Log_Level.Debug,"Creating stores");
         db.createObjectStore("Contact_Entities",{
           keyPath: "ce_id"
         });
@@ -55,10 +55,10 @@ AdaHeads.indexedDB.Add_Contact_Entity = function(ce) {
   var request = store.put(ce);
 
   request.onsuccess = function(e) {
-    AdaHeads_Log(Log_Level.Debug, "Inserted a Contact_Entity");
+    AdaHeads.Log(Log_Level.Debug, "Inserted a Contact_Entity");
   };
 
   request.onerror = function(e) {
-    AdaHeads_Log(Log_Level.Error, "Error Adding: "+ e);
+    AdaHeads.Log(Log_Level.Error, "Error Adding: "+ e);
   };
 };

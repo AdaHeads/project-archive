@@ -45,7 +45,7 @@ function Bob_Client(type) {
     } else {
       this.Current_State = new_state;
     }
-    AdaHeads_Log(Log_Level.Debug,"Changed state to "+this.Current_State);
+    AdaHeads.Log(Log_Level.Debug,"Changed state to "+this.Current_State);
   };
   
   this.State = function () {

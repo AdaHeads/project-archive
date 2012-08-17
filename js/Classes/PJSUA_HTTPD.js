@@ -11,7 +11,7 @@ function PJSUA_HTTPD_Class (type) {
  
 
   this.Ping = function() {
-    AdaHeads_Log(Log_Level.Debug,"GET: "+ this.URI+PJSUA_HTTPD_Protocol.Ping);
+    AdaHeads.Log(Log_Level.Debug,"GET: "+ this.URI+PJSUA_HTTPD_Protocol.Ping);
     $.ajax({
       type: 'GET',
       url: this.URI+PJSUA_HTTPD_Protocol.Ping,
@@ -39,7 +39,7 @@ function PJSUA_HTTPD_Class (type) {
    */
   this.Get_State = function() {
     return_string = "AJAX_ERROR";
-    AdaHeads_Log(Log_Level.Debug,"GET: "+ 
+    AdaHeads.Log(Log_Level.Debug,"GET: "+ 
       this.URI+PJSUA_HTTPD_Protocol.Get_State);
     $.ajax({
       type: 'GET',
@@ -60,7 +60,7 @@ function PJSUA_HTTPD_Class (type) {
   
   this.Get_Account_State = function() {
     return_object = undefined;
-    AdaHeads_Log(Log_Level.Debug,"GET: "+ 
+    AdaHeads.Log(Log_Level.Debug,"GET: "+ 
       this.URI+PJSUA_HTTPD_Protocol.Get_Account_State);
     $.ajax({
       type: 'GET',
@@ -70,7 +70,7 @@ function PJSUA_HTTPD_Class (type) {
         return_object = data;
       },
       error: function () {
-        AdaHeads_Log(Log_Level.Error,"GET: "+ 
+        AdaHeads.Log(Log_Level.Error,"GET: "+ 
           this.url);
       },
       data: {},
@@ -81,7 +81,7 @@ function PJSUA_HTTPD_Class (type) {
   }
   
   this.Add_Account = function(SIP_Account) {
-    AdaHeads_Log(Log_Level.Debug,"GET: "+ 
+    AdaHeads.Log(Log_Level.Debug,"GET: "+ 
       this.URI+PJSUA_HTTPD_Protocol.Add_Account
       +"?domain="+SIP_Account.Domain
       +"&username="+SIP_Account.Username
@@ -117,7 +117,7 @@ function PJSUA_Update_UI (selector) {
   
   if(Account_State !== undefined) {
     if(Account_State.account.acc_uri === undefined) {
-      AdaHeads_Log(Log_Level.Information, "No account defined - adding one");
+      AdaHeads.Log(Log_Level.Information, "No account defined - adding one");
       PJSUA_Client.Add_Account(Configuration.SIP_Account);
     
       // Refetch the account state

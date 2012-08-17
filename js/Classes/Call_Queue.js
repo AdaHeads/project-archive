@@ -1,5 +1,8 @@
 /**
  * Data model of the Call Queue
+ * 
+ * TODO: Add an event queue to handle sync between the server and to eliminate
+ * race conditions.
  */
 
 function Call_Queue_Class (Database_Connection,Store_Name) {
@@ -8,7 +11,7 @@ function Call_Queue_Class (Database_Connection,Store_Name) {
   var Observers = {};
   
   if(!Database_Connection) {
-    AdaHeads_Log(Log_Level.Fatal,"No database connection!");
+    AdaHeads.Log(Log_Level.Fatal,"No database connection!");
     return;
   }
 
@@ -19,7 +22,7 @@ function Call_Queue_Class (Database_Connection,Store_Name) {
   this.Subscribe = function (Event_Name, Observer) {
     console.log(Observer);
     if(!Observer.Observer_ID) {
-      AdaHeads_Log(Log_Level.Error,
+      AdaHeads.Log(Log_Level.Error,
         "Observer must specify Observer_ID! ("+Event_Name+")");
       return false;
     }
@@ -29,7 +32,7 @@ function Call_Queue_Class (Database_Connection,Store_Name) {
     if(!(typeof chain == 'undefined')) {
       for(var i = 0; i < chain.length; i++){
         if(chain[i].Observer_ID ===  Observer.Observer_ID) {
-          AdaHeads_Log(Log_Level.Error,
+          AdaHeads.Log(Log_Level.Error,
             "Observer already subscribed!("+Event_Name+")");
           return false;
         }
@@ -37,7 +40,7 @@ function Call_Queue_Class (Database_Connection,Store_Name) {
     }
     
     // If every sanity check goes well - we subscribe
-    AdaHeads_Log(Log_Level.Debug,"Subscribed observer to "+Event_Name);
+    AdaHeads.Log(Log_Level.Debug,"Subscribed observer to "+Event_Name);
     Observers[Event_Name] = Observers[Event_Name] || [];
     Observers[Event_Name].push(Observer);
     return this;
@@ -49,8 +52,9 @@ function Call_Queue_Class (Database_Connection,Store_Name) {
    */
   this.Add_Call = function(notification) {
     DB_Handle.Add_Object(notification.call,DB_Store);
-    notify(notification.call,"Add_Call"); // This really should be a dynamic name instead
+    notify("Add_Call",notification.call); // This really should be a dynamic name instead
   };
+  var Add_Call = this.Add_Call;
   
   /**
    * Adds a call to the local Call_Queue model and notifies its observers
@@ -58,27 +62,60 @@ function Call_Queue_Class (Database_Connection,Store_Name) {
    */
   this.Remove_Call = function(notification) {
     DB_Handle.Remove_Object(notification.call.call_id,DB_Store);
-    notify(notification.call,"Remove_Call"); // This really should be a dynamic name instead
+    notify("Remove_Call",notification.call); // This really should be a dynamic name instead
   };
 
 
   /**
-   * Private method for notifying the observers
+   * Returns the call with the higest priority
+   * FIXME: Does not work properly due to the asynchronous callback method
    */
-  function notify(obj,event) {
+  this.Highest_Priority_Call = function () {
+    var Oldest_Call;
+    /* Search all objects */
+    DB_Handle.Get_All_Objects("Call_Queue", function (call) {
+      
+      if (!Oldest_Call) {
+        Oldest_Call = call;
+        return;
+      }
+      
+      if (call.arrival_time > Oldest_Call.arrival_time) {
+        Oldest_Call = call;
+      }
+    });
+    
+    // Here we should wait for completion.
+    return Oldest_Call;
+  }
+  
+  /**/
+  this.Reload = function () {
+    DB_Handle.Purge("Call_Queue");
+    notify("Purge");
+
+    Alice_Server.Get_Queue(function (json) {
+      console.log(json);
+    })
+
+    DB_Handle.Get_All_Objects("Call_Queue", function (call) {
+      notify("Add_Call",call);
+    });
+
+  }
+
+  /**
+   * Private method for notifying the observers. Call this at the end of every
+   * public method that needs to notify observers
+   */
+  function notify(event,obj) {
     var chain = Observers [event];
     if(typeof chain == 'undefined') {
-      AdaHeads_Log(Log_Level.Debug,"Found no subscribers");
+      AdaHeads.Log(Log_Level.Debug,"Found no subscribers");
       return; // no callbacks for this event
     }
     for(var i = 0; i < chain.length; i++){
       chain[i].callback(obj);
     }
-    
   }
-  
-  this.To_DOM = function () {
-    //Bla bla bla
-  }
-
 }

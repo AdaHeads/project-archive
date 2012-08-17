@@ -54,29 +54,39 @@
           <button id="PJSUA_Get_State">Opdatér status</button>
           <script> $("#PJSUA_Get_State").click(PJSUA_Update_UI);</script>
           <div id="PJSUA_Status"></div>
-          <button id="Insert_Call">Insert_Call<button>
-              <script>$("#Insert_Call").click(
-                function () {
-                  var call = {call :{
-                      arrival_time: 1343827055,
-                      caller_id: "TP-Softphone",
-                      call_id: "134382705",
-                      channel: "SIP/TP-Softphone-000000a3",
-                      org_id: 2}
-                  }
+          <button id="Insert_Call">Insert_Call</button>
+          <script>$("#Insert_Call").click(
+            function () {
+              var call = {call :{
+                  arrival_time: 1343827055,
+                  caller_id: "TP-Softphone",
+                  call_id: "134382705",
+                  channel: "SIP/TP-Softphone-000000a3",
+                  org_id: 2}
+              }
 
                   
 
         
-                  Call_Queue.Add_Call(call);
-                }); </script>
+              Call_Queue.Add_Call(call);
+            }); </script>
 
-              </div>
-              </div><!-- .sidebar#sideRight -->
-              <div id="bobBox" style="position: absolute; bottom: 5%; right: 10%"><img src="img/Ugly_Bob.jpg" alt="Ugly Bob"/> <h2>One Bob - to rule them all <br/> - And in a VoIP system, bind them</h2></div>
-              </div> <!-- container -->
-              <!-- TODO: Add global click_handler_attach .js file -->
-              </body>
-              </html>
+          <button id="Reload_Call_List">Reload Call List from server</button>
+          <script>$("#Reload_Call_List").click(
+            function () {
+              Call_Queue.Reload();
+            });
+          </script>
+
+
+
+        </div>
+
+      </div><!-- .sidebar#sideRight -->
+      <div id="bobBox" style="position: absolute; bottom: 5%; right: 10%"><img src="img/Ugly_Bob.jpg" alt="Ugly Bob"/> <h2>One Bob - to rule them all <br/> - And in a VoIP system, bind them</h2></div>
+    </div> <!-- container -->
+    <!-- TODO: Add global click_handler_attach .js file -->
+  </body>
+</html>
 
 

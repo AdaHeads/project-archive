@@ -2,7 +2,7 @@
  * Class for Alice - Takes care of the server communication via Callbacks
  */
 
-function Alice_Server_Class (type) {
+AdaHeads.Alice_Server = function (type) {
   this.type = type;
   this.URI = Configuration.Alice_URI; 
   this.getInfo = function() {
@@ -15,15 +15,15 @@ function Alice_Server_Class (type) {
    * returns the org_id or false on error */
   this.Get_Next_Call = function() {
     org_id = null;
-    AdaHeads_Log(Log_Level.Debug,"GET:"+ this.URI+Alice_Protocol.Answer_Call_Handler+'?agent='+Configuration.SIP_Username);
+    AdaHeads.Log(Log_Level.Debug,"GET:"+ this.URI+Alice_Protocol.Answer_Call_Handler+'?agent='+Configuration.SIP_Username);
     $.ajax({
       type: 'GET',
       url: this.URI+Alice_Protocol.Answer_Call_Handler
-        +'?agent='+Configuration.SIP_Username,
+      +'?agent='+Configuration.SIP_Username,
       dataType: 'json',
       success: function(data) {
         if (data.length === 0 || data === undefined) {
-          AdaHeads_Log(Log_Level.Error,"No organization received!");
+          AdaHeads.Log(Log_Level.Error,"No organization received!");
           return false;
         };
         // if everything is ok return 
@@ -31,7 +31,7 @@ function Alice_Server_Class (type) {
       },
       error: function () {
         return false
-        },
+      },
       data: {},
       async: false
     });
@@ -43,7 +43,7 @@ function Alice_Server_Class (type) {
    */
   this.Get_Contact_Full = function(ce_id) {
     contact = null;
-    AdaHeads_Log(Log_Level.Debug,"GET:"+ 
+    AdaHeads.Log(Log_Level.Debug,"GET:"+ 
       this.URI+Alice_Protocol.Get_Contact_Full+'?ce_id='+ce_id);
     $.ajax({
       type: 'GET',
@@ -51,7 +51,7 @@ function Alice_Server_Class (type) {
       dataType: 'json',
       success: function(data) {
         if (data.length === 0 || data === undefined) {
-          AdaHeads_Log(Log_Level.Error,"No organization received!");
+          AdaHeads.Log(Log_Level.Error,"No organization received!");
           return false;
         };
         // if everything is ok return 
@@ -59,11 +59,11 @@ function Alice_Server_Class (type) {
       },
       error: function () {
         return false
-        },
+      },
       data: {},
       async: false
     });
-    AdaHeads_Log(Log_Level.Debug,"Got:"+JSON.stringify(contact));
+    AdaHeads.Log(Log_Level.Debug,"Got:"+JSON.stringify(contact));
     return contact;
   }
   
@@ -71,21 +71,21 @@ function Alice_Server_Class (type) {
    * Hangup the current call.
    */
   this.Hangup_Call = function() {
-    AdaHeads_Log(Log_Level.Debug,"GET:"+ this.URI+Alice_Protocol.Hangup_Call +'?agent='+Configuration.SIP_Username);
+    AdaHeads.Log(Log_Level.Debug,"GET:"+ this.URI+Alice_Protocol.Hangup_Call +'?agent='+Configuration.SIP_Username);
     $.ajax({
       type: 'GET',
       url: this.URI+Alice_Protocol.Hangup_Call 
-        +'?agent='+Configuration.SIP_Username,
+      +'?agent='+Configuration.SIP_Username,
       dataType: 'json',
       success: function(data) { 
         if (data.length === 0 || data === undefined) {
-          AdaHeads_Log(Log_Level.Error,"No organization received!");
+          AdaHeads.Log(Log_Level.Error,"No organization received!");
           return false;
         };
       },
       error: function () {
         return false
-        },
+      },
       data: {},
       async: false
     });
@@ -93,14 +93,16 @@ function Alice_Server_Class (type) {
 
 
   function ping(){
-    AdaHeads_Log(Log_Level.Fatal,"Ping not implemented!");
+    AdaHeads.Log(Log_Level.Fatal,"Ping not implemented!");
   }
   
   this.Get_Org_Contacts_Full = function (org_id,callback) {
-  $.getJSON(this.URI+Alice_Protocol.Get_Org_Contacts_Full+"?org_id="+org_id+"&jsoncallback=?",
-    callback)}
+    $.getJSON(this.URI+Alice_Protocol.Get_Org_Contacts_Full+"?org_id="+org_id+"&jsoncallback=?",
+      callback)
+    }
   
   this.Get_Queue = function (callback){
+    AdaHeads.Log(Log_Level.Debug,"GET:"+ this.URI+Alice_Protocol.Get_Queue_Handler);
     $.getJSON(this.URI+Alice_Protocol.Get_Queue_Handler,callback);
   };
   

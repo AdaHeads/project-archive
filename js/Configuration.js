@@ -75,7 +75,7 @@ Database_Configuration = {
 var Notification_Socket;
 var Local_Database = {};
 var Call_Queue = {};
-var Alice_Server = new Alice_Server_Class();
+var Alice_Server = new AdaHeads.Alice_Server();
 var PJSUA_Client =  new PJSUA_HTTPD_Class();
 
 

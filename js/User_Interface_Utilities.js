@@ -20,13 +20,13 @@ function Filter_Contact_Entity_List() {
   var json = $("#contacts").data("JSON");
   // Sanity checks
   if (json === null || json === undefined || jQuery.isEmptyObject(json)) {
-    AdaHeads_Log(Log_Level.Error,"Empty JSON");
+    AdaHeads.Log(Log_Level.Error,"Empty JSON");
     return;
   }
   
   // Unhide every contact, if the search field is cleared
   if($("#Contact_Search_Field").val() === "") {
-    AdaHeads_Log(Log_Level.Debug,"Search area cleared; showing all");
+    AdaHeads.Log(Log_Level.Debug,"Search area cleared; showing all");
     $.each(json.contacts, function(i,contact){
       $("#ce_id_"+i).show();
     });
@@ -53,7 +53,7 @@ function Filter_Contact_Entity_List() {
       // If any part of their names matches, we're good.
       if(contact.name.toLowerCase().indexOf(keyword) >= 0) {
         Matches++;
-        AdaHeads_Log(Log_Level.Debug,contact.name.toLowerCase()+" matches on " + keyword);
+        AdaHeads.Log(Log_Level.Debug,contact.name.toLowerCase()+" matches on " + keyword);
       }
       
       /* At this point we can break, if we have already found every match.
@@ -66,7 +66,7 @@ function Filter_Contact_Entity_List() {
       $.each(contact.attributes.tags, function(j,tag) {
         if(tag.toLowerCase().indexOf(keyword) >= 0) {
           Matches++;
-          AdaHeads_Log(Log_Level.Debug,contact.name+"'s tag "+tag +" matches on " + keyword);
+          AdaHeads.Log(Log_Level.Debug,contact.name+"'s tag "+tag +" matches on " + keyword);
         }
       });
     });  
@@ -86,7 +86,7 @@ function Filter_Contact_Entity_List() {
 }
 
 function Clear_Search_Field() {
-  AdaHeads_Log(Log_Level.Fatal,"Not implemented!");
+  AdaHeads.Log(Log_Level.Fatal,"Not implemented!");
 }
 
 function Search_Field_Hide() {
@@ -113,15 +113,15 @@ function Unhide_Call_List(){
 
 function Update_Company_Info(company,unhide) {
   if(company === null || company === undefined) {
-      AdaHeads_Log(Log_Level.Error, "company object is not set");
+      AdaHeads.Log(Log_Level.Error, "company object is not set");
       return;
   }
   
   if(jQuery.isEmptyObject(company)) {
-      AdaHeads_Log(Log_Level.Error, "company object empty");
+      AdaHeads.Log(Log_Level.Error, "company object empty");
       return;
   }
-  //AdaHeads_Log(Log_Level.Debug, JSON.stringify(company));
+  //AdaHeads.Log(Log_Level.Debug, JSON.stringify(company));
   
   // There is no div box to fill the content into; create it!
   if ($("#Company_Information").length === 0) {
@@ -200,7 +200,7 @@ function Populate_Contact_Entity_List(jsondata) {
       $("<a>").text(contact.name).attr("href","#").appendTo("#contacts").appendTo(Current_Li)	;
     };
     
-    //AdaHeads_Log(Log_Level.Debug,JSON.stringify(contact));
+    //AdaHeads.Log(Log_Level.Debug,JSON.stringify(contact));
     if(contact.attributes.tags !== undefined) {
       $.each(contact.attributes.tags, function(j,tag) {
         $("<span>").text(tag).addClass("Tag").appendTo(Current_Li); 

@@ -5,7 +5,7 @@ var WebSocket_Class = function(url)
 	var conn;
       
 	this.bind = function(event_name, callback){
-        AdaHeads_Log(Log_Level.Debug,"Attached callback to "+event_name);
+        AdaHeads.Log(Log_Level.Debug,"Attached callback to "+event_name);
 		callbacks[event_name] = callbacks[event_name] || [];
 		callbacks[event_name].push(callback);
 		return this;// chainable
@@ -30,12 +30,12 @@ var WebSocket_Class = function(url)
 
 		this.conn.onclose = function(){dispatch('close',null)}
 		this.conn.onopen = function(){dispatch('open',null)}
-              AdaHeads_Log(Log_Level.Information,"Connected WebSocket on "+url);
+              AdaHeads.Log(Log_Level.Information,"Connected WebSocket on "+url);
 	};
 
 	this.disconnect = function() {
 		this.conn.close();
-              AdaHeads_Log(Log_Level.Information,"Disconnected WebSocket "+url);
+              AdaHeads.Log(Log_Level.Information,"Disconnected WebSocket "+url);
 	};
 
 	var dispatch = function(event_name, message){
