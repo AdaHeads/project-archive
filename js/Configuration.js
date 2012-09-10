@@ -1,11 +1,15 @@
 /* Load the required files */
 AdaHeads.require_script('js/Log_Subsystem.js');
 AdaHeads.require_script('js/Classes/Alice.js');
+AdaHeads.require_script('js/Classes/Bob.js');
+
 AdaHeads.require_script('js/Classes/Observer.js');
 AdaHeads.require_script('js/Classes/PJSUA_HTTPD.js');
 
 /* Global configuration */
 var Configuration =  {
+  
+
   Standard_Greeting : "Velkommen til ",
 
   /* Use the queue polling feature */
@@ -13,7 +17,7 @@ var Configuration =  {
   
   /* This is the polling interval for queue updates, lower means more frequent
    * updates, but more network load.*/
-  Polling_Interval : 2000, 
+  Polling_Interval : 2000,
   
   /* How much information is written to the console */
   Debug_Enabled : true,
@@ -28,7 +32,8 @@ var Configuration =  {
   SIP_Password : '12345',
   
   /* Alice server URI */
-  Alice_URI : "http://alice.adaheads.com:4242/",
+  //Alice_URI : "http://alice.adaheads.com:4242/",
+  Alice_URI : "http://bob.adaheads.com/static-json/",
   
   /* The control interface for the PSJUA SIP component */
   PJSUA_HTTPD_URI : "http://localhost:30200",
@@ -42,10 +47,23 @@ var Configuration =  {
   
   /* Websocket configuration */
   Websocket : {
+    //URI : "ws://192.168.2.145:4242/notifications",
     URI : "ws://127.0.0.1:9300",
     Reconnect : true,
     Reconnect_Interval : 1000
-  }
+  },
+    
+  System_Console : {
+    Max_Items : 5
+  },
+  
+  Event_Log : {
+    Max_Items: 20
+  },
+  
+  // TODO: Implement these dynamic
+  
+  Agent_ID : this.SIP_Username
 }
 
 /**
@@ -59,7 +77,7 @@ Database_Configuration = {
   /* IndexedDB databases has versions which can be used internally to handle 
    * schema changes. Increment this every time the object stored within changes 
    */
-  Version : "0.08",
+  Version : "0.09",
   
   /*
    * These are the actual stores (tables) for objects in the database. Each
@@ -79,13 +97,15 @@ Database_Configuration = {
   }
   ]
 }
+
+// Global symbols
 var Notification_Socket;
 var Local_Database = {};
 var Contact_Entity_Database = {};
 var Call_Queue = {};
 var Alice_Server = new AdaHeads.Alice_Server();
 var PJSUA_Client =  new PJSUA_HTTPD_Class();
-
+var Bob = new AdaHeads.Bob_Client(Alice_Server);
 
 // Enable CORS
 jQuery.support.cors = true;

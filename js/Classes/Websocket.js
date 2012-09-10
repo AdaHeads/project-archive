@@ -5,9 +5,9 @@ function WebSocket_Class (url) {
   var WebSocket_Class = this;
       
   this.bind = function(event_name, callback){
-    AdaHeads.Log(Log_Level.Debug,"Attached callback to "+event_name);
-    callbacks[event_name] = callbacks[event_name] || [];
-    callbacks[event_name].push(callback);
+    AdaHeads.Log(Log_Level.Debug,"Attached callback to "+event_name.toLowerCase());
+    callbacks[event_name.toLowerCase()] = callbacks[event_name.toLowerCase()] || [];
+    callbacks[event_name.toLowerCase()].push(callback);
     return this;// chainable
   };
 
@@ -20,16 +20,20 @@ function WebSocket_Class (url) {
     // dispatch to the right handlers
     this.conn.onmessage = function(evt){
       var data = JSON.parse(evt.data);
-              
-              
+
       console.log("Dispatching to "+data.notification.event);
       console.log(data.notification);
-      dispatch(data.notification.event, data.notification);
-    //dispatch('message', evt.data);
+      
+      if(!data.notification.event) {
+        
+      } else {
+        dispatch(data.notification.event, data.notification);  
+      }
     };
 
     this.conn.onclose = function(){
       AdaHeads.Log(Log_Level.Error,"WebSocket "+url + " disconnected");
+      AdaHeads.Status_Console.Log(Log_Level.Error,"WebSocket "+url + " disconnected");
       if (Configuration.Websocket.Reconnect) {
         setTimeout(WebSocket_Class.connect,Configuration.Websocket.Reconnect_Interval); 
       }
@@ -37,11 +41,13 @@ function WebSocket_Class (url) {
     }
     this.conn.onopen = function(){
       AdaHeads.Log(Log_Level.Information,"Connected WebSocket on "+url);
+      AdaHeads.Status_Console.Log("Connected WebSocket on "+url);
       dispatch('Connected',null)
     }
     
     this.conn.onerror = function () {
-      console.log("Websocket:Could not connect")
+      
+      AdaHeads.Status_Console.Log("Websocket: Could not connect")
     }
   };
 
@@ -51,8 +57,11 @@ function WebSocket_Class (url) {
   };
 
   var dispatch = function(event_name, message){
-    var chain = callbacks[event_name];
-    if(typeof chain == 'undefined') return; // no callbacks for this event
+    var chain = callbacks[event_name.toLowerCase()];
+    if(typeof chain == 'undefined')  {
+      AdaHeads.Log(Log_Level.Debug, "None cared about event "+event_name);
+      return; // no callbacks for this event
+    }
     for(var i = 0; i < chain.length; i++){
       chain[i]( message )
     }

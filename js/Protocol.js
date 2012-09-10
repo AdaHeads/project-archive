@@ -4,17 +4,23 @@
  */
 
 var Alice_Protocol = {
-  Get_Queue_Handler     : "get/queue",
+  /* Client */
+  
+  
   Get_Org_Contacts      : "get/organization_contacts",
   Get_Org_Contacts_Full : "get/organization_contacts_full",
   Get_Contact           : "get/contact",
   Get_Contact_Full      : "get/contact_full",
   Get_Organization      : "get/organization",
+  
+  /* Call Related */
+  Get_Queue_Handler     : "call/list.json",
   Park_Call             : "call/park",
   Hangup_Call           : "call/hangup",
   Unpark_Call           : "call/unpark",
-  Answer_Call_Handler   : "get/call",
-  End_Call_Handler      : "call/end"
+  Answer_Call_Handler   : "call.json",
+  Hangup_Call_Handler   : "call/hangup",
+  Originate_Call        : "call/orignate"
 }
 
 var PJSUA_HTTPD_Protocol = {

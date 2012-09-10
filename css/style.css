@@ -6,6 +6,40 @@
         Monolithic stylesheet for everything!
 */
 
+#Status_Panel {
+  position:absolute;
+  right:5px;
+  top:5px;
+  z-index:20;
+  min-height: 30px;
+  background-color: #fcfcfc;
+  border: 1px solid #b3b3b3;
+  padding: 3px;
+}
+
+#Status_Panel .label {
+  
+}
+
+#Websocket_Status {
+  min-height: 30px;
+  min-width: 30px;
+  background-repeat: no-repeat;
+  float: right;
+}
+.disconnected{
+  min-height: 30px;
+  min-width: 30px;
+  background-image: url('../img/spinner.gif');
+}
+
+.connected{
+  min-height: 30px;
+  min-width: 30px;
+  background-image: url('../img/connected.png');
+}
+
+
 .human {
   list-style-image: url('../img/human.png');
 }
@@ -15,13 +49,13 @@
 }
 
 .Tag {
-    margin: 5px;
-    float: right;
+  margin: 5px;
+  float: right;
 }
 
 body{
-   font: 80% "Trebuchet MS", sans-serif; 
-   margin: 0px;
+  font: 100% "Trebuchet MS", sans-serif; 
+  margin: 0px;
 }
 
 #Company_Information {
@@ -87,7 +121,7 @@ body{
   -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2);
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2);  
 }
-    
+
 #Container{
   position:absolute;
   height: 96%;

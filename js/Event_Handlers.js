@@ -1,78 +1,3 @@
-/*
-Event handler procedures for events triggered in the UI, or by server push.
-
- */
-AdaHeads.require_script('js/Classes/Local_Database.js');
-AdaHeads.require_script('js/Classes/Call_Queue.js');
-AdaHeads.require_script('js/Classes/Websocket.js');
-AdaHeads.require_script('js/HTML5_Tests.js');
-AdaHeads.require_script('js/AdaHeads.View_Observers.js');
-AdaHeads.require_script('js/Classes/Contact_Entity_Database.js');
-
-/**
- * Bootstraps the entire application, and does various techology checks
- */
-function Initialize () {
-
-  // HTML5 tests
-  if(!Supports_HTML5_localStorage()) {
-    AdaHeads.Log(Log_Level.Error,"localStorage not supported!");
-  }
-  
-  // Create the IndexedDB
-  Local_Database = new Local_Database_Class(Database_Configuration);
-  Local_Database.open();
-  Call_Queue = new Call_Queue_Class(Local_Database, "Call_Queue");
-  Contact_Entity_Database = new Contact_Entity_Database_Class(Local_Database, "Contact_Entities")
-  
- 
-  // Start the notification socket
-  Notification_Socket = new WebSocket_Class(Configuration.Websocket.URI);
-  
-  Notification_Socket.bind("New_Call", function (notification) {
-    Call_Queue.Add_Call(notification.call);
-  });
-  
-  Notification_Socket.bind("Connected", function (notification) {
-    $("#Websocket_Status").text("Websocket Connected");
-  });
-
-Notification_Socket.bind("Disconnected", function (notification) {
-    $("#Websocket_Status").text("Websocket Disconnected");
-  });
-  
-  Notification_Socket.bind("open", function (notification) {
-    $("#Websocket_Status").text("Websocket Connected");
-  });
-  
-  Notification_Socket.bind("Hangup_Call", function (notification) {
-    Call_Queue.Remove_Call(notification.call);
-  });
-  Notification_Socket.connect();
-  
-   
-  // Start the periodic polling
-  $.getScript('js/Queue_Thread.js', function() {
-    Update_Queue();
-  });
-  
-  AdaHeads.View_Observers.Attach();
-  
-    
-  PJSUA_Client.Ping();
-  PJSUA_Client.Get_State();
-  PJSUA_Update_UI();
-
-  // Style the buttons with jQuery
-  //$(document).ready(function() {$("button").button();});
-
-  // Style+create the tabs with jQueryTabs (requires jquery-ui)
-  //$(function(){_
-  //  $('#tabs').tabs();
-  //});
-  
-  return true;
-}
 
 /*
 * Method for picking up a call. Sends a request to the server and updates
@@ -80,14 +5,8 @@ Notification_Socket.bind("Disconnected", function (notification) {
 */
 function AdaHeads_Take_Call(id) {
   
-  org_id = Alice_Server.Get_Next_Call();
-  
-  if(!org_id) {
-    AdaHeads.Log(Log_Level.Fatal, "Failed to pickup next call"); 
-    return false;
-  }
+
  
-  Bob.Change_State(Client_State.In_Call);
   // Update the UI
   Hide_Call_List();
   Search_Field_Unhide();

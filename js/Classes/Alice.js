@@ -9,11 +9,10 @@ AdaHeads.Alice_Server = function (type) {
     return this.URI + ' ' + this.type + ' AdaHeads_Alice_Server';
   };
    
-  ping();
-   
+  
   /* Pickup the next call in the queue, regardless of id. Synchronously!
    * returns the org_id or false on error */
-  this.Get_Next_Call = function() {
+  this.Get_Next_Call = function(success_callback,error_callback) {
     org_id = null;
     AdaHeads.Log(Log_Level.Debug,"GET:"+ this.URI+Alice_Protocol.Answer_Call_Handler+'?agent='+Configuration.SIP_Username);
     $.ajax({
@@ -24,18 +23,14 @@ AdaHeads.Alice_Server = function (type) {
       success: function(data) {
         if (data.length === 0 || data === undefined) {
           AdaHeads.Log(Log_Level.Error,"No organization received!");
-          return false;
+          error_callback();
+        } else {
+            success_callback(data);
         };
         // if everything is ok return 
-        org_id = data.CompanyID;
       },
-      error: function () {
-        return false
-      },
-      data: {},
-      async: false
+      error: error_callback
     });
-    return org_id;
   }
   
   /**
@@ -51,29 +46,19 @@ AdaHeads.Alice_Server = function (type) {
   /**
    * Hangup the current call.
    */
-  this.Hangup_Call = function() {
+  this.Hangup_Call = function(success_handler, error_handler) {
     AdaHeads.Log(Log_Level.Debug,"GET:"+ this.URI+Alice_Protocol.Hangup_Call +'?agent='+Configuration.SIP_Username);
     $.ajax({
       type: 'GET',
       url: this.URI+Alice_Protocol.Hangup_Call 
       +'?agent='+Configuration.SIP_Username,
       dataType: 'json',
-      success: function(data) { 
-        if (data.length === 0 || data === undefined) {
-          AdaHeads.Log(Log_Level.Error,"No organization received!");
-          return false;
-        };
-      },
-      error: function () {
-        return false
-      },
-      data: {},
-      async: false
-    });
+      success: success_handler,
+      error: error_handler});
   }
 
 
-  function ping(){
+  this.Ping = function (){
     AdaHeads.Log(Log_Level.Fatal,"Ping not implemented!");
   }
   
@@ -84,8 +69,8 @@ AdaHeads.Alice_Server = function (type) {
   
   this.Get_Queue = function (callback){
     AdaHeads.Log(Log_Level.Debug,"GET:"+ this.URI+Alice_Protocol.Get_Queue_Handler);
-    //$.getJSON(this.URI+Alice_Protocol.Get_Queue_Handler,callback);
-    $.getJSON("static_queue.json",callback);
+    $.getJSON(this.URI+Alice_Protocol.Get_Queue_Handler,callback);
+    //$.getJSON("static_queue.json",callback);
   };
   
   this.Get_Organization = function (callback) {

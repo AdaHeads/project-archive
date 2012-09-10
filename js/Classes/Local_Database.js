@@ -1,9 +1,8 @@
-
-
-function Local_Database_Class (Database_Configuration) {
-  var request;
-  var initialized = false;
-  var dbHandle = {};
+function Local_Database_Class(Database_Configuration) {
+   var READ_WRITE = undefined;
+   var request;
+   var initialized = false;
+   var dbHandle = {};
   var indexedDB = window.indexedDB || window.webkitIndexedDB ||
   window.mozIndexedDB;
         
@@ -17,18 +16,18 @@ function Local_Database_Class (Database_Configuration) {
     window.IDBTransaction = window.webkitIDBTransaction;
     window.IDBKeyRange = window.webkitIDBKeyRange;
   }
-      
+
   dbHandle.indexedDB = {};
   dbHandle.indexedDB.db = null;
-      
+
   dbHandle.indexedDB.onerror = function(e) {
     console.log(e);
   };
-  
-  
+
   this.open = function() {
     request = indexedDB.open(DB_Configuration.Database_Name, DB_Configuration.Version );
     request.onsuccess = function(e) {
+      READ_WRITE = IDBTransaction.READ_WRITE;
       dbHandle.indexedDB.db = e.target.result;
       var db = dbHandle.indexedDB.db;
       // We can only create Object stores in a setVersion transaction;
@@ -69,7 +68,7 @@ function Local_Database_Class (Database_Configuration) {
 
   this.Add_Object = function(Object, Store_Name) {
     var db = dbHandle.indexedDB.db;
-    var trans = db.transaction([Store_Name], IDBTransaction.READ_WRITE);
+    var trans = db.transaction([Store_Name], READ_WRITE);
     var store = trans.objectStore(Store_Name);
     var request = store.put(Object);
     request.onsuccess = function(e) {
@@ -90,7 +89,7 @@ function Local_Database_Class (Database_Configuration) {
    */
   this.Remove_Object = function(Object_ID, Store_Name) {
     var db = dbHandle.indexedDB.db;
-    var trans = db.transaction(Store_Name, IDBTransaction.READ_WRITE);
+    var trans = db.transaction(Store_Name, READ_WRITE);
     var store = trans.objectStore(Store_Name);
     console.log("Deleting: "+Object_ID);
     var request = store.delete(Object_ID);
@@ -122,7 +121,7 @@ function Local_Database_Class (Database_Configuration) {
   
   this.Get_All_Objects = function(Store_Name, Each_Callback) {
     var db = dbHandle.indexedDB.db;
-    var trans = db.transaction([Store_Name], "readwrite");
+    var trans = db.transaction([Store_Name], IDBTransaction.READ_WRITE);
     var store = trans.objectStore(Store_Name);
       
     // Get everything in the store;
