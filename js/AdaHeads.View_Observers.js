@@ -13,14 +13,12 @@ AdaHeads.View_Observers.Attach = function (Call_List) {
   var Call_List_Add_View_Observer = new Observer_Class( "Call_List_Add_View_Observer", function (call) {
     
     if($("#call_id_"+call.call_id).length === 0) {
-      var li = $("<li>").text("Date: " +call.arrival_time
-        + " Caller ID: " + call.caller_id
-        + " Call ID: " + call.call_id);
+      var li = $("<li>").text(call.caller_id);
     
 
       li.attr("id","call_id_"+call.call_id);    
     
-      li.appendTo("#Call_List_High_Priority");
+      li.appendTo("#Call_List");
     }
   });
 

@@ -6,10 +6,52 @@
         Monolithic stylesheet for everything!
 */
 
+button{
+  background: #e3e3e3;
+  border: 1px solid #bbb;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: inset 0 0 1px 1px #f6f6f6;
+  -moz-box-shadow: inset 0 0 1px 1px #f6f6f6;
+  box-shadow: inset 0 0 1px 1px #f6f6f6;
+  color: #333;
+  font: bold 12px "helvetica neue", helvetica, arial, sans-serif;
+  line-height: 1;
+  padding: 8px 0 9px;
+  text-align: center;
+  text-shadow: 0 1px 0 #fff;
+  width: 150px; }
+  button:hover {
+    background: #d9d9d9;
+    -webkit-box-shadow: inset 0 0 1px 1px #eaeaea;
+    -moz-box-shadow: inset 0 0 1px 1px #eaeaea;
+    box-shadow: inset 0 0 1px 1px #eaeaea;
+    color: #222;
+    cursor: pointer; }
+  button:active {
+    background: #d0d0d0;
+    -webkit-box-shadow: inset 0 0 1px 1px #e3e3e3;
+    -moz-box-shadow: inset 0 0 1px 1px #e3e3e3;
+    box-shadow: inset 0 0 1px 1px #e3e3e3;
+    color: #000; }
+button[disabled]
+{
+  box-shadow: inset 0 0 1px 1px #f6f6f6;
+  color: #bbb;
+  background-color: #eaeaea;
+  cursor: pointer;
+}
+
+button[disabled]:hover
+{
+  color: #bbb;
+}
+
 #Status_Panel {
   position:absolute;
-  right:5px;
-  top:5px;
+  right:0px;
+  bottom:0px;
   z-index:20;
   min-height: 30px;
   background-color: #fcfcfc;
@@ -19,6 +61,24 @@
 
 #Status_Panel .label {
   
+}
+
+#Call_List li {
+  list-style-image: url('../img/call.png');
+}
+
+
+#Side_Right {
+  float: left; width: 30%; height: 100%; background-color: #eaeaea; overflow:none;
+}
+
+#Status_Console {
+  margin-bottom: 0px;
+  text-align: left;
+}
+
+#Status_Console li {
+  list-style: none;
 }
 
 #Websocket_Status {
@@ -54,7 +114,7 @@
 }
 
 body{
-  font: 100% "Trebuchet MS", sans-serif; 
+  /*font: 100% "Trebuchet MS", sans-serif; */ 
   margin: 0px;
 }
 
@@ -85,7 +145,7 @@ body{
 }
 
 .Contact_Entity {
-  padding:5px; 
+    padding:5px; 
 }
 
 
@@ -107,7 +167,6 @@ body{
 #Contact_Entity_View{
   background: whitesmoke;
   padding: 2%;
-  font-size: 16px;
   min-width: 80%;
   min-height: 80%;
   font-weight: bold;
@@ -124,14 +183,10 @@ body{
 
 #Container{
   position:absolute;
-  height: 96%;
-  width: 96%;
+  height: 100%;
+  width: 100%;
   z-index:10;
-  margin: 2%;
-  background: whitesmoke;
-  border-radius: 15px;
-  border: 1px solid #b3b3b3;
-  overflow: hidden;
+  padding: 0%;  
 }
 
 #Greeting {

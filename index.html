@@ -9,7 +9,10 @@
     <script type="text/javascript" src="js/Configuration.js"></script>
     <script type="text/javascript" src="js/Initialize.js"></script>
     <script type="text/javascript" src="js/System_Console.js"></script>
-    
+
+    <script type="text/javascript" src="js/Event_Panel.js"></script>
+    <script type="text/javascript" src="js/Call_Panel.js"></script>
+    <script type="text/javascript" src="js/Statistics_Panel.js"></script>
     <script type="text/javascript" src="js/Event_Log.js"></script>
     <script type="text/javascript" src="js/Status_Panel.js"></script>
 
@@ -31,32 +34,71 @@
 
 
         <!-- Various UI control buttons -->
-        <button id="Contacts_Search">Kontakter</button>
-        <button id="Organization_List">Firmaliste</button>
-        <button id="Statistics">Statistik</button>
-        <h1 id="Greeting">Velkommen til. Du ser godt ud i dag.</h1>
+        <button id="Call_Panel_Button" disabled="disabled">Opkald</button>
+        <script> 
+          $("#Call_Panel_Button").click( function () {
+            AdaHeads.Event_Panel.Hide();
+            AdaHeads.Statistics_Panel.Hide();
+            AdaHeads.Call_Panel.Show();
+            $("#Call_Panel_Button").attr("disabled", "disabled");
+            $("#Event_Panel_Button").removeAttr("disabled");
+            $("#Statistics_Panel_Button").removeAttr("disabled");
+          });
+        </script>        
+        <button id="Event_Panel_Button">Events</button>
+        <script> 
+          $("#Event_Panel_Button").click( function () {
+            AdaHeads.Event_Panel.Show();
+            AdaHeads.Statistics_Panel.Hide();
+            AdaHeads.Call_Panel.Hide();
+            $("#Event_Panel_Button").attr("disabled", "disabled");
+            $("#Call_Panel_Button").removeAttr("disabled");
+            $("#Statistics_Panel_Button").removeAttr("disabled");
+          });
+        </script>        
+        <button id="Statistics_Panel_Button">Statistik</button>
+        <script> 
+          $("#Statistics_Panel_Button").click( function () {
+            AdaHeads.Event_Panel.Hide();
+            AdaHeads.Statistics_Panel.Show();
+            AdaHeads.Call_Panel.Hide();
+            $("#Statistics_Panel_Button").attr("disabled", "disabled");
+            $("#Event_Panel_Button").removeAttr("disabled");
+            $("#Call_Panel_Button").removeAttr("disabled");
+          });
+        </script>
 
-        <h4>Event log</h4>
-        <div id="Event_Log">
-        </div>
 
-
+        <div id="Call_Panel">
+        <h1 id="Greeting">Velkommen til. Du ser godt ud i dag.</h1>          
         <div id="search" style="display: none">
           <input name="Contact_Search_Field" id="Contact_Search_Field" type="text" placeholder="Navn eller n&oslash;gleord..." autocomplete="off" />
         </div>
         <ul id="contacts"></ul>
+        </div>
+
+        <div id="Event_Panel"  style="display: none">
+          <h4>Event log</h4>
+          <div id="Event_Log">
+          </div>
+        </div>
+        
+        <div id="Event_Panel"  style="display: none">
+          <h4>Event log</h4>
+          <div id="Event_Log">
+          </div>
+        </div>
+
+        
+
       </div>
-      <div class="sidebar" id="sideRight" style="float: left; width: 30%; height: 100%; background-color: #eaeaea; overflow:none; font-size:9px;">
-        
-        
-        
+      <div id="Side_Right"  >
+
         <button id="Take_Call_Button">Tag kald (Alt+a)</button>
         <script> $("#Take_Call_Button").click(AdaHeads_Take_Call_Button_Click);</script>
         <button id="End_Call_Button" disabled="disabled">Slut kald (Alt+s)</button>
         <script>$("#End_Call_Button").click(AdaHeads_End_Call_Button_Click); </script>
-        <ul id="Call_List_High_Priority"></ul>
-        <ul id="Call_List_Normal_Priority"></ul>
-        <ul id="Call_List_Low_Priority"></ul>
+        <ul id="Call_List"></ul>
 
         <div id="PJSUA_Control"><h2>PJSUA Control</h2>
           <button id="PJSUA_Get_State">Opdatér status</button>
@@ -90,15 +132,14 @@
           <button id="Fetch_Contact_Entity">Fetch_Contact_Entity</button>
           <script>$("#Fetch_Contact_Entity").click(
             function () {
-             Contact_Entity_Database.Get_Contact_Entity(2);
+              Contact_Entity_Database.Get_Contact_Entity(2);
             });
           </script>
         </div>
 
-      <ul id="Status_Console" style="float: right;"></ul>   
+        <ul id="Status_Console" style="float: right;"></ul>   
       </div><!-- .sidebar#sideRight -->
-      
-      <div id="bobBox" style="position: absolute; bottom: 5%; right: 10%"><img src="img/Ugly_Bob.jpg" alt="Ugly Bob"/> <h2>One Bob - to rule them all <br/> - And in a VoIP system, bind them</h2></div>
+
     </div> <!-- container -->
     <!-- TODO: Add global click_handler_attach .js file -->
   </body>

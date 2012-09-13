@@ -6,6 +6,14 @@ AdaHeads.Event_Log = {
   Message_Class : "Event_Message"
 }
 
+AdaHeads.Event_Log.Hide = function () {
+  $(AdaHeads.Event_Log.DOM_Element).hide();
+}
+
+AdaHeads.Event_Log.Show = function () {
+  $(AdaHeads.Event_Log.DOM_Element).show();
+}
+
 AdaHeads.Event_Log.Log = function(Message) {
   // Cleanup entries to prevent the list from growing too large
   while($(AdaHeads.Event_Log.DOM_Element).children().size() >= 
