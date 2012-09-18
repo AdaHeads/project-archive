@@ -25,6 +25,7 @@ AdaHeads.require_script = function (file){
   });
 }
 
+
 /**
  * Generates a random String of length n. Defaults to a length of 8 chars.
  * 

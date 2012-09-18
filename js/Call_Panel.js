@@ -10,14 +10,14 @@ AdaHeads.Call_Panel = {
  * Overloads the generic jQuery hide() so it may follow the local convention
  */
 AdaHeads.Call_Panel.Hide = function () {
-  $(AdaHeads.Call_Panel.DOM_Element).hide();
+  $(AdaHeads.Call_Panel.DOM_Element).slideUp();
 }
 
 /**
  * Overloads the generic jQuery show() so it may follow the local convention
  */
 AdaHeads.Call_Panel.Show = function () {
-  $(AdaHeads.Call_Panel.DOM_Element).show();
+  $(AdaHeads.Call_Panel.DOM_Element).slideDown();
 }
 
 /**

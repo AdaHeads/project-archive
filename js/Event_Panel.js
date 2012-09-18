@@ -10,14 +10,14 @@ AdaHeads.Event_Panel = {
  * Overloads the generic jQuery hide() so it may follow the local convention
  */
 AdaHeads.Event_Panel.Hide = function () {
-  $(AdaHeads.Event_Panel.DOM_Element).hide();
+  $(AdaHeads.Event_Panel.DOM_Element).slideUp();
 }
 
 /**
  * Overloads the generic jQuery show() so it may follow the local convention
  */
 AdaHeads.Event_Panel.Show = function () {
-  $(AdaHeads.Event_Panel.DOM_Element).show();
+  $(AdaHeads.Event_Panel.DOM_Element).slideDown();
 }
 
 /**

@@ -112,7 +112,9 @@ function PJSUA_HTTPD_Class (type) {
 // UI Functions
 
 function PJSUA_Update_UI (selector) {
-  $("#PJSUA_Status").text(PJSUA_Client.Get_State());
+  console.log("Update_UI");
+  AdaHeads.Status_Console.Log("SIP Client: "+ PJSUA_Client.Get_State());
+
   var Account_State = PJSUA_Client.Get_Account_State();
   
   if(Account_State !== undefined) {
@@ -124,9 +126,6 @@ function PJSUA_Update_UI (selector) {
       Account_State = PJSUA_Client.Get_Account_State();
     }
   
-    $("#PJSUA_Status").append("<br/>URI:"+Account_State.account.acc_uri);
-    $("#PJSUA_Status").append("<br/>status:"+Account_State.account.status);
-    
   }
   
 }

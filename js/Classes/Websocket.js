@@ -3,6 +3,7 @@ function WebSocket_Class (url) {
   var ws_url = url;
   var conn;
   var WebSocket_Class = this;
+  var Logged = false;
       
   this.bind = function(event_name, callback){
     AdaHeads.Log(Log_Level.Debug,"Attached callback to "+event_name.toLowerCase());
@@ -32,17 +33,22 @@ function WebSocket_Class (url) {
     };
 
     this.conn.onclose = function(){
-      AdaHeads.Log(Log_Level.Error,"WebSocket "+url + " disconnected");
-      AdaHeads.Status_Console.Log(Log_Level.Error,"WebSocket "+url + " disconnected");
+      if(!Logged) {
+        AdaHeads.Log(Log_Level.Error,"WebSocket "+url + " disconnected, trying to reconnect");
+        AdaHeads.Status_Console.Log("WebSocket "+url + " disconnected, trying to reconnect");
+        dispatch('Disconnected',null);
+        Logged = true;
+      }
       if (Configuration.Websocket.Reconnect) {
         setTimeout(WebSocket_Class.connect,Configuration.Websocket.Reconnect_Interval); 
       }
-      dispatch('Disconnected',null)
+      
     }
     this.conn.onopen = function(){
       AdaHeads.Log(Log_Level.Information,"Connected WebSocket on "+url);
       AdaHeads.Status_Console.Log("Connected WebSocket on "+url);
-      dispatch('Connected',null)
+      dispatch('Connected',null);
+      Logged = false;
     }
     
     this.conn.onerror = function () {

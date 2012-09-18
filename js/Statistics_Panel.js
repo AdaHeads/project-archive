@@ -10,14 +10,14 @@ AdaHeads.Statistics_Panel = {
  * Overloads the generic jQuery hide() so it may follow the local convention
  */
 AdaHeads.Statistics_Panel.Hide = function () {
-  $(AdaHeads.Statistics_Panel.DOM_Element).hide();
+  $(AdaHeads.Statistics_Panel.DOM_Element).slideUp();
 }
 
 /**
  * Overloads the generic jQuery show() so it may follow the local convention
  */
 AdaHeads.Statistics_Panel.Show = function () {
-  $(AdaHeads.Statistics_Panel.DOM_Element).show();
+  $(AdaHeads.Statistics_Panel.DOM_Element).slideDown();
 }
 
 /**

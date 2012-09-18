@@ -36,7 +36,7 @@ function Initialize () {
     AdaHeads.Event_Log.Log("New Call arrived from "+ notification.call.caller_id);
   });
 
-  Notification_Socket.bind("Hangup_Call", function (notification) {
+  Notification_Socket.bind("call_hangup", function (notification) {
     Call_List.Remove_Call(notification.call);
   });
 
@@ -45,15 +45,15 @@ function Initialize () {
   });
   
   Notification_Socket.bind("Connected", function (notification) {
-    AdaHeads.Status_Panel.Websocket_Status("connected");
+    AdaHeads.Status_Panel.Websocket_Status("connected",'Notification socket connected to '+Configuration.Websocket.URI);
   });
 
 Notification_Socket.bind("Disconnected", function (notification) {
-    AdaHeads.Status_Panel.Websocket_Status("disconnected");
+    AdaHeads.Status_Panel.Websocket_Status("disconnected",'Notification socket connecting to '+Configuration.Websocket.URI);
   });
   
   Notification_Socket.bind("open", function (notification) {
-    $("#Websocket_Status").text("Websocket Connected");
+    $("#Websocket_Status").text("Websocket Connecting");
   });
   
   
@@ -67,13 +67,6 @@ Notification_Socket.bind("Disconnected", function (notification) {
   PJSUA_Client.Get_State();
   PJSUA_Update_UI();
   
-  AdaHeads.Status_Console.Log("Intialized0");
-  AdaHeads.Status_Console.Log("Intialized1");
-  AdaHeads.Status_Console.Log("Intialized2");
-  AdaHeads.Status_Console.Log("Intialized3");
-  AdaHeads.Status_Console.Log("Intialized4");
-  AdaHeads.Status_Console.Log("Intialized5");
-  AdaHeads.Status_Console.Log("Intialized6");
   AdaHeads.Event_Log.Log("Intialized!");
   
 

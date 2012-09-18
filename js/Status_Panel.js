@@ -10,10 +10,8 @@ AdaHeads.Status_Panel = {
  * WebSocket
  * @param 
  */
-AdaHeads.Status_Panel.Websocket_Status = function (websocket_status) {
-
-  
+AdaHeads.Status_Panel.Websocket_Status = function (websocket_status, hint) {
   $(AdaHeads.Status_Panel.WebSocket_DOM_Element).removeClass();
   $(AdaHeads.Status_Panel.WebSocket_DOM_Element).addClass(websocket_status);
-  $(AdaHeads.Status_Panel.WebSocket_DOM_Element).attr('title', 'Notification socket connected to '+Configuration.Websocket.URI);
+  $(AdaHeads.Status_Panel.WebSocket_DOM_Element).attr('title', hint);
 }
