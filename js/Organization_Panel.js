@@ -1,7 +1,7 @@
 "use strict";
 
 AdaHeads.Organization_Panel = {
-  DOM_Element : "#Organization_Panel", 
+  DOM_Element : "#Organization_Panel"
 }
 
 /**

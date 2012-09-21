@@ -123,13 +123,11 @@
   overflow: hidden;
   float: left;
   background-color: #D2E0E6;
-  height: 100%;
 }
 
 #Side_Right {
   float: right; 
   width: 30%; 
-  height: 100%; 
   background-color: #eaeaea; 
   overflow: auto;
 }

@@ -69,6 +69,8 @@ Notification_Socket.bind("Disconnected", function (notification) {
   
   AdaHeads.Event_Log.Log("Intialized!");
   
+  
+  //Test out the Company_Panel:
 
   // Style the buttons with jQuery
   //$(document).ready(function() {$("button").button();});
