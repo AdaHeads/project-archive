@@ -29,11 +29,13 @@ yolk-git-build: yolk-git-src
 	make -C yolk -e prefix=${PREFIX}/bin/.. PROCESSORS=${PROCESSORS}  \
 
 yolk-git-src:
-	(test -d yolk && cd yolk; git pull) || git clone git://github.com/ThomasLocke/yolk.git
+	(test -d yolk && (cd yolk; git pull)) || git clone git://github.com/ThomasLocke/yolk.git
 
 #######
 # AWS #
 #######
+
+aws: aws-git-install
 
 aws-git-install: aws-git-build
 	$(SU_APPLICATION) make -C aws install && touch aws-git-install
@@ -44,12 +46,13 @@ aws-git-build: aws-git-setup
 	make build -C aws -e prefix=${PREFIX}/bin/.. PROCESSORS=${PROCESSORS}) \
 	 && touch aws-git-build
 
-aws-git-setup:
+aws-git-setup: aws-git-src
 	PATH=$(PATH):${PREFIX}/bin \
 	LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
 	make setup -C aws -e prefix=${PREFIX}/bin/.. PROCESSORS=${PROCESSORS}
 
-aws-git:
+aws-git-src:
+	(test -d aws && (cd aws; git pull)) || \
 	git clone --recursive http://forge.open-do.org/anonscm/git/aws/aws.git
 
 ############
@@ -77,7 +80,7 @@ gnatlib-svn:
 gnatlib-tl-install: gnatlib-tl-build
 	$(SU_APPLICATION) make -C gnatlib-tl install && touch gnatlib-tl-install
 
-gnatlib-tl-build: gnatlib-tl
+gnatlib-tl-build: gnatlib-tl-src
 	cd gnatlib-tl && PATH=$(PATH):${PREFIX}/bin \
 	LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
 	./configure --prefix=${PREFIX} ${GNATCOLL_ARGS}
@@ -86,7 +89,7 @@ gnatlib-tl-build: gnatlib-tl
 	        -C gnatlib-tl && touch gnatlib-tl-build
 
 gnatlib-tl-src:
-	(test -d gnatlib-tl && cd gnatlib-tl; git pull) || \
+	(test -d gnatlib-tl && (cd gnatlib-tl; git pull)) || \
 	git clone git://github.com/ThomasLocke/GNATColl.git gnatlib-tl
 
 
@@ -100,8 +103,8 @@ florist-gpl-2012-install: florist-gpl-2012-build
 	$(SU_APPLICATION) make -C florist-gpl-2012-src install && touch florist-gpl-2012-install
 
 florist-gpl-2012-build: florist-gpl-2012-src
-	cd florist-gpl-2012-src && PATH=${PREFIX}/bin:$(PATH) \
-	LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
+	cd florist-gpl-2012-src && PATH=$(PATH):${PREFIX}/bin \
+	LIBRARY_PATH=$(LIBRARY_PATH):/usr/lib/x86_64-linux-gnu \
 	./configure --prefix=${PREFIX}
 	make -e LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
 	        PATH=$(PATH):${PREFIX}/bin\
@@ -111,7 +114,6 @@ florist-gpl-2012-src:
 	echo Extracting ${ARCHIVE_FOLDER}/florist-gpl-2012-src.tgz ...
 	@tar xzf ${ARCHIVE_FOLDER}/florist-gpl-2012-src.tgz
 	@touch florist-gpl-2012-src
-
 
 tgz/florist-gpl-2012-src.tgz:
 	@echo Please download florist-gpl-2012-src.tgz from Libre.adacore.com and place it in the ./tgz folder

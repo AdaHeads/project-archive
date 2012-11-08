@@ -37,4 +37,11 @@ to get stated.
 
 Or check out the first few lines of the makefile for additional projects.
 
+Put this in your .bashrc/.cshrc/.zshrc - or export them ad-hoc for relevant projects.
+
+export PATH=$PATH:/usr/gnat/bin;
+export LIBRARY_PATH=$LIBRARY_PATH:/usr/lib/x86_64-linux-gnu
+
+You should of course change this to fit your system.
+
 Have fun!
