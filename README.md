@@ -23,7 +23,18 @@ Not much is needed for using this makefile;
 Usage
 -----
 
-Check out the first few lines of the makefile - or just use make ada-development to get stated.
+You need to fetch some files from libre.adacore.com/download and place them 
+in ./tgz
 
+Specifically:
+  * florist-gpl-2012-src.tgz
+  * gnat-gpl-2012-x86_64-pc-linux-gnu-bin.tar.gz
+  * xmlada-gpl-4.3-src.tgz
+
+Use 
+ $ make ada-development 
+to get stated.
+
+Or check out the first few lines of the makefile for additional projects.
 
 Have fun!
