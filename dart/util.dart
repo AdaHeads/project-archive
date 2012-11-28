@@ -1,8 +1,8 @@
-library Adaheads;
+library Util;
 
 import 'dart:math';
 
-class Adaheads {
+class Util {
    static String Random_String(int length){
       StringBuffer text = new StringBuffer();
       String range = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -13,5 +13,18 @@ class Adaheads {
       }
 
       return text.toString();
+   }
+
+   static int Time_In_UTC([Date time]){
+     int TimeInUTC;
+     Date Clock = new Date.now();
+
+     if (?time){
+       Clock = time;
+     }
+
+     TimeInUTC = Clock.toUtc().millisecondsSinceEpoch;
+
+     return TimeInUTC;
    }
 }

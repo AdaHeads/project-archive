@@ -1,8 +1,9 @@
 library Notification;
 
-import 'bob.dart';
+import '../bob.dart';
 import 'model/call.dart';
 import 'user_interface.dart';
+import 'log.dart';
 /**
  * Dispatches the Notifications from Alice.
  */
@@ -35,6 +36,7 @@ class Notification {
             Reload_Call_List(Call_List);
           }
           break;
+
         case "hangup_call":
           if (json.containsKey("call")){
             var c = json["call"];
@@ -49,14 +51,16 @@ class Notification {
                 break;
               }
             }
-            Call_List.removeAt(index);
-            Reload_Call_List(Call_List);
+            if (index != Call_List.length){
+              Call_List.removeAt(index);
+              Reload_Call_List(Call_List);
+            }
           }
 
           break;
         default:
           var e = json["event"];
-          print("Unknown event $e");
+          Log.Message(Level.DEBUG, "Unknown event $e", "notification.dart");
       }
     }
   }

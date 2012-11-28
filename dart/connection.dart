@@ -18,6 +18,10 @@ class Connection {
 
     socket = new WebSocket(url);
     socket.on.message.add(messageDispather);
+    socket.on.open.add((event) => Log.Message(Level.INFO, "Socket opened - $url", "connection.dart"));
+    socket.on.close.add((event) => Log.Message(Level.INFO, "Socket closed - $url", "connection.dart"));
+
+    Log.Message(Level.INFO, "Websocket initialized", "connection.dart");
   }
 
   /**

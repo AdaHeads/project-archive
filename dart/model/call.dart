@@ -1,14 +1,15 @@
 library Call;
 
-import '../adaheads.dart';
+import '../log.dart';
 
 class Call {
   bool inbound;
+  String channel;
   String state;
   String assigned_to;
   String arrival_time;
   int age;
-  String caller;
+  String caller_id;
   String callee;
   String call_id;
   int org_id;
@@ -19,61 +20,68 @@ class Call {
 
   Call()
   {
-    call_id = Adaheads.Random_String(10);
   }
 
   Call.fromJSON(Map JSON){
-    if (JSON.containsKey("inbound")){
-      inbound = JSON["inbound"];
+    Log.Message(Level.DEBUG, "${JSON.toString()}", "call.json");
+    Map Call = JSON;
+    if (JSON.keys.length == 1 && JSON.containsKey("call")){
+      Call = JSON["call"];
     }
 
-    if (JSON.containsKey("state")){
-      state = JSON["state"];
+    if (Call.containsKey("inbound")){
+      inbound = Call["inbound"];
     }
-    if (JSON.containsKey("assigned_to")){
-      assigned_to = JSON["assigned_to"];
+    if (Call.containsKey("channel")){
+      channel = Call["channel"];
     }
-    if (JSON.containsKey("arrival_time")){
-      arrival_time = JSON["arrival_time"];
+    if (Call.containsKey("state")){
+      state = Call["state"];
     }
-
-    if (JSON.containsKey("age")){
-      age = JSON["age"];
+    if (Call.containsKey("assigned_to")){
+      assigned_to = Call["assigned_to"];
     }
-
-    if (JSON.containsKey("caller")){
-      caller = JSON["caller"];
+    if (Call.containsKey("arrival_time")){
+      arrival_time = Call["arrival_time"];
     }
 
-    if (JSON.containsKey("callee")){
-      callee = JSON["callee"];
+    if (Call.containsKey("age")){
+      age = Call["age"];
     }
 
-    if (JSON.containsKey("call_id")){
-      call_id = JSON["call_id"];
+    if (Call.containsKey("caller_id")){
+      caller_id = Call["caller_id"];
     }
 
-    if (JSON.containsKey("org_id")){
-      String id = JSON["org_id"].substring("org_id".length);
+    if (Call.containsKey("callee")){
+      callee = Call["callee"];
+    }
+
+    if (Call.containsKey("call_id")){
+      call_id = Call["call_id"];
+    }
+
+    if (Call.containsKey("org_id")){
+      String id = Call["org_id"];
       org_id = int.parse(id);
     }
 
-    if (JSON.containsKey("greting")){
-      greting = JSON["greting"];
+    if (Call.containsKey("greting")){
+      greting = Call["greting"];
     }
 
-    if (JSON.containsKey("status")){
-      status = JSON["status"];
+    if (Call.containsKey("status")){
+      status = Call["status"];
     }
 
-    if (JSON.containsKey("type")){
-      type = JSON["type"];
+    if (Call.containsKey("type")){
+      type = Call["type"];
     }
   }
 
   String toString()
   {
-    return "id: $call_id callee: $callee caller: $caller arrival_time: $arrival_time";
+    return "Channel: $channel id: $call_id callee: $callee caller_id: caller_id arrival_time: $arrival_time";
   }
 }
 

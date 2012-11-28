@@ -1,9 +1,14 @@
 library protocol;
 
 class Protocol {
-  static String Answer_Call_Handler = "call";
+  static String Answer_Call_Handler = "call/pickup";
+  static String Get_Queue_Handler = "call/queue";
+  static String Onhold_Call = "call/hold";
+  static String Hangup_Call = "call/hangup";
+
   static String Get_Contact = "contact";
-  static String Get_Queue_Handler = "queue";
+  static String organization_list = "organization/list";
+  static String Get_Organization = "organization";
 }
 
 /*
