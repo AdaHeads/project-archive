@@ -1,1 +1,1 @@
-{"packages":{"rikulo":{"version":"0.6.0","source":"hosted","description":"rikulo"}}}
+{"packages":{"rikulo":{"version":"0.6.0","source":"git","description":{"url":"git://github.com/rikulo/rikulo.git","ref":null,"resolved-ref":"3d8489be9d06536447382fb1c9e6f4541736d9aa"}}}}
