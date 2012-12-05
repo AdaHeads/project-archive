@@ -31,10 +31,22 @@ class Log {
     }
 
     var time = new Date.now().toString();
-    var finalText = "$time [${level._text}] $filename - $text";
+    var finalText = "$time ${_spaceFilling("[${level._text}]",10)} ${_spaceFilling(filename, 25)} - $text";
 
     print(finalText);
 
     query("#Event_Log").elements.add(new LIElement()..text = finalText);
+  }
+
+  static String _spaceFilling(String text, int length){
+    StringBuffer buffer = new StringBuffer();
+    buffer.add(text);
+
+    int missingspaces = length - text.length;
+    for(int i = 0; i < missingspaces; i++){
+      buffer.add(" ");
+    }
+
+    return buffer.toString();
   }
 }

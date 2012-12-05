@@ -3,7 +3,7 @@ library call_list;
 import 'call.dart';
 import 'dart:html';
 
-typedef CallListner (Call call);
+typedef void CallListner (Call call);
 
 class CallList {
   List<Call> _Call_List;

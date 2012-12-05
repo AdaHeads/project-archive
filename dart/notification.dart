@@ -32,7 +32,7 @@ class Notification {
         case "new_call":
           if (json.containsKey("call")){
             Call c = new Call.fromJSON(json["call"]);
-            Call_List.insert_Call(c);
+            Bob.Call_List.insert_Call(c);
             //Reload_Call_List(Call_List);
           }
           break;
@@ -44,7 +44,7 @@ class Notification {
             Call call_to_remove;
             int index = 0;
 
-            Call_List.Remove_Call(id);
+            Bob.Call_List.Remove_Call(id);
           }
 
           break;

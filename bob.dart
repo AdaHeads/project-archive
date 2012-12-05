@@ -4,7 +4,7 @@
 --                                                                           --
 --                                  bob                                      --
 --                                                                           --
---                     Copyright (C) 2012-, AdaHeads K/S s                    --
+--                     Copyright (C) 2012-, AdaHeads K/S                     --
 --                                                                           --
 --  This is free software;  you can redistribute it and/or modify it         --
 --  under terms of the  GNU General Public License  as published by the      --
@@ -28,8 +28,9 @@ import 'dart/model/call.dart';
 import 'dart/model/call_list.dart';
 import 'dart/log.dart';
 import 'dart/initializer.dart';
-
-//import 'dart/click_handlers.dart';
+import 'dart/connection.dart';
+import 'dart/click_handlers.dart';
+import 'dart/user_interface.dart';
 
 //part 'dart/configuration.dart';
 //part 'dart/connection.dart';
@@ -51,5 +52,18 @@ void main()
   //DEBUG
 }
 
-CallList Call_List;
-Call current_call;
+class Bob
+{
+  static CallListnerList onCurrentCallChange = new CallListnerList();
+
+  static Call get current_call => _current_call;
+  static void set current_call(Call call) {
+    _current_call=call;
+    onCurrentCallChange.notify(call);}
+
+  static CallList Call_List;
+  static Call _current_call;
+  static Connection conn;
+  static click_handlers CH;
+  static user_interface UI;
+}

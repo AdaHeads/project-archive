@@ -5,17 +5,18 @@ import 'click_handlers.dart';
 import 'configuration.dart';
 import '../bob.dart';
 import 'model/call_list.dart';
-
-Connection conn;
-click_handlers CH;
+import 'user_interface.dart';
 
 void initialize()
 {
-  conn = new Connection(Configuration.WebSocket_URL);
-  conn.Initialize();
+  Bob.conn = new Connection(Configuration.WebSocket_URL);
+  Bob.conn.Initialize();
 
-  CH = new click_handlers();
-  CH.Initialize();
+  Bob.CH = new click_handlers();
+  Bob.CH.Initialize();
 
-  Call_List = new CallList();
+  Bob.Call_List = new CallList();
+
+  Bob.UI = new user_interface();
+  Bob.UI.Initialize();
 }

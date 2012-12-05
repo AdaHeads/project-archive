@@ -29,14 +29,14 @@ class click_handlers {
     Log.Message(Level.INFO, "Click Handlers initialized", "click_handlers.dart");
   }
 
-  //////////////////Random_String
+  //////////////////
   /// Left Panel ///
   //////////////////
 
   void Call_Panel_Button_Click(Event event){
-    Call_Panel_Show();
-    Event_Panel_Hide();
-    Statistics_Panel_Hide();
+    Bob.UI.Call_Panel_Show();
+    Bob.UI.Event_Panel_Hide();
+    Bob.UI.Statistics_Panel_Hide();
 
     query("#Call_Panel_Button").attributes["disabled"] = "disabled";
     query("#Event_Panel_Button").attributes.remove("disabled");
@@ -44,9 +44,9 @@ class click_handlers {
   }
 
   void Event_Panel_Button_Click (Event event){
-    Call_Panel_Hide();
-    Event_Panel_Show();
-    Statistics_Panel_Hide();
+    Bob.UI.Call_Panel_Hide();
+    Bob.UI.Event_Panel_Show();
+    Bob.UI.Statistics_Panel_Hide();
 
     query("#Call_Panel_Button").attributes.remove("disabled");
     query("#Event_Panel_Button").attributes["disabled"] = "disabled";
@@ -54,9 +54,9 @@ class click_handlers {
   }
 
   void Statistics_Panel_Button_Click (Event event){
-    Call_Panel_Hide();
-    Event_Panel_Hide();
-    Statistics_Panel_Show();
+    Bob.UI.Call_Panel_Hide();
+    Bob.UI.Event_Panel_Hide();
+    Bob.UI.Statistics_Panel_Show();
 
     query("#Call_Panel_Button").attributes.remove("disabled");
     query("#Event_Panel_Button").attributes.remove("disabled");
@@ -68,8 +68,8 @@ class click_handlers {
   //////////////////
 
   void End_Call_Button_Click(Event event){
-    if (current_call != null){
-      current_call = null;
+    if (Bob.current_call != null){
+      Bob.current_call = null;
     }
     // UI Changes
     // Enable the take call button and disable the end call button
@@ -116,7 +116,7 @@ class click_handlers {
     Call DummyCall = new Call()
     ..call_id = Util.Random_String(10)
     ..arrival_time = Util.Time_In_UTC().toString();
-    Call_List.insert_Call(DummyCall);
+    Bob.Call_List.insert_Call(DummyCall);
     //Reload_Call_List(Call_List);
   }
 
@@ -150,11 +150,11 @@ class click_handlers {
        Log.Message(Level.ERROR, "Reload_CallList did not have calls element. Data: $response", "click_handlers.dart");
     }
     var calls = res["calls"];
-    Call_List.Clear();
+    Bob.Call_List.Clear();
 
     calls.forEach((txt) {
       var call = new Call.fromJSON(txt);
-      Call_List.insert_Call(call);
+      Bob.Call_List.insert_Call(call);
     });
   }
 }

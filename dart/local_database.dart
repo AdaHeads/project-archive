@@ -40,10 +40,7 @@ class LocalDatabase {
               transaction.on.error.add((e) => print("error Set Version"));
             });
         setRequest.on.error.add((e) => print("setVersion Error"));
-      } else {
-        print("Same Version");
-        afterOpen();
-      }
+      } else {afterOpen();}
     });
     request.on.error.add((e) => Log.Message(Level.ERROR, "", "local_database.dart"));
    }
@@ -53,11 +50,10 @@ class LocalDatabase {
     try {
       // Nuke object store if it already exists.
       db.deleteObjectStore(_contact_storename);
-      print("Nuking complete");
     }
     on IDBDatabaseException catch(e) { }  // Chrome
     on DOMException catch(e) { }          // Firefox
     db.createObjectStore(_contact_storename);
-    print("store created");
+    Log.Message(Level.INFO, "", "local_database.dart");
   }
 }

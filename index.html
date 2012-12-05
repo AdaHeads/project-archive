@@ -185,10 +185,6 @@
           <div id="Messages_Panel" style="float: left; width: 49%; border: 1px solid #2b81af; min-height: 100px;">
             <h2>Beskeder</h2>
           </div>
-          <div style="display: block; float: left">
-            <p id="org_id">Organization ID: ####</p>
-            <p id="org_name">Organization Name: Orc</p>
-          </div>
         </div>
 
         <!--
@@ -293,9 +289,17 @@ Contact_Entity_Database.Get_Contact_Entity(2);
         </div>
         <div id="Websocket_Status"></div>
       </div>
-
+    <div style="display: block; float: right; background: grey">
+            <h3> Current Call </h3>
+            <p id="org_id">Organization ID: ####</p>
+            <p id="org_name">Organization Name: Orc</p>
+            <p id="current_call_id">Call_id: #### </p>
+            <p id="current_call_callerid"> Caller_id: ####</p>
+    </div>
     </div> <!-- container -->
     <!-- TODO: Add global click_handler_attach .js file -->
+
+
   </body>
 </html>
 
