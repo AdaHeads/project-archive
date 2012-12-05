@@ -10,6 +10,7 @@ import 'log.dart';
 import 'util.dart';
 import 'dart:json';
 import 'configuration.dart';
+import 'model/model.dart';
 
 class click_handlers {
   void Initialize(){
@@ -25,6 +26,7 @@ class click_handlers {
     //Debug
     query("#Insert_Call").on.click.add(Insert_Call_Click);
     query("#Reload_Call_List").on.click.add(Reload_Call_List_Click);
+    query("#Fetch_Adaheads_org").on.click.add(Fetch_Adaheads_Button_Click);
 
     Log.Message(Level.INFO, "Click Handlers initialized", "click_handlers.dart");
   }
@@ -101,10 +103,7 @@ class click_handlers {
 
       // UI Changes
       // Disable the take call button and enable the end call button
-      query("#Take_Call_Button").attributes["disabled"] = "disabled";
-      if (query("#End_Call_Button").attributes.containsKey("disabled")){
-        query("#End_Call_Button").attributes.remove("disabled");
-      }
+      Bob.UI.TakeCall_Buttons(false);
     }
   }
 
@@ -156,5 +155,26 @@ class click_handlers {
       var call = new Call.fromJSON(txt);
       Bob.Call_List.insert_Call(call);
     });
+  }
+
+  void Fetch_Adaheads_Button_Click(Event event){
+    Log.Message(Level.DEBUG, "Fetch_Adaheads_Button_Click", "click_handlers.dart");
+    Model.get_organization(1, (org)
+        {
+        Log.Message(Level.DEBUG, "Fetch_Adaheads_Button_Click Call from Model i called", "click_handlers.dart");
+       ParagraphElement org_name = query("#org_name");
+       ParagraphElement org_id = query("#org_id");
+
+       if (org == null){
+         Log.Message(Level.DEBUG, "Adaheads goes not exsists", "click_handlers.dart");
+         org_name.text = "Adaheads does not exists";
+         org_id.text = "-1";
+         return;
+       }else{
+         Log.Message(Level.DEBUG, "Fetch adaButtons gave: ${org.toString()}", "click_handlers.dart");
+       }
+       org_name.text = org.full_name;
+       org_id.text = org.organization_id.toString();
+        });
   }
 }

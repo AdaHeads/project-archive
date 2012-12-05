@@ -31,7 +31,13 @@ class Log {
     }
 
     var time = new Date.now().toString();
-    var finalText = "$time ${_spaceFilling("[${level._text}]",10)} ${_spaceFilling(filename, 25)} - $text";
+    var finalText;
+
+    if (Configuration.showFilename){
+      finalText = "$time ${_spaceFilling("[${level._text}]",10)} ${_spaceFilling(filename, 25)} - $text";
+    }else{
+      finalText = "$time ${_spaceFilling("[${level._text}]",10)} - $text";
+    }
 
     print(finalText);
 

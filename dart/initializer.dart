@@ -6,6 +6,8 @@ import 'configuration.dart';
 import '../bob.dart';
 import 'model/call_list.dart';
 import 'user_interface.dart';
+import 'model/local_database.dart';
+import 'log.dart';
 
 void initialize()
 {
@@ -19,4 +21,7 @@ void initialize()
 
   Bob.UI = new user_interface();
   Bob.UI.Initialize();
+
+  Bob.DB = new LocalDatabase(Configuration.DB_name, Configuration.DB_Version);
+  Bob.DB.open_db(() => Log.Message(Level.INFO, "Database is initialized", "initializer.dart"));
 }

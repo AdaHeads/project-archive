@@ -11,11 +11,13 @@ class Configuration {
 
   static String SIP_Username = "softphone1";
 
+  //Logging
   static Level LogLevel = Level.DEBUG;
+  static bool showFilename = true;
 
   //Client Database
   static String DB_name = "Adaheads_Bob";
-  static int DB_Version = 1;
+  static int DB_Version = 2;
   static String Contact_storename = "contact";
   static String Organization_storename = "organization";
 }

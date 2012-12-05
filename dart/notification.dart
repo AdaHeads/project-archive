@@ -48,6 +48,7 @@ class Notification {
           }
 
           break;
+        case "agent_state":
         default:
           var e = json["event"];
           Log.Message(Level.DEBUG, "Unknown event $e", "notification.dart");

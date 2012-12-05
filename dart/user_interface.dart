@@ -83,6 +83,23 @@ class user_interface
     se.run();
   }
 
+  void TakeCall_Buttons(bool TakeCall_Visiable){
+    ButtonElement Take_Call = query("#Take_Call_Button");
+    ButtonElement End_Call = query("#End_Call_Button");
+
+    if (TakeCall_Visiable){
+      Take_Call.attributes["disabled"] = "disabled";
+      if (End_Call.attributes.containsKey("disabled")){
+        End_Call.attributes.remove("disabled");
+      }
+    }else{
+      End_Call.attributes["disabled"] = "disabled";
+      if (Take_Call.attributes.containsKey("disabled")){
+        Take_Call.attributes.remove("disabled");
+      }
+    }
+  }
+
   /////////////
   /// Debug ///
   /////////////
