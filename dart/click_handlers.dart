@@ -9,6 +9,7 @@ import 'protocol.dart';
 import 'log.dart';
 import 'util.dart';
 import 'dart:json';
+import 'configuration.dart';
 
 class click_handlers {
   void Initialize(){
@@ -67,7 +68,9 @@ class click_handlers {
   //////////////////
 
   void End_Call_Button_Click(Event event){
-
+    if (current_call != null){
+      current_call = null;
+    }
     // UI Changes
     // Enable the take call button and disable the end call button
     query("#End_Call_Button").attributes["disabled"] = "disabled";
@@ -89,13 +92,19 @@ class click_handlers {
       request.send();
     } catch(ex){
       Log.Message(Level.ERROR, "HttpRequest to $url gave ${ex.toString()}", "click_handlers.dart");
+      return;
     }
+    Log.Message(Level.DEBUG, "Take_Call response ${request.responseText}", "click_handlers.dart");
+    var res = JSON.parse(request.responseText);
+    if (res.containsKey("call")){
+      var call = new Call.fromJSON(res);
 
-    // UI Changes
-    // Disable the take call button and enable the end call button
-    query("#Take_Call_Button").attributes["disabled"] = "disabled";
-    if (query("#End_Call_Button").attributes.containsKey("disabled")){
-      query("#End_Call_Button").attributes.remove("disabled");
+      // UI Changes
+      // Disable the take call button and enable the end call button
+      query("#Take_Call_Button").attributes["disabled"] = "disabled";
+      if (query("#End_Call_Button").attributes.containsKey("disabled")){
+        query("#End_Call_Button").attributes.remove("disabled");
+      }
     }
   }
 
@@ -107,8 +116,8 @@ class click_handlers {
     Call DummyCall = new Call()
     ..call_id = Util.Random_String(10)
     ..arrival_time = Util.Time_In_UTC().toString();
-    Call_List.add(DummyCall);
-    Reload_Call_List(Call_List);
+    Call_List.insert_Call(DummyCall);
+    //Reload_Call_List(Call_List);
   }
 
   void Reload_Call_List_Click(Event event){
@@ -141,12 +150,11 @@ class click_handlers {
        Log.Message(Level.ERROR, "Reload_CallList did not have calls element. Data: $response", "click_handlers.dart");
     }
     var calls = res["calls"];
-    Call_List.clear();
+    Call_List.Clear();
 
     calls.forEach((txt) {
       var call = new Call.fromJSON(txt);
-      Call_List.add(call);
+      Call_List.insert_Call(call);
     });
-    Reload_Call_List(Call_List);
   }
 }

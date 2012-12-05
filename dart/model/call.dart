@@ -12,7 +12,10 @@ class Call {
   String caller_id;
   String callee;
   String call_id;
-  int org_id;
+
+  //TODO This one should be an int.
+  String org_id;
+
   String greting;
   String status;
   String type;
@@ -63,7 +66,9 @@ class Call {
 
     if (Call.containsKey("org_id")){
       String id = Call["org_id"];
-      org_id = int.parse(id);
+      //TODO This one should be an int.
+      //org_id = int.parse(id);
+      org_id = id;
     }
 
     if (Call.containsKey("greting")){

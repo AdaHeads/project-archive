@@ -32,8 +32,8 @@ class Notification {
         case "new_call":
           if (json.containsKey("call")){
             Call c = new Call.fromJSON(json["call"]);
-            Call_List.add(c);
-            Reload_Call_List(Call_List);
+            Call_List.insert_Call(c);
+            //Reload_Call_List(Call_List);
           }
           break;
 
@@ -44,17 +44,7 @@ class Notification {
             Call call_to_remove;
             int index = 0;
 
-            //finds the call
-            for (; index < Call_List.length; index++){
-              var item = Call_List[index];
-              if (item.call_id == id){
-                break;
-              }
-            }
-            if (index != Call_List.length){
-              Call_List.removeAt(index);
-              Reload_Call_List(Call_List);
-            }
+            Call_List.Remove_Call(id);
           }
 
           break;

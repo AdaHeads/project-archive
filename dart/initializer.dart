@@ -1,4 +1,10 @@
-part of bob;
+library initializer;
+
+import 'connection.dart';
+import 'click_handlers.dart';
+import 'configuration.dart';
+import '../bob.dart';
+import 'model/call_list.dart';
 
 Connection conn;
 click_handlers CH;
@@ -11,5 +17,5 @@ void initialize()
   CH = new click_handlers();
   CH.Initialize();
 
-  Call_List = new List<Call>();
+  Call_List = new CallList();
 }

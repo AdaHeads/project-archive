@@ -6,8 +6,21 @@ import 'package:rikulo/effect.dart';
 
 import 'log.dart';
 import 'model/call.dart';
+import '../bob.dart';
+import 'model/call_list.dart';
 
-void Reload_Call_List(List<Call> Calls)
+void Initialize(){
+  Call_List.onInsert.add(_AddCall);
+  //FIXME This is not pretty.
+  Call_List.onRemove.add((c) => Reload_Call_List(Call_List));
+}
+
+void _AddCall(Call call){
+  UListElement UI_List = query("#Call_List");
+  UI_List.elements.add(new LIElement()..text = call.toString());
+}
+
+void Reload_Call_List(CallList Calls)
 {
   UListElement UI_List = query("#Call_List");
 
@@ -24,19 +37,16 @@ void Call_Panel_Show(){
   var direction = SlideDirection.NORTH;
   var effect = new SlideInEffect(panel, direction: direction, fade: fade);
   effect.run();
-  print("Call_Panel_Show");
+  panel.hidden = false;
 }
 
 void Call_Panel_Hide(){
   DivElement panel = query("#Call_Panel");
-  //var motion = SlideOutEffect.createAction(panel,true, SlideDirection.NORTH);
-  //var se = new ShowEffect(panel, motion);
-  //se.run();
   var fade = false;
   var direction = SlideDirection.NORTH;
   var effect = new SlideOutEffect(panel, direction: direction, fade: fade);
   effect.run();
-  print("Call_Panel_Hide");
+  panel.hidden = true;
 }
 
 void Event_Panel_Show(){
@@ -44,8 +54,8 @@ void Event_Panel_Show(){
   var motion = SlideInEffect.createAction(panel, panel.clientWidth,true, SlideDirection.SOUTH);
   var se = new ShowEffect(panel, motion);
   se.run();
-  print("Event_Panel_Show");
   Log.Message(Level.DEBUG, "Event_Panel_Show", "User_interface");
+  panel.hidden = false;
 }
 
 void Event_Panel_Hide(){
@@ -53,7 +63,7 @@ void Event_Panel_Hide(){
   var motion = SlideOutEffect.createAction(panel,true, SlideDirection.SOUTH);
   var se = new ShowEffect(panel, motion);
   se.run();
-  print("Event_Panel_Hide");
+  panel.hidden = true;
 }
 
 void Statistics_Panel_Show(){
@@ -61,7 +71,6 @@ void Statistics_Panel_Show(){
   var motion = SlideInEffect.createAction(panel, panel.clientWidth,true, SlideDirection.SOUTH);
   var se = new ShowEffect(panel, motion);
   se.run();
-  print("Statistics_Panel_Show");
 }
 
 void Statistics_Panel_Hide(){
@@ -69,5 +78,4 @@ void Statistics_Panel_Hide(){
   var motion = SlideOutEffect.createAction(panel,true, SlideDirection.SOUTH);
   var se = new ShowEffect(panel, motion);
   se.run();
-  print("Statistics_Panel_Hide");
 }

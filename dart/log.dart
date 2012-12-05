@@ -2,17 +2,16 @@ library log;
 
 import 'dart:html';
 import 'dart:collection';
-
-import '../bob.dart';
+import 'configuration.dart';
 
 class Level{
   final String _text;
   final int _level;
   const Level(this._text, this._level);
 
-  static final Level DEBUG = const Level("DEBUG",0);
-  static final Level INFO = const Level("INFO",1);
-  static final Level ERROR = const Level("ERROR",2);
+  static final Level DEBUG    = const Level("DEBUG"   ,0);
+  static final Level INFO     = const Level("INFO"    ,1);
+  static final Level ERROR    = const Level("ERROR"   ,2);
   static final Level CRITICAL = const Level("CRITICAL",3);
 
   bool operator >= (Level lvl){

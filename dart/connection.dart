@@ -1,4 +1,12 @@
-part of bob;
+library Connection;
+
+import 'log.dart';
+import 'notification.dart' as noti;
+
+import 'dart:html';
+import 'dart:json';
+
+
 
 /**
  * Controls the websocket connection.
