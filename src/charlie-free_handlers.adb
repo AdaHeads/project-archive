@@ -17,14 +17,15 @@
 
 package body Charlie.Free_Handlers is
    protected body Stack is
-      entry Get (Item :    out Handler.Reference) when True is
+      entry Get (Item :    out Handler.Reference) when not Handlers.Is_Empty is
       begin
-         raise Program_Error;
+         Item := Handlers.Last_Element;
+         Handlers.Delete_Last;
       end Get;
 
       procedure Register (Item : in     Handler.Reference) is
       begin
-         raise Program_Error;
+         Handlers.Append (Item);
       end Register;
    end Stack;
 end Charlie.Free_Handlers;
