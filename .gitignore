@@ -1,0 +1,16 @@
+syntax: glob
+
+*.o
+*.ali
+*~
+b__*.ads
+b__*.adb
+b~*.ads
+b~*.adb
+
+.config
+.config.sh
+
+generated/
+obj/
+bin/
