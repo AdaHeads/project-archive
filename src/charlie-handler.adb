@@ -16,31 +16,28 @@
 -------------------------------------------------------------------------------
 
 with
-  GNAT.Sockets,
-  GNAT.Sockets.Convenience;
-with
-  Charlie.Configuration,
-  Charlie.Free_Handlers,
-  Charlie.Handler;
+  Charlie.Free_Handlers;
 
-procedure Charlie.Server is
-   use GNAT.Sockets;
+package body Charlie.Handler is
+   task body Instance is
+      Pointer : Reference;
+      Socket  : GNAT.Sockets.Socket_Type;
+   begin
+      accept Set (Self : in     Reference) do
+         Pointer := Self;
+      end Set;
 
-   Server     : Socket_Type := Convenience.Make_Server (Configuration.Port);
-   Connection : Socket_Type;
-   Ignored    : Sock_Addr_Type;
-   Handler    : Charlie.Handler.Reference;
-begin
-   loop
-      Accept_Socket (Server  => Server,
-                     Socket  => Connection,
-                     Address => Ignored);
-      select
-         Free_Handlers.Stack.Get (Handler);
-      else
-         Handler := new Charlie.Handler.Instance;
-         Handler.Set (Self => Handler);
-      end select;
-      Handler.Serve (Connection);
-   end loop;
-end Charlie.Server;
+      loop
+         accept Serve (Client : in     GNAT.Sockets.Socket_Type) do
+            Socket := Client;
+         end Serve;
+
+         raise Program_Error;
+
+         Free_Handlers.Stack.Register (Pointer);
+      end loop;
+   exception
+      when others =>
+         null; -- TODO: Log un-planned shutdown.
+   end Instance;
+end Charlie.Handler;

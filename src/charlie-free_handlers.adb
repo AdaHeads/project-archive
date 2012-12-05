@@ -15,32 +15,16 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with
-  GNAT.Sockets,
-  GNAT.Sockets.Convenience;
-with
-  Charlie.Configuration,
-  Charlie.Free_Handlers,
-  Charlie.Handler;
+package body Charlie.Free_Handlers is
+   protected body Stack is
+      entry Get (Item :    out Handler.Reference) when True is
+      begin
+         raise Program_Error;
+      end Get;
 
-procedure Charlie.Server is
-   use GNAT.Sockets;
-
-   Server     : Socket_Type := Convenience.Make_Server (Configuration.Port);
-   Connection : Socket_Type;
-   Ignored    : Sock_Addr_Type;
-   Handler    : Charlie.Handler.Reference;
-begin
-   loop
-      Accept_Socket (Server  => Server,
-                     Socket  => Connection,
-                     Address => Ignored);
-      select
-         Free_Handlers.Stack.Get (Handler);
-      else
-         Handler := new Charlie.Handler.Instance;
-         Handler.Set (Self => Handler);
-      end select;
-      Handler.Serve (Connection);
-   end loop;
-end Charlie.Server;
+      procedure Register (Item : in     Handler.Reference) is
+      begin
+         raise Program_Error;
+      end Register;
+   end Stack;
+end Charlie.Free_Handlers;

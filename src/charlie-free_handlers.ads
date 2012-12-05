@@ -16,11 +16,14 @@
 -------------------------------------------------------------------------------
 
 with
-  Charlie.Handler;
+  Charlie.Handler,
+  Charlie.Stack_Of_Handlers;
 
 package Charlie.Free_Handlers is
    protected Stack is
       entry Get (Item :    out Handler.Reference);
       procedure Register (Item : in     Handler.Reference);
+   private
+      Handlers : Charlie.Stack_Of_Handlers.List;
    end Stack;
 end Charlie.Free_Handlers;

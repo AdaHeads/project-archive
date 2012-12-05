@@ -19,9 +19,10 @@ with
   GNAT.Sockets;
 
 package Charlie.Handler is
-   task type Instance is
-      entry Serve (Client : GNAT.Sockets.Socket_Type);
-   end Instance;
-
+   type Instance;
    type Reference is access all Instance;
+   task type Instance is
+      entry Set (Self : in     Reference);
+      entry Serve (Client : in     GNAT.Sockets.Socket_Type);
+   end Instance;
 end Charlie.Handler;
