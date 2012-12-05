@@ -49,19 +49,19 @@ package body GNAT.Sockets.Convenience is
    begin
       return Server : Socket_Type do
          Create_Socket (Socket => Server,
-			Mode   => Mode);
-	 Set_Socket_Option (Socket => Server,
-			    Option => (Name    => Reuse_Address,
-				       Enabled => True));
-	 Bind_Socket (Socket  => Server,
-		      Address => (Family => Family_Inet,
-				  Addr   => Any_Inet_Address,
-				  Port   => Port));
+                        Mode   => Mode);
+         Set_Socket_Option (Socket => Server,
+                            Option => (Name    => Reuse_Address,
+                                       Enabled => True));
+         Bind_Socket (Socket  => Server,
+                      Address => (Family => Family_Inet,
+                                  Addr   => Any_Inet_Addr,
+                                  Port   => Port));
 
-	 if Mode = Socket_Stream then
-	    Listen_Socket (Socket => Server,
-			   Length => Queue_Length);
-	 end if;
+         if Mode = Socket_Stream then
+            Listen_Socket (Socket => Server,
+                           Length => Queue_Length);
+         end if;
       end return;
    end Make_Server;
 
@@ -70,13 +70,13 @@ package body GNAT.Sockets.Convenience is
    begin
       return Client : Socket_Type do
          Create_Socket (Socket => Client);
-	 Set_Socket_Option (Socket => Client,
-			    Option => (Name    => Reuse_Address,
-				       Enabled => True));
-	 Connect_Socket (Socket => Client,
-			 Server => (Family => Family_Inet,
-				    Addr   => To_IP_Address (Host),
-				    Port   => Port));
+         Set_Socket_Option (Socket => Client,
+                            Option => (Name    => Reuse_Address,
+                                       Enabled => True));
+         Connect_Socket (Socket => Client,
+                         Server => (Family => Family_Inet,
+                                    Addr   => To_IP_Address (Host),
+                                    Port   => Port));
       end return;
    end Connect_To_Server;
 end GNAT.Sockets.Convenience;
