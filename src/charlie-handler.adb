@@ -16,6 +16,9 @@
 -------------------------------------------------------------------------------
 
 with
+  Ada.IO_Exceptions,
+  Ada.Text_IO;
+with
   Charlie.Free_Handlers;
 
 package body Charlie.Handler is
@@ -32,12 +35,33 @@ package body Charlie.Handler is
             Socket := Client;
          end Serve;
 
-         raise Program_Error;
+         declare
+            use GNAT.Sockets;
+            Connection : Stream_Access := Stream (Socket);
+            Buffer     : Character;
+         begin
+            loop
+               Character'Read (Connection, Buffer);
+               Ada.Text_IO.Put (File => Ada.Text_IO.Standard_Output,
+                                Item => Buffer);
+            end loop;
+            -- TODO: Insert actual processing here.
+         exception
+            when Ada.IO_Exceptions.End_Error =>
+               Ada.Text_IO.Put_Line (File => Ada.Text_IO.Standard_Output,
+                                     Item => "<EOC>");
+               Close_Socket (Socket => Socket);
+            when others =>
+               raise;
+         end;
 
          Free_Handlers.Stack.Register (Pointer);
       end loop;
    exception
       when others =>
-         null; -- TODO: Log un-planned shutdown.
+         Ada.Text_IO.Put_Line
+           (File => Ada.Text_IO.Standard_Error,
+            Item => "Charlie.Handler.Instance: Task terminated by an " &
+                    "unhandled exception.");
    end Instance;
 end Charlie.Handler;
