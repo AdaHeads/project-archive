@@ -1,6 +1,6 @@
 include .config
 
-all: style-check generated/configuration.ads
+all: style-check generated/charlie-configuration.ads
 	mkdir -p bin obj
 	gnatmake $(GNATMAKE_ARGS) -P charlie
 
@@ -16,8 +16,9 @@ style-check:
 fix-style:
 	@egrep -l '	| $$' */*.ad? | egrep -v '^obj/' | xargs --no-run-if-empty perl -i -lpe 's/	/        /g; s/ +$$//'
 
-generated/configuration.ads:
+generated/charlie-configuration.ads:
 	mkdir -p generated
-	@echo 'package Configuration is'                       > generated/configuration.ads
-	@echo '   Port : constant Natural := "'${AGI_PORT}'";' >> generated/configuration.ads                                                   
-	@echo 'end Configuration;'                             >> generated/configuration.ads
+	@echo 'with GNAT.Sockets;'                                          >  generated/charlie-configuration.ads
+	@echo 'package Charlie.Configuration is'                            >> generated/charlie-configuration.ads
+	@echo '   Port : constant GNAT.Sockets.Port_Type := '${AGI_PORT}';' >> generated/charlie-configuration.ads                                                   
+	@echo 'end Charlie.Configuration;'                                  >> generated/charlie-configuration.ads

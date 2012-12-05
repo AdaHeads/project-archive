@@ -1,11 +1,9 @@
 --  O mighty Emacs, please use -*- Ada -*- mode in this lowly file.
 
-with "aws";
-
 project Charlie is
-   for Main use ("charlie");
+   for Main use ("charlie-server");
 
-   for Source_Dirs use ("src", "generated");
+   for Source_Dirs use ("src", "gnat-sockets-extras", "generated");
    for Object_Dir  use "obj";
    for Exec_Dir    use "bin";
 end Charlie;
