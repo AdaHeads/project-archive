@@ -16,12 +16,15 @@
 -------------------------------------------------------------------------------
 
 with
+  Ada.Characters.Latin_1,
   Ada.IO_Exceptions,
   Ada.Text_IO;
 with
   Charlie.Free_Handlers;
 
 package body Charlie.Handler is
+   package Latin_1 renames Ada.Characters.Latin_1;
+
    task body Instance is
       Pointer : Reference;
       Socket  : GNAT.Sockets.Socket_Type;
@@ -37,15 +40,78 @@ package body Charlie.Handler is
 
          declare
             use GNAT.Sockets;
-            Connection : Stream_Access := Stream (Socket);
-            Buffer     : Character;
+            Connection       : Stream_Access := Stream (Socket);
+            Buffer, Previous : Character := Latin_1.CR;
          begin
             loop
+               if Buffer /= Latin_1.CR then
+                  Previous := Buffer;
+               end if;
+
+               Character'Read (Connection, Buffer);
+               if Buffer = Latin_1.CR then
+                  Ada.Text_IO.Put (File => Ada.Text_IO.Standard_Output,
+                                   Item => "<CR>");
+               else
+                  Ada.Text_IO.Put (File => Ada.Text_IO.Standard_Output,
+                                   Item => Buffer);
+               end if;
+
+               exit when Previous = Latin_1.LF and then Buffer = Latin_1.LF;
+            end loop;
+
+            -- HANGUP virker:
+--              String'Write (Connection,
+--                            "HANGUP" & Latin_1.LF);
+
+            -- EXEC DIAL virker:
+--              String'Write (Connection,
+--                            "EXEC DIAL SIP/TL-Softphone" & Latin_1.LF);
+
+            String'Write (Connection,
+                          "ANSWER" & Latin_1.LF);
+            Ada.Text_IO.Put_Line ("> ANSWER");
+
+            String'Write (Connection,
+                          "SET EXTENSION 7001" & Latin_1.LF);
+            Ada.Text_IO.Put_Line ("> SET EXTENSION 7001");
+
+            String'Write (Connection,
+                          "SET PRIORITY 5" & Latin_1.LF);
+            Ada.Text_IO.Put_Line ("> SET PRIORITY 5");
+
+--              String'Write (Connection,
+--                            "SET EXTENSION ${EXTEN}" & Latin_1.LF);
+--              Ada.Text_IO.Put_Line ("> SET EXTENSION ${EXTEN}");
+--
+--  --              String'Write (Connection,
+--  --                            "SET MUSIC default" & Latin_1.LF);
+--  --              Ada.Text_IO.Put_Line ("> SET MUSIC default");
+--
+--  --              String'Write (Connection,
+--  --                            "SET VARIABLE CHANNEL(musicclass) default" & Latin_1.LF);
+--  --              Ada.Text_IO.Put_Line ("> SET VARIABLE CHANNEL(musicclass) default");
+--
+--              String'Write (Connection,
+--                            "EXEC QUEUE org_id1" & Latin_1.LF);
+--              Ada.Text_IO.Put_Line ("> EXEC QUEUE org_id1");
+--
+--              String'Write (Connection,
+--                            "HANGUP" & Latin_1.LF);
+--              Ada.Text_IO.Put_Line ("> HANGUP");
+
+            loop
+               Previous := Buffer;
                Character'Read (Connection, Buffer);
                Ada.Text_IO.Put (File => Ada.Text_IO.Standard_Output,
                                 Item => Buffer);
+
+               --exit when Buffer = Latin_1.LF;
             end loop;
+
             -- TODO: Insert actual processing here.
+
+            Close_Socket (Socket => Socket);
          exception
             when Ada.IO_Exceptions.End_Error =>
                Ada.Text_IO.Put_Line (File => Ada.Text_IO.Standard_Output,
