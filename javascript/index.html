@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Ugly Bob</title>
+    <link type="text/css" href="css/style.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="css/tabs.css"
+          type="text/css" media="screen" />
+    <link rel="stylesheet" href="css/tabs-panes.css"
+          type="text/css" media="screen" />
+
+
+    <script type="text/javascript" src="lib/js/jquery-1.8.0.js"></script> 
+    <script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>
+    <script type="text/javascript" src="js/AdaHeads.js"></script> 
+    <script type="text/javascript" src="js/Configuration.js"></script>
+    <script type="text/javascript" src="js/Initialize.js"></script>
+    <script type="text/javascript" src="js/System_Console.js"></script>
+
+    <!-- Panels --> 
+    <script type="text/javascript" src="js/Event_Panel.js"></script>
+    <script type="text/javascript" src="js/Call_Panel.js"></script>
+    <script type="text/javascript" src="js/Statistics_Panel.js"></script>
+    <script type="text/javascript" src="js/Event_Log.js"></script>
+    <script type="text/javascript" src="js/Status_Panel.js"></script>
+    <script type="text/javascript" src="js/Organization_Information_Panel.js"></script>
+    <script type="text/javascript" src="js/Organization_List.js"></script>
+
+    <script type="text/javascript" src="js/Protocol.js"></script>
+    <script type="text/javascript" src="js/Client_State.js"></script>
+    <script type="text/javascript" src="js/User_Interface_Utilities.js"></script>
+    <script type="text/javascript" src="js/Event_Handlers.js"></script>
+    <script type="text/javascript" src="js/Keyboard_Events.js"></script>
+    <script type="text/javascript" src="js/Click_Handlers.js"></script>
+
+    <!-- Initialize everything -->
+    <script>  $(document).ready(Initialize); </script>
+
+    <!--    <script>
+          $('html').click(function() {
+            //Hide the menus if visible
+            $("#PJSUA_Control").hide();
+          });
+    
+          
+        </script> -->
+  </head>
+  <body>
+    <div id="Container">
+      <div id="Header" style="min-height: 30px; background-color: #3d3d3d">
+        <div id="Account_Button"></div>
+      </div>
+
+      <div id="Left_Panel">
+        <!-- Various UI control buttons -->
+        <button class="iconbutton sip_connected" id="Call_Panel_Button" disabled="disabled"></button>
+        <script> 
+          $("#Call_Panel_Button").click( function () {
+            AdaHeads.Event_Panel.Hide();
+            AdaHeads.Statistics_Panel.Hide();
+            AdaHeads.Call_Panel.Show();
+            $("#Call_Panel_Button").attr("disabled", "disabled");
+            $("#Event_Panel_Button").removeAttr("disabled");
+            $("#Statistics_Panel_Button").removeAttr("disabled");
+          });
+        </script>
+
+        <br />
+        <button class="iconbutton events_icon" id="Event_Panel_Button"></button>
+        <script> 
+          $("#Event_Panel_Button").click( function () {
+            AdaHeads.Event_Panel.Show();
+            AdaHeads.Statistics_Panel.Hide();
+            AdaHeads.Call_Panel.Hide();
+            $("#Event_Panel_Button").attr("disabled", "disabled");
+            $("#Call_Panel_Button").removeAttr("disabled");
+            $("#Statistics_Panel_Button").removeAttr("disabled");
+          });
+        </script>
+        <br />
+        <button class="iconbutton statistics_icon" id="Statistics_Panel_Button"></button>
+        <script> 
+          $("#Statistics_Panel_Button").click( function () {
+            AdaHeads.Event_Panel.Hide();
+            AdaHeads.Statistics_Panel.Show();
+            AdaHeads.Call_Panel.Hide(); 
+            $("#Statistics_Panel_Button").attr("disabled", "disabled");
+            $("#Event_Panel_Button").removeAttr("disabled");
+            $("#Call_Panel_Button").removeAttr("disabled");
+          });
+        </script>
+      </div>
+      <div id="Left_Container" style="min-width: 60%;float: left; margin:1em">
+
+
+        <!-- 
+        ##################################################################
+        # Call Panel
+        ##################################################################
+        -->
+
+
+        <div id="Call_Panel">
+          <h1 id="Greeting">Velkommen til. Du ser godt ud i dag.</h1>
+          <div id="Organization_Widget">
+            <ul class="tabs">
+              <li><a id="Organization_Info_Button" href="#">Kundeinfo</a></li>
+              <li><a id ="Organization_Additional_Info_Button" href="#">Mere info</a></li>
+              <li><a id="Organization_Salesmen" href="#">S&aelig;lgere/Analyser</a></li>
+            </ul>
+
+            <!-- TODO: Make this into an autocomplete list-->
+            <select id="Organization_List">
+              <option value="1">Responsum</option>
+              <option value="2">AdaHeads</option>
+              <option value="3">Those Guys</option>
+              <option value="4">Bengt Burg Kommunikation</option>
+            </select>
+            <script>
+              $('#Organization_List').change(function () {
+                 
+                // The selected option value
+                org_id = $(this).find("option:selected").val();
+                AdaHeads.Organization_List.Fetch(org_id, 
+                AdaHeads.Organization_Information_Panel.Display);
+              });
+            </script>
+
+
+            <!-- tab "panes" -->
+            <div class="panes">
+
+              <!-- Panel 1-->
+              <div id="Organization_Information_Panel">
+                <span class="name">Firmanavn</span>
+                <span class="call_hours">Fuld tid</span>
+
+                <h2>Kalender</h2>
+                <div id="Organization_Calendar_Panel">
+                  <div style="cut-off"></div>
+
+                </div>
+              </div>
+
+              <!-- Panel 2-->
+              <div id="Organization_Additional_Information_Panel">
+                <h1>Mere info</h1>
+
+              </div>
+
+              <!-- Panel 3-->
+              <div id="Salesmen_Tab">
+                <h1>Sælgere/Analyser</h1>
+              </div>
+            </div>
+            <!-- Setup tabs -->
+            <script>
+              $(function() {
+                // setup ul.tabs to work as tabs for each div directly under div.panes
+                $("ul.tabs").tabs("div.panes > div");
+              });
+            </script>
+
+
+          </div>
+
+
+          <hr />
+          <div id="Organization_Contact_Panel" style="float: left; width: 50%; border: 1px solid #2b81af; min-height: 100px;">
+            <h2>Kontakter</h2>
+            <div id="search">
+              <input name="Contact_Search_Field" id="Contact_Search_Field" type="text" placeholder="Navn eller n&oslash;gleord..." autocomplete="off" />
+              <button type="submit" name="go" id="jq-searchGoButton"><span>Go</span></button>
+            </div>
+
+            <ul id="contacts"></ul>
+          </div>
+          <div id="Messages_Panel" style="float: left; width: 49%; border: 1px solid #2b81af; min-height: 100px;">
+            <h2>Beskeder</h2>
+          </div>
+        </div>
+
+        <!-- 
+        ##################################################################
+        # Event Panel
+        ##################################################################
+        -->
+        <div id="Event_Panel"  style="display: none">
+          <h4>Event log</h4>
+          <div id="Event_Log">
+          </div>
+        </div>
+
+        <!-- 
+        ##################################################################
+        # Statistics Panel
+        ##################################################################
+        -->
+
+        <div id="Statistics_Panel"  style="display: none">
+          <h4>Statistics</h4>
+          <div id="Statistics">
+          </div>
+        </div>
+      </div>
+
+      <div id="Side_Right"  >
+        <button id="Take_Call_Button">Tag kald (Alt+a)</button>
+        <script> $("#Take_Call_Button").click(AdaHeads_Take_Call_Button_Click);</script>
+        <button id="End_Call_Button" disabled="disabled">Slut kald (Alt+s)</button>
+        <script>$("#End_Call_Button").click(AdaHeads_End_Call_Button_Click); </script>
+        <ul id="Call_List"></ul>
+
+        <button id="Insert_Call">Insert Dummy Call</button>
+        <script>$("#Insert_Call").click(
+          function () {
+            var call = {call :{
+                arrival_time: 1343827055,
+                caller_id: "TP-Softphone",
+                call_id: "134382705",
+                channel: "SIP/TP-Softphone-000000a3",
+                org_id: 2}
+            }
+
+
+            Call_List.Add_Call(call);
+          }); </script>
+
+        <button id="Reload_Call_List">Reload Call List from server</button>
+        <script>$("#Reload_Call_List").click(
+          function () {
+            Call_List.Reload();
+          });
+        </script>
+
+
+        <button id="Fetch_Contact_Entity">Fetch_Contact_Entity</button>
+        <script>$("#Fetch_Contact_Entity").click(
+          function () {
+            AdaHeads.Organization_Information_Panel.Display({name : "Responsum", call_hours : "8-17"});
+
+            Contact_Entity_Database.Get_Contact_Entity(2);
+          });
+        </script>
+
+        <button id="Call_Queue2">Call Queue2</button>
+        <script>$("#Call_Queue2").click(function () {
+          Bob.Originate ("7001")
+        });
+          
+        </script>
+        <ul id="Status_Console" ></ul>
+
+
+        <div id="PJSUA_Control">
+          <h4>PJSUA Control</h4>  
+          <button id="PJSUA_Get_State">Forbind SIP klient</button>
+          <script> 
+            $("#PJSUA_Get_State").click(PJSUA_Update_UI);
+            $("#PJSUA_Control").hide();
+          </script>
+        </div>
+
+
+
+      </div><!-- .sidebar#sideRight -->
+      <div id="Status_Panel">
+        <div id="PSJUA_Status" class="sip_disconnected">
+          <script>
+            $("#PSJUA_Status").click(function() {
+              console.log("Handler for .click() called.");    
+              $("#PJSUA_Control").toggle();
+              event.stopPropagation();
+            });
+          </script>
+        </div>
+        <div id="Websocket_Status"></div>
+      </div>
+
+    </div> <!-- container -->
+    <!-- TODO: Add global click_handler_attach .js file -->
+  </body>
+</html>
+
+

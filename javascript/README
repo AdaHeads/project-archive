@@ -1,0 +1,9 @@
+Bob - Built On Badness
+
+## Description
+Bob is a JavaScript/HTML5 client designed for the receptionists in the system.
+
+## Build instructions
+These are not build instructions you are looking for..
+Seriously - everything is JavaScript and HTML5; just deploy it on anything that can 
+serve flat files (over HTTP)
