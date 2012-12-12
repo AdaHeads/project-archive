@@ -9,6 +9,18 @@ AdaHeads.Alice_Server = function (type) {
     return this.URI + ' ' + this.type + ' AdaHeads_Alice_Server';
   };
    
+   
+   this.Originate = function (extension,success_handler, error_handler) {
+    AdaHeads.Log(Log_Level.Debug,"GET:"+ this.URI+Alice_Protocol.Originate_Call 
+      +'?agent_id='+Configuration.SIP_Username+"&extension="+extension);
+    $.getJSON(
+      this.URI+Alice_Protocol.Originate_Call 
+      +'?agent_id='+Configuration.SIP_Username+"&extension="+extension)
+    .success (success_handler)
+    .error (function (data) {
+      error_handler ($.parseJSON(data.responseText));
+    })
+   };
   
   /* Pickup the next call in the queue, regardless of id. Synchronously!
    * returns the org_id or false on error */
@@ -18,17 +30,9 @@ AdaHeads.Alice_Server = function (type) {
     $.ajax({
       type: 'GET',
       url: this.URI+Alice_Protocol.Answer_Call_Handler
-      +'?agent='+Configuration.SIP_Username,
+      +'?agent_id='+Configuration.SIP_Username,
       dataType: 'json',
-      success: function(data) {
-        if (data.length === 0 || data === undefined) {
-          AdaHeads.Log(Log_Level.Error,"No organization received!");
-          error_callback();
-        } else {
-            success_callback(data);
-        };
-        // if everything is ok return 
-      },
+      success: success_callback,
       error: error_callback
     });
   }
@@ -47,15 +51,18 @@ AdaHeads.Alice_Server = function (type) {
    * Hangup the current call.
    */
   this.Hangup_Call = function(success_handler, error_handler) {
-    AdaHeads.Log(Log_Level.Debug,"GET:"+ this.URI+Alice_Protocol.Hangup_Call +'?agent='+Configuration.SIP_Username);
-    $.ajax({
-      type: 'GET',
-      url: this.URI+Alice_Protocol.Hangup_Call 
-      +'?agent='+Configuration.SIP_Username,
-      dataType: 'json',
-      success: success_handler,
-      error: error_handler});
-  }
+        console.log("Bobs current call:"); 
+        console.log(Bob.Current_Call);     
+    AdaHeads.Log(Log_Level.Debug,"GET:"+ this.URI+Alice_Protocol.Hangup_Call 
+      +'?agent='+Configuration.SIP_Username+"&call_id="+Bob.Current_Call);
+    $.getJSON(
+      this.URI+Alice_Protocol.Hangup_Call 
+      +'?agent='+Configuration.SIP_Username+"&call_id="+Bob.Current_Call)
+    .success (success_handler)
+    .error (function (data) {
+      error_handler ($.parseJSON(data.responseText));
+    })
+  };
 
 
   this.Ping = function (){

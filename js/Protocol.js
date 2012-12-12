@@ -14,13 +14,13 @@ var Alice_Protocol = {
   Get_Organization      : "get/organization",
   
   /* Call Related */
-  Get_Queue_Handler     : "call/list.json",
+  Get_Queue_Handler     : "call/list",
   Park_Call             : "call/park",
   Hangup_Call           : "call/hangup",
   Unpark_Call           : "call/unpark",
-  Answer_Call_Handler   : "call.json",
+  Answer_Call_Handler   : "call/pickup",
   Hangup_Call_Handler   : "call/hangup",
-  Originate_Call        : "call/orignate"
+  Originate_Call        : "call/originate"
 }
 
 var PJSUA_HTTPD_Protocol = {

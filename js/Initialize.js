@@ -31,7 +31,7 @@ function Initialize () {
   Notification_Socket = new WebSocket_Class(Configuration.Websocket.URI);
   
   // Bind the observers
-  Notification_Socket.bind("call_arrived", function (notification) {
+  Notification_Socket.bind("new_call", function (notification) {
     Call_List.Add_Call(notification.call);
     AdaHeads.Event_Log.Log("New Call arrived from "+ notification.call.caller_id);
   });
@@ -62,6 +62,7 @@ Notification_Socket.bind("Disconnected", function (notification) {
 
   AdaHeads.View_Observers.Attach(Call_List);
   
+  AdaHeads.Organization_List.Fetch("7001", console.log);
     
   PJSUA_Client.Ping();
   PJSUA_Client.Get_State();

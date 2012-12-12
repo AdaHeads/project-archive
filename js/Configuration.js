@@ -8,8 +8,7 @@ AdaHeads.require_script('js/Classes/PJSUA_HTTPD.js');
 
 /* Global configuration */
 var Configuration =  {
-  
-
+  Current_Call : null,
   Standard_Greeting : "Velkommen til ",
 
   /* Use the queue polling feature */
@@ -22,18 +21,22 @@ var Configuration =  {
   /* How much information is written to the console */
   Debug_Enabled : true,
 
+  /* Agent identification */ 
+  Agent_ID : '1',
+
   /* Our SIP registration server */
   SIP_PBX : 'asterisk1.adaheads.com',
   
   /* SIP registration username */
-  SIP_Username : 'softphone1',
+  SIP_Username : '1',
   
   /* SIP registration password */
   SIP_Password : '12345',
   
   /* Alice server URI */
   //Alice_URI : "http://alice.adaheads.com:4242/",
-  Alice_URI : "http://bob.adaheads.com/static-json/",
+  //Alice_URI : "http://bob.adaheads.com/static-json/",
+  Alice_URI : "http://localhost:4242/",
   
   /* The control interface for the PSJUA SIP component */
   PJSUA_HTTPD_URI : "http://localhost:30200",
@@ -47,8 +50,8 @@ var Configuration =  {
   
   /* Websocket configuration */
   Websocket : {
-    //URI : "ws://192.168.2.145:4242/notifications",
-    URI : "ws://127.0.0.1:9300",
+    URI : "ws://localhost:4242/notifications",
+    //URI : "ws://127.0.0.1:9300",
     Reconnect : true,
     Reconnect_Interval : 1000
   },

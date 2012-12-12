@@ -5,12 +5,11 @@
     <title>Ugly Bob</title>
     <link type="text/css" href="css/style.css" rel="stylesheet" />
 
-    <link type="text/css" href="css/cutoff.css" rel="stylesheet" />
-
     <link rel="stylesheet" href="css/tabs.css"
           type="text/css" media="screen" />
     <link rel="stylesheet" href="css/tabs-panes.css"
           type="text/css" media="screen" />
+
 
     <script type="text/javascript" src="lib/js/jquery-1.8.0.js"></script> 
     <script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>
@@ -26,6 +25,7 @@
     <script type="text/javascript" src="js/Event_Log.js"></script>
     <script type="text/javascript" src="js/Status_Panel.js"></script>
     <script type="text/javascript" src="js/Organization_Information_Panel.js"></script>
+    <script type="text/javascript" src="js/Organization_List.js"></script>
 
     <script type="text/javascript" src="js/Protocol.js"></script>
     <script type="text/javascript" src="js/Client_State.js"></script>
@@ -37,14 +37,14 @@
     <!-- Initialize everything -->
     <script>  $(document).ready(Initialize); </script>
 
-<!--    <script>
-      $('html').click(function() {
-        //Hide the menus if visible
-        $("#PJSUA_Control").hide();
-      });
-
-      
-    </script> -->
+    <!--    <script>
+          $('html').click(function() {
+            //Hide the menus if visible
+            $("#PJSUA_Control").hide();
+          });
+    
+          
+        </script> -->
   </head>
   <body>
     <div id="Container">
@@ -93,6 +93,7 @@
       </div>
       <div id="Left_Container" style="min-width: 60%;float: left; margin:1em">
 
+
         <!-- 
         ##################################################################
         # Call Panel
@@ -116,6 +117,16 @@
               <option value="3">Those Guys</option>
               <option value="4">Bengt Burg Kommunikation</option>
             </select>
+            <script>
+              $('#Organization_List').change(function () {
+                 
+                // The selected option value
+                org_id = $(this).find("option:selected").val();
+                AdaHeads.Organization_List.Fetch(org_id, 
+                AdaHeads.Organization_Information_Panel.Display);
+              });
+            </script>
+
 
             <!-- tab "panes" -->
             <div class="panes">
@@ -227,10 +238,17 @@
         <button id="Fetch_Contact_Entity">Fetch_Contact_Entity</button>
         <script>$("#Fetch_Contact_Entity").click(
           function () {
-              AdaHeads.Organization_Information_Panel.Display({name : "Responsum", call_hours : "8-17"});
+            AdaHeads.Organization_Information_Panel.Display({name : "Responsum", call_hours : "8-17"});
 
-Contact_Entity_Database.Get_Contact_Entity(2);
+            Contact_Entity_Database.Get_Contact_Entity(2);
           });
+        </script>
+
+        <button id="Call_Queue2">Call Queue2</button>
+        <script>$("#Call_Queue2").click(function () {
+          Bob.Originate ("7001")
+        });
+          
         </script>
         <ul id="Status_Console" ></ul>
 

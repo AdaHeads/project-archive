@@ -12,13 +12,16 @@ AdaHeads.View_Observers.Attach = function (Call_List) {
    */
   var Call_List_Add_View_Observer = new Observer_Class( "Call_List_Add_View_Observer", function (call) {
     
-    if($("#call_id_"+call.call_id).length === 0) {
-      var li = $("<li>").text(call.caller_id);
-    
+    if($("#call_id_"+call.arrival_time).length === 0) {
+      //var org_id = call.org_id.replace(/["org_id"]/g,"");
+      AdaHeads.Organization_List.Fetch(call.org_id, function (org) {
+        var li = $("<li>").text(org.name);
 
-      li.attr("id","call_id_"+call.call_id).hide();    
-      li.appendTo("#Call_List");
-      li.slideDown();
+        li.attr("id","call_id_"+call.call_id.replace(/[.]/g, "")).hide();    
+        li.appendTo("#Call_List");
+        li.slideDown();
+      });
+      
     }
   });
 
@@ -26,8 +29,10 @@ AdaHeads.View_Observers.Attach = function (Call_List) {
    * Removes a call from UI call list
    */
   var Call_List_Remove_View_Observer = new Observer_Class( "Call_List_Remove_View_Observer", function (call) {
-    $("#call_id_"+call.call_id).slideUp(200,this.remove);
-    
+    console.log("Removing");
+    console.log(call);
+    $("#call_id_"+call.call_id.replace(/[.]/g, "")).slideUp(200,this.remove);
+
   });
 
  /**

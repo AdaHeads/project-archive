@@ -49,7 +49,7 @@ AdaHeads.indexedDB.open = function() {
 AdaHeads.indexedDB.Add_Contact_Entity = function(ce) {
   console.log(AdaHeads.indexedDB.db);
   var db = AdaHeads.indexedDB.db;
-  var trans = db.transaction(["Contact_Entity"], IDBTransaction.READ_WRITE);
+  var trans = db.transaction(["Contact_Entity"], "readwrite");
   var store = trans.objectStore("Contact_Entities");
 
   var request = store.put(ce);

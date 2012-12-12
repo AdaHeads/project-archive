@@ -27,7 +27,6 @@ function Local_Database_Class(Database_Configuration) {
   this.open = function() {
     request = indexedDB.open(DB_Configuration.Database_Name, DB_Configuration.Version );
     request.onsuccess = function(e) {
-      READ_WRITE = IDBTransaction.READ_WRITE;
       dbHandle.indexedDB.db = e.target.result;
       var db = dbHandle.indexedDB.db;
       // We can only create Object stores in a setVersion transaction;
@@ -68,7 +67,7 @@ function Local_Database_Class(Database_Configuration) {
 
   this.Add_Object = function(Object, Store_Name) {
     var db = dbHandle.indexedDB.db;
-    var trans = db.transaction([Store_Name], READ_WRITE);
+    var trans = db.transaction([Store_Name], "readwrite");
     var store = trans.objectStore(Store_Name);
     var request = store.put(Object);
     request.onsuccess = function(e) {
@@ -89,7 +88,7 @@ function Local_Database_Class(Database_Configuration) {
    */
   this.Remove_Object = function(Object_ID, Store_Name) {
     var db = dbHandle.indexedDB.db;
-    var trans = db.transaction(Store_Name, READ_WRITE);
+    var trans = db.transaction(Store_Name, "readwrite");
     var store = trans.objectStore(Store_Name);
     console.log("Deleting: "+Object_ID);
     var request = store.delete(Object_ID);
@@ -107,7 +106,7 @@ function Local_Database_Class(Database_Configuration) {
 
   this.Get_Object = function(Store_Name, id, callback) {
     var db = dbHandle.indexedDB.db;
-    var trans = db.transaction([Store_Name],IDBTransaction.READ_WRITE);
+    var trans = db.transaction([Store_Name], "readonly");
     var getRequest = trans.objectStore(Store_Name).get(id);
     getRequest.onsuccess = function(e) {
       var obj = e.target.result;

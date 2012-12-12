@@ -15,12 +15,15 @@ AdaHeads.Bob_Client = function (Alice_Server) {
     Alice.Ping();
     
     this.Take_Next_call = function (success_handler, error_handler) {
-        call = Alice.Get_Next_Call(success_handler, error_handler);
-  
+        Alice.Get_Next_Call(success_handler, error_handler);
     }
     
     this.Take_Specific_call = function () {
         
+    }
+    
+    this.Originate = function (extension,success_handler, error_handler) {
+      Alice.Originate (extension, success_handler, error_handler);
     }
 
     /**
