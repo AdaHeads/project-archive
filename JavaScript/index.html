@@ -43,7 +43,6 @@
             $("#PJSUA_Control").hide();
           });
     
-          
         </script> -->
   </head>
   <body>
@@ -205,51 +204,39 @@
         </div>
       </div>
 
-      <div id="Side_Right"  >
+      <div id="Side_Right">
+
+        <h4 id="Current_Call"></h4>
         <button id="Take_Call_Button">Tag kald (Alt+a)</button>
         <script> $("#Take_Call_Button").click(AdaHeads_Take_Call_Button_Click);</script>
-        <button id="End_Call_Button" disabled="disabled">Slut kald (Alt+s)</button>
-        <script>$("#End_Call_Button").click(AdaHeads_End_Call_Button_Click); </script>
+        <h4>Opkald</h4>
         <ul id="Call_List"></ul>
+        <h4>Parkeret</h4>
+        <ul id="Parked_List"></ul>
 
-        <button id="Insert_Call">Insert Dummy Call</button>
-        <script>$("#Insert_Call").click(
-          function () {
-            var call = {call :{
-                arrival_time: 1343827055,
-                caller_id: "TP-Softphone",
-                call_id: "134382705",
-                channel: "SIP/TP-Softphone-000000a3",
-                org_id: 2}
-            }
-
-
-            Call_List.Add_Call(call);
-          }); </script>
-
-        <button id="Reload_Call_List">Reload Call List from server</button>
-        <script>$("#Reload_Call_List").click(
-          function () {
-            Call_List.Reload();
+        <!--        <button id="Reload_Call_List">Reload Call List from server</button>
+                <script>$("#Reload_Call_List").click(
+                  function () {
+                    Call_List.Reload();
+                  });
+                </script>
+        
+        
+                <button id="Fetch_Contact_Entity">Fetch_Contact_Entity</button>
+                <script>$("#Fetch_Contact_Entity").click(
+                  function () {
+                    AdaHeads.Organization_Information_Panel.Display({name : "Responsum", call_hours : "8-17"});
+        
+                    Contact_Entity_Database.Get_Contact_Entity(2);
+                  });
+                </script>
+        -->
+        <button id="Call_Kim">Call Kim</button>
+        <script>$("#Call_Kim").click(function () {
+            Bob.Originate ("40966024");
           });
         </script>
-
-
-        <button id="Fetch_Contact_Entity">Fetch_Contact_Entity</button>
-        <script>$("#Fetch_Contact_Entity").click(
-          function () {
-            AdaHeads.Organization_Information_Panel.Display({name : "Responsum", call_hours : "8-17"});
-
-            Contact_Entity_Database.Get_Contact_Entity(2);
-          });
-        </script>
-
-        <button id="Call_Queue2">Call Queue2</button>
-        <script>$("#Call_Queue2").click(function () {
-          Bob.Originate ("7001")
-        });
-          
-        </script>
+        <h4>Statuskonsol</h4>
         <ul id="Status_Console" ></ul>
 
 

@@ -5,6 +5,10 @@ var Client_State = Object.freeze({
     Auto:    "Auto"
 });
 
+AdaHeads.Bob = {};
+
+AdaHeads.Bob.Current_Call = {}; 
+
 AdaHeads.Bob_Client = function (Alice_Server) {
     var Alice = Alice_Server;
     var Next_State;
@@ -13,7 +17,7 @@ AdaHeads.Bob_Client = function (Alice_Server) {
     this.Current_Call = null;
     
     Alice.Ping();
-    
+     
     this.Take_Next_call = function (success_handler, error_handler) {
         Alice.Get_Next_Call(success_handler, error_handler);
     }

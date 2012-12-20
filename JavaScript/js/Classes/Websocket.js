@@ -21,7 +21,7 @@ function WebSocket_Class (url) {
     // dispatch to the right handlers
     this.conn.onmessage = function(evt){
       var data = JSON.parse(evt.data);
-
+      console.log(data);
       console.log("Dispatching to "+data.notification.event);
       console.log(data.notification);
       

@@ -21,14 +21,14 @@ var Configuration =  {
   /* How much information is written to the console */
   Debug_Enabled : true,
 
-  /* Agent identification */ 
-  Agent_ID : '1',
+  /* Agent identification, TODO: Make dynamic*/ 
+  Agent_ID : 1,
 
   /* Our SIP registration server */
   SIP_PBX : 'asterisk1.adaheads.com',
   
   /* SIP registration username */
-  SIP_Username : '1',
+  SIP_Username : 1,
   
   /* SIP registration password */
   SIP_Password : '12345',
@@ -62,11 +62,7 @@ var Configuration =  {
   
   Event_Log : {
     Max_Items: 20
-  },
-  
-  // TODO: Implement these dynamic
-  
-  Agent_ID : this.SIP_Username
+  }
 }
 
 /**

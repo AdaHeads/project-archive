@@ -126,6 +126,7 @@
 }
 
 #Side_Right {
+  padding: 10px;
   float: right; 
   width: 30%; 
   background-color: #eaeaea; 
@@ -180,7 +181,7 @@
   min-height: 32px;
   min-width: 32px;
   background-image: url('../img/spinner.gif');
-  background-repeat: none;
+  background-repeat: no-repeat;
 }
 
 .connected{
