@@ -4,9 +4,7 @@
 * The corresponding UI elements
 */
 function AdaHeads_Take_Call(id) {
-  
 
- 
   // Update the UI
   Hide_Call_List();
   Search_Field_Unhide();

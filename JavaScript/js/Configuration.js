@@ -1,7 +1,4 @@
 /* Load the required files */
-AdaHeads.require_script('js/Log_Subsystem.js');
-AdaHeads.require_script('js/Classes/Alice.js');
-AdaHeads.require_script('js/Classes/Bob.js');
 
 AdaHeads.require_script('js/Classes/Observer.js');
 AdaHeads.require_script('js/Classes/PJSUA_HTTPD.js');
@@ -102,9 +99,8 @@ var Notification_Socket;
 var Local_Database = {};
 var Contact_Entity_Database = {};
 var Call_Queue = {};
-var Alice_Server = new AdaHeads.Alice_Server();
 var PJSUA_Client =  new PJSUA_HTTPD_Class();
-var Bob = new AdaHeads.Bob_Client(Alice_Server);
+var Bob = new AdaHeads.Bob_Client();
 
 // Enable CORS
 jQuery.support.cors = true;

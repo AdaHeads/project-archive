@@ -3,9 +3,11 @@
  * Protocol definitions for the Alice data server
  */
 
-var Alice_Protocol = {
+AdaHeads.Protocol = {}; // Namespace declatation.
+
+
+AdaHeads.Protocol.Alice = {
   /* Client */
-  
   
   Get_Org_Contacts      : "get/organization_contacts",
   Get_Org_Contacts_Full : "get/organization_contacts_full",
@@ -14,20 +16,18 @@ var Alice_Protocol = {
   Get_Organization      : "get/organization",
   
   /* Call Related */
-  Get_Queue_Handler     : "call/list",
+  Get_Queue             : "call/queue",
   Park_Call             : "call/park",
   Hangup_Call           : "call/hangup",
   Unpark_Call           : "call/unpark",
-  Answer_Call_Handler   : "call/pickup",
-  Hangup_Call_Handler   : "call/hangup",
+  Pickup_Call           : "call/pickup",
   Originate_Call        : "call/originate"
 }
 
-var PJSUA_HTTPD_Protocol = {
-  Ping        : "/ping",
-  Add_Account : "/add_account",
+AdaHeads.Protocol.PJSUA_HTTPD = {
+  Ping              : "/ping",
+  Add_Account       : "/add_account",
   Get_Account_State : "/get_account_state",
-  Get_State   : "/get_state"
-  
+  Get_State         : "/get_state"
 }
 

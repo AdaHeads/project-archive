@@ -1,3 +1,5 @@
+"use strict";
+
 var Client_State = Object.freeze({
     In_Call: "In_Call",
     Pause:   "Pause",
@@ -9,33 +11,11 @@ AdaHeads.Bob = {};
 
 AdaHeads.Bob.Current_Call = {}; 
 
-AdaHeads.Bob_Client = function (Alice_Server) {
-    var Alice = Alice_Server;
+AdaHeads.Bob_Client = function () {
     var Next_State;
     this.Current_State = Client_State.Idle;
     this.Next_State = null;
     this.Current_Call = null;
-    
-    Alice.Ping();
-     
-    this.Take_Next_call = function (success_handler, error_handler) {
-        Alice.Get_Next_Call(success_handler, error_handler);
-    }
-    
-    this.Take_Specific_call = function () {
-        
-    }
-    
-    this.Originate = function (extension,success_handler, error_handler) {
-      Alice.Originate (extension, success_handler, error_handler);
-    }
-
-    /**
-     * Ends the current call
-     */
-    this.End_Call = function(success_handler, error_handler) {
-        Alice.Hangup_Call(success_handler, error_handler);
-    }
 
     // Primitive state machine, controlling the behavior of the client
     this.Change_State = function (new_state) {

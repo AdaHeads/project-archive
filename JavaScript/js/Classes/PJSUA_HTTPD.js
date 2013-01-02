@@ -11,10 +11,11 @@ function PJSUA_HTTPD_Class (type) {
  
 
   this.Ping = function() {
-    AdaHeads.Log(Log_Level.Debug,"GET: "+ this.URI+PJSUA_HTTPD_Protocol.Ping);
+    url = this.URI+AdaHeads.Protocol.PJSUA_HTTPD.Ping;
+    AdaHeads.Log(Log_Level.Debug,"GET: "+ url);
     $.ajax({
       type: 'GET',
-      url: this.URI+PJSUA_HTTPD_Protocol.Ping,
+      url: url,
       dataType: 'json',
       success: function(data) {
         if (data.length === 0 || data === undefined) {
@@ -39,11 +40,11 @@ function PJSUA_HTTPD_Class (type) {
    */
   this.Get_State = function() {
     return_string = "AJAX_ERROR";
-    AdaHeads.Log(Log_Level.Debug,"GET: "+ 
-      this.URI+PJSUA_HTTPD_Protocol.Get_State);
+    url = this.URI+AdaHeads.Protocol.PJSUA_HTTPD.Get_State;
+    AdaHeads.Log(Log_Level.Debug,"GET: "+ url );
     $.ajax({
       type: 'GET',
-      url: this.URI+PJSUA_HTTPD_Protocol.Get_State,
+      url: url,
       dataType: 'json',
       success: function(data) {
         if (data.length === 0 || data === undefined) {
@@ -60,11 +61,11 @@ function PJSUA_HTTPD_Class (type) {
   
   this.Get_Account_State = function() {
     return_object = undefined;
-    AdaHeads.Log(Log_Level.Debug,"GET: "+ 
-      this.URI+PJSUA_HTTPD_Protocol.Get_Account_State);
+    url = this.URI+AdaHeads.Protocol.PJSUA_HTTPD.Get_Account_State
+    AdaHeads.Log(Log_Level.Debug,"GET: "+ url);
     $.ajax({
       type: 'GET',
-      url: this.URI+PJSUA_HTTPD_Protocol.Get_Account_State,
+      url: url,
       dataType: 'json',
       success: function(data) {
         return_object = data;
@@ -81,17 +82,15 @@ function PJSUA_HTTPD_Class (type) {
   }
   
   this.Add_Account = function(SIP_Account) {
-    AdaHeads.Log(Log_Level.Debug,"GET: "+ 
-      this.URI+PJSUA_HTTPD_Protocol.Add_Account
+    url = this.URI+AdaHeads.Protocol.PJSUA_HTTPD.Add_Account
       +"?domain="+SIP_Account.Domain
       +"&username="+SIP_Account.Username
-      +"&password="+SIP_Account.Password);
+      +"&password="+SIP_Account.Password;
+    
+    AdaHeads.Log(Log_Level.Debug,"GET: "+ url);
     $.ajax({
       type: 'GET',
-      url: this.URI+PJSUA_HTTPD_Protocol.Add_Account
-      +"?domain="+SIP_Account.Domain
-      +"&username="+SIP_Account.Username
-      +"&password="+SIP_Account.Password,
+      url: url1,
       dataType: 'json',
       success: function(data) {
         if (data.length === 0 || data === undefined) {

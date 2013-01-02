@@ -1,5 +1,5 @@
 /**
- * Data model of the Call Queue
+ * Data model of a Call List
  * 
  * TODO: 
  *  - Add an event queue to handle sync between the server and to eliminate
@@ -65,6 +65,7 @@ function Call_List_Class (Database_Connection,Store_Name) {
    * @param call The call object to remove from the database
    */
   this.Remove_Call = function(call) {
+    Calls.remove (call);
     //DB_Handle.Remove_Object(call.call_id,DB_Store);
     notify("Remove_Call",call); // This really should be a dynamic name instead
   };
