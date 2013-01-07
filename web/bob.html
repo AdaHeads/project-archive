@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Bob</title>
+    <link rel="stylesheet" href="css/bob.css?v=1">
+    <link rel="stylesheet" href="css/keyframes.css?v=1">
+  </head>
+  <body>
+    <div id="rootView">
+      <ul id="navigation">
+        <li>
+          <button id="button1" class="notactivated">1</button>
+        </li>
+        <li>
+          <button id="button2" class="notactivated">2</button>
+        </li>
+        <li>
+          <button id="button3" class="notactivated">3</button>
+        </li>
+        <li>
+          <button id="button4" class="notactivated">4</button>
+        </li>
+      </ul>
+      <div id="welcomeMessage" class="window">
+        <div id="welcomeMessage_body" class="window_body"></div>
+      </div>
+      <div id="agentInfo" class="window">
+        <h1 id="agentInfo_header" class="window_header"></h1>
+        <div id="agentInfo_body" class="window_body"></div>
+      </div>
+      <div id="companyInfo" class="window">
+        <h1 id="companyInfo_header" class="window_header"></h1>
+        <div id="companyInfo_body" class="window_body">
+          <select id="companyInfo_select" class=""></select>
+          <div id="companyInfo_name"></div>
+        </div>
+      </div>
+      <div id="contactInfo" class="window">
+        <h1 id="contactInfo_header" class="window_header"></h1>
+        <div id="contactInfo_body" class="window_body"></div>
+      </div>
+      <div id="sendMessage" class="window">
+        <h1 id="sendMessage_header" class="window_header"></h1>
+        <div id="sendMessage_body" class="window_body"></div>
+      </div>
+      <div id="globalQueue" class="window">
+        <h1 id="globalQueue_header" class="window_header"></h1>
+        <div id="globalQueue_body" class="window_body"></div>
+      </div>
+      <div id="localQueue" class="window">
+        <h1 id="localQueue_header" class="window_header"></h1>
+        <div id="localQueue_body" class="window_body"></div>
+      </div>
+      <div id="overlay" class="window">
+        <h1 id="overlay_header" class="window_header"></h1>
+        <div id="overlay_body" class="window_body"></div>
+      </div>
+    </div>
+    <script type="application/dart" src="dart/bob.dart"></script>
+    <script src="https://dart.googlecode.com/svn/branches/bleeding_edge/dart/client/dart.js"></script>
+  </body>
+</html>
