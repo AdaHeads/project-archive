@@ -1,0 +1,9 @@
+# Do not track package symlink
+packages
+
+# Do not track emacs temporary and backup files
+\#*#
+*~
+
+# Do not track Nano temporary files
+.#*#
