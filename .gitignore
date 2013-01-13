@@ -1,6 +1,5 @@
-# Only track the top-level packages directory
-*packages
-!packages/
+# Don't track packages
+packages
 
 # Do not track emacs temporary and backup files
 \#*#
