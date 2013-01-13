@@ -1,6 +1,5 @@
 name:  Bob
 description:  A receptionist tool for handling calls.
 
-#dependencies:
-#  js: any
-#  unittest: any
+dependencies:
+  browser: any
