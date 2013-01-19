@@ -1,8 +1,9 @@
 file:///home/thomas/dart/bob/web/dart/bob.dart
 file:///home/thomas/dart/bob/web/dart/organization.dart
 file:///home/thomas/dart/bob/web/dart/organizations_list.dart
+file:///home/thomas/dart/bob/web/dart/utils.dart
+file:///home/thomas/dart/bob/web/dart/view.welcomeMessage.dart
 file:///home/thomas/dart/bob/web/dart/widget.dart
-file:///home/thomas/dart/bob/web/dart/widget.utils.dart
 file:///home/thomas/dart/dart-sdk/lib/_internal/compiler/implementation/lib/constant_map.dart
 file:///home/thomas/dart/dart-sdk/lib/_internal/compiler/implementation/lib/core_patch.dart
 file:///home/thomas/dart/dart-sdk/lib/_internal/compiler/implementation/lib/foreign_helper.dart

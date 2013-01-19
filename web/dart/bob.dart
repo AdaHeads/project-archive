@@ -4,122 +4,75 @@ import 'dart:json';
 import 'widget.dart' as widget;
 import 'organization.dart';
 import 'organizations_list.dart';
+import 'view.welcomeMessage.dart';
 
 void main() {
-  final String       id = '#rootView';
+  DivElement         rootView = query('#rootView');
+
   Organization       org = new Organization();
   Organizations_List orgs_list = new Organizations_List();
-  Map                widgets = new Map<String, widget.UIWidget>();
 
-  widgets['welcomeMessage'] = new widget.Window('welcomeMessage', (String json)
-    {
-      widgets['welcomeMessage'].body = json;
-    })
-      ..position = 'absolute'
-      ..top = '0%'
-      ..left = '6%'
-      ..height = '15%'
-      ..width = '70%'
-      ..body = 'velkomst...';
-  org.registerGreetingSubscriber(widgets['welcomeMessage']);
+  widget.Navigation  navigation;
+  widget.Selector    companySelector;
+  Map                windows = new Map<String, widget.Window>();
 
-  widgets['agentInfo'] = new widget.Window('agentInfo', null)
-    ..position = 'absolute'
-    ..top = '0%'
-    ..left = '77%'
-    ..height = '15%'
-    ..width = '23%'
+  final WelcomeMessage welcomeMessage = new WelcomeMessage();
+
+  windows['agentInfo'] = new widget.Window('agentInfo', null)
     ..header = 'Agenter'
     ..body = 'agentInfo';
 
-  widgets['companyInfo'] = new widget.Window('companyInfo', (String json)
+  windows['companyInfo'] = new widget.Window('companyInfo', (Map json)
     {
-      query('#companyInfo_name').text = json;
-      widgets['companyInfo'].header = JSON.parse(json)['full_name'];
+      query('#companyInfo_dump').text = json.toString();
+      windows['companyInfo'].header = json['full_name'];
     })
-      ..position = 'absolute'
-      ..top = '17%'
-      ..left = '6%'
-      ..height = '45%'
-      ..width = '94%'
       ..header = 'Virksomhed';
-  org.registerSubscriber(widgets['companyInfo']);
+  org.registerSubscriber(windows['companyInfo']);
 
-  widgets['companyInfo_select'] = new widget.Selector('companyInfo_select', (String json)
-    {
-      JSON.parse(json)['organization_list'].forEach((v)
-        {
-          widgets['companyInfo_select'].addOption(v['organization_id'].toString(), v['full_name']);
-        });
-    });
-  orgs_list.registerSubscriber(widgets['companyInfo_select']);
-  query('#companyInfo_select').on.change.add((e) {
-    SelectElement select = query('#companyInfo_select');
-    org.fetch(parseInt(select.value));
-  });
-
-  widgets['contactInfo'] = new widget.Window('contactInfo', null)
-    ..position = 'absolute'
-    ..top = '64%'
-    ..left = '6%'
-    ..height = '36%'
-    ..width = '35%'
+  windows['contactInfo'] = new widget.Window('contactInfo', null)
     ..header = 'Medarbejdere'
     ..body = 'contactInfo';
 
-  widgets['sendMessage'] = new widget.Window('sendMessage', null)
-    ..position = 'absolute'
-    ..top = '64%'
-    ..left = '42%'
-    ..height = '36%'
-    ..width = '35%'
+  windows['sendMessage'] = new widget.Window('sendMessage', null)
     ..header = 'Besked'
     ..body = 'sendMessage';
 
-  widgets['globalQueue'] = new widget.Window('globalQueue', null)
-  ..position = 'absolute'
-  ..top = '64%'
-  ..left = '78%'
-  ..height = '20%'
-  ..width = '22%'
+  windows['globalQueue'] = new widget.Window('globalQueue', null)
   ..header = 'Kald'
   ..body = 'globalQueue';
 
-  widgets['localQueue'] = new widget.Window('localQueue', null)
-    ..position = 'absolute'
-    ..top = '86%'
-    ..left = '78%'
-    ..height = '14%'
-    ..width = '22%'
+  windows['localQueue'] = new widget.Window('localQueue', null)
     ..header = 'Lokal kø'
     ..body = 'localQueue';
 
-  widgets['overlay'] = new widget.Window('overlay', null)
-    ..position = 'absolute'
-    ..top = '0%'
-    ..left = '6%'
-    ..height = '100%'
-    ..width = '94%'
+  windows['overlay'] = new widget.Window('overlay', null)
     ..header = 'Overlay'
     //..body = 'overlay'
     ..hide();
 
-  widgets['navigation'] = new widget.Navigation ('navigation', null)
-    ..contentWindow = widgets['overlay']
-    ..position = 'absolute'
-    ..top = '0%'
-    ..left = '0%'
-    ..height = '100%'
-    ..width = '5%'
+  navigation = new widget.Navigation ('navigation', null)
+    ..contentWindow = windows['overlay']
     ..addButton(new widget.NavigationButton('button1'))
     ..addButton(new widget.NavigationButton('button2'))
     ..addButton(new widget.NavigationButton('button3'))
     ..addButton(new widget.NavigationButton('button4'));
 
-  // Set basic properties of the main view port div element.
-  query(id).style.height = '${(window.innerHeight - 20).toString()}px';
-  window.on.resize.add((e) => query(id).style.height = '${(window.innerHeight - 20).toString()}px');
+  companySelector = new widget.Selector('companyInfo_select', (Map json)
+      {
+        json['organization_list'].forEach((v)
+          {
+            companySelector.addOption(v['organization_id'].toString(), v['full_name']);
+          });
+      });
+  orgs_list.registerSubscriber(companySelector);
+  query('#companyInfo_select').on.change.add((e) {
+    SelectElement select = query('#companyInfo_select');
+    org.fetch(parseInt(select.value));
+  });
 
-  // Make it all visible
-  query(id).style.display = 'block';
+  // Set basic properties of the main view port div element.
+  rootView.style.height = '${(window.innerHeight - 20).toString()}px';
+  window.on.resize.add((e) => rootView.style.height = '${(window.innerHeight - 20).toString()}px');
+
 }

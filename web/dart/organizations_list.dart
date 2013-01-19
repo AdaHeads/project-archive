@@ -5,7 +5,7 @@ import 'dart:json';
 import 'widget.dart';
 
 class Organizations_List {
-  String                    _json = 'null';
+  Map                       _json;
   static Organizations_List _orgs = new Organizations_List._internal();
   List                      _subscribers = new List<UIWidget>();
 
@@ -19,7 +19,7 @@ class Organizations_List {
   }
 
   void _onComplete(HttpRequest req) {
-    _json = req.responseText;
+    _json = JSON.parse(req.responseText);
 
     _subscribers.forEach((v) {
       v.loadData(_json);

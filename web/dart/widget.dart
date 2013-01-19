@@ -3,25 +3,24 @@ library widget;
 import 'dart:isolate';
 import 'dart:json';
 import 'dart:html';
-
-part 'widget.utils.dart';
+import 'utils.dart' as utils;
 
 abstract class UIWidget {
-  void loadData(String json);
+  void loadData(Map json);
 }
 
 class Window extends UIWidget {
+  var            _loadData;
   DivElement     _body;
   DivElement     _div;
   HeadingElement _header;
   bool           _hidden = false;
   String         _id;
-  var            _loadData;
 
-  Window(String element_id, void loadData(String json)) {
+  Window(String element_id, void loadData(Map json)) {
     assert(!element_id.isEmpty);
 
-    _id = toSelector(element_id);
+    _id = utils.toSelector(element_id);
 
     _div = query(_id);
     _header = query('${_id}_header');
@@ -30,13 +29,14 @@ class Window extends UIWidget {
     _loadData = loadData;
   }
 
+  int    get clientHeight => _body.clientHeight;
   String get header => _header.text;
   bool   get ishidden => _hidden;
   String get id => _id;
+  int    get scrollHeight => _body.scrollHeight;
 
   set body(String value) => _body.text = value;
   set header(String value) => _header.text = value;
-
   set height(String value) => _div.style.height = value;
   set left(String value) => _div.style.left = value;
   set position(String value) => _div.style.position = value;
@@ -61,7 +61,7 @@ class Window extends UIWidget {
     _hidden = true;
   }
 
-  void loadData(String json) => _loadData(json);
+  void loadData(Map json) => _loadData(json);
 
   void unHide() {
     _div.style.visibility = 'visible';
@@ -77,7 +77,7 @@ class NavigationButton {
   NavigationButton(String element_id) {
     assert(!element_id.isEmpty);
 
-    _id = toSelector(element_id);
+    _id = utils.toSelector(element_id);
     _element = query(_id);
 
     // Keep the button elements square.
@@ -100,16 +100,16 @@ class NavigationButton {
 }
 
 class Navigation extends UIWidget {
+  var          _loadData;
   List         _buttons = new List<NavigationButton>();
   Window       _contentWindow;
   String       _id;
-  var          _loadData;
   UListElement _ul;
 
   Navigation(String element_id, void loadData(String json)) {
     assert(!element_id.isEmpty);
 
-    _id = toSelector(element_id);
+    _id = utils.toSelector(element_id);
     _ul = query(_id);
     _loadData = loadData;
   }
@@ -144,18 +144,18 @@ class Navigation extends UIWidget {
     });
   }
 
-  void loadData(String json) => _loadData(json);
+  void loadData(Map json) => _loadData(json);
 }
 
 class Selector extends UIWidget {
-  var          _loadData;
+  var           _loadData;
   String        _id;
   SelectElement _select;
 
-  Selector(String element_id, void loadData(String json)) {
+  Selector(String element_id, void loadData(Map json)) {
     assert(!element_id.isEmpty);
 
-    _id = toSelector(element_id);
+    _id = utils.toSelector(element_id);
     _loadData = loadData;
 
     _select = query(_id);
@@ -171,5 +171,5 @@ class Selector extends UIWidget {
                     ..value = value);
   }
 
-  void loadData(String json) => _loadData(json);
+  void loadData(Map json) => _loadData(json);
 }
