@@ -1,0 +1,33 @@
+#navigation {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  height: 100%;
+  width: 4%;
+  
+  background-color: #fafafa;
+  border-top: solid 1px #999;
+  border-right: solid 1px #999;
+  border-bottom: solid 1px #999;
+  border-radius: 0px 5px 5px 0px;
+  list-style-type: none;
+}
+
+#navigation li {
+  margin: 7px auto;
+  width: 80%;
+}
+
+#navigation .notactivated {
+  background-color: #ddd;
+  width: 100%;
+}
+
+#navigation .notactivated:hover {
+  background-color: #eee;
+}
+
+#navigation .activated {
+  background-color: blue;
+  width: 100%;
+}
