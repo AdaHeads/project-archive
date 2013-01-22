@@ -18,7 +18,10 @@
   </head>
   <body>
     <div id="rootView">
-
+      <!--
+        The navigation pane. The buttons here are used to activate the overlay
+        element.
+      -->
       <ul id="navigation">
         <li>
           <button id="button1" class="notactivated">1</button>
@@ -34,48 +37,74 @@
         </li>
       </ul>
 
+      <!--
+        The welcome message for a company.
+      -->
       <div id="welcomeMessage" class="window">
         <div id="welcomeMessage_body" class="window_body"></div>
       </div>
 
+      <!--
+        The agent information window. Keeps track of active, available and
+        paused agents. The header should be populated with the name of the
+        currently logged in agent.
+      -->
       <div id="agentInfo" class="window">
         <h1 id="agentInfo_header" class="window_header"></h1>
         <div id="agentInfo_body" class="window_body"></div>
       </div>
 
+      <!--
+        Information about the currently selected company.
+      -->
       <div id="companyInfo" class="window">
         <h1 id="companyInfo_header" class="window_header"></h1>
         <div id="companyInfo_body" class="window_body">
           <select id="companyInfo_select" class=""></select>
-          <div id="companyInfo_dump"></div>
+          <div id="companyInfo_dump"></div><!-- temporary dump container -->
         </div>
       </div>
 
+      <!--
+        List of contacts for the currently selected company.
+      -->
       <div id="contactInfo" class="window">
         <h1 id="contactInfo_header" class="window_header"></h1>
         <div id="contactInfo_body" class="window_body"></div>
       </div>
 
+      <!--
+        Interface to write and send a message to a contact.
+      -->
       <div id="sendMessage" class="window">
         <h1 id="sendMessage_header" class="window_header"></h1>
         <div id="sendMessage_body" class="window_body"></div>
       </div>
 
+      <!--
+        List of currently unanswered calls.
+      -->
       <div id="globalQueue" class="window">
         <h1 id="globalQueue_header" class="window_header"></h1>
         <div id="globalQueue_body" class="window_body"></div>
       </div>
 
+      <!--
+        List of calls queued by the agent.
+      -->
       <div id="localQueue" class="window">
         <h1 id="localQueue_header" class="window_header"></h1>
         <div id="localQueue_body" class="window_body"></div>
       </div>
 
+      <!--
+        This contents of this box corresponds to the button clicked in the
+        navigation pane.
+      -->
       <div id="overlay" class="window">
         <h1 id="overlay_header" class="window_header"></h1>
         <div id="overlay_body" class="window_body"></div>
       </div>
-
     </div>
 
     <script type="application/dart" src="dart/bob.dart"></script>

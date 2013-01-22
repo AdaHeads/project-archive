@@ -5,8 +5,9 @@ import 'dart:json';
 import 'widget.dart';
 
 class Organizations_List {
-  Map                       _json;
   static Organizations_List _orgs = new Organizations_List._internal();
+
+  Map                       _json;
   List                      _subscribers = new List<UIWidget>();
 
   factory Organizations_List() {
@@ -28,3 +29,5 @@ class Organizations_List {
 
   void registerSubscriber(UIWidget instance) => _subscribers.add(instance);
 }
+
+final organizations_list = new Organizations_List();

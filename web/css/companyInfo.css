@@ -1,9 +1,9 @@
 #companyInfo {
   position: absolute;
   top: 10%;
-  left: 5%;
+  left: 4%;
   height: 45%;
-  width: 95%;
+  width: 96%;
 }
 
 #companyInfo_body select {

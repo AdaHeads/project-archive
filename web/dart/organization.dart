@@ -6,6 +6,7 @@ import 'widget.dart';
 
 class Organization {
   static Organization _org = new Organization._internal();
+
   Map                 _cache = new Map<int, Map>();
   Map                 _json;
   List                _subscribers = new List<UIWidget>();
@@ -41,4 +42,4 @@ class Organization {
   void registerSubscriber(UIWidget instance) => _subscribers.add(instance);
 }
 
-final Organization organization = new Organization();
+final organization = new Organization();
