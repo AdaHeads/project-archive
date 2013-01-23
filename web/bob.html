@@ -7,17 +7,17 @@
     <link rel="stylesheet" href="css/bob.css?v=1">
     <link rel="stylesheet" href="css/keyframes.css?v=1">
     <link rel="stylesheet" href="css/navigation.css?v=1">
-    <link rel="stylesheet" href="css/welcomeMessage.css?v=1">
-    <link rel="stylesheet" href="css/agentInfo.css?v=1">
-    <link rel="stylesheet" href="css/companyInfo.css?v=1">
-    <link rel="stylesheet" href="css/contactInfo.css?v=1">
-    <link rel="stylesheet" href="css/sendMessage.css?v=1">
-    <link rel="stylesheet" href="css/globalQueue.css?v=1">
-    <link rel="stylesheet" href="css/localQueue.css?v=1">
+    <link rel="stylesheet" href="css/welcome_message.css?v=1">
+    <link rel="stylesheet" href="css/agent_info.css?v=1">
+    <link rel="stylesheet" href="css/company_info.css?v=1">
+    <link rel="stylesheet" href="css/contact_info.css?v=1">
+    <link rel="stylesheet" href="css/send_message.css?v=1">
+    <link rel="stylesheet" href="css/global_queue.css?v=1">
+    <link rel="stylesheet" href="css/local_queue.css?v=1">
     <link rel="stylesheet" href="css/overlay.css?v=1">
   </head>
   <body>
-    <div id="rootView">
+    <div id="root_view">
       <!--
         The navigation pane. The buttons here are used to activate the overlay
         element.
@@ -40,8 +40,8 @@
       <!--
         The welcome message for a company.
       -->
-      <div id="welcomeMessage" class="window">
-        <div id="welcomeMessage_body" class="window_body"></div>
+      <div id="welcome_message" class="window">
+        <div id="welcome_message_body" class="window_body"></div>
       </div>
 
       <!--
@@ -49,52 +49,57 @@
         paused agents. The header should be populated with the name of the
         currently logged in agent.
       -->
-      <div id="agentInfo" class="window">
-        <h1 id="agentInfo_header" class="window_header"></h1>
-        <div id="agentInfo_body" class="window_body"></div>
+      <div id="agent_info" class="window">
+        <h1 id="agent_info_header" class="window_header">agentInfo</h1>
+        <div id="agent_info_body" class="window_body"></div>
       </div>
 
       <!--
         Information about the currently selected company.
       -->
-      <div id="companyInfo" class="window">
-        <h1 id="companyInfo_header" class="window_header"></h1>
-        <div id="companyInfo_body" class="window_body">
-          <select id="companyInfo_select" class=""></select>
-          <div id="companyInfo_dump"></div><!-- temporary dump container -->
+      <div id="company_info" class="window">
+        <h1 id="company_info_header" class="window_header"></h1>
+        <div id="company_info_body" class="window_body">
+          <select id="company_info_select" class=""></select>
+          <div id="company_info_dump"></div><!-- temporary dump container -->
         </div>
       </div>
 
       <!--
         List of contacts for the currently selected company.
       -->
-      <div id="contactInfo" class="window">
-        <h1 id="contactInfo_header" class="window_header"></h1>
-        <div id="contactInfo_body" class="window_body"></div>
+      <div id="contact_info" class="window">
+        <h1 id="contact_info_header" class="window_header"></h1>
+        <div id="contact_info_body" class="window_body">
+          <ul>
+            <li>Thomas Løcke</li>
+            <li>Trine Løcke</li>
+          </ul>
+        </div>
       </div>
 
       <!--
         Interface to write and send a message to a contact.
       -->
-      <div id="sendMessage" class="window">
-        <h1 id="sendMessage_header" class="window_header"></h1>
-        <div id="sendMessage_body" class="window_body"></div>
+      <div id="send_message" class="window">
+        <h1 id="send_message_header" class="window_header"></h1>
+        <div id="send_message_body" class="window_body"></div>
       </div>
 
       <!--
         List of currently unanswered calls.
       -->
-      <div id="globalQueue" class="window">
-        <h1 id="globalQueue_header" class="window_header"></h1>
-        <div id="globalQueue_body" class="window_body"></div>
+      <div id="global_queue" class="window">
+        <h1 id="global_queue_header" class="window_header"></h1>
+        <div id="global_queue_body" class="window_body"></div>
       </div>
 
       <!--
         List of calls queued by the agent.
       -->
-      <div id="localQueue" class="window">
-        <h1 id="localQueue_header" class="window_header"></h1>
-        <div id="localQueue_body" class="window_body"></div>
+      <div id="local_queue" class="window">
+        <h1 id="local_queue_header" class="window_header"></h1>
+        <div id="local_queue_body" class="window_body"></div>
       </div>
 
       <!--

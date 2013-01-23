@@ -14,7 +14,7 @@ class WelcomeMessage {
   }
 
   WelcomeMessage._internal() {
-    _viewPort = new widget.Box('welcomeMessage', _setGreeting)
+    _viewPort = new widget.Box('welcome_message', _setGreeting)
       ..body = 'Velkomst...';
 
     organization.registerSubscriber(_viewPort);

@@ -16,12 +16,12 @@ class CompanyInfo {
   }
 
   CompanyInfo._internal() {
-    _viewPort = new widget.Box('companyInfo', _setCompanyInfo)
+    _viewPort = new widget.Box('company_info', _setCompanyInfo)
       ..header = 'Virksomhed';
 
-    _companySelector = new widget.Selector('companyInfo_select', _setCompanySelector);
+    _companySelector = new widget.Selector('company_info_select', _setCompanySelector);
 
-    _companyInfo_dump = query('#companyInfo_dump');
+    _companyInfo_dump = query('#company_info_dump');
 
     _registerSubscribers();
     _registerEventHandlers();

@@ -1,4 +1,4 @@
-#welcomeMessage {
+#welcome_message {
   position: absolute;
   left: 4%;
   top: 0%;
@@ -6,6 +6,6 @@
   width: 71%;
 }
 
-#welcomeMessage_body {
+#welcome_message_body {
   font-size: 1.5em;
 }

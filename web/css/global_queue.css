@@ -1,7 +1,7 @@
-#localQueue {
+#global_queue {
   position: absolute;
-  top: 85%;
+  top: 57%;
   left: 78%;
-  height: 15%;
+  height: 26%;
   width: 22%;
 }

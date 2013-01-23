@@ -11,9 +11,12 @@ body {
   padding: 10px 10px 10px 0px;
 }
 
-#rootView {
-  position: relative;
-  width: 100%;
+#root_view {
+  position: absolute;
+  width: calc(100% - 10px);
+  width: -webkit-calc(100% - 10px);
+  height: calc(100% - 20px);
+  height: -webkit-calc(100% - 20px);
 }
 
 .window {

@@ -14,8 +14,8 @@ class SendMessage {
   }
 
   SendMessage._internal() {
-    _viewPort = new widget.Box('sendMessage', null)
+    _viewPort = new widget.Box('send_message', null)
       ..header = 'Besked'
-      ..body = 'sendMessage';
+      ..body = 'send_message';
   }
 }
