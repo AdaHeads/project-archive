@@ -1,7 +1,7 @@
 library widget.box;
 
+import 'dart:async';
 import 'dart:html';
-import 'dart:isolate';
 import 'widget.dart';
 import 'utils.dart' as utils;
 

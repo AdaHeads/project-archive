@@ -20,7 +20,7 @@ class Organizations_List {
   }
 
   void _onComplete(HttpRequest req) {
-    _json = JSON.parse(req.responseText);
+    _json = parse(req.responseText);
 
     _subscribers.forEach((v) {
       v.loadData(_json);

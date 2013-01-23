@@ -33,7 +33,7 @@ class Organization {
   }
 
   void _onComplete(HttpRequest req) {
-    _json = JSON.parse(req.responseText);
+    _json = parse(req.responseText);
     _cache[_json['organization_id']] = _json;
 
     dispatch(_json['organization_id']);
