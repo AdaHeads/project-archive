@@ -1,15 +1,15 @@
 library organization;
 
 import 'dart:html';
-import 'dart:json';
-import 'widget.dart';
+import 'dart:json' as json;
+import 'widget.dart' as widget;
 
 class Organization {
   static Organization _org = new Organization._internal();
 
   Map                 _cache = new Map<int, Map>();
   Map                 _json;
-  List                _subscribers = new List<UIWidget>();
+  List                _subscribers = new List<widget.UIWidget>();
 
   factory Organization() {
     return _org;
@@ -33,13 +33,13 @@ class Organization {
   }
 
   void _onComplete(HttpRequest req) {
-    _json = parse(req.responseText);
+    _json = json.parse(req.responseText);
     _cache[_json['organization_id']] = _json;
 
     dispatch(_json['organization_id']);
   }
 
-  void registerSubscriber(UIWidget instance) => _subscribers.add(instance);
+  void registerSubscriber(widget.UIWidget instance) => _subscribers.add(instance);
 }
 
 final organization = new Organization();

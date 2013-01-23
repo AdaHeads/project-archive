@@ -13,9 +13,13 @@ class NavigationButton {
     _id = utils.toSelector(element_id);
     _element = query(_id);
 
-    // Keep the button elements square.
-    window.on.resize.add((e) => _element.style.height = '${_element.clientWidth}px');
-    window.on.load.add((e) => _element.style.height = '${_element.clientWidth}px');
+    _resize();
+    window.on.resize.add((e) => _resize());
+  }
+
+  void _resize() {
+    _element.style.height = '${_element.clientWidth}px';
+    _element.style.height = '${_element.clientWidth}px';
   }
 
   ButtonElement get element => _element;

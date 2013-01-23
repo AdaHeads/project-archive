@@ -1,15 +1,15 @@
 library widget.navigation;
 
 import 'dart:html';
-import 'widget.dart';
-import 'widget.box.dart';
+import 'widget.dart' as widget;
+import 'widget.box.dart' as widget;
 import 'widget.navigation_button.dart' as widget;
 import 'utils.dart' as utils;
 
-class Navigation extends UIWidget {
+class Navigation extends widget.UIWidget {
   var          _loadData;
   List         _buttons = new List<widget.NavigationButton>();
-  Box          _contentWindow;
+  widget.Box   _contentWindow;
   String       _id;
   UListElement _ul;
 
@@ -23,7 +23,7 @@ class Navigation extends UIWidget {
 
   String get id => _id;
 
-  set contentWindow(Box value) => _contentWindow = value;
+  set contentWindow(widget.Box value) => _contentWindow = value;
   set height(String value) => _ul.style.height = value;
   set width(String value) => _ul.style.width = value;
 

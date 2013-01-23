@@ -1,10 +1,10 @@
 library widget.selector;
 
 import 'dart:html';
-import 'widget.dart';
+import 'widget.dart' as widget;
 import 'utils.dart' as utils;
 
-class Selector extends UIWidget {
+class Selector extends widget.UIWidget {
   var           _loadData;
   String        _id;
   SelectElement _element;

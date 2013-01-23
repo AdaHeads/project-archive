@@ -14,8 +14,18 @@ class ContactInfo {
   }
 
   ContactInfo._internal() {
-    _viewPort = new widget.Box('contactInfo', null)
+    _viewPort = new widget.Box('contactInfo', _setContactInfo)
       ..header = 'Medarbejdere'
       ..body = 'contactInfo';
+
+    _registerSubscribers();
+  }
+
+  void _registerSubscribers() {
+    organization.registerSubscriber(_viewPort);
+  }
+
+  void _setContactInfo(Map json) {
+    _viewPort.body = json.toString();
   }
 }

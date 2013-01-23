@@ -2,10 +2,10 @@ library widget.box;
 
 import 'dart:async';
 import 'dart:html';
-import 'widget.dart';
+import 'widget.dart' as widget;
 import 'utils.dart' as utils;
 
-class Box extends UIWidget {
+class Box extends widget.UIWidget {
   var            _loadData;
   DivElement     _body;
   DivElement     _div;
@@ -23,6 +23,25 @@ class Box extends UIWidget {
     _body = query('${_id}_body');
 
     _loadData = loadData;
+
+    _resize();
+    window.on.resize.add((e) => _resize());
+  }
+
+  void _resize() {
+    int div_height = _div.clientHeight;
+    int head_height = 0;
+
+    if(_header != null) {
+      // TODO: Can this hack solution be fixed? I'm adding a - to the header
+      // if there's no current header. This is done to make sure the header
+      // element isn't flattened when we grab the clientHeight.
+      _header.text = _header.text == '' ? '-' : _header.text;
+      head_height = _header.clientHeight;
+    }
+
+    int body_height = div_height - head_height;
+    _body.style.height = '${body_height - 20}px'; // <- TODO: 20 depends on a css value, which is bad.
   }
 
   int    get clientHeight => _body.clientHeight;
