@@ -16,10 +16,10 @@ class CompanyInfo {
   }
 
   CompanyInfo._internal() {
-    _viewPort = new widget.Box('company_info', _setCompanyInfo)
+    _viewPort = new widget.Box('company_info')
       ..header = 'Virksomhed';
 
-    _companySelector = new widget.Selector('company_info_select', _setCompanySelector);
+    _companySelector = new widget.Selector('company_info_select');
 
     _companyInfo_dump = query('#company_info_dump');
 
@@ -34,8 +34,8 @@ class CompanyInfo {
   }
 
   void _registerSubscribers() {
-    organization.registerSubscriber(_viewPort);
-    organizations_list.registerSubscriber(_companySelector);
+    organization.registerSubscriber(_setCompanyInfo);
+    organizations_list.registerSubscriber(_setCompanySelector);
   }
 
   void _setCompanySelector(Map json) {

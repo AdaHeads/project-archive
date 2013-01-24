@@ -14,13 +14,13 @@ class WelcomeMessage {
   }
 
   WelcomeMessage._internal() {
-    _viewPort = new widget.Box('welcome_message', _setGreeting)
+    _viewPort = new widget.Box('welcome_message')
       ..body = 'Velkomst...';
 
-    organization.registerSubscriber(_viewPort);
+    organization.registerSubscriber(_setGreeting);
   }
 
-  void _setGreeting(Map json) {
+  void _setGreeting (Map json) {
     _viewPort.body = json['greeting'];
   }
 }

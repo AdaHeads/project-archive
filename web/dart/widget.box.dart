@@ -2,18 +2,16 @@ library widget.box;
 
 import 'dart:async';
 import 'dart:html';
-import 'widget.dart' as widget;
 import 'utils.dart' as utils;
 
-class Box extends widget.UIWidget {
-  var            _loadData;
+class Box {
   DivElement     _body;
   DivElement     _div;
   HeadingElement _header;
   bool           _hidden = false;
   String         _id;
 
-  Box(String element_id, void loadData(Map json)) {
+  Box(String element_id) {
     assert(!element_id.isEmpty);
 
     _id = utils.toSelector(element_id);
@@ -21,8 +19,6 @@ class Box extends widget.UIWidget {
     _div = query(_id);
     _header = query('${_id}_header');
     _body = query('${_id}_body');
-
-    _loadData = loadData;
 
     _resize();
     window.on.resize.add((e) => _resize());
@@ -71,8 +67,6 @@ class Box extends widget.UIWidget {
     _div.style.zIndex = '-10';
     _hidden = true;
   }
-
-  void loadData(Map json) => _loadData(json);
 
   void unHide() {
     _div.style.visibility = 'visible';

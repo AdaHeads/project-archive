@@ -2,14 +2,14 @@ library organization;
 
 import 'dart:html';
 import 'dart:json' as json;
-import 'widget.dart' as widget;
+import 'common.dart';
 
 class Organization {
   static Organization _org = new Organization._internal();
 
   Map                 _cache = new Map<int, Map>();
   Map                 _json;
-  List                _subscribers = new List<widget.UIWidget>();
+  List                _subscribers = new List<Subscriber>();
 
   factory Organization() {
     return _org;
@@ -18,8 +18,8 @@ class Organization {
   Organization._internal();
 
   void dispatch(int id) {
-    _subscribers.forEach((v) {
-      v.loadData(_cache[id]);
+    _subscribers.forEach((subscriber) {
+      subscriber(_cache[id]);
     });
   }
 
@@ -39,7 +39,7 @@ class Organization {
     dispatch(_json['organization_id']);
   }
 
-  void registerSubscriber(widget.UIWidget instance) => _subscribers.add(instance);
+  void registerSubscriber(Subscriber subscriber) => _subscribers.add(subscriber);
 }
 
 final organization = new Organization();

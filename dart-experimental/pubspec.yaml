@@ -1,5 +1,0 @@
-name: Adaheads_Bob
-
-dependencies:
-  rikulo:
-    git: git://github.com/rikulo/rikulo.git

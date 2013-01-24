@@ -14,14 +14,14 @@ class ContactInfo {
   }
 
   ContactInfo._internal() {
-    _viewPort = new widget.Box('contact_info', _setContactInfo)
+    _viewPort = new widget.Box('contact_info')
       ..header = 'Medarbejdere';
 
     _registerSubscribers();
   }
 
   void _registerSubscribers() {
-    organization.registerSubscriber(_viewPort);
+    organization.registerSubscriber(_setContactInfo);
   }
 
   void _setContactInfo(Map json) {

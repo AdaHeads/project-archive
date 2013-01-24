@@ -14,7 +14,7 @@ class Navigation {
   }
 
   Navigation._internal(Overlay overlay) {
-    _viewPort = new widget.Navigation('navigation', null)
+    _viewPort = new widget.Navigation('navigation')
       ..contentWindow = overlay._viewPort
       ..addButton(new widget.NavigationButton('button1'))
       ..addButton(new widget.NavigationButton('button2'))

@@ -1,20 +1,16 @@
 library widget.selector;
 
 import 'dart:html';
-import 'widget.dart' as widget;
 import 'utils.dart' as utils;
 
-class Selector extends widget.UIWidget {
-  var           _loadData;
+class Selector {
   String        _id;
   SelectElement _element;
 
-  Selector(String element_id, void loadData(Map json)) {
+  Selector(String element_id) {
     assert(!element_id.isEmpty);
 
     _id = utils.toSelector(element_id);
-    _loadData = loadData;
-
     _element = query(_id);
 
     addOption('', 'vælg virksomhed');
@@ -30,6 +26,4 @@ class Selector extends widget.UIWidget {
                     ..text = label
                     ..value = value);
   }
-
-  void loadData(Map json) => _loadData(json);
 }

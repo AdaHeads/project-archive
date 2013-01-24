@@ -1,9 +1,6 @@
-import 'dart:html';
 import 'view.dart' as view;
 
 void main() {
-  DivElement rootView = query('#root_view');
-
   final welcomeMessage = new view.WelcomeMessage();
   final agentInfo      = new view.AgentInfo();
   final companyInfo    = new view.CompanyInfo();

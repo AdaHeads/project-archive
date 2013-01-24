@@ -1,24 +1,21 @@
 library widget.navigation;
 
 import 'dart:html';
-import 'widget.dart' as widget;
 import 'widget.box.dart' as widget;
 import 'widget.navigation_button.dart' as widget;
 import 'utils.dart' as utils;
 
-class Navigation extends widget.UIWidget {
-  var          _loadData;
+class Navigation {
   List         _buttons = new List<widget.NavigationButton>();
   widget.Box   _contentWindow;
   String       _id;
   UListElement _ul;
 
-  Navigation(String element_id, void loadData(String json)) {
+  Navigation(String element_id) {
     assert(!element_id.isEmpty);
 
     _id = utils.toSelector(element_id);
     _ul = query(_id);
-    _loadData = loadData;
   }
 
   String get id => _id;
@@ -47,6 +44,4 @@ class Navigation extends widget.UIWidget {
       }
     });
   }
-
-  void loadData(Map json) => _loadData(json);
 }
