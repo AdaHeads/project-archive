@@ -1,0 +1,7 @@
+library Common;
+
+/**
+ * Used throughout Bob as the fingerprint for callbacks. Accepts a [json] map as
+ * its sole parameter.
+ */
+typedef void Subscriber(Map json);
