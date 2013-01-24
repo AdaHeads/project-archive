@@ -24,7 +24,7 @@ AdaHeads.Organization.Select.Content = function (organizations) {
 
 AdaHeads.Organization.Display = function (organization) {
   AdaHeads.Welcome_Panel.Message(organization.greeting);
-  AdaHeads.Organization_Information_Panel.Display(organization);
+  AdaHeads.Organization.Information_Panel.Display(organization);
 
   AdaHeads.Contact.List.Content (organization.contacts || []);
     
