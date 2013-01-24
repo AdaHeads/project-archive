@@ -25,7 +25,7 @@ function Initialize () {
   $('#company_info_select').change(function () {
     // The selected option value
     org_id = $(this).find("option:selected").val();
-    AdaHeads.Organization_List.Fetch(org_id, 
+    AdaHeads.Organization.List.Fetch(org_id, 
       AdaHeads.Organization.Display)
   });
 

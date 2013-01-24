@@ -15,8 +15,8 @@
     <link rel="stylesheet" href="css/global_queue.css?v=1">
     <link rel="stylesheet" href="css/local_queue.css?v=1">
     <link rel="stylesheet" href="css/overlay.css?v=1">
-    
-        <link rel="stylesheet" href="css/js_overrides.css?v=1">
+
+    <link rel="stylesheet" href="css/js_overrides.css?v=1">
 
 
     <script type="text/javascript" src="js/lib/jquery-1.8.0.js"></script> 
@@ -27,7 +27,7 @@
     <script type="text/javascript" src="js/Configuration.js"></script>
     <script type="text/javascript" src="js/AdaHeads.Protocol.js"></script>
     <script type="text/javascript" src="js/Initialize.js"></script>
-    <script type="text/javascript" src="js/System_Console.js"></script>
+    <script type="text/javascript" src="js/AdaHeads.Status_Console.js"></script>
     <script type="text/javascript" src="js/AdaHeads.Log.js"></script>
 
     <!-- View objects --> 
@@ -35,10 +35,8 @@
     <script type="text/javascript" src="js/AdaHeads.Labels.en.js"></script>
     <script type="text/javascript" src="js/View/AdaHeads.Event_Log.js"></script>
     <script type="text/javascript" src="js/View/AdaHeads.Event_Panel.js"></script>
-    <script type="text/javascript" src="js/View/AdaHeads.Organization_Panel.js"></script>
     <script type="text/javascript" src="js/View/AdaHeads.Organization.js"></script>
     <script type="text/javascript" src="js/View/AdaHeads.Contact.js"></script>
-    <script type="text/javascript" src="js/View/AdaHeads.Organization_Information_Panel.js"></script>
     <script type="text/javascript" src="js/View/AdaHeads.Statistics_Panel.js"></script>
     <script type="text/javascript" src="js/View/AdaHeads.Status_Panel.js"></script>
     <script type="text/javascript" src="js/View/AdaHeads.View_Observers.js"></script>
@@ -46,11 +44,9 @@
 
     <script type="text/javascript" src="js/Organization_List.js"></script>
 
-    <script type="text/javascript" src="js/Client_State.js"></script>
     <script type="text/javascript" src="js/User_Interface_Utilities.js"></script>
     <script type="text/javascript" src="js/Event_Handlers.js"></script>
     <script type="text/javascript" src="js/Keyboard_Events.js"></script>
-    <script type="text/javascript" src="js/Click_Handlers.js"></script>
     <script type="text/javascript" src="js/Classes/Contact_Entity_Database.js"></script>
     <script type="text/javascript" src="js/AdaHeads.Notification_Handlers.js"></script>
     <!--    <script type="text/javascript" src="js/Classes/Local_Database.js"></script> -->
@@ -154,8 +150,6 @@
         <h1 id="contact_info_header" class="window_header"></h1>
         <div id="contact_info_body" class="window_body">
           <ul id="contact_info_list">
-            <li>Thomas Løcke</li>
-            <li>Trine Løcke</li>
           </ul>
         </div>
       </div>
@@ -169,6 +163,8 @@
           <button id="Call_Kim">Call Kim</button>
           <script>$("#Call_Kim").click(function () {
             AdaHeads.Alice.Originate ("40966024");
+            $("#Call_Kim").attr("disabled", true).addClass("connecting");
+
           });
           </script>
           <h4>Statuskonsol</h4>

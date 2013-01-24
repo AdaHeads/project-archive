@@ -17,19 +17,27 @@ li {
   float: right;
 }
 
-.disconnected{
+.disconnected {
   min-height: 32px;
   min-width: 32px;
   background-image: url('../img/spinner.gif');
   background-repeat: no-repeat;
+  background-position: right center;
 }
 
+.connecting{ 
+  min-height: 32px;
+  min-width: 32px;
+  background-image: url('../img/spinner.gif');
+  background-repeat: no-repeat;
+  background-position: right center;
+}
 .connected{
   min-height: 32px;
   min-width: 32px;
   background-image: url('../img/connected.png');
-  background-repeat: none;
-
+  background-repeat: no-repeat;
+  background-position: right center;
 }
 
 
@@ -39,4 +47,11 @@ li {
 
 #overlay {
   display: none;
+}
+
+#Call_Kim {
+  min-width: 100px;
+  min-height: 40px;
+  text-align: left;
+  margin-right: 5px; 
 }

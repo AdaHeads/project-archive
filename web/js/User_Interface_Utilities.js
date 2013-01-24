@@ -1,5 +1,7 @@
 /**
  * User_Interface_Utilities.js - Various utility functions for updating the UI
+ * 
+ * Needs serious work.
  *
  * Author: Kim Rostgaard Christensen
  */

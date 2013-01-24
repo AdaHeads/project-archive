@@ -65,11 +65,13 @@ AdaHeads.Notification_Handlers.Queue_Leave = function (notification) {
  * Notification handler for Call Pickup event
  */
 AdaHeads.Notification_Handlers.Call_Pickup = function (notification) {
+  $("#Call_Kim").removeClass("connecting");
+
   AdaHeads.Status_Console.Log("Picked up call " + notification.call.id);
   AdaHeads.Bob.Current_Call = notification.call.id;
     
   if (notification.call.inbound) {
-    AdaHeads.Organization_List.Fetch(notification.call.organization_id, AdaHeads.Organization.Display);
+    AdaHeads.Organization.List.Fetch(notification.call.organization_id, AdaHeads.Organization.Display);
   }
   
   $("#currentCall").empty();
@@ -140,6 +142,7 @@ AdaHeads.Notification_Handlers.Call_Pickup = function (notification) {
  */
 AdaHeads.Notification_Handlers.Call_Hangup = function (notification) {
   $("#Current_Call").slideUp(200, this.empty);
+  $("#Call_Kim").attr("disabled", false).removeClass("connecting");
 
   if (!$("#call_id_"+notification.call.id).empty() ) {
     $("#call_id_"+notification.call.id).fadeOut(300, function() {
@@ -163,7 +166,7 @@ AdaHeads.Notification_Handlers.Call_Park = function (notification) {
         $("#call_id_"+call.id).fadeOut(300, function() {
           $(this).remove();
         });
-        $("#Current_Call").addClass("disconnected").show();
+        $("#Current_Call").addClass("connecting").show();
         AdaHeads.Status_Console.Log("Reserved call"); 
       },
   
@@ -211,6 +214,7 @@ AdaHeads.Notification_Handlers.Agent_State = function (notification) {
  * Notification handler for Originate Failed event
  */
 AdaHeads.Notification_Handlers.Originate_Failed = function (notification) {
+  $("#Call_Kim").attr("disabled", false).removeClass("connecting");
   AdaHeads.Status_Console.Log("Originate Failed on call id :" + notification.call.id);
 }
 
