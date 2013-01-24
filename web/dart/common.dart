@@ -1,3 +1,6 @@
+/**
+ * A collection of common typedefs for the Bob application.
+ */
 library Common;
 
 /**

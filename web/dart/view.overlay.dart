@@ -14,7 +14,7 @@ class Overlay {
   }
 
   Overlay._internal() {
-    _viewPort = new widget.Box('overlay')
+    _viewPort = new widget.Box(query('#overlay'))
       ..header = 'Overlay'
       ..hide();
   }

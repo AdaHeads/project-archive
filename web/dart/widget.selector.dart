@@ -3,27 +3,35 @@ library widget.selector;
 import 'dart:html';
 import 'utils.dart' as utils;
 
+/**
+ * TODO: Write comment
+ */
 class Selector {
-  String        _id;
   SelectElement _element;
 
-  Selector(String element_id) {
-    assert(!element_id.isEmpty);
-
-    _id = utils.toSelector(element_id);
-    _element = query(_id);
-
-    addOption('', 'vælg virksomhed');
-    element.options.first as OptionElement
-      ..disabled = true;
+  Selector(SelectElement select) {
+    _element = select;
   }
 
+  /**
+   * TODO: Write comment
+   */
+  void addOption(String value, String label, {bool disabled: false}) {
+    var option = new OptionElement()
+      ..text = label
+      ..value = value;
+
+    option.disabled = disabled;
+    element.append(option);
+  }
+
+  /**
+   * TODO: Write comment
+   */
   SelectElement get element => _element;
-  String get value => element.value;
 
-  void addOption(String value, String label) {
-    element.append(new OptionElement()
-                    ..text = label
-                    ..value = value);
-  }
+  /**
+   * TODO: Write comment
+   */
+  String get value => element.value;
 }

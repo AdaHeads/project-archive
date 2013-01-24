@@ -1,0 +1,2166 @@
+
+[
+  {
+    "kind": "library",
+    "comment": "\nThe Bob client. Helping recetionists do their work every day.\n",
+    "name": "bob.dart",
+    "children": [
+      {
+        "returnType": {
+          "name": "void",
+          "refId": "void"
+        },
+        "kind": "method",
+        "comment": "\nInstantiates all the view objects and gets Bob going.\n",
+        "name": "main",
+        "id": "main0()"
+      }
+    ],
+    "id": "file:///home/thomas/dart/bob/web/dart/bob.dart"
+  },
+  {
+    "kind": "library",
+    "comment": "\nA collection of common typedefs for the Bob application.\n",
+    "name": "Common",
+    "children": [
+      {
+        "kind": "typedef",
+        "comment": "\nUsed throughout Bob as the fingerprint for callbacks. Accepts a [json] map as\nits sole parameter.\n",
+        "name": "Subscriber",
+        "id": "Subscriber"
+      }
+    ],
+    "id": "file:///home/thomas/dart/bob/web/dart/common.dart"
+  },
+  {
+    "kind": "library",
+    "name": "metadata",
+    "children": [
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "comment": "Metadata that specifies that that member is editable through generated\nfiles.",
+        "name": "DocsEditable",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "DocsEditable",
+            "id": "DocsEditable0()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "DocsEditable",
+            "id": "DocsEditable0()"
+          }
+        ],
+        "id": "DocsEditable"
+      },
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "comment": "\nMetadata that specifies the DOM name associated with the element.\n\nThis is used for API generation.\n\n[name] should be formatted as `interface.member`.\n",
+        "name": "DomName",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "DomName",
+            "children": [
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "kind": "param",
+                "name": "name",
+                "id": "name"
+              }
+            ],
+            "id": "DomName1()"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "kind": "property",
+            "name": "name",
+            "id": "name"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "DomName",
+            "children": [
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "kind": "param",
+                "name": "name",
+                "id": "name"
+              }
+            ],
+            "id": "DomName1()"
+          }
+        ],
+        "id": "DomName"
+      },
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "comment": "\nAn annotation used to mark an API as being experimental.\n\nAn API is considered to be experimental if it is still going through the\nprocess of stabilizing and is subject to change or removal.\n\nSee also:\n\n* [W3C recommendation](http://en.wikipedia.org/wiki/W3C_recommendation)\n",
+        "name": "Experimental",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "Experimental",
+            "id": "Experimental0()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "Experimental",
+            "id": "Experimental0()"
+          }
+        ],
+        "id": "Experimental"
+      },
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "comment": "\nAn annotation used to mark a feature as only being supported by a subset\nof the browsers that Dart supports by default.\n\nIf an API is not annotated with [SupportedBrowser] then it is assumed to\nwork on all browsers Dart supports.\n",
+        "name": "SupportedBrowser",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "SupportedBrowser",
+            "children": [
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "kind": "param",
+                "name": "browserName",
+                "id": "browserName"
+              },
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "isOptional": true,
+                "kind": "param",
+                "name": "minimumVersion",
+                "id": "minimumVersion"
+              }
+            ],
+            "id": "SupportedBrowser2()"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "CHROME",
+            "id": "CHROME"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "FIREFOX",
+            "id": "FIREFOX"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "IE",
+            "id": "IE"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "OPERA",
+            "id": "OPERA"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "SAFARI",
+            "id": "SAFARI"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "kind": "property",
+            "name": "browserName",
+            "id": "browserName"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "kind": "property",
+            "name": "minimumVersion",
+            "id": "minimumVersion"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "SupportedBrowser",
+            "children": [
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "kind": "param",
+                "name": "browserName",
+                "id": "browserName"
+              },
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "isOptional": true,
+                "kind": "param",
+                "name": "minimumVersion",
+                "id": "minimumVersion"
+              }
+            ],
+            "id": "SupportedBrowser2()"
+          }
+        ],
+        "id": "SupportedBrowser"
+      }
+    ],
+    "id": "file:///home/thomas/dart/dart-sdk/lib/html/html_common/metadata.dart"
+  },
+  {
+    "kind": "library",
+    "comment": "\nIn this library we fetch, cache and allow users to subscribe to organization JSON.\n",
+    "name": "organization",
+    "children": [
+      {
+        "ref": {
+          "name": "dynamic",
+          "refId": "dynamic"
+        },
+        "kind": "property",
+        "name": "organization",
+        "id": "organization"
+      },
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "comment": "\nThe Organization singleton contains facilities to [fetch] and cache an organization\nbased on its [id]. When an organization is fetched it is dispatched as JSON to\nall subscribers that has been registered with the [registerSubscriber] function.\n",
+        "name": "Organization",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "comment": "\nOrganization is a singleton. The single [URI] parameter is the location\nof the Alice organization REST interface.\n",
+            "name": "Organization",
+            "children": [
+              {
+                "ref": {
+                  "name": "Uri",
+                  "refId": "Uri"
+                },
+                "kind": "param",
+                "name": "URI",
+                "id": "URI"
+              }
+            ],
+            "id": "Organization1()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "Organization._internal",
+            "children": [
+              {
+                "ref": {
+                  "name": "Uri",
+                  "refId": "Uri"
+                },
+                "kind": "param",
+                "name": "URI",
+                "id": "URI"
+              }
+            ],
+            "id": "Organization._internal1()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "name": "_dispatch",
+            "children": [
+              {
+                "ref": {
+                  "name": "int",
+                  "refId": "int"
+                },
+                "kind": "param",
+                "name": "id",
+                "id": "id"
+              }
+            ],
+            "id": "_dispatch1()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "name": "_onComplete",
+            "children": [
+              {
+                "ref": {
+                  "name": "HttpRequest",
+                  "refId": "HttpRequest"
+                },
+                "kind": "param",
+                "name": "req",
+                "id": "req"
+              }
+            ],
+            "id": "_onComplete1()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "comment": "\nFetch the [id] organization JSON and dispatch it to all subscribers registered\nvia the [registerSubscriber] function.\n",
+            "name": "fetch",
+            "children": [
+              {
+                "ref": {
+                  "name": "int",
+                  "refId": "int"
+                },
+                "kind": "param",
+                "name": "id",
+                "id": "id"
+              }
+            ],
+            "id": "fetch1()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "comment": "\nRegister a [Subscriber]. All subscribers receive an organization JSON whenever\n[fetch] is called.\n",
+            "name": "registerSubscriber",
+            "children": [
+              {
+                "ref": {
+                  "name": "Subscriber",
+                  "refId": "Subscriber"
+                },
+                "kind": "param",
+                "name": "subscriber",
+                "id": "subscriber"
+              }
+            ],
+            "id": "registerSubscriber1()"
+          },
+          {
+            "ref": {
+              "name": "Organization",
+              "refId": "Organization"
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "_instance",
+            "id": "_instance"
+          },
+          {
+            "ref": {
+              "name": "Map",
+              "refId": "Map"
+            },
+            "kind": "property",
+            "name": "_cache",
+            "id": "_cache"
+          },
+          {
+            "ref": {
+              "name": "Map",
+              "refId": "Map"
+            },
+            "kind": "property",
+            "name": "_json",
+            "id": "_json"
+          },
+          {
+            "ref": {
+              "name": "List",
+              "refId": "List"
+            },
+            "kind": "property",
+            "name": "_subscribers",
+            "id": "_subscribers"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "kind": "property",
+            "name": "_URL",
+            "id": "_URL"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "comment": "\nOrganization is a singleton. The single [URI] parameter is the location\nof the Alice organization REST interface.\n",
+            "name": "Organization",
+            "children": [
+              {
+                "ref": {
+                  "name": "Uri",
+                  "refId": "Uri"
+                },
+                "kind": "param",
+                "name": "URI",
+                "id": "URI"
+              }
+            ],
+            "id": "Organization1()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "Organization._internal",
+            "children": [
+              {
+                "ref": {
+                  "name": "Uri",
+                  "refId": "Uri"
+                },
+                "kind": "param",
+                "name": "URI",
+                "id": "URI"
+              }
+            ],
+            "id": "Organization._internal1()"
+          }
+        ],
+        "id": "Organization"
+      }
+    ],
+    "id": "file:///home/thomas/dart/bob/web/dart/organization.dart"
+  },
+  {
+    "kind": "library",
+    "comment": "\nIn this library we fetch, cache and allow users to subscribe to organizations\nlist JSON.\n",
+    "name": "organizations_list",
+    "children": [
+      {
+        "ref": {
+          "name": "dynamic",
+          "refId": "dynamic"
+        },
+        "kind": "property",
+        "name": "organizations_list",
+        "id": "organizations_list"
+      },
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "comment": "\nThe Organizations_List singleton contains facilities to register subscribers\nto the organizations list JSON.\n",
+        "name": "Organizations_List",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "comment": "\nOrganizations_List is a singleton. The single [URI] parameter is the location\nof the Alice organizations list REST interface.\n",
+            "name": "Organizations_List",
+            "children": [
+              {
+                "ref": {
+                  "name": "Uri",
+                  "refId": "Uri"
+                },
+                "kind": "param",
+                "name": "URI",
+                "id": "URI"
+              }
+            ],
+            "id": "Organizations_List1()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "Organizations_List._internal",
+            "children": [
+              {
+                "ref": {
+                  "name": "Uri",
+                  "refId": "Uri"
+                },
+                "kind": "param",
+                "name": "URI",
+                "id": "URI"
+              }
+            ],
+            "id": "Organizations_List._internal1()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "name": "_onComplete",
+            "children": [
+              {
+                "ref": {
+                  "name": "HttpRequest",
+                  "refId": "HttpRequest"
+                },
+                "kind": "param",
+                "name": "req",
+                "id": "req"
+              }
+            ],
+            "id": "_onComplete1()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "comment": "\nRegister a [Subscriber]. All subscribers receive an organizations list\nJSON whenever it is loaded or updated.\n",
+            "name": "registerSubscriber",
+            "children": [
+              {
+                "ref": {
+                  "name": "Subscriber",
+                  "refId": "Subscriber"
+                },
+                "kind": "param",
+                "name": "subscriber",
+                "id": "subscriber"
+              }
+            ],
+            "id": "registerSubscriber1()"
+          },
+          {
+            "ref": {
+              "name": "Organizations_List",
+              "refId": "Organizations_List"
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "_instance",
+            "id": "_instance"
+          },
+          {
+            "ref": {
+              "name": "Map",
+              "refId": "Map"
+            },
+            "kind": "property",
+            "name": "_json",
+            "id": "_json"
+          },
+          {
+            "ref": {
+              "name": "HttpRequest",
+              "refId": "HttpRequest"
+            },
+            "kind": "property",
+            "name": "_request",
+            "id": "_request"
+          },
+          {
+            "ref": {
+              "name": "List",
+              "refId": "List"
+            },
+            "kind": "property",
+            "name": "_subscribers",
+            "id": "_subscribers"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "comment": "\nOrganizations_List is a singleton. The single [URI] parameter is the location\nof the Alice organizations list REST interface.\n",
+            "name": "Organizations_List",
+            "children": [
+              {
+                "ref": {
+                  "name": "Uri",
+                  "refId": "Uri"
+                },
+                "kind": "param",
+                "name": "URI",
+                "id": "URI"
+              }
+            ],
+            "id": "Organizations_List1()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "Organizations_List._internal",
+            "children": [
+              {
+                "ref": {
+                  "name": "Uri",
+                  "refId": "Uri"
+                },
+                "kind": "param",
+                "name": "URI",
+                "id": "URI"
+              }
+            ],
+            "id": "Organizations_List._internal1()"
+          }
+        ],
+        "id": "Organizations_List"
+      }
+    ],
+    "id": "file:///home/thomas/dart/bob/web/dart/organizations_list.dart"
+  },
+  {
+    "kind": "library",
+    "name": "utils",
+    "children": [
+      {
+        "returnType": {
+          "name": "String",
+          "refId": "String"
+        },
+        "kind": "method",
+        "name": "toSelector",
+        "children": [
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "kind": "param",
+            "name": "value",
+            "id": "value"
+          }
+        ],
+        "id": "toSelector1()"
+      }
+    ],
+    "id": "file:///home/thomas/dart/bob/web/dart/utils.dart"
+  },
+  {
+    "kind": "library",
+    "name": "view",
+    "children": [
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "name": "WelcomeMessage",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "WelcomeMessage",
+            "id": "WelcomeMessage0()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "WelcomeMessage._internal",
+            "id": "WelcomeMessage._internal0()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "name": "_setGreeting",
+            "children": [
+              {
+                "ref": {
+                  "name": "Map",
+                  "refId": "Map"
+                },
+                "kind": "param",
+                "name": "json",
+                "id": "json"
+              }
+            ],
+            "id": "_setGreeting1()"
+          },
+          {
+            "ref": {
+              "name": "WelcomeMessage",
+              "refId": "WelcomeMessage"
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "_instance",
+            "id": "_instance"
+          },
+          {
+            "ref": {
+              "name": "Box",
+              "refId": "Box"
+            },
+            "kind": "property",
+            "name": "_viewPort",
+            "id": "_viewPort"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "WelcomeMessage",
+            "id": "WelcomeMessage0()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "WelcomeMessage._internal",
+            "id": "WelcomeMessage._internal0()"
+          }
+        ],
+        "id": "WelcomeMessage"
+      },
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "name": "SendMessage",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "SendMessage",
+            "id": "SendMessage0()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "SendMessage._internal",
+            "id": "SendMessage._internal0()"
+          },
+          {
+            "ref": {
+              "name": "SendMessage",
+              "refId": "SendMessage"
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "_instance",
+            "id": "_instance"
+          },
+          {
+            "ref": {
+              "name": "Box",
+              "refId": "Box"
+            },
+            "kind": "property",
+            "name": "_viewPort",
+            "id": "_viewPort"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "SendMessage",
+            "id": "SendMessage0()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "SendMessage._internal",
+            "id": "SendMessage._internal0()"
+          }
+        ],
+        "id": "SendMessage"
+      },
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "name": "Overlay",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "Overlay",
+            "id": "Overlay0()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "Overlay._internal",
+            "id": "Overlay._internal0()"
+          },
+          {
+            "ref": {
+              "name": "Overlay",
+              "refId": "Overlay"
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "_instance",
+            "id": "_instance"
+          },
+          {
+            "ref": {
+              "name": "Box",
+              "refId": "Box"
+            },
+            "kind": "property",
+            "name": "_viewPort",
+            "id": "_viewPort"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "Overlay",
+            "id": "Overlay0()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "Overlay._internal",
+            "id": "Overlay._internal0()"
+          }
+        ],
+        "id": "Overlay"
+      },
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "name": "Navigation",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "Navigation",
+            "children": [
+              {
+                "ref": {
+                  "name": "Overlay",
+                  "refId": "Overlay"
+                },
+                "kind": "param",
+                "name": "overlay",
+                "id": "overlay"
+              }
+            ],
+            "id": "Navigation1()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "Navigation._internal",
+            "children": [
+              {
+                "ref": {
+                  "name": "Overlay",
+                  "refId": "Overlay"
+                },
+                "kind": "param",
+                "name": "overlay",
+                "id": "overlay"
+              }
+            ],
+            "id": "Navigation._internal1()"
+          },
+          {
+            "ref": {
+              "name": "Navigation",
+              "refId": "Navigation"
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "_instance",
+            "id": "_instance"
+          },
+          {
+            "ref": {
+              "name": "Navigation",
+              "refId": "Navigation"
+            },
+            "kind": "property",
+            "name": "_viewPort",
+            "id": "_viewPort"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "Navigation",
+            "children": [
+              {
+                "ref": {
+                  "name": "Overlay",
+                  "refId": "Overlay"
+                },
+                "kind": "param",
+                "name": "overlay",
+                "id": "overlay"
+              }
+            ],
+            "id": "Navigation1()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "Navigation._internal",
+            "children": [
+              {
+                "ref": {
+                  "name": "Overlay",
+                  "refId": "Overlay"
+                },
+                "kind": "param",
+                "name": "overlay",
+                "id": "overlay"
+              }
+            ],
+            "id": "Navigation._internal1()"
+          }
+        ],
+        "id": "Navigation"
+      },
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "name": "LocalQueue",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "LocalQueue",
+            "id": "LocalQueue0()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "LocalQueue._internal",
+            "id": "LocalQueue._internal0()"
+          },
+          {
+            "ref": {
+              "name": "LocalQueue",
+              "refId": "LocalQueue"
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "_instance",
+            "id": "_instance"
+          },
+          {
+            "ref": {
+              "name": "Box",
+              "refId": "Box"
+            },
+            "kind": "property",
+            "name": "_viewPort",
+            "id": "_viewPort"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "LocalQueue",
+            "id": "LocalQueue0()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "LocalQueue._internal",
+            "id": "LocalQueue._internal0()"
+          }
+        ],
+        "id": "LocalQueue"
+      },
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "name": "GlobalQueue",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "GlobalQueue",
+            "id": "GlobalQueue0()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "GlobalQueue._internal",
+            "id": "GlobalQueue._internal0()"
+          },
+          {
+            "ref": {
+              "name": "GlobalQueue",
+              "refId": "GlobalQueue"
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "_instance",
+            "id": "_instance"
+          },
+          {
+            "ref": {
+              "name": "Box",
+              "refId": "Box"
+            },
+            "kind": "property",
+            "name": "_viewPort",
+            "id": "_viewPort"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "GlobalQueue",
+            "id": "GlobalQueue0()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "GlobalQueue._internal",
+            "id": "GlobalQueue._internal0()"
+          }
+        ],
+        "id": "GlobalQueue"
+      },
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "name": "ContactInfo",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "ContactInfo",
+            "id": "ContactInfo0()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "ContactInfo._internal",
+            "id": "ContactInfo._internal0()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "name": "_registerSubscribers",
+            "id": "_registerSubscribers0()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "name": "_setContactInfo",
+            "children": [
+              {
+                "ref": {
+                  "name": "Map",
+                  "refId": "Map"
+                },
+                "kind": "param",
+                "name": "json",
+                "id": "json"
+              }
+            ],
+            "id": "_setContactInfo1()"
+          },
+          {
+            "ref": {
+              "name": "ContactInfo",
+              "refId": "ContactInfo"
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "_instance",
+            "id": "_instance"
+          },
+          {
+            "ref": {
+              "name": "Box",
+              "refId": "Box"
+            },
+            "kind": "property",
+            "name": "_viewPort",
+            "id": "_viewPort"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "ContactInfo",
+            "id": "ContactInfo0()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "ContactInfo._internal",
+            "id": "ContactInfo._internal0()"
+          }
+        ],
+        "id": "ContactInfo"
+      },
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "name": "CompanyInfo",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "CompanyInfo",
+            "id": "CompanyInfo0()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "CompanyInfo._internal",
+            "id": "CompanyInfo._internal0()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "name": "_registerEventHandlers",
+            "id": "_registerEventHandlers0()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "name": "_registerSubscribers",
+            "id": "_registerSubscribers0()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "name": "_setCompanySelector",
+            "children": [
+              {
+                "ref": {
+                  "name": "Map",
+                  "refId": "Map"
+                },
+                "kind": "param",
+                "name": "json",
+                "id": "json"
+              }
+            ],
+            "id": "_setCompanySelector1()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "name": "_setCompanyInfo",
+            "children": [
+              {
+                "ref": {
+                  "name": "Map",
+                  "refId": "Map"
+                },
+                "kind": "param",
+                "name": "json",
+                "id": "json"
+              }
+            ],
+            "id": "_setCompanyInfo1()"
+          },
+          {
+            "ref": {
+              "name": "CompanyInfo",
+              "refId": "CompanyInfo"
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "_instance",
+            "id": "_instance"
+          },
+          {
+            "ref": {
+              "name": "Box",
+              "refId": "Box"
+            },
+            "kind": "property",
+            "name": "_viewPort",
+            "id": "_viewPort"
+          },
+          {
+            "ref": {
+              "name": "Selector",
+              "refId": "Selector"
+            },
+            "kind": "property",
+            "name": "_companySelector",
+            "id": "_companySelector"
+          },
+          {
+            "ref": {
+              "name": "DivElement",
+              "refId": "DivElement"
+            },
+            "kind": "property",
+            "name": "_companyInfo_dump",
+            "id": "_companyInfo_dump"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "CompanyInfo",
+            "id": "CompanyInfo0()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "CompanyInfo._internal",
+            "id": "CompanyInfo._internal0()"
+          }
+        ],
+        "id": "CompanyInfo"
+      },
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "name": "AgentInfo",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "AgentInfo",
+            "id": "AgentInfo0()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "AgentInfo._internal",
+            "id": "AgentInfo._internal0()"
+          },
+          {
+            "ref": {
+              "name": "AgentInfo",
+              "refId": "AgentInfo"
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "_instance",
+            "id": "_instance"
+          },
+          {
+            "ref": {
+              "name": "Box",
+              "refId": "Box"
+            },
+            "kind": "property",
+            "name": "_viewPort",
+            "id": "_viewPort"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "AgentInfo",
+            "id": "AgentInfo0()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "AgentInfo._internal",
+            "id": "AgentInfo._internal0()"
+          }
+        ],
+        "id": "AgentInfo"
+      }
+    ],
+    "id": "file:///home/thomas/dart/bob/web/dart/view.dart"
+  },
+  {
+    "kind": "library",
+    "name": "widget.box",
+    "children": [
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "comment": "\nA Box is a container that presents data to the user. It takes a [div] element\nas its sole parameter. This [div] is the box. A Box MUST have a body and it MAY\nhave a header.\n",
+        "name": "Box",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "comment": "\nInstantiate with a [div].\n\nThe [div] MUST contain a child <div> identified by the id of [div] with _body\nappended, ie. if [div] has id='foo' then the body <div> must have id='foo_body'.\n\nThe [div] MAY contain a child <h1> identified by the id of [div] with _header\nappended, ie. if [div] has id='foo' then the header <h1> must have id='foo_header'.\n",
+            "name": "Box",
+            "children": [
+              {
+                "ref": {
+                  "name": "DivElement",
+                  "refId": "DivElement"
+                },
+                "kind": "param",
+                "name": "div",
+                "id": "div"
+              }
+            ],
+            "id": "Box1()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "name": "_resize",
+            "id": "_resize0()"
+          },
+          {
+            "isSetter": true,
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "comment": "\nSet the text value of the [Box] body.\n",
+            "name": "body=",
+            "children": [
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "kind": "param",
+                "name": "value",
+                "id": "value"
+              }
+            ],
+            "id": "body=1()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "comment": "\nFadein the [Box]\n",
+            "name": "fadeIn",
+            "id": "fadeIn0()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "comment": "\nFadeout the [Box]\n",
+            "name": "fadeOut",
+            "id": "fadeOut0()"
+          },
+          {
+            "returnType": {
+              "name": "String",
+              "refId": "String"
+            },
+            "kind": "method",
+            "comment": "\nReturn the header text or empty string if no header exists.\n",
+            "name": "header",
+            "id": "header0()"
+          },
+          {
+            "isSetter": true,
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "comment": "\nSet the text value of the [Box] header.\n",
+            "name": "header=",
+            "children": [
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "kind": "param",
+                "name": "value",
+                "id": "value"
+              }
+            ],
+            "id": "header=1()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "comment": "\nHide the [Box].\n",
+            "name": "hide",
+            "id": "hide0()"
+          },
+          {
+            "returnType": {
+              "name": "bool",
+              "refId": "bool"
+            },
+            "kind": "method",
+            "comment": "\nReturn whether or not the [Box] is hidden.\n",
+            "name": "ishidden",
+            "id": "ishidden0()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "comment": "\nUnhide the [Box].\n",
+            "name": "unHide",
+            "id": "unHide0()"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "kind": "property",
+            "comment": "\nReturn the header text or empty string if no header exists.\n",
+            "name": "header",
+            "id": "header"
+          },
+          {
+            "ref": {
+              "name": "bool",
+              "refId": "bool"
+            },
+            "kind": "property",
+            "comment": "\nReturn whether or not the [Box] is hidden.\n",
+            "name": "ishidden",
+            "id": "ishidden"
+          },
+          {
+            "ref": {
+              "name": "DivElement",
+              "refId": "DivElement"
+            },
+            "kind": "property",
+            "name": "_body",
+            "id": "_body"
+          },
+          {
+            "ref": {
+              "name": "DivElement",
+              "refId": "DivElement"
+            },
+            "kind": "property",
+            "name": "_div",
+            "id": "_div"
+          },
+          {
+            "ref": {
+              "name": "HeadingElement",
+              "refId": "HeadingElement"
+            },
+            "kind": "property",
+            "name": "_header",
+            "id": "_header"
+          },
+          {
+            "ref": {
+              "name": "bool",
+              "refId": "bool"
+            },
+            "kind": "property",
+            "name": "_hidden",
+            "id": "_hidden"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "comment": "\nInstantiate with a [div].\n\nThe [div] MUST contain a child <div> identified by the id of [div] with _body\nappended, ie. if [div] has id='foo' then the body <div> must have id='foo_body'.\n\nThe [div] MAY contain a child <h1> identified by the id of [div] with _header\nappended, ie. if [div] has id='foo' then the header <h1> must have id='foo_header'.\n",
+            "name": "Box",
+            "children": [
+              {
+                "ref": {
+                  "name": "DivElement",
+                  "refId": "DivElement"
+                },
+                "kind": "param",
+                "name": "div",
+                "id": "div"
+              }
+            ],
+            "id": "Box1()"
+          }
+        ],
+        "id": "Box"
+      }
+    ],
+    "id": "file:///home/thomas/dart/bob/web/dart/widget.box.dart"
+  },
+  {
+    "kind": "library",
+    "name": "widget.navigation",
+    "children": [
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "comment": "\nA Navigation object consists of a list of buttons. It takes an [ul] element\nas its sole parameter. Buttons can be added to a Navigation object using the\n[addButton] function.\n",
+        "name": "Navigation",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "comment": "\nInstantiate with an [ul].\n",
+            "name": "Navigation",
+            "children": [
+              {
+                "ref": {
+                  "name": "UListElement",
+                  "refId": "UListElement"
+                },
+                "kind": "param",
+                "name": "ul",
+                "id": "ul"
+              }
+            ],
+            "id": "Navigation1()"
+          },
+          {
+            "isSetter": true,
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "comment": "\nThe content window that is activated when a button is activated.\n",
+            "name": "contentWindow=",
+            "children": [
+              {
+                "ref": {
+                  "name": "Box",
+                  "refId": "Box"
+                },
+                "kind": "param",
+                "name": "value",
+                "id": "value"
+              }
+            ],
+            "id": "contentWindow=1()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "comment": "\nAdd a button to the Navigation object.\n",
+            "name": "addButton",
+            "children": [
+              {
+                "ref": {
+                  "name": "NavigationButton",
+                  "refId": "NavigationButton"
+                },
+                "kind": "param",
+                "name": "button",
+                "id": "button"
+              }
+            ],
+            "id": "addButton1()"
+          },
+          {
+            "ref": {
+              "name": "List",
+              "refId": "List"
+            },
+            "kind": "property",
+            "name": "_buttons",
+            "id": "_buttons"
+          },
+          {
+            "ref": {
+              "name": "Box",
+              "refId": "Box"
+            },
+            "kind": "property",
+            "name": "_contentWindow",
+            "id": "_contentWindow"
+          },
+          {
+            "ref": {
+              "name": "UListElement",
+              "refId": "UListElement"
+            },
+            "kind": "property",
+            "name": "_ul",
+            "id": "_ul"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "comment": "\nInstantiate with an [ul].\n",
+            "name": "Navigation",
+            "children": [
+              {
+                "ref": {
+                  "name": "UListElement",
+                  "refId": "UListElement"
+                },
+                "kind": "param",
+                "name": "ul",
+                "id": "ul"
+              }
+            ],
+            "id": "Navigation1()"
+          }
+        ],
+        "id": "Navigation"
+      }
+    ],
+    "id": "file:///home/thomas/dart/bob/web/dart/widget.navigation.dart"
+  },
+  {
+    "kind": "library",
+    "name": "widget.navigation_button",
+    "children": [
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "comment": "\nA NavigationButton is a button that can be added to a [Navigation] object.\n",
+        "name": "NavigationButton",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "comment": "\nInstantiate with a [button].\n",
+            "name": "NavigationButton",
+            "children": [
+              {
+                "ref": {
+                  "name": "ButtonElement",
+                  "refId": "ButtonElement"
+                },
+                "kind": "param",
+                "name": "button",
+                "id": "button"
+              }
+            ],
+            "id": "NavigationButton1()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "name": "_resize",
+            "id": "_resize0()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "comment": "\nSet whether or not the button is activated.\n",
+            "name": "activated",
+            "children": [
+              {
+                "ref": {
+                  "name": "bool",
+                  "refId": "bool"
+                },
+                "kind": "param",
+                "name": "value",
+                "id": "value"
+              }
+            ],
+            "id": "activated1()"
+          },
+          {
+            "returnType": {
+              "name": "ButtonElement",
+              "refId": "ButtonElement"
+            },
+            "kind": "method",
+            "comment": "\nReturn the actual <button> element.\n",
+            "name": "element",
+            "id": "element0()"
+          },
+          {
+            "ref": {
+              "name": "ButtonElement",
+              "refId": "ButtonElement"
+            },
+            "kind": "property",
+            "comment": "\nReturn the actual <button> element.\n",
+            "name": "element",
+            "id": "element"
+          },
+          {
+            "ref": {
+              "name": "ButtonElement",
+              "refId": "ButtonElement"
+            },
+            "kind": "property",
+            "name": "_element",
+            "id": "_element"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "kind": "property",
+            "name": "_id",
+            "id": "_id"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "comment": "\nInstantiate with a [button].\n",
+            "name": "NavigationButton",
+            "children": [
+              {
+                "ref": {
+                  "name": "ButtonElement",
+                  "refId": "ButtonElement"
+                },
+                "kind": "param",
+                "name": "button",
+                "id": "button"
+              }
+            ],
+            "id": "NavigationButton1()"
+          }
+        ],
+        "id": "NavigationButton"
+      }
+    ],
+    "id": "file:///home/thomas/dart/bob/web/dart/widget.navigation_button.dart"
+  },
+  {
+    "kind": "library",
+    "name": "widget.selector",
+    "children": [
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "comment": "\nTODO: Write comment\n",
+        "name": "Selector",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "Selector",
+            "children": [
+              {
+                "ref": {
+                  "name": "SelectElement",
+                  "refId": "SelectElement"
+                },
+                "kind": "param",
+                "name": "select",
+                "id": "select"
+              }
+            ],
+            "id": "Selector1()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "comment": "\nTODO: Write comment\n",
+            "name": "addOption",
+            "children": [
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "kind": "param",
+                "name": "value",
+                "id": "value"
+              },
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "kind": "param",
+                "name": "label",
+                "id": "label"
+              },
+              {
+                "ref": {
+                  "name": "bool",
+                  "refId": "bool"
+                },
+                "isOptional": true,
+                "kind": "param",
+                "name": "disabled",
+                "id": "disabled"
+              }
+            ],
+            "id": "addOption3()"
+          },
+          {
+            "returnType": {
+              "name": "SelectElement",
+              "refId": "SelectElement"
+            },
+            "kind": "method",
+            "comment": "\nTODO: Write comment\n",
+            "name": "element",
+            "id": "element0()"
+          },
+          {
+            "returnType": {
+              "name": "String",
+              "refId": "String"
+            },
+            "kind": "method",
+            "comment": "\nTODO: Write comment\n",
+            "name": "value",
+            "id": "value0()"
+          },
+          {
+            "ref": {
+              "name": "SelectElement",
+              "refId": "SelectElement"
+            },
+            "kind": "property",
+            "comment": "\nTODO: Write comment\n",
+            "name": "element",
+            "id": "element"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "kind": "property",
+            "comment": "\nTODO: Write comment\n",
+            "name": "value",
+            "id": "value"
+          },
+          {
+            "ref": {
+              "name": "SelectElement",
+              "refId": "SelectElement"
+            },
+            "kind": "property",
+            "name": "_element",
+            "id": "_element"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "Selector",
+            "children": [
+              {
+                "ref": {
+                  "name": "SelectElement",
+                  "refId": "SelectElement"
+                },
+                "kind": "param",
+                "name": "select",
+                "id": "select"
+              }
+            ],
+            "id": "Selector1()"
+          }
+        ],
+        "id": "Selector"
+      }
+    ],
+    "id": "file:///home/thomas/dart/bob/web/dart/widget.selector.dart"
+  }
+]

@@ -5,25 +5,31 @@ import 'widget.box.dart' as widget;
 import 'widget.navigation_button.dart' as widget;
 import 'utils.dart' as utils;
 
+/**
+ * A Navigation object consists of a list of buttons. It takes an [ul] element
+ * as its sole parameter. Buttons can be added to a Navigation object using the
+ * [addButton] function.
+ */
 class Navigation {
   List         _buttons = new List<widget.NavigationButton>();
   widget.Box   _contentWindow;
-  String       _id;
   UListElement _ul;
 
-  Navigation(String element_id) {
-    assert(!element_id.isEmpty);
-
-    _id = utils.toSelector(element_id);
-    _ul = query(_id);
+  /**
+   * Instantiate with an [ul].
+   */
+  Navigation(UListElement ul) {
+    _ul = ul;
   }
 
-  String get id => _id;
-
+  /**
+   * The content window that is activated when a button is activated.
+   */
   set contentWindow(widget.Box value) => _contentWindow = value;
-  set height(String value) => _ul.style.height = value;
-  set width(String value) => _ul.style.width = value;
 
+  /**
+   * Add a button to the Navigation object.
+   */
   void addButton(widget.NavigationButton button) {
     _buttons.add(button);
 

@@ -16,10 +16,11 @@ class CompanyInfo {
   }
 
   CompanyInfo._internal() {
-    _viewPort = new widget.Box('company_info')
+    _viewPort = new widget.Box(query('#company_info'))
       ..header = 'Virksomhed';
 
-    _companySelector = new widget.Selector('company_info_select');
+    _companySelector = new widget.Selector(query('#company_info_select'))
+      ..addOption('', 'vælg virksomhed', disabled: true);
 
     _companyInfo_dump = query('#company_info_dump');
 

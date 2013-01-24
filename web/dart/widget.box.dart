@@ -4,21 +4,34 @@ import 'dart:async';
 import 'dart:html';
 import 'utils.dart' as utils;
 
+/**
+ * A Box is a container that presents data to the user. It takes a [div] element
+ * as its sole parameter. This [div] is the box. A Box MUST have a body and it MAY
+ * have a header.
+ */
 class Box {
   DivElement     _body;
   DivElement     _div;
   HeadingElement _header;
   bool           _hidden = false;
-  String         _id;
 
-  Box(String element_id) {
-    assert(!element_id.isEmpty);
+  /**
+   * Instantiate with a [div].
+   *
+   * The [div] MUST contain a child <div> identified by the id of [div] with _body
+   * appended, ie. if [div] has id='foo' then the body <div> must have id='foo_body'.
+   *
+   * The [div] MAY contain a child <h1> identified by the id of [div] with _header
+   * appended, ie. if [div] has id='foo' then the header <h1> must have id='foo_header'.
+   */
+  Box(DivElement div) {
+    _div = div;
 
-    _id = utils.toSelector(element_id);
+    _header = query('#${_div.id}_header');
+    assert(_header is HeadingElement || _header == null);
 
-    _div = query(_id);
-    _header = query('${_id}_header');
-    _body = query('${_id}_body');
+    _body = query('#${_div.id}_body');
+    assert(_body is DivElement);
 
     _resize();
     window.on.resize.add((e) => _resize());
@@ -40,34 +53,56 @@ class Box {
     _body.style.height = '${body_height - 20}px'; // <- TODO: 20 depends on a css value, which is bad.
   }
 
-  int    get clientHeight => _body.clientHeight;
-  String get header => _header.text;
-  bool   get ishidden => _hidden;
-  String get id => _id;
-  int    get scrollHeight => _body.scrollHeight;
-
+  /**
+   * Set the text value of the [Box] body.
+   */
   set body(String value) => _body.text = value;
-  set header(String value) => _header.text = value;
-  set height(String value) => _div.style.height = value;
 
+  /**
+   * Fadein the [Box]
+   */
   void fadeIn() {
     unHide();
     _div.classes.remove('fadeout');
     _div.classes.add('fadein');
   }
 
+  /**
+   * Fadeout the [Box]
+   */
   void fadeOut() {
     _div.classes.remove('fadein');
     _div.classes.add('fadeout');
     var timer = new Timer(300, (t) => hide()); // A bit of hack I admit. :D
   }
 
+  /**
+   * Return the header text or empty string if no header exists.
+   */
+  String get header => _header.text; // TODO: handle no headers
+
+  /**
+   * Set the text value of the [Box] header.
+   */
+  set header(String value) => _header.text = value;
+
+  /**
+   * Hide the [Box].
+   */
   void hide(){
     _div.style.visibility = 'hidden';
     _div.style.zIndex = '-10';
     _hidden = true;
   }
 
+  /**
+   * Return whether or not the [Box] is hidden.
+   */
+  bool get ishidden => _hidden;
+
+  /**
+   * Unhide the [Box].
+   */
   void unHide() {
     _div.style.visibility = 'visible';
     _div.style.zIndex = '2';

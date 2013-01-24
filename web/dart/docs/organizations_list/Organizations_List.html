@@ -1,0 +1,132 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>Organizations_List class / organizations_list Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="organizations_list" data-type="Organizations_List">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../organizations_list.html">organizations_list</a> &rsaquo; <a href="../organizations_list/Organizations_List.html">Organizations_List</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+<h2><div class="icon-library"></div><a href="../bob.dart.html">bob.dart</a></h2><h2><div class="icon-library"></div><a href="../Common.html">Common</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2><h2><div class="icon-library"></div><a href="../organization.html">organization</a></h2><h2><div class="icon-library"></div><a href="../organizations_list.html">organizations_list</a></h2><ul class="icon">
+<li><div class="icon-class"></div><strong>Organizations_List</strong></li>
+</ul>
+<h2><div class="icon-library"></div><a href="../utils.html">utils</a></h2><h2><div class="icon-library"></div><a href="../view.html">view</a></h2><h2><div class="icon-library"></div><a href="../widget.box.html">widget.box</a></h2><h2><div class="icon-library"></div><a href="../widget.navigation.html">widget.navigation</a></h2><h2><div class="icon-library"></div><a href="../widget.navigation_button.html">widget.navigation_button</a></h2><h2><div class="icon-library"></div><a href="../widget.selector.html">widget.selector</a></h2></div>
+<div class="content">
+        <h2><strong>Organizations_List</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<p>The Organizations_List singleton contains facilities to register subscribers
+to the organizations list JSON.</p>
+<pre class="source">
+class Organizations_List {
+ static Organizations_List _instance;
+
+ Map                       _json;
+ HttpRequest               _request;
+ List                      _subscribers = new List&lt;Subscriber&gt;();
+
+ /**
+  * Organizations_List is a singleton. The single [URI] parameter is the location
+  * of the Alice organizations list REST interface.
+  */
+ factory Organizations_List(Uri URI) {
+   assert(URI.isAbsolute());
+
+   if(_instance == null) {
+     _instance = new Organizations_List._internal(URI);
+   }
+   return _instance;
+ }
+
+ Organizations_List._internal(Uri URI) {
+   _request = new HttpRequest.get(URI.toString(), _onComplete);
+ }
+
+ void _onComplete(HttpRequest req) {
+   switch(req.status) {
+     case 200:
+       _json = json.parse(req.responseText);
+       _subscribers.forEach((subscriber) =&gt; subscriber(_json));
+       break;
+     default:
+       // TODO: Proper error handling
+       print('Organizations_List error: ${req.statusText}');
+   }
+ }
+
+ /**
+  * Register a [Subscriber]. All subscribers receive an organizations list
+  * JSON whenever it is loaded or updated.
+  */
+ void registerSubscriber(Subscriber subscriber) =&gt; _subscribers.add(subscriber);
+}
+</pre>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="Organizations_List">
+<button class="show-code">Code</button>
+factory <strong>Organizations_List</strong>(<a href="http://api.dartlang.org/dart_uri/Uri.html">Uri</a> URI) <a class="anchor-link" href="#Organizations_List"
+              title="Permalink to Organizations_List.Organizations_List">#</a></h4>
+<div class="doc">
+<p>Organizations_List is a singleton. The single 
+<span class="param">URI</span> parameter is the location
+of the Alice organizations list REST interface.</p>
+<pre class="source">
+factory Organizations_List(Uri URI) {
+ assert(URI.isAbsolute());
+
+ if(_instance == null) {
+   _instance = new Organizations_List._internal(URI);
+ }
+ return _instance;
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="registerSubscriber">
+<button class="show-code">Code</button>
+void <strong>registerSubscriber</strong>(<a href="../Common/Subscriber.html">Subscriber</a> subscriber) <a class="anchor-link" href="#registerSubscriber"
+              title="Permalink to Organizations_List.registerSubscriber">#</a></h4>
+<div class="doc">
+<p>Register a <code>Subscriber</code>. All subscribers receive an organizations list
+JSON whenever it is loaded or updated.</p>
+<pre class="source">
+void registerSubscriber(Subscriber subscriber) =&gt; _subscribers.add(subscriber);
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        
+        <div class="footer">
+          <div>This page was generated at 2013-01-24 17:04:16.453</div>
+        </div>
+        <script async src="../client-static.js"></script>
+        </body></html>
+        

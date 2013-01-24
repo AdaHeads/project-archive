@@ -1,4 +1,5 @@
 file:///home/thomas/dart/bob/web/dart/bob.dart
+file:///home/thomas/dart/bob/web/dart/common.dart
 file:///home/thomas/dart/bob/web/dart/organization.dart
 file:///home/thomas/dart/bob/web/dart/organizations_list.dart
 file:///home/thomas/dart/bob/web/dart/utils.dart
@@ -100,4 +101,12 @@ file:///home/thomas/dart/dart-sdk/lib/math/base.dart
 file:///home/thomas/dart/dart-sdk/lib/math/math.dart
 file:///home/thomas/dart/dart-sdk/lib/math/random.dart
 file:///home/thomas/dart/dart-sdk/lib/svg/dart2js/svg_dart2js.dart
+file:///home/thomas/dart/dart-sdk/lib/uri/encode_decode.dart
+file:///home/thomas/dart/dart-sdk/lib/uri/helpers.dart
+file:///home/thomas/dart/dart-sdk/lib/uri/uri.dart
+file:///home/thomas/dart/dart-sdk/lib/utf/utf.dart
+file:///home/thomas/dart/dart-sdk/lib/utf/utf16.dart
+file:///home/thomas/dart/dart-sdk/lib/utf/utf32.dart
+file:///home/thomas/dart/dart-sdk/lib/utf/utf8.dart
+file:///home/thomas/dart/dart-sdk/lib/utf/utf_core.dart
 file:///home/thomas/dart/dart-sdk/lib/web_audio/dart2js/web_audio_dart2js.dart
