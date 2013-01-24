@@ -13,29 +13,38 @@ AdaHeads.View_Observers.Attach = function (Call_List) {
   var Call_List_Add_View_Observer = new Observer_Class( "Call_List_Add_View_Observer", function (call) {
     
     if($("#call_id_"+call.arrival_time).length === 0) {
-      AdaHeads.Organization_List.Fetch(call.queue, function (org) {
-        var li = $("<li>").text(org.name);
+      AdaHeads.Organization_List.Fetch(call.organization_id, function (org) {
+        var li = $("<li>").text(org.full_name).hide();
 
-        li.attr("id","call_id_"+call.id.replace(/[.]/g, "")).hide();    
-        li.appendTo("#Call_List");
-        li.slideDown();
-      });
-      
-    }
-  });
+        $(li).attr("id","call_id_"+call.id); 
+        var pickup_button = $("<button>").text("Pickup");
+        pickup_button.click(function () {
+          AdaHeads.Alice.Pickup_Call(call.id,
+          {
+            200 : function (data) {
+              AdaHeads.Status_Console.Log("Picked up call"); 
+              li.slideUp();
+              li.empty();
+            },
   
-  /**
-   * Updates the UI when a call enters the call queue
-   */
-  var Call_List_Add_View_Observer = new Observer_Class( "Call_List_Add_View_Observer", function (call) {
+            404 : function (data) {
+              AdaHeads.Status_Console.Log("Call not found"); 
+            },
     
-    if($("#call_id_"+call.arrival_time).length === 0) {
-      AdaHeads.Organization_List.Fetch(call.queue, function (org) {
-        var li = $("<li>").text(org.name);
+            204 : function (data) {
+              AdaHeads.Status_Console.Log("Pickup: No call available"); 
+              console.log (data); 
 
-        li.attr("id","call_id_"+call.id.replace(/[.]/g, "")).hide();    
-        li.appendTo("#Call_List");
-        li.slideDown();
+            },
+    
+            500 : function (data) {
+              AdaHeads.Status_Console.Log("Pickup: Server error");
+            }
+          })
+        });
+        pickup_button.appendTo(li);
+        $(li).appendTo("#global_queue_list");
+        $(li).slideDown();
       });
       
     }
@@ -46,7 +55,7 @@ AdaHeads.View_Observers.Attach = function (Call_List) {
    */
   var Call_List_Remove_View_Observer = new Observer_Class( "Call_List_Remove_View_Observer", 
     function (call) {
-      $("#call_id_"+call.id.replace(/[.]/g, "")).slideUp(200,this.remove);
+      $("#call_id_"+call.id).fadeOut(300, function() { $(this).remove(); });
     });
 
   /**

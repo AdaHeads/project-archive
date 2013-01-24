@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-    <title>Ugly Bob</title>
-    <link type="text/css" href="css_old/style.css" rel="stylesheet" />
-
-    <link rel="stylesheet" href="css_old/tabs.css"
-          type="text/css" media="screen" />
-    <link rel="stylesheet" href="css_old/tabs-panes.css"
-          type="text/css" media="screen" />
+  <head>
+    <meta charset="utf-8">
+    <title>Bob</title>
+    <link rel="stylesheet" href="css/bob.css?v=1">
+    <link rel="stylesheet" href="css/keyframes.css?v=1">
+    <link rel="stylesheet" href="css/navigation.css?v=1">
+    <link rel="stylesheet" href="css/welcome_message.css?v=1">
+    <link rel="stylesheet" href="css/agent_info.css?v=1">
+    <link rel="stylesheet" href="css/company_info.css?v=1">
+    <link rel="stylesheet" href="css/contact_info.css?v=1">
+    <link rel="stylesheet" href="css/send_message.css?v=1">
+    <link rel="stylesheet" href="css/global_queue.css?v=1">
+    <link rel="stylesheet" href="css/local_queue.css?v=1">
+    <link rel="stylesheet" href="css/overlay.css?v=1">
+    
+        <link rel="stylesheet" href="css/js_overrides.css?v=1">
 
 
     <script type="text/javascript" src="js/lib/jquery-1.8.0.js"></script> 
@@ -24,9 +32,12 @@
 
     <!-- View objects --> 
     <script type="text/javascript" src="js/View/AdaHeads.Call_Panel.js"></script>
+    <script type="text/javascript" src="js/AdaHeads.Labels.en.js"></script>
     <script type="text/javascript" src="js/View/AdaHeads.Event_Log.js"></script>
     <script type="text/javascript" src="js/View/AdaHeads.Event_Panel.js"></script>
     <script type="text/javascript" src="js/View/AdaHeads.Organization_Panel.js"></script>
+    <script type="text/javascript" src="js/View/AdaHeads.Organization.js"></script>
+    <script type="text/javascript" src="js/View/AdaHeads.Contact.js"></script>
     <script type="text/javascript" src="js/View/AdaHeads.Organization_Information_Panel.js"></script>
     <script type="text/javascript" src="js/View/AdaHeads.Statistics_Panel.js"></script>
     <script type="text/javascript" src="js/View/AdaHeads.Status_Panel.js"></script>
@@ -42,244 +53,165 @@
     <script type="text/javascript" src="js/Click_Handlers.js"></script>
     <script type="text/javascript" src="js/Classes/Contact_Entity_Database.js"></script>
     <script type="text/javascript" src="js/AdaHeads.Notification_Handlers.js"></script>
-    <script type="text/javascript" src="js/Classes/Local_Database.js"></script>
+    <!--    <script type="text/javascript" src="js/Classes/Local_Database.js"></script> -->
     <script type="text/javascript" src="js/Classes/Websocket.js"></script>
     <script type="text/javascript" src="js/Classes/AdaHeads.Call_List.js"></script>
     <script type="text/javascript" src="js/HTML5_Tests.js"></script>
     <script type="text/javascript" src="js/AdaHeads.Alice.js"></script> 
 
+    <script src="http://jquery-ui.googlecode.com/svn/tags/latest/ui/jquery.effects.core.js"></script>
+    <script src="http://jquery-ui.googlecode.com/svn/tags/latest/ui/jquery.effects.slide.js"></script>
     <!-- Initialize everything -->
     <script>  $(document).ready(Initialize); </script>
 
-    <!--    <script>
-          $('html').click(function() {
-            //Hide the menus if visible
-            $("#PJSUA_Control").hide();
-          });
-    
-        </script> -->
+
   </head>
   <body>
-    <div id="Container">
-      <div id="Header" style="min-height: 30px; background-color: #3d3d3d">
-        <div id="Account_Button"></div>
-      </div>
-
-      <div id="Left_Panel">
-        <!-- Various UI control buttons -->
-        <button class="iconbutton sip_connected" id="Call_Panel_Button" disabled="disabled"></button>
-        <script> 
-          $("#Call_Panel_Button").click( function () {
-            AdaHeads.Event_Panel.Hide();
-            AdaHeads.Statistics_Panel.Hide();
-            AdaHeads.Call_Panel.Show();
-            $("#Call_Panel_Button").attr("disabled", "disabled");
-            $("#Event_Panel_Button").removeAttr("disabled");
-            $("#Statistics_Panel_Button").removeAttr("disabled");
-          });
-        </script>
-
-        <br />
-        <button class="iconbutton events_icon" id="Event_Panel_Button"></button>
-        <script> 
-          $("#Event_Panel_Button").click( function () {
-            AdaHeads.Event_Panel.Show();
-            AdaHeads.Statistics_Panel.Hide();
-            AdaHeads.Call_Panel.Hide();
-            $("#Event_Panel_Button").attr("disabled", "disabled");
-            $("#Call_Panel_Button").removeAttr("disabled");
-            $("#Statistics_Panel_Button").removeAttr("disabled");
-          });
-        </script>
-        <br />
-        <button class="iconbutton statistics_icon" id="Statistics_Panel_Button"></button>
-        <script> 
-          $("#Statistics_Panel_Button").click( function () {
-            AdaHeads.Event_Panel.Hide();
-            AdaHeads.Statistics_Panel.Show();
-            AdaHeads.Call_Panel.Hide(); 
-            $("#Statistics_Panel_Button").attr("disabled", "disabled");
-            $("#Event_Panel_Button").removeAttr("disabled");
-            $("#Call_Panel_Button").removeAttr("disabled");
-          });
-        </script>
-      </div>
-      <div id="Left_Container" style="min-width: 60%;float: left; margin:1em">
-
-
-        <!-- 
-        ##################################################################
-        # Call Panel
-        ##################################################################
-        -->
-
-
-        <div id="Call_Panel">
-          <h1 id="Greeting">Velkommen til. Du ser godt ud i dag.</h1>
-          <div id="Organization_Widget">
-            <ul class="tabs">
-              <li><a id="Organization_Info_Button" href="#">Kundeinfo</a></li>
-              <li><a id ="Organization_Additional_Info_Button" href="#">Mere info</a></li>
-              <li><a id="Organization_Salesmen" href="#">S&aelig;lgere/Analyser</a></li>
-            </ul>
-
-            <!-- TODO: Make this into an autocomplete list-->
-            <select id="Organization_List">
-              <option value="1">Responsum</option>
-              <option value="2">AdaHeads</option>
-              <option value="3">Those Guys</option>
-              <option value="4">Bengt Burg Kommunikation</option>
-            </select>
-            <script>
-              $('#Organization_List').change(function () {
-                 
-                // The selected option value
-                org_id = $(this).find("option:selected").val();
-                AdaHeads.Organization_List.Fetch(org_id, 
-                AdaHeads.Organization_Information_Panel.Display);
-              });
-            </script>
-
-
-            <!-- tab "panes" -->
-            <div class="panes">
-
-              <!-- Panel 1-->
-              <div id="Organization_Information_Panel">
-                <span class="name">Firmanavn</span>
-                <span class="call_hours">Fuld tid</span>
-
-                <h2>Kalender</h2>
-                <div id="Organization_Calendar_Panel">
-                  <div style="cut-off"></div>
-
-                </div>
-              </div>
-
-              <!-- Panel 2-->
-              <div id="Organization_Additional_Information_Panel">
-                <h1>Mere info</h1>
-
-              </div>
-
-              <!-- Panel 3-->
-              <div id="Salesmen_Tab">
-                <h1>S�lgere/Analyser</h1>
-              </div>
-            </div>
-            <!-- Setup tabs -->
-            <script>
-              $(function() {
-                // setup ul.tabs to work as tabs for each div directly under div.panes
-                $("ul.tabs").tabs("div.panes > div");
-              });
-            </script>
-
-
-          </div>
-
-
-          <hr />
-          <div id="Organization_Contact_Panel" style="float: left; width: 50%; border: 1px solid #2b81af; min-height: 100px;">
-            <h2>Kontakter</h2>
-            <div id="search">
-              <input name="Contact_Search_Field" id="Contact_Search_Field" type="text" placeholder="Navn eller n&oslash;gleord..." autocomplete="off" />
-              <button type="submit" name="go" id="jq-searchGoButton"><span>Go</span></button>
-            </div>
-
-            <ul id="contacts"></ul>
-          </div>
-          <div id="Messages_Panel" style="float: left; width: 49%; border: 1px solid #2b81af; min-height: 100px;">
-            <h2>Beskeder</h2>
-          </div>
-        </div>
-
-        <!-- 
-        ##################################################################
-        # Event Panel
-        ##################################################################
-        -->
-        <div id="Event_Panel"  style="display: none">
-          <h4>Event log</h4>
-          <div id="Event_Log">
-          </div>
-        </div>
-
-        <!-- 
-        ##################################################################
-        # Statistics Panel
-        ##################################################################
-        -->
-
-        <div id="Statistics_Panel"  style="display: none">
-          <h4>Statistics</h4>
-          <div id="Statistics">
-          </div>
-        </div>
-      </div>
-
-      <div id="Side_Right">
-
-        <h4 id="Current_Call"></h4>
-        <button id="Take_Call_Button">Tag kald (Alt+a)</button>
-        <script> $("#Take_Call_Button").click(AdaHeads_Take_Call_Button_Click);</script>
-        <h4>Opkald</h4>
-        <ul id="Call_List"></ul>
-        <h4>Parkeret</h4>
-        <ul id="Parked_List"></ul>
-
-        <!--        <button id="Reload_Call_List">Reload Call List from server</button>
-                <script>$("#Reload_Call_List").click(
-                  function () {
-                    Call_List.Reload();
-                  });
-                </script>
-        
-        
-                <button id="Fetch_Contact_Entity">Fetch_Contact_Entity</button>
-                <script>$("#Fetch_Contact_Entity").click(
-                  function () {
-                    AdaHeads.Organization_Information_Panel.Display({name : "Responsum", call_hours : "8-17"});
-        
-                    Contact_Entity_Database.Get_Contact_Entity(2);
-                  });
-                </script>
-        -->
-        <button id="Call_Kim">Call Kim</button>
-        <script>$("#Call_Kim").click(function () {
-          AdaHeads.Alice.Originate ("40966024");
-        });
-        </script>
-        <h4>Statuskonsol</h4>
-        <ul id="Status_Console" ></ul>
-
-
-        <div id="PJSUA_Control">
-          <h4>PJSUA Control</h4>  
-          <button id="PJSUA_Get_State">Forbind SIP klient</button>
+    <div id="root_view">
+      <!--
+        The navigation pane. The buttons here are used to activate the overlay
+        element.
+      -->
+      <ul id="navigation">
+        <li>
+          <button id="button1" class="notactivated">1</button>
           <script> 
-          $("#PJSUA_Get_State").click(PJSUA_Update_UI);
-          $("#PJSUA_Control").hide();
+            $("#button1").click( function () {
+              AdaHeads.Event_Panel.Hide();
+              AdaHeads.Statistics_Panel.Hide();
+              AdaHeads.Call_Panel.Toggle();
+            });
+          </script>        </li>
+        <li>
+          <button id="button2" class="notactivated">2</button>
+          <script> 
+            $("#button2").click( function () {
+              AdaHeads.Event_Panel.Hide();
+              AdaHeads.Statistics_Panel.Hide();
+              AdaHeads.Call_Panel.Toggle();
+            });
           </script>
-        </div>
-
-
-
-      </div><!-- .sidebar#sideRight -->
-      <div id="Status_Panel">
-        <div id="PSJUA_Status" class="sip_disconnected">
-          <script>
-          $("#PSJUA_Status").click(function() {
-            $("#PJSUA_Control").toggle();
-            event.stopPropagation();
-          });
+        </li>
+        <li>
+          <button id="button3" class="notactivated">3</button>
+          <script> 
+            $("#button3").click( function () {
+              AdaHeads.Event_Panel.Hide();
+              AdaHeads.Statistics_Panel.Hide();
+              AdaHeads.Call_Panel.Toggle();
+            });
           </script>
-        </div>
-        <div id="Websocket_Status"></div>
+        </li>
+        <li>
+          <button id="button4" class="notactivated">4</button>
+          <script> 
+            $("#button4").click( function () {
+              AdaHeads.Event_Panel.Hide();
+              AdaHeads.Statistics_Panel.Hide();
+              AdaHeads.Call_Panel.Toggle();
+            });
+          </script>
+        </li>
+
+      </ul>
+
+      <!--
+        The welcome message for a company.
+      -->
+      <div id="welcome_message" class="window">
+        <div id="welcome_message_body" class="window_body"></div>
       </div>
 
-    </div> <!-- container -->
-    <!-- TODO: Add global click_handler_attach .js file -->
+      <!--
+        The agent information window. Keeps track of active, available and
+        paused agents. The header should be populated with the name of the
+        currently logged in agent.
+      -->
+      <div id="agent_info" class="window">
+        <h1 id="agent_info_header" class="window_header">agentInfo</h1>
+        <div id="agent_info_body" class="window_body"></div>
+      </div>
+
+      <!--
+        Information about the currently selected company.
+      -->
+
+      <div id="company_info" class="window">
+        <h1 id="company_info_header" class="window_header"></h1>
+        <div id="company_info_body" class="window_body">
+          <select id="company_info_select" class="">
+            <option value="" disabled="">Choose..</option>
+          </select>
+          <div id="company_info_dump"></div><!-- temporary dump container -->
+        </div>
+      </div>
+
+
+      <!--
+        List of contacts for the currently selected company.
+      -->
+      <div id="contact_info" class="window">
+        <h1 id="contact_info_header" class="window_header"></h1>
+        <div id="contact_info_body" class="window_body">
+          <ul id="contact_info_list">
+            <li>Thomas Løcke</li>
+            <li>Trine Løcke</li>
+          </ul>
+        </div>
+      </div>
+
+      <!--
+        Interface to write and send a message to a contact.
+      -->
+      <div id="send_message" class="window">
+        <h1 id="send_message_header" class="window_header"></h1>
+        <div id="send_message_body" class="window_body">
+          <button id="Call_Kim">Call Kim</button>
+          <script>$("#Call_Kim").click(function () {
+            AdaHeads.Alice.Originate ("40966024");
+          });
+          </script>
+          <h4>Statuskonsol</h4>
+          <div id="Websocket_Status"></div>
+
+          <ul id="Status_Console" ></ul>
+        </div>
+      </div>
+
+      <!--
+        List of currently unanswered calls.
+      -->
+      <div id="global_queue" class="window">
+        <h1 id="global_queue_header" class="window_header"></h1>
+        <div id="global_queue_body" class="window_body">
+          <ul id="global_queue_list" class="window_body">
+          </ul>
+        </div>
+      </div>
+
+      <!--
+        List of calls queued by the agent.
+      -->
+      <div id="local_queue" class="window">
+        <h1 id="local_queue_header" class="window_header"></h1>
+        <div id="local_queue_body" class="window_body">
+          <div id ="Current_Call"></div>
+          <ul id="local_queue_list" class="window_body">
+          </ul>
+        </div>
+      </div>
+
+      <!--
+        This contents of this box corresponds to the button clicked in the
+        navigation pane.
+      -->
+      <div id="overlay" class="window">
+        <h1 id="overlay_header" class="window_header"></h1>
+        <div id="overlay_body" class="window_body"></div>
+      </div>
+
+    </div>
+
   </body>
 </html>
 

@@ -1,0 +1,42 @@
+/* 
+    Document   : js_overrides
+    Created on : 23-Jan-2013, 14:05:29
+    Author     : Kim Rostgaard Christensen
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+li { 
+  list-style: none;
+}
+
+#Websocket_Status {
+  min-height: 30px;
+  min-width: 30px;
+  background-repeat: no-repeat;
+  float: right;
+}
+
+.disconnected{
+  min-height: 32px;
+  min-width: 32px;
+  background-image: url('../img/spinner.gif');
+  background-repeat: no-repeat;
+}
+
+.connected{
+  min-height: 32px;
+  min-width: 32px;
+  background-image: url('../img/connected.png');
+  background-repeat: none;
+
+}
+
+
+#globalQueue_list li {
+  list-style-image: url('../img/call.png');
+}
+
+#overlay {
+  display: none;
+}

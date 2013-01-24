@@ -12,16 +12,18 @@ AdaHeads.Organization_List.Data['7001'] = {
  * 
  */
 AdaHeads.Organization_List.Fetch = function (org_id,callback) {
-  // Dummy implementation.
-  console.log (org_id);
-  var obj = {
-    org_id : 1, 
-    name : "Responsum"
-  };
-  switch (org_id) {
-    case 2:
-      obj = {org_id : 2, 
-        name : "AdaHeads"}
-  }
-  callback(obj);
+  AdaHeads.Alice.Get_Organization (org_id,
+  {
+    200 : callback,
+    404 : function (data) {
+      console.log ("AdaHeads.Alice.Get_Organization_List 404");
+    },
+    204 : function (data) {
+      console.log ("AdaHeads.Alice.Get_Organization_List 204");
+    },
+    500 : function (data) {
+      console.log ("AdaHeads.Alice.Get_Organization_List 500");
+    }
+  });
+
 }

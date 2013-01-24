@@ -1,7 +1,7 @@
 "use strict";
 
 AdaHeads.Organization_Information_Panel = {
-  DOM_Element : "#Organization_Information_Panel", 
+  DOM_Element : "#company_info_dump", 
   Type : "<div>"
 }
 
@@ -24,11 +24,10 @@ AdaHeads.Organization_Information_Panel.Show = function () {
  * Updates the content of the panel. Also serves as a temporary "template"
  */
 AdaHeads.Organization_Information_Panel.Display = function(Organization) {
-
+$(AdaHeads.Organization_Information_Panel.DOM_Element).empty();
   var field;
   for(field in Organization){
-    console.log(field);
-    $(AdaHeads.Organization_Information_Panel.DOM_Element +" ." +field).text(Organization[field]);
-
+    var div = $('<div>').text(field +" : "+ Organization[field]);
+    $(AdaHeads.Organization_Information_Panel.DOM_Element).append (div);
   }  
 }

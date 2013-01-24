@@ -49,12 +49,12 @@ var Configuration =  {
   Websocket : {
     URI : "ws://localhost:4242/notifications",
     //URI : "ws://127.0.0.1:9300",
-    Reconnect : true,
+    Reconnect : false,
     Reconnect_Interval : 1000
   },
     
   System_Console : {
-    Max_Items : 5
+    Max_Items : 15
   },
   
   Event_Log : {

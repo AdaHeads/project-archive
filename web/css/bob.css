@@ -13,8 +13,10 @@ body {
 
 #root_view {
   position: absolute;
+  width: 98%; /* fallback  */
   width: calc(100% - 10px);
   width: -webkit-calc(100% - 10px);
+  height: 98%;/* fallback  */
   height: calc(100% - 20px);
   height: -webkit-calc(100% - 20px);
 }
