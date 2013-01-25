@@ -1,6 +1,11 @@
+/**
+ * Library containing various utility methods.
+ */
 library utils;
 
-// Return a valid CSS selector string.
+/**
+ * Prepend a # to [value] if the first character of [value] != #.
+ */
 String toSelector (String value) {
   assert(!value.isEmpty);
 

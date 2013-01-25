@@ -1,9 +1,4 @@
-library widget.navigation;
-
-import 'dart:html';
-import 'widget.box.dart' as widget;
-import 'widget.navigation_button.dart' as widget;
-import 'utils.dart' as utils;
+part of widgets;
 
 /**
  * A Navigation object consists of a list of buttons. It takes an [ul] element
@@ -11,8 +6,8 @@ import 'utils.dart' as utils;
  * [addButton] function.
  */
 class Navigation {
-  List         _buttons = new List<widget.NavigationButton>();
-  widget.Box   _contentWindow;
+  List         _buttons = new List<NavigationButton>();
+  Box          _contentWindow;
   UListElement _ul;
 
   /**
@@ -25,12 +20,12 @@ class Navigation {
   /**
    * The content window that is activated when a button is activated.
    */
-  set contentWindow(widget.Box value) => _contentWindow = value;
+  set contentWindow(Box value) => _contentWindow = value;
 
   /**
    * Add a button to the Navigation object.
    */
-  void addButton(widget.NavigationButton button) {
+  void addButton(NavigationButton button) {
     _buttons.add(button);
 
     button.element.on.click.add((Event e) {

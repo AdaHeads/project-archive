@@ -1,8 +1,4 @@
-library widget.box;
-
-import 'dart:async';
-import 'dart:html';
-import 'utils.dart' as utils;
+part of widgets;
 
 /**
  * A Box is a container that presents data to the user. It takes a [div] element

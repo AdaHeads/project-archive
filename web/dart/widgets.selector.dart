@@ -1,7 +1,4 @@
-library widget.selector;
-
-import 'dart:html';
-import 'utils.dart' as utils;
+part of widgets;
 
 /**
  * TODO: Write comment

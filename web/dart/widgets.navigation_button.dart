@@ -1,7 +1,4 @@
-library widget.navigation_button;
-
-import 'dart:html';
-import 'utils.dart' as utils;
+part of widgets;
 
 /**
  * A NavigationButton is a button that can be added to a [Navigation] object.
