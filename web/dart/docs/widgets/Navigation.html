@@ -2,19 +2,19 @@
         <html>
         <head>
                 <meta charset="utf-8">
-        <title>Navigation class / widget.navigation Library / Dart Documentation</title>
+        <title>Navigation class / widgets Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
         <link rel="shortcut icon" href="../favicon.ico">
         
         </head>
-        <body data-library="widget.navigation" data-type="Navigation">
+        <body data-library="widgets" data-type="Navigation">
         <div class="page">
         <div class="header">
           <a href="../index.html"><div class="logo"></div></a>
           <a href="../index.html">Dart Documentation</a>
-         &rsaquo; <a href="../widget.navigation.html">widget.navigation</a> &rsaquo; <a href="../widget.navigation/Navigation.html">Navigation</a>        <div id="search-box">
+         &rsaquo; <a href="../widgets.html">widgets</a> &rsaquo; <a href="../widgets/Navigation.html">Navigation</a>        <div id="search-box">
           <input type="search" name="q" id="q" autocomplete="off"
               class="search-input" placeholder="Search API">
         </div>
@@ -24,10 +24,13 @@
       
         <div class="nav">
         
-<h2><div class="icon-library"></div><a href="../bob.dart.html">bob.dart</a></h2><h2><div class="icon-library"></div><a href="../Common.html">Common</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2><h2><div class="icon-library"></div><a href="../organization.html">organization</a></h2><h2><div class="icon-library"></div><a href="../organizations_list.html">organizations_list</a></h2><h2><div class="icon-library"></div><a href="../utils.html">utils</a></h2><h2><div class="icon-library"></div><a href="../view.html">view</a></h2><h2><div class="icon-library"></div><a href="../widget.box.html">widget.box</a></h2><h2><div class="icon-library"></div><a href="../widget.navigation.html">widget.navigation</a></h2><ul class="icon">
+<h2><div class="icon-library"></div><a href="../bob.dart.html">bob.dart</a></h2><h2><div class="icon-library"></div><a href="../Common.html">Common</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2><h2><div class="icon-library"></div><a href="../organization.html">organization</a></h2><h2><div class="icon-library"></div><a href="../organizations_list.html">organizations_list</a></h2><h2><div class="icon-library"></div><a href="../view.html">view</a></h2><h2><div class="icon-library"></div><a href="../widgets.html">widgets</a></h2><ul class="icon">
+<li><a href="../widgets/Box.html"><div class="icon-class"></div>Box</a></li>
 <li><div class="icon-class"></div><strong>Navigation</strong></li>
+<li><a href="../widgets/NavigationButton.html"><div class="icon-class"></div>NavigationButton</a></li>
+<li><a href="../widgets/Selector.html"><div class="icon-class"></div>Selector</a></li>
 </ul>
-<h2><div class="icon-library"></div><a href="../widget.navigation_button.html">widget.navigation_button</a></h2><h2><div class="icon-library"></div><a href="../widget.selector.html">widget.selector</a></h2></div>
+</div>
 <div class="content">
         <h2><strong>Navigation</strong>
           class
@@ -37,11 +40,11 @@
 <div class="doc">
 <p>A Navigation object consists of a list of buttons. It takes an <code>ul</code> element
 as its sole parameter. Buttons can be added to a Navigation object using the
-<a class="crossref" href="../widget.navigation/Navigation.html#addButton">addButton</a> function.</p>
+<a class="crossref" href="../widgets/Navigation.html#addButton">addButton</a> function.</p>
 <pre class="source">
 class Navigation {
- List         _buttons = new List&lt;widget.NavigationButton&gt;();
- widget.Box   _contentWindow;
+ List         _buttons = new List&lt;NavigationButton&gt;();
+ Box          _contentWindow;
  UListElement _ul;
 
  /**
@@ -54,12 +57,12 @@ class Navigation {
  /**
   * The content window that is activated when a button is activated.
   */
- set contentWindow(widget.Box value) =&gt; _contentWindow = value;
+ set contentWindow(Box value) =&gt; _contentWindow = value;
 
  /**
   * Add a button to the Navigation object.
   */
- void addButton(widget.NavigationButton button) {
+ void addButton(NavigationButton button) {
    _buttons.add(button);
 
    button.element.on.click.add((Event e) {
@@ -103,12 +106,12 @@ Navigation(UListElement ul) {
 <h3>Properties</h3>
 <div class="method"><h4 id="contentWindow=">
 <button class="show-code">Code</button>
-<strong>set contentWindow</strong>(<a href="../widget.box/Box.html">Box</a> value) <a class="anchor-link" href="#contentWindow="
+<strong>set contentWindow</strong>(<a href="../widgets/Box.html">Box</a> value) <a class="anchor-link" href="#contentWindow="
               title="Permalink to Navigation.set contentWindow">#</a></h4>
 <div class="doc">
 <p>The content window that is activated when a button is activated.</p>
 <pre class="source">
-set contentWindow(widget.Box value) =&gt; _contentWindow = value;
+set contentWindow(Box value) =&gt; _contentWindow = value;
 </pre>
 </div>
 </div>
@@ -117,12 +120,12 @@ set contentWindow(widget.Box value) =&gt; _contentWindow = value;
 <h3>Methods</h3>
 <div class="method"><h4 id="addButton">
 <button class="show-code">Code</button>
-void <strong>addButton</strong>(<a href="../widget.navigation_button/NavigationButton.html">NavigationButton</a> button) <a class="anchor-link" href="#addButton"
+void <strong>addButton</strong>(<a href="../widgets/NavigationButton.html">NavigationButton</a> button) <a class="anchor-link" href="#addButton"
               title="Permalink to Navigation.addButton">#</a></h4>
 <div class="doc">
 <p>Add a button to the Navigation object.</p>
 <pre class="source">
-void addButton(widget.NavigationButton button) {
+void addButton(NavigationButton button) {
  _buttons.add(button);
 
  button.element.on.click.add((Event e) {
@@ -151,7 +154,7 @@ void addButton(widget.NavigationButton button) {
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2013-01-24 17:04:16.494</div>
+          <div>This page was generated at 2013-01-25 15:02:07.913</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

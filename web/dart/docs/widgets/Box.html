@@ -2,19 +2,19 @@
         <html>
         <head>
                 <meta charset="utf-8">
-        <title>Box class / widget.box Library / Dart Documentation</title>
+        <title>Box class / widgets Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
         <link rel="shortcut icon" href="../favicon.ico">
         
         </head>
-        <body data-library="widget.box" data-type="Box">
+        <body data-library="widgets" data-type="Box">
         <div class="page">
         <div class="header">
           <a href="../index.html"><div class="logo"></div></a>
           <a href="../index.html">Dart Documentation</a>
-         &rsaquo; <a href="../widget.box.html">widget.box</a> &rsaquo; <a href="../widget.box/Box.html">Box</a>        <div id="search-box">
+         &rsaquo; <a href="../widgets.html">widgets</a> &rsaquo; <a href="../widgets/Box.html">Box</a>        <div id="search-box">
           <input type="search" name="q" id="q" autocomplete="off"
               class="search-input" placeholder="Search API">
         </div>
@@ -24,10 +24,13 @@
       
         <div class="nav">
         
-<h2><div class="icon-library"></div><a href="../bob.dart.html">bob.dart</a></h2><h2><div class="icon-library"></div><a href="../Common.html">Common</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2><h2><div class="icon-library"></div><a href="../organization.html">organization</a></h2><h2><div class="icon-library"></div><a href="../organizations_list.html">organizations_list</a></h2><h2><div class="icon-library"></div><a href="../utils.html">utils</a></h2><h2><div class="icon-library"></div><a href="../view.html">view</a></h2><h2><div class="icon-library"></div><a href="../widget.box.html">widget.box</a></h2><ul class="icon">
+<h2><div class="icon-library"></div><a href="../bob.dart.html">bob.dart</a></h2><h2><div class="icon-library"></div><a href="../Common.html">Common</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2><h2><div class="icon-library"></div><a href="../organization.html">organization</a></h2><h2><div class="icon-library"></div><a href="../organizations_list.html">organizations_list</a></h2><h2><div class="icon-library"></div><a href="../view.html">view</a></h2><h2><div class="icon-library"></div><a href="../widgets.html">widgets</a></h2><ul class="icon">
 <li><div class="icon-class"></div><strong>Box</strong></li>
+<li><a href="../widgets/Navigation.html"><div class="icon-class"></div>Navigation</a></li>
+<li><a href="../widgets/NavigationButton.html"><div class="icon-class"></div>NavigationButton</a></li>
+<li><a href="../widgets/Selector.html"><div class="icon-class"></div>Selector</a></li>
 </ul>
-<h2><div class="icon-library"></div><a href="../widget.navigation.html">widget.navigation</a></h2><h2><div class="icon-library"></div><a href="../widget.navigation_button.html">widget.navigation_button</a></h2><h2><div class="icon-library"></div><a href="../widget.selector.html">widget.selector</a></h2></div>
+</div>
 <div class="content">
         <h2><strong>Box</strong>
           class
@@ -184,7 +187,7 @@ Box(DivElement div) {
 <strong>set body</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> value) <a class="anchor-link" href="#body="
               title="Permalink to Box.set body">#</a></h4>
 <div class="doc">
-<p>Set the text value of the <a class="crossref" href="../widget.box/Box.html#Box">Box</a> body.</p>
+<p>Set the text value of the <a class="crossref" href="../widgets/Box.html#Box">Box</a> body.</p>
 <pre class="source">
 set body(String value) =&gt; _body.text = value;
 </pre>
@@ -206,7 +209,7 @@ String get header =&gt; _header.text;
 <strong>set header</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> value) <a class="anchor-link" href="#header="
               title="Permalink to Box.set header">#</a></h4>
 <div class="doc">
-<p>Set the text value of the <a class="crossref" href="../widget.box/Box.html#Box">Box</a> header.</p>
+<p>Set the text value of the <a class="crossref" href="../widgets/Box.html#Box">Box</a> header.</p>
 <pre class="source">
 set header(String value) =&gt; _header.text = value;
 </pre>
@@ -219,7 +222,7 @@ final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <st
             title="Permalink to Box.ishidden">#</a>
         </h4>
         <div class="doc">
-<p>Return whether or not the <a class="crossref" href="../widget.box/Box.html#Box">Box</a> is hidden.</p>
+<p>Return whether or not the <a class="crossref" href="../widgets/Box.html#Box">Box</a> is hidden.</p>
 <pre class="source">
 bool get ishidden =&gt; _hidden;
 </pre>
@@ -233,7 +236,7 @@ bool get ishidden =&gt; _hidden;
 void <strong>fadeIn</strong>() <a class="anchor-link" href="#fadeIn"
               title="Permalink to Box.fadeIn">#</a></h4>
 <div class="doc">
-<p>Fadein the <a class="crossref" href="../widget.box/Box.html#Box">Box</a></p>
+<p>Fadein the <a class="crossref" href="../widgets/Box.html#Box">Box</a></p>
 <pre class="source">
 void fadeIn() {
  unHide();
@@ -248,7 +251,7 @@ void fadeIn() {
 void <strong>fadeOut</strong>() <a class="anchor-link" href="#fadeOut"
               title="Permalink to Box.fadeOut">#</a></h4>
 <div class="doc">
-<p>Fadeout the <a class="crossref" href="../widget.box/Box.html#Box">Box</a></p>
+<p>Fadeout the <a class="crossref" href="../widgets/Box.html#Box">Box</a></p>
 <pre class="source">
 void fadeOut() {
  _div.classes.remove('fadein');
@@ -263,7 +266,7 @@ void fadeOut() {
 void <strong>hide</strong>() <a class="anchor-link" href="#hide"
               title="Permalink to Box.hide">#</a></h4>
 <div class="doc">
-<p>Hide the <a class="crossref" href="../widget.box/Box.html#Box">Box</a>.</p>
+<p>Hide the <a class="crossref" href="../widgets/Box.html#Box">Box</a>.</p>
 <pre class="source">
 void hide(){
  _div.style.visibility = 'hidden';
@@ -278,7 +281,7 @@ void hide(){
 void <strong>unHide</strong>() <a class="anchor-link" href="#unHide"
               title="Permalink to Box.unHide">#</a></h4>
 <div class="doc">
-<p>Unhide the <a class="crossref" href="../widget.box/Box.html#Box">Box</a>.</p>
+<p>Unhide the <a class="crossref" href="../widgets/Box.html#Box">Box</a>.</p>
 <pre class="source">
 void unHide() {
  _div.style.visibility = 'visible';
@@ -294,7 +297,7 @@ void unHide() {
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2013-01-24 17:04:16.486</div>
+          <div>This page was generated at 2013-01-25 15:02:07.924</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

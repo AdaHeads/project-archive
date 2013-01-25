@@ -730,33 +730,7 @@
   },
   {
     "kind": "library",
-    "name": "utils",
-    "children": [
-      {
-        "returnType": {
-          "name": "String",
-          "refId": "String"
-        },
-        "kind": "method",
-        "name": "toSelector",
-        "children": [
-          {
-            "ref": {
-              "name": "String",
-              "refId": "String"
-            },
-            "kind": "param",
-            "name": "value",
-            "id": "value"
-          }
-        ],
-        "id": "toSelector1()"
-      }
-    ],
-    "id": "file:///home/thomas/dart/bob/web/dart/utils.dart"
-  },
-  {
-    "kind": "library",
+    "comment": "\nThis library contains all the view singletons.\n",
     "name": "view",
     "children": [
       {
@@ -1527,8 +1501,396 @@
   },
   {
     "kind": "library",
-    "name": "widget.box",
+    "comment": "\nThis library contains all the widgets for getting stuff on the screen.\n",
+    "name": "widgets",
     "children": [
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "comment": "\nTODO: Write comment\n",
+        "name": "Selector",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "Selector",
+            "children": [
+              {
+                "ref": {
+                  "name": "SelectElement",
+                  "refId": "SelectElement"
+                },
+                "kind": "param",
+                "name": "select",
+                "id": "select"
+              }
+            ],
+            "id": "Selector1()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "comment": "\nTODO: Write comment\n",
+            "name": "addOption",
+            "children": [
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "kind": "param",
+                "name": "value",
+                "id": "value"
+              },
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "kind": "param",
+                "name": "label",
+                "id": "label"
+              },
+              {
+                "ref": {
+                  "name": "bool",
+                  "refId": "bool"
+                },
+                "isOptional": true,
+                "kind": "param",
+                "name": "disabled",
+                "id": "disabled"
+              }
+            ],
+            "id": "addOption3()"
+          },
+          {
+            "returnType": {
+              "name": "SelectElement",
+              "refId": "SelectElement"
+            },
+            "kind": "method",
+            "comment": "\nTODO: Write comment\n",
+            "name": "element",
+            "id": "element0()"
+          },
+          {
+            "returnType": {
+              "name": "String",
+              "refId": "String"
+            },
+            "kind": "method",
+            "comment": "\nTODO: Write comment\n",
+            "name": "value",
+            "id": "value0()"
+          },
+          {
+            "ref": {
+              "name": "SelectElement",
+              "refId": "SelectElement"
+            },
+            "kind": "property",
+            "comment": "\nTODO: Write comment\n",
+            "name": "element",
+            "id": "element"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "kind": "property",
+            "comment": "\nTODO: Write comment\n",
+            "name": "value",
+            "id": "value"
+          },
+          {
+            "ref": {
+              "name": "SelectElement",
+              "refId": "SelectElement"
+            },
+            "kind": "property",
+            "name": "_element",
+            "id": "_element"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "Selector",
+            "children": [
+              {
+                "ref": {
+                  "name": "SelectElement",
+                  "refId": "SelectElement"
+                },
+                "kind": "param",
+                "name": "select",
+                "id": "select"
+              }
+            ],
+            "id": "Selector1()"
+          }
+        ],
+        "id": "Selector"
+      },
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "comment": "\nA NavigationButton is a button that can be added to a [Navigation] object.\n",
+        "name": "NavigationButton",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "comment": "\nInstantiate with a [button].\n",
+            "name": "NavigationButton",
+            "children": [
+              {
+                "ref": {
+                  "name": "ButtonElement",
+                  "refId": "ButtonElement"
+                },
+                "kind": "param",
+                "name": "button",
+                "id": "button"
+              }
+            ],
+            "id": "NavigationButton1()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "name": "_resize",
+            "id": "_resize0()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "comment": "\nSet whether or not the button is activated.\n",
+            "name": "activated",
+            "children": [
+              {
+                "ref": {
+                  "name": "bool",
+                  "refId": "bool"
+                },
+                "kind": "param",
+                "name": "value",
+                "id": "value"
+              }
+            ],
+            "id": "activated1()"
+          },
+          {
+            "returnType": {
+              "name": "ButtonElement",
+              "refId": "ButtonElement"
+            },
+            "kind": "method",
+            "comment": "\nReturn the actual <button> element.\n",
+            "name": "element",
+            "id": "element0()"
+          },
+          {
+            "ref": {
+              "name": "ButtonElement",
+              "refId": "ButtonElement"
+            },
+            "kind": "property",
+            "comment": "\nReturn the actual <button> element.\n",
+            "name": "element",
+            "id": "element"
+          },
+          {
+            "ref": {
+              "name": "ButtonElement",
+              "refId": "ButtonElement"
+            },
+            "kind": "property",
+            "name": "_element",
+            "id": "_element"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "kind": "property",
+            "name": "_id",
+            "id": "_id"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "comment": "\nInstantiate with a [button].\n",
+            "name": "NavigationButton",
+            "children": [
+              {
+                "ref": {
+                  "name": "ButtonElement",
+                  "refId": "ButtonElement"
+                },
+                "kind": "param",
+                "name": "button",
+                "id": "button"
+              }
+            ],
+            "id": "NavigationButton1()"
+          }
+        ],
+        "id": "NavigationButton"
+      },
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "comment": "\nA Navigation object consists of a list of buttons. It takes an [ul] element\nas its sole parameter. Buttons can be added to a Navigation object using the\n[addButton] function.\n",
+        "name": "Navigation",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "comment": "\nInstantiate with an [ul].\n",
+            "name": "Navigation",
+            "children": [
+              {
+                "ref": {
+                  "name": "UListElement",
+                  "refId": "UListElement"
+                },
+                "kind": "param",
+                "name": "ul",
+                "id": "ul"
+              }
+            ],
+            "id": "Navigation1()"
+          },
+          {
+            "isSetter": true,
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "comment": "\nThe content window that is activated when a button is activated.\n",
+            "name": "contentWindow=",
+            "children": [
+              {
+                "ref": {
+                  "name": "Box",
+                  "refId": "Box"
+                },
+                "kind": "param",
+                "name": "value",
+                "id": "value"
+              }
+            ],
+            "id": "contentWindow=1()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "comment": "\nAdd a button to the Navigation object.\n",
+            "name": "addButton",
+            "children": [
+              {
+                "ref": {
+                  "name": "NavigationButton",
+                  "refId": "NavigationButton"
+                },
+                "kind": "param",
+                "name": "button",
+                "id": "button"
+              }
+            ],
+            "id": "addButton1()"
+          },
+          {
+            "ref": {
+              "name": "List",
+              "refId": "List"
+            },
+            "kind": "property",
+            "name": "_buttons",
+            "id": "_buttons"
+          },
+          {
+            "ref": {
+              "name": "Box",
+              "refId": "Box"
+            },
+            "kind": "property",
+            "name": "_contentWindow",
+            "id": "_contentWindow"
+          },
+          {
+            "ref": {
+              "name": "UListElement",
+              "refId": "UListElement"
+            },
+            "kind": "property",
+            "name": "_ul",
+            "id": "_ul"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "comment": "\nInstantiate with an [ul].\n",
+            "name": "Navigation",
+            "children": [
+              {
+                "ref": {
+                  "name": "UListElement",
+                  "refId": "UListElement"
+                },
+                "kind": "param",
+                "name": "ul",
+                "id": "ul"
+              }
+            ],
+            "id": "Navigation1()"
+          }
+        ],
+        "id": "Navigation"
+      },
       {
         "superclass": {
           "name": "Object",
@@ -1753,414 +2115,6 @@
         "id": "Box"
       }
     ],
-    "id": "file:///home/thomas/dart/bob/web/dart/widget.box.dart"
-  },
-  {
-    "kind": "library",
-    "name": "widget.navigation",
-    "children": [
-      {
-        "superclass": {
-          "name": "Object",
-          "refId": "Object"
-        },
-        "kind": "class",
-        "comment": "\nA Navigation object consists of a list of buttons. It takes an [ul] element\nas its sole parameter. Buttons can be added to a Navigation object using the\n[addButton] function.\n",
-        "name": "Navigation",
-        "children": [
-          {
-            "returnType": {
-              "name": "dynamic",
-              "refId": "dynamic"
-            },
-            "kind": "method",
-            "comment": "\nInstantiate with an [ul].\n",
-            "name": "Navigation",
-            "children": [
-              {
-                "ref": {
-                  "name": "UListElement",
-                  "refId": "UListElement"
-                },
-                "kind": "param",
-                "name": "ul",
-                "id": "ul"
-              }
-            ],
-            "id": "Navigation1()"
-          },
-          {
-            "isSetter": true,
-            "returnType": {
-              "name": "dynamic",
-              "refId": "dynamic"
-            },
-            "kind": "method",
-            "comment": "\nThe content window that is activated when a button is activated.\n",
-            "name": "contentWindow=",
-            "children": [
-              {
-                "ref": {
-                  "name": "Box",
-                  "refId": "Box"
-                },
-                "kind": "param",
-                "name": "value",
-                "id": "value"
-              }
-            ],
-            "id": "contentWindow=1()"
-          },
-          {
-            "returnType": {
-              "name": "void",
-              "refId": "void"
-            },
-            "kind": "method",
-            "comment": "\nAdd a button to the Navigation object.\n",
-            "name": "addButton",
-            "children": [
-              {
-                "ref": {
-                  "name": "NavigationButton",
-                  "refId": "NavigationButton"
-                },
-                "kind": "param",
-                "name": "button",
-                "id": "button"
-              }
-            ],
-            "id": "addButton1()"
-          },
-          {
-            "ref": {
-              "name": "List",
-              "refId": "List"
-            },
-            "kind": "property",
-            "name": "_buttons",
-            "id": "_buttons"
-          },
-          {
-            "ref": {
-              "name": "Box",
-              "refId": "Box"
-            },
-            "kind": "property",
-            "name": "_contentWindow",
-            "id": "_contentWindow"
-          },
-          {
-            "ref": {
-              "name": "UListElement",
-              "refId": "UListElement"
-            },
-            "kind": "property",
-            "name": "_ul",
-            "id": "_ul"
-          },
-          {
-            "returnType": {
-              "name": "dynamic",
-              "refId": "dynamic"
-            },
-            "kind": "constructor",
-            "comment": "\nInstantiate with an [ul].\n",
-            "name": "Navigation",
-            "children": [
-              {
-                "ref": {
-                  "name": "UListElement",
-                  "refId": "UListElement"
-                },
-                "kind": "param",
-                "name": "ul",
-                "id": "ul"
-              }
-            ],
-            "id": "Navigation1()"
-          }
-        ],
-        "id": "Navigation"
-      }
-    ],
-    "id": "file:///home/thomas/dart/bob/web/dart/widget.navigation.dart"
-  },
-  {
-    "kind": "library",
-    "name": "widget.navigation_button",
-    "children": [
-      {
-        "superclass": {
-          "name": "Object",
-          "refId": "Object"
-        },
-        "kind": "class",
-        "comment": "\nA NavigationButton is a button that can be added to a [Navigation] object.\n",
-        "name": "NavigationButton",
-        "children": [
-          {
-            "returnType": {
-              "name": "dynamic",
-              "refId": "dynamic"
-            },
-            "kind": "method",
-            "comment": "\nInstantiate with a [button].\n",
-            "name": "NavigationButton",
-            "children": [
-              {
-                "ref": {
-                  "name": "ButtonElement",
-                  "refId": "ButtonElement"
-                },
-                "kind": "param",
-                "name": "button",
-                "id": "button"
-              }
-            ],
-            "id": "NavigationButton1()"
-          },
-          {
-            "returnType": {
-              "name": "void",
-              "refId": "void"
-            },
-            "kind": "method",
-            "name": "_resize",
-            "id": "_resize0()"
-          },
-          {
-            "returnType": {
-              "name": "void",
-              "refId": "void"
-            },
-            "kind": "method",
-            "comment": "\nSet whether or not the button is activated.\n",
-            "name": "activated",
-            "children": [
-              {
-                "ref": {
-                  "name": "bool",
-                  "refId": "bool"
-                },
-                "kind": "param",
-                "name": "value",
-                "id": "value"
-              }
-            ],
-            "id": "activated1()"
-          },
-          {
-            "returnType": {
-              "name": "ButtonElement",
-              "refId": "ButtonElement"
-            },
-            "kind": "method",
-            "comment": "\nReturn the actual <button> element.\n",
-            "name": "element",
-            "id": "element0()"
-          },
-          {
-            "ref": {
-              "name": "ButtonElement",
-              "refId": "ButtonElement"
-            },
-            "kind": "property",
-            "comment": "\nReturn the actual <button> element.\n",
-            "name": "element",
-            "id": "element"
-          },
-          {
-            "ref": {
-              "name": "ButtonElement",
-              "refId": "ButtonElement"
-            },
-            "kind": "property",
-            "name": "_element",
-            "id": "_element"
-          },
-          {
-            "ref": {
-              "name": "String",
-              "refId": "String"
-            },
-            "kind": "property",
-            "name": "_id",
-            "id": "_id"
-          },
-          {
-            "returnType": {
-              "name": "dynamic",
-              "refId": "dynamic"
-            },
-            "kind": "constructor",
-            "comment": "\nInstantiate with a [button].\n",
-            "name": "NavigationButton",
-            "children": [
-              {
-                "ref": {
-                  "name": "ButtonElement",
-                  "refId": "ButtonElement"
-                },
-                "kind": "param",
-                "name": "button",
-                "id": "button"
-              }
-            ],
-            "id": "NavigationButton1()"
-          }
-        ],
-        "id": "NavigationButton"
-      }
-    ],
-    "id": "file:///home/thomas/dart/bob/web/dart/widget.navigation_button.dart"
-  },
-  {
-    "kind": "library",
-    "name": "widget.selector",
-    "children": [
-      {
-        "superclass": {
-          "name": "Object",
-          "refId": "Object"
-        },
-        "kind": "class",
-        "comment": "\nTODO: Write comment\n",
-        "name": "Selector",
-        "children": [
-          {
-            "returnType": {
-              "name": "dynamic",
-              "refId": "dynamic"
-            },
-            "kind": "method",
-            "name": "Selector",
-            "children": [
-              {
-                "ref": {
-                  "name": "SelectElement",
-                  "refId": "SelectElement"
-                },
-                "kind": "param",
-                "name": "select",
-                "id": "select"
-              }
-            ],
-            "id": "Selector1()"
-          },
-          {
-            "returnType": {
-              "name": "void",
-              "refId": "void"
-            },
-            "kind": "method",
-            "comment": "\nTODO: Write comment\n",
-            "name": "addOption",
-            "children": [
-              {
-                "ref": {
-                  "name": "String",
-                  "refId": "String"
-                },
-                "kind": "param",
-                "name": "value",
-                "id": "value"
-              },
-              {
-                "ref": {
-                  "name": "String",
-                  "refId": "String"
-                },
-                "kind": "param",
-                "name": "label",
-                "id": "label"
-              },
-              {
-                "ref": {
-                  "name": "bool",
-                  "refId": "bool"
-                },
-                "isOptional": true,
-                "kind": "param",
-                "name": "disabled",
-                "id": "disabled"
-              }
-            ],
-            "id": "addOption3()"
-          },
-          {
-            "returnType": {
-              "name": "SelectElement",
-              "refId": "SelectElement"
-            },
-            "kind": "method",
-            "comment": "\nTODO: Write comment\n",
-            "name": "element",
-            "id": "element0()"
-          },
-          {
-            "returnType": {
-              "name": "String",
-              "refId": "String"
-            },
-            "kind": "method",
-            "comment": "\nTODO: Write comment\n",
-            "name": "value",
-            "id": "value0()"
-          },
-          {
-            "ref": {
-              "name": "SelectElement",
-              "refId": "SelectElement"
-            },
-            "kind": "property",
-            "comment": "\nTODO: Write comment\n",
-            "name": "element",
-            "id": "element"
-          },
-          {
-            "ref": {
-              "name": "String",
-              "refId": "String"
-            },
-            "kind": "property",
-            "comment": "\nTODO: Write comment\n",
-            "name": "value",
-            "id": "value"
-          },
-          {
-            "ref": {
-              "name": "SelectElement",
-              "refId": "SelectElement"
-            },
-            "kind": "property",
-            "name": "_element",
-            "id": "_element"
-          },
-          {
-            "returnType": {
-              "name": "dynamic",
-              "refId": "dynamic"
-            },
-            "kind": "constructor",
-            "name": "Selector",
-            "children": [
-              {
-                "ref": {
-                  "name": "SelectElement",
-                  "refId": "SelectElement"
-                },
-                "kind": "param",
-                "name": "select",
-                "id": "select"
-              }
-            ],
-            "id": "Selector1()"
-          }
-        ],
-        "id": "Selector"
-      }
-    ],
-    "id": "file:///home/thomas/dart/bob/web/dart/widget.selector.dart"
+    "id": "file:///home/thomas/dart/bob/web/dart/widgets.dart"
   }
 ]
