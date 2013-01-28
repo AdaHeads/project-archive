@@ -12,7 +12,7 @@ AdaHeads.Alice = {}; // Namespace declatation.
  */
 AdaHeads.Alice.Get_Next_Call = function(handlers) {
   url = Configuration.Alice_URI+AdaHeads.Protocol.Alice.Pickup_Call
-    +'?agent_id='+Configuration.Agent_ID;
+  +'?agent_id='+Configuration.Agent_ID;
   console.log (url);
   $.ajax({
     type: 'GET',
@@ -31,7 +31,7 @@ AdaHeads.Alice.Get_Next_Call = function(handlers) {
  */
 AdaHeads.Alice.Pickup_Call = function(call_id,handlers) {
   url = Configuration.Alice_URI+AdaHeads.Protocol.Alice.Pickup_Call
-    +'?agent_id='+Configuration.Agent_ID+"&call_id="+call_id;
+  +'?agent_id='+Configuration.Agent_ID+"&call_id="+call_id;
   console.log (url);
   $.ajax({
     type: 'GET',
@@ -50,7 +50,7 @@ AdaHeads.Alice.Pickup_Call = function(call_id,handlers) {
  */
 AdaHeads.Alice.Originate = function(extension, handlers) {
   url = Configuration.Alice_URI+AdaHeads.Protocol.Alice.Originate_Call
-    +'?agent_id='+Configuration.Agent_ID+"&extension="+extension;
+  +'?agent_id='+Configuration.Agent_ID+"&extension="+extension;
   $.ajax({
     type: 'GET',
     url: url,
@@ -68,7 +68,7 @@ AdaHeads.Alice.Originate = function(extension, handlers) {
  */
 AdaHeads.Alice.Hangup_Call = function (call_id, handlers) {
   url = Configuration.Alice_URI+AdaHeads.Protocol.Alice.Hangup_Call 
-    +"?call_id="+call_id;
+  +"?call_id="+call_id;
 
   $.ajax({
     type: 'GET',
@@ -87,8 +87,26 @@ AdaHeads.Alice.Hangup_Call = function (call_id, handlers) {
  */
 AdaHeads.Alice.Park_Call = function (call_id, handlers) {
   url = Configuration.Alice_URI+AdaHeads.Protocol.Alice.Park_Call
-    +"?call_id="+call_id;
+  +"?call_id="+call_id;
 
+  $.ajax({
+    type: 'GET',
+    url: url,
+    dataType: 'json',
+    statusCode: handlers
+  })
+}
+
+/**
+ * Retrives a list of organization objects.
+ * @param handlers Object containing the handlers for different reponses.
+ *                 The keys are status codes e.g. 200 and the values are
+ *                 their corresponding callback.
+ */
+AdaHeads.Alice.Get_Organization_List = function (handlers) {
+  url = Configuration.Alice_URI+AdaHeads.Protocol.Alice.Get_Organization_List;
+
+  console.log (url);
   $.ajax({
     type: 'GET',
     url: url,
@@ -106,7 +124,7 @@ AdaHeads.Alice.Park_Call = function (call_id, handlers) {
  */
 AdaHeads.Alice.Get_Contact_Full = function (ce_id, handlers) {
   url = Configuration.Alice_URI+AdaHeads.Protocol.Alice.Get_Contact_Full
-    +'?ce_id='+ce_id;
+  +'?ce_id='+ce_id;
   
   $.ajax({
     type: 'GET',
@@ -126,7 +144,7 @@ AdaHeads.Alice.Get_Contact_Full = function (ce_id, handlers) {
  */
 AdaHeads.Alice.Get_Org_Contacts_Full = function (org_id, handlers) {
   url = Configuration.Alice_URI+AdaHeads.Protocol.Alice.Get_Org_Contacts_Full
-    +"?org_id="+org_id;
+  +"?org_id="+org_id;
   
   $.ajax({
     type: 'GET',
@@ -162,8 +180,8 @@ AdaHeads.Alice.Get_Queue = function (handlers) {
  *                 their corresponding callback.
  */
 AdaHeads.Alice.Get_Organization = function (org_id, handlers) {
-  url = Configuration.Alice_URI+AdaHeads.Protocol.Alice.Get_Org_Contacts_Full
-    +"?org_id="+org_id;
+  url = Configuration.Alice_URI+AdaHeads.Protocol.Alice.Get_Organization
+  +"?org_id="+org_id;
   $.ajax({
     type: 'GET',
     url: url,

@@ -9,11 +9,13 @@ AdaHeads.Protocol = {}; // Namespace declatation.
 AdaHeads.Protocol.Alice = {
   /* Client */
   
-  Get_Org_Contacts      : "get/organization_contacts",
-  Get_Org_Contacts_Full : "get/organization_contacts_full",
-  Get_Contact           : "get/contact",
-  Get_Contact_Full      : "get/contact_full",
-  Get_Organization      : "get/organization",
+  Get_Org_Contacts      : "organization_contacts",
+  Get_Org_Contacts_Full : "organization_contacts_full",
+  Get_Contact           : "contact",
+  Get_Contact_Full      : "contact_full",
+  Get_Organization      : "organization",
+  Get_Organization_List : "organization/list",
+
   
   /* Call Related */
   Get_Queue             : "call/queue",
