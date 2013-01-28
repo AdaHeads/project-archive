@@ -1,0 +1,121 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>Configuration class / configuration Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="configuration" data-type="Configuration">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../configuration.html">configuration</a> &rsaquo; <a href="../configuration/Configuration.html">Configuration</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+<h2><div class="icon-library"></div><a href="../bob.dart.html">bob.dart</a></h2><h2><div class="icon-library"></div><a href="../Common.html">Common</a></h2><h2><div class="icon-library"></div><a href="../configuration.html">configuration</a></h2><ul class="icon">
+<li><div class="icon-class"></div><strong>Configuration</strong></li>
+</ul>
+<h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2><h2><div class="icon-library"></div><a href="../organization.html">organization</a></h2><h2><div class="icon-library"></div><a href="../organizations_list.html">organizations_list</a></h2><h2><div class="icon-library"></div><a href="../view.html">view</a></h2><h2><div class="icon-library"></div><a href="../widgets.html">widgets</a></h2></div>
+<div class="content">
+        <h2><strong>Configuration</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<p>TODO: Write comment.</p>
+<pre class="source">
+class Configuration {
+ static Configuration _instance;
+
+ Map  _json;
+ bool loaded = false;
+
+ /**
+  * TODO: Write comment
+  */
+ factory Configuration(Uri URI) {
+   assert(URI.isAbsolute());
+
+   if(_instance == null) {
+     _instance = new Configuration._internal(URI);
+   }
+   return _instance;
+ }
+
+ Configuration._internal(Uri URI) {
+   var request = new HttpRequest.get(URI.toString(), _onComplete);
+ }
+
+ void _onComplete(HttpRequest req) {
+   switch(req.status) {
+     case 200:
+       _json = json.parse(req.responseText);
+       loaded = true;
+       break;
+     default:
+       // TODO: Proper error handling
+       print('Configuration error: ${req.statusText}');
+   }
+ }
+}
+</pre>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="Configuration">
+<button class="show-code">Code</button>
+factory <strong>Configuration</strong>(<a href="http://api.dartlang.org/dart_uri/Uri.html">Uri</a> URI) <a class="anchor-link" href="#Configuration"
+              title="Permalink to Configuration.Configuration">#</a></h4>
+<div class="doc">
+<p>TODO: Write comment</p>
+<pre class="source">
+factory Configuration(Uri URI) {
+ assert(URI.isAbsolute());
+
+ if(_instance == null) {
+   _instance = new Configuration._internal(URI);
+ }
+ return _instance;
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="loaded">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>loaded</strong> <a class="anchor-link"
+            href="#loaded"
+            title="Permalink to Configuration.loaded">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+loaded = false
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        
+        <div class="footer">
+          <div>This page was generated at 2013-01-28 09:14:14.305</div>
+        </div>
+        <script async src="../client-static.js"></script>
+        </body></html>
+        

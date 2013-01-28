@@ -7,7 +7,7 @@ import 'dart:html';
 import 'dart:math';
 import 'organization.dart';
 import 'organizations_list.dart';
-import 'widgets.dart' as widget;
+import 'widgets.dart' as widgets;
 
 part 'view.agent_info.dart';
 part 'view.company_info.dart';

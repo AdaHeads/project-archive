@@ -3,7 +3,7 @@ part of view;
 class ContactInfo {
   static ContactInfo _instance;
 
-  widget.Box         _viewPort;
+  widgets.Box _viewPort;
 
   factory ContactInfo() {
     if(_instance == null) {
@@ -14,7 +14,7 @@ class ContactInfo {
   }
 
   ContactInfo._internal() {
-    _viewPort = new widget.Box(query('#contact_info'))
+    _viewPort = new widgets.Box(query('#contact_info'))
       ..header = 'Medarbejdere';
 
     _registerSubscribers();

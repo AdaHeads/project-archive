@@ -17,10 +17,10 @@ import 'common.dart';
 class Organization {
   static Organization _instance;
 
-  Map                 _cache = new Map<int, Map>();
-  Map                 _json;
-  List                _subscribers = new List<Subscriber>();
-  String              _URL;
+  Map    _cache = new Map<int, Map>();
+  Map    _json;
+  List   _subscribers = new List<Subscriber>();
+  String _URL;
 
   /**
    * Organization is a singleton. The single [URI] parameter is the location

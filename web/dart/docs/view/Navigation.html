@@ -24,7 +24,7 @@
       
         <div class="nav">
         
-<h2><div class="icon-library"></div><a href="../bob.dart.html">bob.dart</a></h2><h2><div class="icon-library"></div><a href="../Common.html">Common</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2><h2><div class="icon-library"></div><a href="../organization.html">organization</a></h2><h2><div class="icon-library"></div><a href="../organizations_list.html">organizations_list</a></h2><h2><div class="icon-library"></div><a href="../view.html">view</a></h2><ul class="icon">
+<h2><div class="icon-library"></div><a href="../bob.dart.html">bob.dart</a></h2><h2><div class="icon-library"></div><a href="../Common.html">Common</a></h2><h2><div class="icon-library"></div><a href="../configuration.html">configuration</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2><h2><div class="icon-library"></div><a href="../organization.html">organization</a></h2><h2><div class="icon-library"></div><a href="../organizations_list.html">organizations_list</a></h2><h2><div class="icon-library"></div><a href="../view.html">view</a></h2><ul class="icon">
 <li><a href="../view/AgentInfo.html"><div class="icon-class"></div>AgentInfo</a></li>
 <li><a href="../view/CompanyInfo.html"><div class="icon-class"></div>CompanyInfo</a></li>
 <li><a href="../view/ContactInfo.html"><div class="icon-class"></div>ContactInfo</a></li>
@@ -47,7 +47,7 @@
 class Navigation {
  static Navigation  _instance;
 
- widget.Navigation  _viewPort;
+ widgets.Navigation _viewPort;
 
  factory Navigation(Overlay overlay) {
    if(_instance == null) {
@@ -58,12 +58,12 @@ class Navigation {
  }
 
  Navigation._internal(Overlay overlay) {
-   _viewPort = new widget.Navigation(query('#navigation'))
+   _viewPort = new widgets.Navigation(query('#navigation'))
      ..contentWindow = overlay._viewPort
-     ..addButton(new widget.NavigationButton(query('#button1')))
-     ..addButton(new widget.NavigationButton(query('#button2')))
-     ..addButton(new widget.NavigationButton(query('#button3')))
-     ..addButton(new widget.NavigationButton(query('#button4')));
+     ..addButton(new widgets.NavigationButton(query('#button1')))
+     ..addButton(new widgets.NavigationButton(query('#button2')))
+     ..addButton(new widgets.NavigationButton(query('#button3')))
+     ..addButton(new widgets.NavigationButton(query('#button4')));
  }
 }
 </pre>
@@ -92,7 +92,7 @@ factory Navigation(Overlay overlay) {
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2013-01-25 15:02:07.890</div>
+          <div>This page was generated at 2013-01-28 09:14:14.363</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

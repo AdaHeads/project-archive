@@ -3,7 +3,7 @@ part of view;
 class GlobalQueue {
   static GlobalQueue _instance;
 
-  widget.Box         _viewPort;
+  widgets.Box _viewPort;
 
   factory GlobalQueue() {
     if(_instance == null) {
@@ -14,7 +14,7 @@ class GlobalQueue {
   }
 
   GlobalQueue._internal() {
-    _viewPort = new widget.Box(query('#global_queue'))
+    _viewPort = new widgets.Box(query('#global_queue'))
       ..header = 'Kald'
       ..body = 'global_queue';
   }

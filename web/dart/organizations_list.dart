@@ -16,9 +16,8 @@ import 'common.dart';
 class Organizations_List {
   static Organizations_List _instance;
 
-  Map                       _json;
-  HttpRequest               _request;
-  List                      _subscribers = new List<Subscriber>();
+  Map  _json;
+  List _subscribers = new List<Subscriber>();
 
   /**
    * Organizations_List is a singleton. The single [URI] parameter is the location
@@ -34,7 +33,7 @@ class Organizations_List {
   }
 
   Organizations_List._internal(Uri URI) {
-    _request = new HttpRequest.get(URI.toString(), _onComplete);
+    var request = new HttpRequest.get(URI.toString(), _onComplete);
   }
 
   void _onComplete(HttpRequest req) {

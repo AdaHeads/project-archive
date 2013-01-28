@@ -3,7 +3,7 @@ part of view;
 class SendMessage {
   static SendMessage _instance;
 
-  widget.Box         _viewPort;
+  widgets.Box _viewPort;
 
   factory SendMessage() {
     if(_instance == null) {
@@ -14,7 +14,7 @@ class SendMessage {
   }
 
   SendMessage._internal() {
-    _viewPort = new widget.Box(query('#send_message'))
+    _viewPort = new widgets.Box(query('#send_message'))
       ..header = 'Besked'
       ..body = 'send_message';
   }

@@ -3,9 +3,9 @@ part of view;
 class CompanyInfo {
   static CompanyInfo _instance;
 
-  widget.Box         _viewPort;
-  widget.Selector    _companySelector;
-  DivElement         _companyInfo_dump;
+  widgets.Box      _viewPort;
+  widgets.Selector _companySelector;
+  DivElement      _companyInfo_dump;
 
   factory CompanyInfo() {
     if(_instance == null) {
@@ -16,10 +16,10 @@ class CompanyInfo {
   }
 
   CompanyInfo._internal() {
-    _viewPort = new widget.Box(query('#company_info'))
+    _viewPort = new widgets.Box(query('#company_info'))
       ..header = 'Virksomhed';
 
-    _companySelector = new widget.Selector(query('#company_info_select'))
+    _companySelector = new widgets.Selector(query('#company_info_select'))
       ..addOption('', 'vælg virksomhed', disabled: true);
 
     _companyInfo_dump = query('#company_info_dump');

@@ -3,7 +3,7 @@ part of view;
 class WelcomeMessage {
   static WelcomeMessage _instance;
 
-  widget.Box            _viewPort;
+  widgets.Box _viewPort;
 
   factory WelcomeMessage() {
     if(_instance == null) {
@@ -14,7 +14,7 @@ class WelcomeMessage {
   }
 
   WelcomeMessage._internal() {
-    _viewPort = new widget.Box(query('#welcome_message'))
+    _viewPort = new widgets.Box(query('#welcome_message'))
       ..body = 'Velkomst...';
 
     organization.registerSubscriber(_setGreeting);

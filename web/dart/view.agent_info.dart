@@ -3,7 +3,7 @@ part of view;
 class AgentInfo {
   static AgentInfo _instance;
 
-  widget.Box       _viewPort;
+  widgets.Box _viewPort;
 
   factory AgentInfo() {
     if(_instance == null) {
@@ -14,7 +14,7 @@ class AgentInfo {
   }
 
   AgentInfo._internal() {
-    _viewPort = new widget.Box(query('#agent_info'))
+    _viewPort = new widgets.Box(query('#agent_info'))
       ..header = 'Agenter'
       ..body = 'agent_info';
   }

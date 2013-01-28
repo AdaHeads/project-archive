@@ -3,7 +3,7 @@ part of view;
 class LocalQueue {
   static LocalQueue _instance;
 
-  widget.Box        _viewPort;
+  widgets.Box _viewPort;
 
   factory LocalQueue() {
     if(_instance == null) {
@@ -14,7 +14,7 @@ class LocalQueue {
   }
 
   LocalQueue._internal() {
-    _viewPort = new widget.Box(query('#local_queue'))
+    _viewPort = new widgets.Box(query('#local_queue'))
       ..header = 'Lokal kø'
       ..body = 'local_queue';
   }

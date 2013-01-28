@@ -14,6 +14,21 @@
         "comment": "\nInstantiates all the view objects and gets Bob going.\n",
         "name": "main",
         "id": "main0()"
+      },
+      {
+        "returnType": {
+          "name": "Future",
+          "refId": "Future",
+          "arguments": [
+            {
+              "name": "bool",
+              "refId": "bool"
+            }
+          ]
+        },
+        "kind": "method",
+        "name": "longExpensiveSearch",
+        "id": "longExpensiveSearch0()"
       }
     ],
     "id": "file:///home/thomas/dart/bob/web/dart/bob.dart"
@@ -31,6 +46,165 @@
       }
     ],
     "id": "file:///home/thomas/dart/bob/web/dart/common.dart"
+  },
+  {
+    "kind": "library",
+    "comment": "\nIn this library we fetch the configuration for Bob.\n",
+    "name": "configuration",
+    "children": [
+      {
+        "ref": {
+          "name": "dynamic",
+          "refId": "dynamic"
+        },
+        "kind": "property",
+        "name": "configuration",
+        "id": "configuration"
+      },
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "comment": "\nTODO: Write comment.\n",
+        "name": "Configuration",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "comment": "\nTODO: Write comment\n",
+            "name": "Configuration",
+            "children": [
+              {
+                "ref": {
+                  "name": "Uri",
+                  "refId": "Uri"
+                },
+                "kind": "param",
+                "name": "URI",
+                "id": "URI"
+              }
+            ],
+            "id": "Configuration1()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "Configuration._internal",
+            "children": [
+              {
+                "ref": {
+                  "name": "Uri",
+                  "refId": "Uri"
+                },
+                "kind": "param",
+                "name": "URI",
+                "id": "URI"
+              }
+            ],
+            "id": "Configuration._internal1()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "name": "_onComplete",
+            "children": [
+              {
+                "ref": {
+                  "name": "HttpRequest",
+                  "refId": "HttpRequest"
+                },
+                "kind": "param",
+                "name": "req",
+                "id": "req"
+              }
+            ],
+            "id": "_onComplete1()"
+          },
+          {
+            "ref": {
+              "name": "Configuration",
+              "refId": "Configuration"
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "_instance",
+            "id": "_instance"
+          },
+          {
+            "ref": {
+              "name": "Map",
+              "refId": "Map"
+            },
+            "kind": "property",
+            "name": "_json",
+            "id": "_json"
+          },
+          {
+            "ref": {
+              "name": "bool",
+              "refId": "bool"
+            },
+            "kind": "property",
+            "name": "loaded",
+            "id": "loaded"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "comment": "\nTODO: Write comment\n",
+            "name": "Configuration",
+            "children": [
+              {
+                "ref": {
+                  "name": "Uri",
+                  "refId": "Uri"
+                },
+                "kind": "param",
+                "name": "URI",
+                "id": "URI"
+              }
+            ],
+            "id": "Configuration1()"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "Configuration._internal",
+            "children": [
+              {
+                "ref": {
+                  "name": "Uri",
+                  "refId": "Uri"
+                },
+                "kind": "param",
+                "name": "URI",
+                "id": "URI"
+              }
+            ],
+            "id": "Configuration._internal1()"
+          }
+        ],
+        "id": "Configuration"
+      }
+    ],
+    "id": "file:///home/thomas/dart/bob/web/dart/configuration.dart"
   },
   {
     "kind": "library",
@@ -662,15 +836,6 @@
             "kind": "property",
             "name": "_json",
             "id": "_json"
-          },
-          {
-            "ref": {
-              "name": "HttpRequest",
-              "refId": "HttpRequest"
-            },
-            "kind": "property",
-            "name": "_request",
-            "id": "_request"
           },
           {
             "ref": {

@@ -3,7 +3,7 @@ part of view;
 class Overlay {
   static Overlay _instance;
 
-  widget.Box     _viewPort;
+  widgets.Box _viewPort;
 
   factory Overlay() {
     if(_instance == null) {
@@ -14,7 +14,7 @@ class Overlay {
   }
 
   Overlay._internal() {
-    _viewPort = new widget.Box(query('#overlay'))
+    _viewPort = new widgets.Box(query('#overlay'))
       ..header = 'Overlay'
       ..hide();
   }

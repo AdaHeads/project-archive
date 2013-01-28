@@ -3,7 +3,7 @@ part of view;
 class Navigation {
   static Navigation  _instance;
 
-  widget.Navigation  _viewPort;
+  widgets.Navigation _viewPort;
 
   factory Navigation(Overlay overlay) {
     if(_instance == null) {
@@ -14,11 +14,11 @@ class Navigation {
   }
 
   Navigation._internal(Overlay overlay) {
-    _viewPort = new widget.Navigation(query('#navigation'))
+    _viewPort = new widgets.Navigation(query('#navigation'))
       ..contentWindow = overlay._viewPort
-      ..addButton(new widget.NavigationButton(query('#button1')))
-      ..addButton(new widget.NavigationButton(query('#button2')))
-      ..addButton(new widget.NavigationButton(query('#button3')))
-      ..addButton(new widget.NavigationButton(query('#button4')));
+      ..addButton(new widgets.NavigationButton(query('#button1')))
+      ..addButton(new widgets.NavigationButton(query('#button2')))
+      ..addButton(new widgets.NavigationButton(query('#button3')))
+      ..addButton(new widgets.NavigationButton(query('#button4')));
   }
 }
