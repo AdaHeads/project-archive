@@ -14,20 +14,28 @@ class Box {
   /**
    * Instantiate with a [div].
    *
-   * The [div] MUST contain a child <div> identified by the id of [div] with _body
+   * The [div] MUST contain a child <div> identified by the id of [div] with body
    * appended, ie. if [div] has id='foo' then the body <div> must have id='foo_body'.
    *
-   * The [div] MAY contain a child <h1> identified by the id of [div] with _header
+   * The [div] MAY contain a child <h1> identified by the id of [div] with header
    * appended, ie. if [div] has id='foo' then the header <h1> must have id='foo_header'.
    */
-  Box(DivElement div) {
+  Box(DivElement div, DivElement body, {HeadingElement header: null}) {
+    assert(div != null);
+    assert(body != null);
+
     _div = div;
 
-    _header = query('#${_div.id}_header');
-    assert(_header is HeadingElement || _header == null);
+    if (header != null) {
+      assert(div.children.first == header);
+      _header = header;
+      assert(div.children.length == 2);
+    } else {
+      assert(div.children.length == 1);
+    }
 
-    _body = query('#${_div.id}_body');
-    assert(_body is DivElement);
+    assert(div.children.last == body);
+    _body = body;
 
     _resize();
     window.on.resize.add((e) => _resize());
@@ -37,23 +45,22 @@ class Box {
     int div_height = _div.clientHeight;
     int head_height = 0;
 
-    if(_header != null) {
+    if (_header != null) {
       // TODO: Can this hack solution be fixed? I'm adding a - to the header
       // if there's no current header. This is done to make sure the header
       // element isn't flattened when we grab the clientHeight.
-      _header.text = _header.text == '' ? '-' : _header.text;
+      _header.text = _header.text.isEmpty ? '-' : _header.text;
       head_height = _header.clientHeight;
     }
 
     int body_height = div_height - head_height;
-    _body.style.height = '${body_height - 20}px'; // <- TODO: 20 depends on a css value, which is bad.
+    _body.style.height = '${body_height}px'; // <- TODO: 20 depends on a css value, which is evil.
   }
 
   /**
    * Set the text value of the [Box] body.
    */
   set body(String value) => _body.text = value;
-
   /**
    * Fadein the [Box]
    */
@@ -85,7 +92,7 @@ class Box {
   /**
    * Hide the [Box].
    */
-  void hide(){
+  void hide() {
     _div.style.visibility = 'hidden';
     _div.style.zIndex = '-10';
     _hidden = true;

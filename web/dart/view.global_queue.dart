@@ -14,7 +14,9 @@ class GlobalQueue {
   }
 
   GlobalQueue._internal() {
-    _viewPort = new widgets.Box(query('#global_queue'))
+    _viewPort = new widgets.Box(query('#global_queue'),
+                                query('#global_queue_body'),
+                                header: query('#global_queue_header'))
       ..header = 'Kald'
       ..body = 'global_queue';
   }

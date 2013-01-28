@@ -10,7 +10,7 @@ import 'common.dart';
 import 'logger.dart';
 
 /**
- * Instantiates all the view objects and gets Bob going.
+ * Instantiates all the [view] objects and gets Bob going.
  */
 void main() {
   var result = fetchConfig();
@@ -26,6 +26,6 @@ void main() {
     final localQueue     = new LocalQueue();
     final overlay        = new Overlay();
     final navigation     = new Navigation(overlay);
-  }).catchError((e) => logger.finest(e.toString()) );
+  }).catchError((e) => logger.finest(e.toString()));
   logger.info('Something');
 }

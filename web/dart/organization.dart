@@ -57,8 +57,8 @@ class Organization {
   }
 
   /**
-   * Fetch the [id] organization JSON and dispatch it to all subscribers registered
-   * via the [registerSubscriber] function.
+   * Fetch the [id] organization JSON and dispatch it to all subscribers
+   * registered via the [registerSubscriber] function.
    */
   void fetch(int id) {
     if(_cache.containsKey(id)) {
