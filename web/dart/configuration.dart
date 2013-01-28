@@ -17,14 +17,20 @@ class Configuration {
   Map  _json;
   bool loaded = false;
 
+
   /**
    * TODO: Write comment
    */
-  factory Configuration(Uri URI) {
-    assert(URI.isAbsolute());
+  factory Configuration() {
+    var currentSite = new Uri(window.location.href);
+    var configUri = new Uri.fromComponents(
+        scheme: currentSite.scheme, domain: currentSite.domain,
+        port: currentSite.port, path:"/configuration");
+    configUri = new Uri("http://alice.adaheads.com:4242/configuration"); //TODO temp value, remove
+    assert(configUri.isAbsolute());
 
     if(_instance == null) {
-      _instance = new Configuration._internal(URI);
+      _instance = new Configuration._internal(configUri);
     }
     return _instance;
   }
@@ -46,6 +52,6 @@ class Configuration {
   }
 }
 
-final configuration = new Configuration(new Uri('http://alice.adaheads.com:4242/configuration'));
+final configuration = new Configuration();
 
 

@@ -1,1 +1,1 @@
-{"packages":{"json_object":{"version":"1.0.4+1","source":"hosted","description":"json_object"},"browser":{"version":"0.0.1","source":"hosted","description":"browser"},"unittest":{"version":"0.3.1+1","source":"hosted","description":"unittest"},"meta":{"version":"0.3.1+1","source":"hosted","description":"meta"}}}
+{"packages":{"browser":{"version":"0.3.1+1","source":"hosted","description":"browser"}}}
