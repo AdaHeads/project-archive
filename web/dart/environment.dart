@@ -14,11 +14,4 @@ class Environment{
 
     //dispatch the new organization.
   }
-
-  Environment(){
-    var sink = streamControl.sink;
-    var stram = streamControl.stream;
-  }
-
-
 }

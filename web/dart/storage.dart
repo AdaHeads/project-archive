@@ -8,7 +8,6 @@ import 'dart:uri';
 import 'dart:html';
 import 'logger.dart';
 import 'dart:json' as json;
-import 'organization_list.dart';
-import 'organization.dart';
+import 'model.dart';
 
 part 'storage.organization.dart';

@@ -31,6 +31,9 @@ void main() {
     logger.info('Every thing is initialized');
   }).catchError((e) => logger.finest(e.toString()));
 
+  var b = new ButtonElement();
+  var c = b.onClick;
+
   Storage_Organization.instance.getOrganization(1, (o) => logger.info(o.toString()));
   Storage_Organization.instance.getOrganizationList((o) => logger.info(o.toString()));
 }
