@@ -1,8 +1,8 @@
 part of model;
 
-class Organization{
+class OrganizationList{
   Map _json;
   Map get json => _json;
 
-  Organization(this._json);
+  OrganizationList(this._json);
 }

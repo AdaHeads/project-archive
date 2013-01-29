@@ -16,7 +16,9 @@ class CompanyInfo {
   }
 
   CompanyInfo._internal() {
-    _viewPort = new widgets.Box(query('#company_info'))
+    _viewPort = new widgets.Box(query('#company_info'),
+                                query('#company_info_body'),
+                                header: query("#company_info_header"))
       ..header = 'Virksomhed';
 
     _companySelector = new widgets.Selector(query('#company_info_select'))
@@ -29,7 +31,7 @@ class CompanyInfo {
   }
 
   void _registerEventHandlers() {
-    _companySelector.element.on.change.add((e) {
+    _companySelector.element.onChange.listen((e) {
       organization.fetch(int.parse(_companySelector.value));
     });
   }

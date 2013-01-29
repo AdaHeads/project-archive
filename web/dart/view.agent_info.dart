@@ -14,8 +14,10 @@ class AgentInfo {
   }
 
   AgentInfo._internal() {
-    _viewPort = new widgets.Box(query('#agent_info'))
-      ..header = 'Agenter'
-      ..body = 'agent_info';
+    _viewPort = new widgets.Box(query('#agent_info'),
+                                query('#agent_info_body'),
+                                header: query('#agent_info_header'))
+        ..header = 'Agenter'
+        ..body = 'agent_info';
   }
 }

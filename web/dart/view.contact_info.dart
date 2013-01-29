@@ -14,7 +14,9 @@ class ContactInfo {
   }
 
   ContactInfo._internal() {
-    _viewPort = new widgets.Box(query('#contact_info'))
+    _viewPort = new widgets.Box(query('#contact_info'),
+                                query('#contact_info_body'),
+                                header: query('#contact_info_header'))
       ..header = 'Medarbejdere';
 
     _registerSubscribers();

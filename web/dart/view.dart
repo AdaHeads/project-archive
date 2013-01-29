@@ -5,8 +5,8 @@ library view;
 
 import 'dart:html';
 import 'dart:math';
-import 'organization.dart';
-import 'organizations_list.dart';
+import 'organization_old.dart';
+import 'organizations_list_old.dart';
 import 'widgets.dart' as widgets;
 
 part 'view.agent_info.dart';

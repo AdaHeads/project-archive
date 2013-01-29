@@ -14,7 +14,9 @@ class LocalQueue {
   }
 
   LocalQueue._internal() {
-    _viewPort = new widgets.Box(query('#local_queue'))
+    _viewPort = new widgets.Box(query('#local_queue'),
+                                query('#local_queue_body'),
+                                header: query('#local_queue_header'))
       ..header = 'Lokal kø'
       ..body = 'local_queue';
   }

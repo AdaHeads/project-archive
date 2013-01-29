@@ -2,7 +2,7 @@
  * In this library we fetch, cache and allow users to subscribe to organizations
  * list JSON.
  */
-library organizations_list;
+library organizations_list_old;
 
 import 'dart:html';
 import 'dart:json' as json;
@@ -13,8 +13,8 @@ import 'common.dart';
  * The Organizations_List singleton contains facilities to register subscribers
  * to the organizations list JSON.
  */
-class Organizations_List {
-  static Organizations_List _instance;
+class Organizations_List_Old {
+  static Organizations_List_Old _instance;
 
   Map  _json;
   List _subscribers = new List<Subscriber>();
@@ -23,16 +23,16 @@ class Organizations_List {
    * Organizations_List is a singleton. The single [URI] parameter is the location
    * of the Alice organizations list REST interface.
    */
-  factory Organizations_List(Uri URI) {
+  factory Organizations_List_Old(Uri URI) {
     assert(URI.isAbsolute());
 
     if(_instance == null) {
-      _instance = new Organizations_List._internal(URI);
+      _instance = new Organizations_List_Old._internal(URI);
     }
     return _instance;
   }
 
-  Organizations_List._internal(Uri URI) {
+  Organizations_List_Old._internal(Uri URI) {
     var request = new HttpRequest.get(URI.toString(), _onComplete);
   }
 
@@ -55,4 +55,4 @@ class Organizations_List {
   void registerSubscriber(Subscriber subscriber) => _subscribers.add(subscriber);
 }
 
-final organizations_list = new Organizations_List(new Uri('http://alice.adaheads.com:4242/organization/list'));
+final organizations_list = new Organizations_List_Old(new Uri('http://alice.adaheads.com:4242/organization/list'));
