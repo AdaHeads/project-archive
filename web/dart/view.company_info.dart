@@ -26,28 +26,37 @@ class CompanyInfo {
 
     _companyInfo_dump = query('#company_info_dump');
 
+    // Porpulate the Selector.
+    Storage_Organization.instance.getOrganizationList(_setCompanySelector);
+
     _registerSubscribers();
     _registerEventHandlers();
   }
 
   void _registerEventHandlers() {
-    _companySelector.element.onChange.listen((e) {
-      organization.fetch(int.parse(_companySelector.value));
+    _companySelector.element.onChange.listen((_) {
+      Storage_Organization.instance.getOrganization(
+          int.parse(_companySelector.value),
+          (org) => Environment.instance.organization = org);
+      //organization.fetch(int.parse(_companySelector.value));
     });
   }
 
   void _registerSubscribers() {
-    organization.registerSubscriber(_setCompanyInfo);
-    organizations_list.registerSubscriber(_setCompanySelector);
+    Environment.instance.onChange.listen(_setCompanyInfo);
+    //organization.registerSubscriber(_setCompanyInfo);
+    //organizations_list.registerSubscriber(_setCompanySelector);
   }
 
-  void _setCompanySelector(Map json) {
+  void _setCompanySelector(OrganizationList orgList) {
+    var json = orgList.json;
     json['organization_list'].forEach((v) {
       _companySelector.addOption(v['organization_id'].toString(), v['full_name']);
     });
   }
 
-  void _setCompanyInfo(Map json) {
+  void _setCompanyInfo(Organization org) {
+    var json = org.json;
     _companyInfo_dump.text = json.toString();
     _viewPort.header = json['full_name'];
   }

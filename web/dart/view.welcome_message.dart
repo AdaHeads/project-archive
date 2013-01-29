@@ -17,11 +17,10 @@ class WelcomeMessage {
     _viewPort = new widgets.Box(query('#welcome_message'),
                                 query('#welcome_message_body'))
         ..body = 'Velkomst...';
-
-    organization.registerSubscriber(_setGreeting);
+    Environment.instance.onChange.listen(_setGreeting);
   }
 
-  void _setGreeting (Map json) {
-    _viewPort.body = json['greeting'];
+  void _setGreeting (Organization org) {
+    _viewPort.body = org.json['greeting'];
   }
 }

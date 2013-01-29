@@ -2,6 +2,8 @@ library logger;
 
 import '../assets/logging/logging.dart';
 import 'configuration.dart';
+import 'dart:html';
+import 'dart:json' as json;
 
 final Logger logger = new Logger("Adaheads");
 
@@ -11,6 +13,10 @@ final Logger logger = new Logger("Adaheads");
 class Log{
   bool _initialized = false;
   static Log _instance;
+
+  WebSocket _serverHandle;
+  bool _openServerHandle = false;
+
   /**
    * Constructor in singleton pattern.
    */
@@ -25,6 +31,16 @@ class Log{
 
   Log._internal (){}
 
+  /**
+   * Makes an websocket on [url] and sends the log messages to the server.
+   */
+  void attachServerHandle(String url) {
+    _serverHandle = new WebSocket(url);
+    _serverHandle.onError.listen((e) => logger.info(e.toString()));
+    _serverHandle.onOpen.listen((_) => _openServerHandle = true);
+    _serverHandle.onClose.listen((_) => _openServerHandle = false);
+  }
+
   void _initializeLogger() {
     if (!_initialized){
       logger.on.record.add(_loggerHandle);
@@ -33,7 +49,11 @@ class Log{
   }
 
   void _loggerHandle(LogRecord record) {
-    if (configuration.loaded){
+    if (_openServerHandle){
+      _serverHandle.send(json.stringify(
+          {'Message': record.message,
+           'Level': record.level.name,
+           'sequenceNumber': record.sequenceNumber}));
       // Send message to server.
     }
     print('${record.sequenceNumber} - ${record.level.name} - ${record.message}');

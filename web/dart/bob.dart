@@ -32,9 +32,4 @@ void main() {
     final navigation     = new Navigation(overlay);
     logger.info('Every thing is initialized');
   }).catchError((e) => logger.finest(e.toString()));
-
-  var e = new Environment();
-  e.onChange.listen((org) =>
-      logger.info('Environment changed:${org.toString()}'));
-  e.organization = new Organization(new Map());
 }

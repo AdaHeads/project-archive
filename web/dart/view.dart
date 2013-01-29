@@ -5,9 +5,10 @@ library view;
 
 import 'dart:html';
 import 'dart:math';
-import 'organization_old.dart';
-import 'organizations_list_old.dart';
 import 'widgets.dart' as widgets;
+import 'environment.dart';
+import 'storage.dart';
+import 'model.dart';
 
 part 'view.agent_info.dart';
 part 'view.company_info.dart';
