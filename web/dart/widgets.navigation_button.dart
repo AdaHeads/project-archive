@@ -14,7 +14,7 @@ class NavigationButton {
     _element = button;
 
     _resize();
-    window.on.resize.add((e) => _resize());
+    window.onResize.listen((_) => _resize());
   }
 
   void _resize() {

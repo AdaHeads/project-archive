@@ -28,7 +28,8 @@ class Navigation {
   void addButton(NavigationButton button) {
     _buttons.add(button);
 
-    button.element.on.click.add((Event e) {
+    // TODO Clean me up please
+    button.element.onClick.listen((_) {
       if(!_contentWindow.ishidden && _contentWindow.header == '${button.element.id}') {
         _contentWindow.fadeOut();
         button.activated(false);

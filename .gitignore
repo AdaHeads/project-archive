@@ -1,6 +1,12 @@
 # Don't track packages
 packages
 
+# Don't track docs, generate them.
+web/dart/docs
+
+# Don't track the auto generated javascript files.
+web/dart/bob.dart.js*
+
 # Do not track emacs temporary and backup files
 \#*#
 *~

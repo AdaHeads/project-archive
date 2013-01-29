@@ -38,7 +38,7 @@ class Box {
     _body = body;
 
     _resize();
-    window.on.resize.add((e) => _resize());
+    window.onResize.listen((_) => _resize());
   }
 
   void _resize() {

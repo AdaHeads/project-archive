@@ -31,7 +31,7 @@ class CompanyInfo {
   }
 
   void _registerEventHandlers() {
-    _companySelector.element.on.change.add((e) {
+    _companySelector.element.onChange.listen((e) {
       organization.fetch(int.parse(_companySelector.value));
     });
   }

@@ -8,11 +8,13 @@ import 'configuration.dart';
 import 'view.dart';
 import 'common.dart';
 import 'logger.dart';
+import 'storage.dart';
 
 /**
  * Instantiates all the [view] objects and gets Bob going.
  */
 void main() {
+  final log            = new Log();
   var result = fetchConfig();
   result.then((success) {
     assert(configuration.loaded);
@@ -26,6 +28,9 @@ void main() {
     final localQueue     = new LocalQueue();
     final overlay        = new Overlay();
     final navigation     = new Navigation(overlay);
+    logger.info('Every thing is initialized');
   }).catchError((e) => logger.finest(e.toString()));
-  logger.info('Something');
+
+  Storage_Organization.instance.getOrganization(1, (o) => logger.info(o.toString()));
+  Storage_Organization.instance.getOrganizationList((o) => logger.info(o.toString()));
 }

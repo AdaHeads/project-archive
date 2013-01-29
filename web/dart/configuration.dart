@@ -17,6 +17,8 @@ class Configuration {
 
   Map  _json;
   bool _loaded = false;
+
+  Map get asjson => _json;
   bool get loaded => _loaded;
 
   /**
@@ -28,7 +30,7 @@ class Configuration {
         new Uri.fromComponents(scheme: currentSite.scheme,
                                            domain: currentSite.domain,
                                            port: currentSite.port,
-                                           path:'/configuration blahlalcsaldalsdasdal');
+                                           path:'/configuration');
     configUri = new Uri('http://alice.adaheads.com:4242/configuration'); //TODO temp value, remove
     assert(configUri.isAbsolute());
 
