@@ -12,6 +12,9 @@ class Environment{
   set organization(Organization org){
     _org = org;
 
+    streamControl.sink.add(org);
     //dispatch the new organization.
   }
+
+  Stream get onChange => streamControl.stream;
 }

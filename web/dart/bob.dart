@@ -9,12 +9,14 @@ import 'view.dart';
 import 'common.dart';
 import 'logger.dart';
 import 'storage.dart';
+import 'environment.dart';
+import 'model.dart';
 
 /**
  * Instantiates all the [view] objects and gets Bob going.
  */
 void main() {
-  final log            = new Log();
+  final log = new Log();
   var result = fetchConfig();
   result.then((success) {
     assert(configuration.loaded);
@@ -31,9 +33,8 @@ void main() {
     logger.info('Every thing is initialized');
   }).catchError((e) => logger.finest(e.toString()));
 
-  var b = new ButtonElement();
-  var c = b.onClick;
-
-  Storage_Organization.instance.getOrganization(1, (o) => logger.info(o.toString()));
-  Storage_Organization.instance.getOrganizationList((o) => logger.info(o.toString()));
+  var e = new Environment();
+  e.onChange.listen((org) =>
+      logger.info('Environment changed:${org.toString()}'));
+  e.organization = new Organization(new Map());
 }
