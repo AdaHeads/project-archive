@@ -28,7 +28,7 @@ copy-static-files:
 	(cd deploy/dart/packages && ln -s ../../.pub-cache/hosted/pub.dartlang.org/unittest-0.3.2/lib unittest)
 
 compile-js:
-	lib/dart-sdk/bin/dart2js --minify -odeploy/dart/bob.dart.js src/dart/bob.dart
+	lib/dart-sdk/bin/dart2js --minify -odeploy/dart/bob.dart.js deploy/dart/bob.dart
 
 	# Delete and re-create the deploy/packages directory.
 	-rm -r deploy/packages
