@@ -32,14 +32,6 @@ compile-js:
 
 	# Delete and re-create the deploy/packages directory.
 	-rm -r deploy/packages
-	mkdir deploy/packages
-
-	# Create links to the local packages cache.
-	# AÙTOMATE THIS! Link to every single package in .pub-cache.
-	(cd deploy/packages && ln -s ../.pub-cache/hosted/pub.dartlang.org/browser-0.3.2/lib browser)
-	(cd deploy/packages && ln -s ../.pub-cache/hosted/pub.dartlang.org/logging-0.3.2/lib logging)
-	(cd deploy/packages && ln -s ../.pub-cache/hosted/pub.dartlang.org/meta-0.3.2/lib meta)
-	(cd deploy/packages && ln -s ../.pub-cache/hosted/pub.dartlang.org/unittest-0.3.2/lib unittest)
 
 update-pub:
 	(cd deploy && HOME=$(CURDIR)/deploy ../lib/dart-sdk/bin/pub update)
