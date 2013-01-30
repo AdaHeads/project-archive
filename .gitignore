@@ -2,10 +2,10 @@
 packages
 
 # Don't track docs, generate them.
-web/dart/docs
+src/dart/docs
 
 # Don't track the auto generated javascript files.
-web/dart/bob.dart.js*
+src/dart/bob.dart.js*
 
 # Don't track deploy and build files
 deploy
