@@ -2,7 +2,20 @@ part of model;
 
 class Organization{
   Map _json;
-  Map get json => _json;
+  //Map get json => _json;
 
-  Organization(this._json);
+  List _contacts;
+  List get contacts => _contacts;
+
+  Map _orgInfo;
+  Map get orgInfo => _orgInfo;
+
+  Organization(json){
+    _json = json;
+
+    _contacts = json['contacts'];
+
+    json.remove('contacts');
+    _orgInfo = json;
+  }
 }

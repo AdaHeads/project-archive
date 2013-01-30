@@ -9,6 +9,9 @@ import 'widgets.dart' as widgets;
 import 'environment.dart';
 import 'storage.dart';
 import 'model.dart';
+import 'notification.dart' as notifi;
+import 'configuration.dart';
+import 'logger.dart';
 
 part 'view.agent_info.dart';
 part 'view.company_info.dart';
