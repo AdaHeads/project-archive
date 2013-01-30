@@ -21,27 +21,32 @@ class Storage_Organization{
   void getOrganization(int id, void onComplete(Organization)){
     if (_cache.containsKey(id)){
       onComplete(_cache[id]);
+    }else{
+      logger.fine('$id is not cached');
+      var url = '$_baseUrl${_organizationPath}?${_getOrgFragment}=$id';
+      new HttpRequest.get(url,_onComplete(onComplete));
     }
-    var url = '$_baseUrl${_organizationPath}?${_getOrgFragment}=$id';
-    new HttpRequest.get(url,_onComplete(onComplete));
   }
 
   /**
    * Get the organization list from alice.
    */
-  void getOrganizationList(void onComplete(organizationList)){
+  void getOrganizationList(void onComplete(OrganizationList organizationList)){
     var url = '$_baseUrl${_organizationListPath}';
     new HttpRequest.get(url, _onListComplete(onComplete));
   }
 
-  _requestOnComplete _onComplete(void onComplete(Organization)) {
+  _requestOnComplete _onComplete(void onComplete(Organization organization)) {
     return (HttpRequest reg) {
       if (reg.status == 200) {
-        var org = json.parse(reg.responseText);
-        int id = org['organization_id'];
-        _cache[id] = new Organization(org);
-        onComplete(new Organization(org));
+        logger.finest('Storage request: ${reg.responseText}');
+        var orgJson = json.parse(reg.responseText);
+        int id = orgJson['organization_id'];
+        var org = new Organization(orgJson);
+        _cache[id] = org;
+        onComplete(org);
       } else {
+        // TODO: Proper error handling
         logger.info('failed on :$reg');
       }
     };
@@ -53,6 +58,7 @@ class Storage_Organization{
         var res = new OrganizationList(json.parse(reg.responseText));
         onComplete(res);
       }else{
+        // TODO: Proper error handling
         logger.info('failed on :$reg');
       }
     };

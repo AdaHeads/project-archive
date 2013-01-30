@@ -14,14 +14,14 @@ class WelcomeMessage {
   }
 
   WelcomeMessage._internal() {
+    assert(configuration.loaded);
     _viewPort = new widgets.Box(query('#welcome_message'),
                                 query('#welcome_message_body'))
-        ..body = 'Velkomst...';
-
-    organization.registerSubscriber(_setGreeting);
+        ..body = configuration.asjson['Standard_Greeting'];
+    Environment.instance.onChange.listen(_setGreeting);
   }
 
-  void _setGreeting (Map json) {
-    _viewPort.body = json['greeting'];
+  void _setGreeting (Organization org) {
+    _viewPort.body = org.orgInfo['greeting'];
   }
 }

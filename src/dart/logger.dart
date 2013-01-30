@@ -1,7 +1,9 @@
 library logger;
 
-import '../assets/logging/logging.dart';
+import 'package:logging/logging.dart';
 import 'configuration.dart';
+import 'dart:html';
+import 'dart:json' as json;
 
 final Logger logger = new Logger("Adaheads");
 
@@ -9,8 +11,11 @@ final Logger logger = new Logger("Adaheads");
  * [Log] TODO Write comment
  */
 class Log{
-  bool _initialized = false;
   static Log _instance;
+  bool _initialized = false;
+
+  Level serverLevel = Level.OFF;
+
   /**
    * Constructor in singleton pattern.
    */
@@ -29,14 +34,30 @@ class Log{
     if (!_initialized){
       logger.on.record.add(_loggerHandle);
       _initialized = true;
+      logger.parent.level = Level.ALL;
     }
   }
 
-  void _loggerHandle(LogRecord record) {
-    if (configuration.loaded){
+  _serverHandle(LogRecord record){
+    if (serverLevel >= record.level) {
       // Send message to server.
     }
+  }
+
+  // FINEST  300
+  // FINER   400  DEBUG
+  // FINE    500
+
+  // CONFIG  700
+  // INFO    800  INFO (default)
+
+  // WARNING 900
+  // SEVERE  1000  WARNING
+  // SHOUT   1200
+
+  void _loggerHandle(LogRecord record) {
     print('${record.sequenceNumber} - ${record.level.name} - ${record.message}');
+    _serverHandle(record);
   }
 }
 

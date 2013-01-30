@@ -3,7 +3,6 @@
  */
 library storage;
 
-import 'organization_old.dart';
 import 'dart:uri';
 import 'dart:html';
 import 'logger.dart';

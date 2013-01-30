@@ -23,10 +23,10 @@ class ContactInfo {
   }
 
   void _registerSubscribers() {
-    organization.registerSubscriber(_setContactInfo);
+    Environment.instance.onChange.listen(_setContactInfo);
   }
 
-  void _setContactInfo(Map json) {
-    _viewPort.body = json.toString();
+  void _setContactInfo(Organization org) {
+    _viewPort.body = org.contacts.toString();
   }
 }

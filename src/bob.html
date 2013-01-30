@@ -91,7 +91,9 @@
       -->
       <div id="global_queue" class="window">
         <h1 id="global_queue_header" class="window_header"></h1>
-        <div id="global_queue_body" class="window_body"></div>
+        <div id="global_queue_body" class="window_body">
+          <button id="btn_Pickup">Pickup</button>
+          <ol id="global_call_queue"></ol></div>
       </div>
 
       <!--
@@ -104,7 +106,7 @@
 
       <!--
         This contents of this box corresponds to the button clicked in the
-        navigation pane.
+        navigation pane. We probably need more of these overlays.
       -->
       <div id="overlay" class="window">
         <h1 id="overlay_header" class="window_header"></h1>
@@ -113,6 +115,6 @@
     </div>
 
     <script type="application/dart" src="dart/bob.dart"></script>
-    <script src="assets/browser/dart.js"></script>
+    <script src="packages/browser/dart.js"></script>
   </body>
 </html>
