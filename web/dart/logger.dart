@@ -1,6 +1,6 @@
 library logger;
 
-import '../assets/logging/logging.dart';
+import 'package:logging/logging.dart';
 import 'configuration.dart';
 
 final Logger logger = new Logger("Adaheads");
