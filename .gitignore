@@ -7,6 +7,11 @@ web/dart/docs
 # Don't track the auto generated javascript files.
 web/dart/bob.dart.js*
 
+# Don't track deploy and build files
+deploy
+lib/dart-sdk
+lib/dist
+
 # Do not track emacs temporary and backup files
 \#*#
 *~

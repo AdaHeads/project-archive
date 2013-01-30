@@ -1,25 +1,21 @@
 HOME=$(CURDIR)
 
 deployment: dart-sdk copy-static-files update-pub compile-js
-	cp -r build/packages build/dart/
+
 dart-sdk:
 	make -C lib dart-sdk
 	echo $(HOME)
 
 copy-static-files:
-	-mkdir -p build/dart
-	-mkdir -p build/js
-	-cp -r css build
-	-cp -r bob.html build
-	-cp -r dart/*.dart build/dart
-	-cp -r pubspec.yaml build
+	-mkdir -p deploy
+	-cp -r web/* deploy
+	-cp -r pubspec.yaml deploy
 
 compile-js:
-	-mkdir -p build/js
-	lib/dart-sdk/bin/dart2js -obuild/js/bob.js dart/bob.dart
+	lib/dart-sdk/bin/dart2js -odeploy/dart/bob.dart.js web/dart/bob.dart
 
 update-pub:
-	(cd build && HOME=$(CURDIR)/build ../lib/dart-sdk/bin/pub update)
+	(cd deploy && HOME=$(CURDIR)/deploy ../lib/dart-sdk/bin/pub update)
 
 distclean:
 	-rm -r build
