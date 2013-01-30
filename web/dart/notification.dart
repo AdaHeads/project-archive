@@ -34,26 +34,38 @@ class Notification {
     _socket.onMessage(_onMessage);
   }
 
-  _onMessage(Map json) {
-    logger.warning('Delete me');
-    /*
+  void _onMessage(Map json) {
     if (!json.containsKey('notification')){
-      logger.fine('does not contains notification');
+      logger.warning('does not contains notification');
       return;
     }
+    var notificationMap = json['notification'];
 
-    if (!json['notification'].containsKey('persistent')){
-      logger.fine('does not contains persistent');
+    if (!notificationMap.containsKey('persistent')){
+      logger.warning('does not contains persistent');
       return;
     }
     //Is it a persistent event or not.
-    if (json['notification']['persistent']){
-      logger.fine('persistent notification');
+    if (notificationMap['persistent'] == 'true'){
+      persistentNotification(notificationMap);
     }else{
-      logger.fine('nonpersistent notification');
+      nonPersistentNotification(notificationMap);
     }
-    */
+  }
 
+  void persistentNotification(Map json){
+    logger.fine('persistent notification');
+  }
+
+  void nonPersistentNotification(Map json){
+    logger.fine('nonpersistent notification');
+
+    if (!json.containsKey('event')){
+      logger.warning('nonPersistensNotification did not have a event field.');
+    }
+    var eventName = json['event'];
+
+    logger.finest('notification with event: $eventName');
   }
 }
 

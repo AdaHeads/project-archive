@@ -11,11 +11,10 @@ final Logger logger = new Logger("Adaheads");
  * [Log] TODO Write comment
  */
 class Log{
-  bool _initialized = false;
   static Log _instance;
+  bool _initialized = false;
 
-  WebSocket _serverHandle;
-  bool _openServerHandle = false;
+  Level serverLevel = Level.OFF;
 
   /**
    * Constructor in singleton pattern.
@@ -31,21 +30,17 @@ class Log{
 
   Log._internal (){}
 
-  /**
-   * Makes an websocket on [url] and sends the log messages to the server.
-   */
-  void attachServerHandle(String url) {
-    _serverHandle = new WebSocket(url);
-    _serverHandle.onError.listen((e) => logger.info(e.toString()));
-    _serverHandle.onOpen.listen((_) => _openServerHandle = true);
-    _serverHandle.onClose.listen((_) => _openServerHandle = false);
-  }
-
   void _initializeLogger() {
     if (!_initialized){
       logger.on.record.add(_loggerHandle);
       _initialized = true;
       logger.parent.level = Level.ALL;
+    }
+  }
+
+  _serverHandle(LogRecord record){
+    if (serverLevel >= record.level) {
+      // Send message to server.
     }
   }
 
@@ -61,14 +56,8 @@ class Log{
   // SHOUT   1200
 
   void _loggerHandle(LogRecord record) {
-    if (_openServerHandle){
-      _serverHandle.send(json.stringify(
-          {'Message': record.message,
-           'Level': record.level.name,
-           'sequenceNumber': record.sequenceNumber}));
-      // Send message to server.
-    }
     print('${record.sequenceNumber} - ${record.level.name} - ${record.message}');
+    _serverHandle(record);
   }
 }
 

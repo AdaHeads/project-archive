@@ -21,9 +21,9 @@ class Socket{
   }
 
   void _onMessage(MessageEvent event) {
-    var data = json.parse(event.data);
+    logger.finest('Notification message: ${event.data}');
 
-    logger.finest('Notification message: ${data}');
+    var data = json.parse(event.data);
 
     for(var sub in Subscribers){
       sub(data);
@@ -44,8 +44,10 @@ class Socket{
   }
 
   void _connector() {
+    logger.finer('Socket reconnecting with interval: $_RECONNECT_INTERVAL');
+
     new Timer.repeating(_RECONNECT_INTERVAL, (t) {
-      logger.fine("socket trying to connect");
+      logger.finest("socket trying to connect");
       if (_channel != null && _channel.readyState == WebSocket.OPEN) {
         t.cancel();
       }else{
