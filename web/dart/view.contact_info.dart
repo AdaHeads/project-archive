@@ -27,6 +27,6 @@ class ContactInfo {
   }
 
   void _setContactInfo(Organization org) {
-    _viewPort.body = org.json.toString();
+    _viewPort.body = org.contacts.toString();
   }
 }

@@ -14,10 +14,11 @@ class AgentInfo {
   }
 
   AgentInfo._internal() {
+    assert(configuration.loaded);
     _viewPort = new widgets.Box(query('#agent_info'),
                                 query('#agent_info_body'),
                                 header: query('#agent_info_header'))
         ..header = 'Agenter'
-        ..body = 'agent_info';
+        ..body = '${configuration.asjson['SIP_Account']['Username']}@${configuration.asjson['SIP_Account']['Domain']}';
   }
 }

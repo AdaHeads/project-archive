@@ -38,14 +38,11 @@ class CompanyInfo {
       Storage_Organization.instance.getOrganization(
           int.parse(_companySelector.value),
           (org) => Environment.instance.organization = org);
-      //organization.fetch(int.parse(_companySelector.value));
     });
   }
 
   void _registerSubscribers() {
     Environment.instance.onChange.listen(_setCompanyInfo);
-    //organization.registerSubscriber(_setCompanyInfo);
-    //organizations_list.registerSubscriber(_setCompanySelector);
   }
 
   void _setCompanySelector(OrganizationList orgList) {
@@ -56,7 +53,7 @@ class CompanyInfo {
   }
 
   void _setCompanyInfo(Organization org) {
-    var json = org.json;
+    var json = org.orgInfo;
     _companyInfo_dump.text = json.toString();
     _viewPort.header = json['full_name'];
   }
