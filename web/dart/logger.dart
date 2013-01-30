@@ -45,8 +45,20 @@ class Log{
     if (!_initialized){
       logger.on.record.add(_loggerHandle);
       _initialized = true;
+      logger.parent.level = Level.ALL;
     }
   }
+
+  // FINEST  300
+  // FINER   400  DEBUG
+  // FINE    500
+
+  // CONFIG  700
+  // INFO    800  INFO (default)
+
+  // WARNING 900
+  // SEVERE  1000  WARNING
+  // SHOUT   1200
 
   void _loggerHandle(LogRecord record) {
     if (_openServerHandle){

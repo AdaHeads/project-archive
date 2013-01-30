@@ -11,16 +11,21 @@ import 'logger.dart';
 import 'storage.dart';
 import 'environment.dart';
 import 'model.dart';
+import 'notification.dart' as notifi;
 
 /**
  * Instantiates all the [view] objects and gets Bob going.
  */
 void main() {
   final log = new Log();
+  logger.info('Hello Bob');
+
   var result = fetchConfig();
   result.then((success) {
     assert(configuration.loaded);
+    logger.fine("Got configuration");
 
+    final notification   = new notifi.Notification();
     final welcomeMessage = new WelcomeMessage();
     final agentInfo      = new AgentInfo();
     final companyInfo    = new CompanyInfo();
@@ -30,6 +35,6 @@ void main() {
     final localQueue     = new LocalQueue();
     final overlay        = new Overlay();
     final navigation     = new Navigation(overlay);
-    logger.info('Every thing is initialized');
+
   }).catchError((e) => logger.finest(e.toString()));
 }
