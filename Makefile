@@ -13,11 +13,11 @@ copy-static-files:
 	-cp -r pubspec.* deploy
 
 	# Delete old packages/ directories
-	rm -r deploy/css/packages
-	rm -r deploy/css_old/packages
-	rm -r deploy/dart/packages
-	rm -r deploy/img/packages
-	rm -r deploy/js/packages
+	-rm -r deploy/css/packages
+	-rm -r deploy/css_old/packages
+	-rm -r deploy/dart/packages
+	-rm -r deploy/img/packages
+	-rm -r deploy/js/packages
 
 	# Create links to the local packages cache.
 	# AÙTOMATE THIS! Link to every single package in .pub-cache.
@@ -31,7 +31,7 @@ compile-js:
 	lib/dart-sdk/bin/dart2js --minify -odeploy/dart/bob.dart.js src/dart/bob.dart
 
 	# Delete and re-create the deploy/packages directory.
-	rm -r deploy/packages
+	-rm -r deploy/packages
 	mkdir deploy/packages
 
 	# Create links to the local packages cache.
