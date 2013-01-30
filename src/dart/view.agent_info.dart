@@ -1,5 +1,7 @@
 part of view;
-
+/**
+ * TODO write comment.
+ */
 class AgentInfo {
   static AgentInfo _instance;
 

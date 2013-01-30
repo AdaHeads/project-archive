@@ -8,7 +8,7 @@ import 'dart:json' as json;
 final Logger logger = new Logger("Adaheads");
 
 /**
- * [Log] TODO Write comment
+ * [Log] is a class to manage the logging system.
  */
 class Log{
   static Log _instance;

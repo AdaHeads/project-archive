@@ -1,5 +1,7 @@
 part of view;
-
+/**
+ * TODO Write comment.
+ */
 class ContactInfo {
   static ContactInfo _instance;
 

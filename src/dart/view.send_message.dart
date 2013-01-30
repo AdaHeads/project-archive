@@ -1,5 +1,7 @@
 part of view;
-
+/**
+ * TODO Write comment.
+ */
 class SendMessage {
   static SendMessage _instance;
 

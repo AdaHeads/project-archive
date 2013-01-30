@@ -1,3 +1,6 @@
+/**
+ * Model Library.
+ */
 library model;
 
 part 'organization.dart';

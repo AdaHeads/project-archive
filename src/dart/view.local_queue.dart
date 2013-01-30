@@ -1,5 +1,7 @@
 part of view;
-
+/**
+ * TODO Write comment.
+ */
 class LocalQueue {
   static LocalQueue _instance;
 

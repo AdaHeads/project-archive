@@ -1,5 +1,7 @@
 part of view;
-
+/**
+ * TODO Write comment.
+ */
 class GlobalQueue {
   static GlobalQueue _instance;
 
@@ -26,7 +28,7 @@ class GlobalQueue {
 
     notifi.Notification.instance.addEventHandler('queue_join', _queueJoin);
     notifi.Notification.instance.addEventHandler('queue_leave', _queueLeave);
-    query('#btn_Pickup').onClick.listen(_pickUpCall);
+    query('#btn_Pickup').onClick.listen(_pickUpNextCall);
   }
 
   void _queueJoin(Map json){
@@ -57,8 +59,14 @@ class GlobalQueue {
     }
   }
 
+  //TODO This should take a parameter, so it can make a request to Alice about that call.
+  //     It should generate a clouser, that can be added to the element showing that call.
+  _pickupCall(){
+
+  }
+
   //TODO This should not be here.
-  void _pickUpCall(event){
-    logger.finer("pickup button pressed");
+  void _pickUpNextCall(event){
+    logger.finest("pickup button pressed");
   }
 }

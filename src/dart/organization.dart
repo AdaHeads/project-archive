@@ -1,5 +1,8 @@
 part of model;
 
+/**
+ * TODO Write this comment, when the class have more to it, then a simple map.
+ */
 class Organization{
   Map _json;
   //Map get json => _json;

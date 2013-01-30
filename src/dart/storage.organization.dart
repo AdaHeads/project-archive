@@ -1,5 +1,5 @@
 part of storage;
-
+//TODO Should it be here or under the class declaration.
 typedef void _requestOnComplete (HttpRequest req);
 /**
  * Storage class for Organization objects.

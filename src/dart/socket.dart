@@ -8,6 +8,9 @@ import 'common.dart';
 import 'configuration.dart';
 import 'logger.dart';
 
+/**
+ * A generic Websocket, that reconnects itself.
+ */
 class Socket{
   WebSocket _channel;
   final String _url;
