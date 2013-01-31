@@ -84,5 +84,3 @@ Future<bool> fetchConfig() {
 }
 
 final configuration = new Configuration();
-
-

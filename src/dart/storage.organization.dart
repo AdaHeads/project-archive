@@ -74,4 +74,3 @@ class Storage_Organization{
     _baseUrl = baseUri.toString();
   }
 }
-
