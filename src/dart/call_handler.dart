@@ -13,28 +13,33 @@
   <http://www.gnu.org/licenses/>.
 */
 
-part of view;
-/**
- * TODO Write comment.
- */
-class LocalQueue {
-  static LocalQueue _instance;
+library call_handler;
 
-  widgets.Box _viewPort;
+import 'configuration.dart';
+import 'environment.dart';
+import 'logger.dart';
+import 'notification.dart' as notifi;
 
-  factory LocalQueue() {
-    if(_instance == null) {
-      _instance = new LocalQueue._internal();
-    }
+void initializeCallHandler(){
+  notifi.Notification.instance.addEventHandler('call_pickup', _callPickup);
+  notifi.Notification.instance.addEventHandler('call_hangup', _callHangup);
+}
 
-    return _instance;
+void _callPickup(Map json) {
+  var call = json['call'];
+  if (call['assigned_to'] == configuration.asjson['Agent_ID']) {
+    logger.fine('Call pickup for this agent.');
+    //it's to me! :D :D
+  }else{
+    //somebody else got a call.
+  }
+}
+
+void _callHangup(Map json) {
+  var call = json['call'];
+  if (call['id'] == Environment.instance.call['id']) {
+    logger.info('The current call hangup');
+    Environment.instance.call = null;
   }
 
-  LocalQueue._internal() {
-    _viewPort = new widgets.Box(query('#local_queue'),
-                                query('#local_queue_body'),
-                                header: query('#local_queue_header'))
-      ..header = 'Lokal kø'
-      ..body = 'local_queue';
-  }
 }

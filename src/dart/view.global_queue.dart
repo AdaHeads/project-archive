@@ -1,3 +1,18 @@
+/*                                Bob
+                   Copyright (C) 2012-, AdaHeads K/S
+
+  This is free software;  you can redistribute it and/or modify it
+  under terms of the  GNU General Public License  as published by the
+  Free Software  Foundation;  either version 3,  or (at your  option) any
+  later version. This library is distributed in the hope that it will be
+  useful, but WITHOUT ANY WARRANTY;  without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  You should have received a copy of the GNU General Public License and
+  a copy of the GCC Runtime Library Exception along with this program;
+  see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+  <http://www.gnu.org/licenses/>.
+*/
+
 part of view;
 /**
  * TODO Write comment.
@@ -23,6 +38,8 @@ class GlobalQueue {
                                 query('#global_queue_body'),
                                 header: query('#global_queue_header'))
       ..header = 'Kald';
+
+    _registrateSubscribers();
 
     //TODO Is this the right way, just by knowing it's id, or should it be found from knowing it's parant.
     _callList = query('#global_call_queue');
@@ -85,12 +102,11 @@ class GlobalQueue {
   }
 
   void _addCallElement(Map call){
-    var item = new ButtonElement()
+    var item = new LIElement()
       ..text = 'Channel: ${call['channel']}, arrival_time: ${call['arrival_time']}'
       ..onClick.listen(_pickupCall(int.parse(call['id'])));
     _callList.children.add(item);
   }
-
 
   //TODO All this pickup call stuff should not be here.
   _pickupCall(int id){
