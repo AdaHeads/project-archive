@@ -1,14 +1,14 @@
 HOME=$(CURDIR)
 
-deployment: dart-sdk copy-static-files update-pub compile-js
+deployment: dart-sdk copy-static-files update-pub compile-js link-to-packages
 	rm deploy/pubspec.*
 
 dart-sdk:
 	make -C lib dart-sdk
 	echo $(HOME)
 
-copy-static-files:
-	-mkdir -p deploy
+copy-static-files: dart-sdk
+	-mkdir deploy
 	-cp -r src/* deploy
 	-cp -r pubspec.* deploy
 
@@ -19,21 +19,18 @@ copy-static-files:
 	-rm -r deploy/img/packages
 	-rm -r deploy/js/packages
 
+link-to-packages: update-pub copy-static-files
 	# Create links to the local packages cache.
-	# AÙTOMATE THIS! Link to every single package in .pub-cache.
 	mkdir deploy/dart/packages
-	(cd deploy/dart/packages && ln -s ../../.pub-cache/hosted/pub.dartlang.org/browser-0.3.2/lib browser)
-	(cd deploy/dart/packages && ln -s ../../.pub-cache/hosted/pub.dartlang.org/logging-0.3.2/lib logging)
-	(cd deploy/dart/packages && ln -s ../../.pub-cache/hosted/pub.dartlang.org/meta-0.3.2/lib meta)
-	(cd deploy/dart/packages && ln -s ../../.pub-cache/hosted/pub.dartlang.org/unittest-0.3.2/lib unittest)
+	for lib_dir in deploy/.pub-cache/hosted/pub.dartlang.org/*/lib; do package=$$(basename $$(dirname $${lib_dir})); ln -s $$(pwd)/$${lib_dir} deploy/dart/packages/$${package/-*}; done
 
-compile-js:
+compile-js: dart-sdk copy-static-files update-pub link-to-packages
 	lib/dart-sdk/bin/dart2js --minify -odeploy/dart/bob.dart.js deploy/dart/bob.dart
 
 	# Delete and re-create the deploy/packages directory.
 	-rm -r deploy/packages
 
-update-pub:
+update-pub: copy-static-files dart-sdk
 	(cd deploy && HOME=$(CURDIR)/deploy ../lib/dart-sdk/bin/pub update)
 
 distclean:
