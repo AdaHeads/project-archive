@@ -38,7 +38,7 @@ class Environment{
       return;
     }
     _org = org;
-    logger.info('The current Organization is changed to: ${org.toString()}');
+    Log.info('The current Organization is changed to: ${org.toString()}');
     streamControl.sink.add(org);
     //dispatch the new organization.
   }

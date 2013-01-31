@@ -37,7 +37,7 @@ class Storage_Organization{
     if (_cache.containsKey(id)){
       onComplete(_cache[id]);
     }else{
-      logger.fine('$id is not cached');
+      Log.info('$id is not cached');
       var url = '$_baseUrl${_organizationPath}?${_getOrgFragment}=$id';
       new HttpRequest.get(url,_onComplete(onComplete));
     }
@@ -52,17 +52,23 @@ class Storage_Organization{
   }
 
   _requestOnComplete _onComplete(void onComplete(Organization organization)) {
-    return (HttpRequest reg) {
-      if (reg.status == 200) {
-        logger.finest('Storage request: ${reg.responseText}');
-        var orgJson = json.parse(reg.responseText);
+    return (HttpRequest req) {
+      if (req.status == 200) {
+        Log.info('Storage request: ${req.responseText}');
+        var orgJson = json.parse(req.responseText);
         int id = orgJson['organization_id'];
         var org = new Organization(orgJson);
         _cache[id] = org;
         onComplete(org);
+      } else if (req.status == 400){
+        //TODO make
+        Log.error('failed on :$req');
+      } else if (req.status == 404){
+        //TODO make it.
+        Log.info('failed on :$req');
       } else {
         // TODO: Proper error handling
-        logger.info('failed on :$reg');
+        Log.critical('failed on :$req');
       }
     };
   }
@@ -74,7 +80,7 @@ class Storage_Organization{
         onComplete(res);
       }else{
         // TODO: Proper error handling
-        logger.info('failed on :$reg');
+        Log.error('failed on :$reg');
       }
     };
   }

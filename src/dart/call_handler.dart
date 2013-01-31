@@ -28,7 +28,7 @@ void initializeCallHandler(){
 void _callPickup(Map json) {
   var call = json['call'];
   if (call['assigned_to'] == configuration.asjson['Agent_ID']) {
-    logger.fine('Call pickup for this agent.');
+    Log.info('Call pickup for this agent.');
     //it's to me! :D :D
   }else{
     //somebody else got a call.
@@ -38,8 +38,7 @@ void _callPickup(Map json) {
 void _callHangup(Map json) {
   var call = json['call'];
   if (call['id'] == Environment.instance.call['id']) {
-    logger.info('The current call hangup');
+    Log.info('The current call hangup');
     Environment.instance.call = null;
   }
-
 }

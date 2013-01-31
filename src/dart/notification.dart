@@ -70,13 +70,13 @@ class Notification {
 
   void _onMessage(Map json) {
     if (!json.containsKey('notification')){
-      logger.warning('does not contains notification');
+      Log.critical('does not contains notification');
       return;
     }
     var notificationMap = json['notification'];
 
     if (!notificationMap.containsKey('persistent')){
-      logger.warning('does not contains persistent');
+      Log.critical('does not contains persistent');
       return;
     }
     //Is it a persistent event or not.
@@ -88,17 +88,17 @@ class Notification {
   }
 
   void persistentNotification(Map json){
-    logger.fine('persistent notification');
+    Log.info('persistent notification');
   }
 
   void nonPersistentNotification(Map json){
-    logger.fine('nonpersistent notification');
+    Log.info('nonpersistent notification');
 
     if (!json.containsKey('event')){
-      logger.warning('nonPersistensNotification did not have a event field.');
+      Log.critical('nonPersistensNotification did not have a event field.');
     }
     var eventName = json['event'];
-    logger.finest('notification with event: $eventName');
+    Log.info('notification with event: $eventName');
 
     if (_eventHandlers.containsKey(eventName)){
       for (var sub in _eventHandlers[eventName]) {

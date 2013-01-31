@@ -34,12 +34,12 @@ import 'view.dart';
  */
 void main() {
   final log = new Log();
-  logger.info('Hello Bob');
+  Log.info('Hello Bob');
 
   var result = fetchConfig();
   result.then((success) {
     assert(configuration.loaded);
-    logger.fine("Got configuration");
+    Log.info("Got configuration");
 
     final notification   = new notifi.Notification();
     final welcomeMessage = new WelcomeMessage();
@@ -52,5 +52,5 @@ void main() {
     final overlay        = new Overlay();
     final navigation     = new Navigation(overlay);
 
-  }).catchError((e) => logger.finest(e.toString()));
+  }).catchError((e) => Log.info(e.toString()));
 }

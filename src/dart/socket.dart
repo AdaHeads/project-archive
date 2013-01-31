@@ -29,17 +29,18 @@ import 'logger.dart';
 class Socket{
   WebSocket _channel;
   final String _url;
-  final int _RECONNECT_INTERVAL;
+  int _RECONNECT_INTERVAL;
 
   List<Subscriber> Subscribers = new List<Subscriber>();
 
   Socket(this._url, this._RECONNECT_INTERVAL) {
-    logger.info(_url);
+    _RECONNECT_INTERVAL = _RECONNECT_INTERVAL < 1000 ? 1000 : _RECONNECT_INTERVAL;
+    Log.info(_url);
     _connector();
   }
 
   void _onMessage(MessageEvent event) {
-    logger.finest('Notification message: ${event.data}');
+    Log.info('Notification message: ${event.data}');
 
     var data = json.parse(event.data);
 
@@ -57,15 +58,15 @@ class Socket{
   }
 
   void _onError(event) {
-    logger.shout(event.toString());
+    Log.critical(event.toString());
     _connector();
   }
 
   void _connector() {
-    logger.finer('Socket reconnecting with interval: $_RECONNECT_INTERVAL');
+    Log.info('Socket reconnecting with interval: $_RECONNECT_INTERVAL');
 
     new Timer.repeating(_RECONNECT_INTERVAL, (t) {
-      logger.finest("socket trying to connect");
+      Log.info("socket trying to connect");
       if (_channel != null && _channel.readyState == WebSocket.OPEN) {
         t.cancel();
       }else{
