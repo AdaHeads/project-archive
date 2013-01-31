@@ -30,14 +30,17 @@ class Navigation {
 
     // TODO Clean me up please
     button.element.onClick.listen((_) {
-      if(!_contentWindow.ishidden && _contentWindow.header == '${button.element.id}') {
+      if(!_contentWindow.ishidden &&
+          _contentWindow.header == '${button.element.id}') {
         _contentWindow.fadeOut();
         button.activated(false);
+
       } else if(!_contentWindow.ishidden) {
         _contentWindow.header = button.element.id;
         _contentWindow.body = 'Some ${button.element.id} content';
         _buttons.forEach((v) => v.activated(false));
         button.activated(true);
+
       } else {
         _contentWindow.header = button.element.id;
         _contentWindow.body = 'Some ${button.element.id} content';

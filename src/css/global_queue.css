@@ -5,3 +5,7 @@
   height: 26%;
   width: 22%;
 }
+
+#global_call_queue > li {
+  font-size: 70%;
+}

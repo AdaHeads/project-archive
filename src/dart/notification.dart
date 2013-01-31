@@ -7,6 +7,7 @@ import 'common.dart';
 import 'socket.dart';
 import 'configuration.dart';
 import 'logger.dart';
+import 'utils.dart';
 
 /**
  * A Class to handle all the notifications from Alice.
@@ -64,7 +65,7 @@ class Notification {
       return;
     }
     //Is it a persistent event or not.
-    if (notificationMap['persistent'] == 'true'){
+    if (parseBool(notificationMap['persistent'])){
       persistentNotification(notificationMap);
     }else{
       nonPersistentNotification(notificationMap);

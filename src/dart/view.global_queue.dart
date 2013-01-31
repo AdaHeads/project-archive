@@ -35,10 +35,7 @@ class GlobalQueue {
     var call = json['call'];
     _internalCallList.add(call);
 
-    LIElement item = new LIElement();
-    item.text = 'Channel: ${call['channel']}, arrival_time: ${call['arrival_time']}';
-
-    _callList.children.add(item);
+    _addCallElement(call);
   }
 
   void _queueLeave(Map json){
@@ -52,20 +49,52 @@ class GlobalQueue {
 
     _callList.children.clear();
     for (var c in _internalCallList) {
-      LIElement item = new LIElement()
-        ..text = 'Channel: ${call['channel']}, arrival_time: ${call['arrival_time']}';
-
-      _callList.children.add(item);
+      _addCallElement(c);
     }
   }
 
-  //TODO This should take a parameter, so it can make a request to Alice about that call.
-  //     It should generate a clouser, that can be added to the element showing that call.
-  _pickupCall(){
-
+  void _addCallElement(Map call){
+    var item = new ButtonElement()
+      ..text = 'Channel: ${call['channel']}, arrival_time: ${call['arrival_time']}'
+      ..onClick.listen(_pickupCall(int.parse(call['id'])));
+    _callList.children.add(item);
   }
 
-  //TODO This should not be here.
+
+  //TODO All this pickup call stuff should not be here.
+  _pickupCall(int id){
+    logger.fine('Initialize onClick to pickup: $id');
+    return ((e){
+      logger.finer('Pressed to pickup ${id.toString()}');
+      //TODO Find a way to get the base url ie. http://alice.adaheads.com:4242
+      var url = "http://alice.adaheads.com:4242/call/pickup?call_id=$id";
+      var req = new HttpRequest();
+      req.onLoadEnd.listen((_){
+        if (req.readyState == HttpRequest.DONE &&
+            (req.status == 200 || req.status == 0)){
+          _pickupCallSuccessResponse(req);
+        }else if (req.readyState == HttpRequest.DONE){
+          _pickupCallFailueResponse(req, url);
+        }
+      });
+      req.onError.listen((_) => logger.warning('Tried to get call with id: $id'));
+      req.open("POST", url, true);
+      req.send();
+    });
+  }
+
+  void _pickupCallSuccessResponse(HttpRequest req){
+    logger.info('pickupCall:${req.responseText}');
+  }
+
+  void _pickupCallFailueResponse(HttpRequest req, String url){
+    if (req.status == 500){
+      logger.warning('Got 500 on request to $url');
+    }else{
+      logger.warning('Pickup Call status code: ${req.status} - ${req.statusText}');
+    }
+  }
+
   void _pickUpNextCall(event){
     logger.finest("pickup button pressed");
   }
