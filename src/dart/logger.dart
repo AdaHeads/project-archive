@@ -1,9 +1,11 @@
 library logger;
 
-import 'package:logging/logging.dart';
-import 'configuration.dart';
 import 'dart:html';
 import 'dart:json' as json;
+
+import 'package:logging/logging.dart';
+
+import 'configuration.dart';
 
 final Logger logger = new Logger("Adaheads");
 

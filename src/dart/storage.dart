@@ -5,8 +5,9 @@ library storage;
 
 import 'dart:uri';
 import 'dart:html';
-import 'logger.dart';
 import 'dart:json' as json;
+
+import 'logger.dart';
 import 'model.dart';
 
 part 'storage.organization.dart';

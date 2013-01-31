@@ -5,13 +5,14 @@ library view;
 
 import 'dart:html';
 import 'dart:math';
-import 'widgets.dart' as widgets;
+
+import 'configuration.dart';
 import 'environment.dart';
-import 'storage.dart';
+import 'logger.dart';
 import 'model.dart';
 import 'notification.dart' as notifi;
-import 'configuration.dart';
-import 'logger.dart';
+import 'storage.dart';
+import 'widgets.dart' as widgets;
 
 part 'view.agent_info.dart';
 part 'view.company_info.dart';

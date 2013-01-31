@@ -4,9 +4,9 @@
 library notification;
 
 import 'common.dart';
-import 'socket.dart';
 import 'configuration.dart';
 import 'logger.dart';
+import 'socket.dart';
 import 'utils.dart';
 
 /**

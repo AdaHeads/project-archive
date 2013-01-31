@@ -1,7 +1,8 @@
 library environment;
 
-import 'model.dart';
 import 'dart:async';
+
+import 'model.dart';
 
 /**
  * A class that contains the selected organization

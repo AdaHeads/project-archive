@@ -4,14 +4,15 @@
 import 'dart:async';
 import 'dart:uri';
 import 'dart:html';
-import 'configuration.dart';
-import 'view.dart';
+
 import 'common.dart';
-import 'logger.dart';
-import 'storage.dart';
+import 'configuration.dart';
 import 'environment.dart';
+import 'logger.dart';
 import 'model.dart';
 import 'notification.dart' as notifi;
+import 'storage.dart';
+import 'view.dart';
 
 /**
  * Instantiates all the [view] objects and gets Bob going.
