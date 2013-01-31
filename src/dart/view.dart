@@ -4,6 +4,7 @@
 library view;
 
 import 'dart:html';
+import 'dart:json' as json;
 import 'dart:math';
 
 import 'configuration.dart';

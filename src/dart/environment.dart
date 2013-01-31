@@ -2,6 +2,7 @@ library environment;
 
 import 'dart:async';
 
+import 'logger.dart';
 import 'model.dart';
 
 /**
@@ -18,8 +19,11 @@ class Environment{
 
   Organization get organization => _org;
   set organization(Organization org) {
+    if (org == org){
+      return;
+    }
     _org = org;
-
+    logger.info('The current Organization is changed to: ${org.toString()}');
     streamControl.sink.add(org);
     //dispatch the new organization.
   }
