@@ -13,19 +13,15 @@
   <http://www.gnu.org/licenses/>.
 */
 /**
- * A collection of common typedefs for the Bob application.
+ * A collection of common typedefs and exceptions for Bob.
  */
 library Common;
 
-/**
- * Used throughout Bob as the fingerprint for callbacks. Accepts a [json] map as
- * its sole parameter.
- */
-typedef void Subscriber(Map json);
+import 'model.dart';
 
-/**
- * Exception thrown when an operation times out.
- */
+typedef void Subscriber(Map json);
+typedef void organizationSubscriber (Organization organization);
+
 class TimeoutException implements Exception {
   final String message;
 

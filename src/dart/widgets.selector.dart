@@ -28,12 +28,13 @@ class Selector {
   /**
    * TODO: Write comment
    */
-  void addOption(String value, String label, {bool disabled: false}) {
+  void addOption(String value, String label, {bool disabled: false, bool selected: false}) {
     var option = new OptionElement()
       ..text = label
       ..value = value;
 
     option.disabled = disabled;
+    option.selected = selected;
     element.append(option);
   }
 

@@ -13,6 +13,9 @@
   <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * A class that contains a websocket.
+ */
 library socket;
 
 import 'dart:async';
@@ -28,47 +31,53 @@ import 'logger.dart';
  */
 class Socket{
   WebSocket _channel;
+  int _reconnectInterval;
+  //TODO Change to stream
+  var Subscribers = new List<Subscriber>();
   final String _url;
-  int _RECONNECT_INTERVAL;
 
-  List<Subscriber> Subscribers = new List<Subscriber>();
-
-  Socket(this._url, this._RECONNECT_INTERVAL) {
-    _RECONNECT_INTERVAL = _RECONNECT_INTERVAL < 1000 ? 1000 : _RECONNECT_INTERVAL;
-    Log.info(_url);
+  /**
+   * Make a websocket on the [_url]. If the connection fails if will try to
+   * reconnect with an interval of [reconnectInterval].
+   */
+  Socket(this._url, int reconnectInterval) {
+    _reconnectInterval = reconnectInterval < 1000 ? 1000 : reconnectInterval;
+    log.info(_url);
     _connector();
   }
 
   void _onMessage(MessageEvent event) {
-    Log.info('Notification message: ${event.data}');
+    log.info('Notification message: ${event.data}');
 
     var data = json.parse(event.data);
 
-    for(var sub in Subscribers) {
-      sub(data);
+    for(var subscriber in Subscribers) {
+      subscriber(data);
     }
   }
 
-  void onMessage(Subscriber sub) {
-    Subscribers.add(sub);
-  }
+  /**
+   * Add subscriber for upcomming messages.
+   */
+  void onMessage(Subscriber subscriber) => Subscribers.add(subscriber);
 
   void _onClose(event) {
     _connector();
   }
 
   void _onError(event) {
-    Log.critical(event.toString());
+    log.critical(event.toString());
     _connector();
   }
 
+  // TODO find a better way of doing this. It seems wrong like this.
   void _connector() {
-    Log.info('Socket reconnecting with interval: $_RECONNECT_INTERVAL');
+    log.info('Socket reconnecting with interval: ${_reconnectInterval}');
 
-    new Timer.repeating(_RECONNECT_INTERVAL, (t) {
-      Log.info("socket trying to connect");
+    new Timer.repeating(_reconnectInterval, (timer) {
+      log.info("socket trying to connect");
       if (_channel != null && _channel.readyState == WebSocket.OPEN) {
-        t.cancel();
+        timer.cancel();
       }else{
         _channel = new WebSocket(_url);
         _channel.onMessage.listen(_onMessage);

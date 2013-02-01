@@ -18,27 +18,27 @@ library call_handler;
 import 'configuration.dart';
 import 'environment.dart';
 import 'logger.dart';
-import 'notification.dart' as notifi;
+import 'notification.dart' as notify;
 
-void initializeCallHandler() {
-  notifi.Notification.instance.addEventHandler('call_pickup', _callPickup);
-  notifi.Notification.instance.addEventHandler('call_hangup', _callHangup);
-}
+//void initializeCallHandler() {
+//  notifi.Notification.instance.addEventHandler('call_pickup', _callPickup);
+//  notifi.Notification.instance.addEventHandler('call_hangup', _callHangup);
+//}
 
-void _callPickup(Map json) {
-  var call = json['call'];
-  if (call['assigned_to'] == configuration.asjson['Agent_ID']) {
-    Log.info('Call pickup for this agent.');
-    //it's to me! :D :D
-  }else{
-    //somebody else got a call.
-  }
-}
-
-void _callHangup(Map json) {
-  var call = json['call'];
-  if (call['id'] == Environment.instance.call['id']) {
-    Log.info('The current call hangup');
-    Environment.instance.call = null;
-  }
-}
+//void _callPickup(Map json) {
+//  var call = json['call'];
+//  if (call['assigned_to'] == configuration.asjson['Agent_ID']) {
+//    Log.info('Call pickup for this agent.');
+//    //it's to me! :D :D
+//  }else{
+//    //somebody else got a call.
+//  }
+//}
+//
+//void _callHangup(Map json) {
+//  var call = json['call'];
+//  if (call['id'] == environment.call['id']) {
+//    Log.info('The current call hangup');
+//    environment.call = null;
+//  }
+//}

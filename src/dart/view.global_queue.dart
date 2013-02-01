@@ -50,27 +50,28 @@ class GlobalQueue {
 
   void initialFill() {
     var baseUrl = 'http://alice.adaheads.com:4242';
-    var url = '$baseUrl/call/list';
+    var url = '${baseUrl}/call/list';
+    log.info('Making http request for the call list');
     new HttpRequest.get(url,(HttpRequest req) {
       if (req.readyState == HttpRequest.DONE &&
           (req.status == 200 || req.status == 0)) {
-        Log.info('Initial call return with: ${req.responseText}');
+        log.info('Initial call return with: ${req.responseText}');
         var calls = json.parse(req.responseText);
         for (var call in calls['calls']) {
           _addCall(call);
         }
       }else if(req.readyState == HttpRequest.DONE && req.status == 204) {
         //Nothing new
-        Log.info('Call list on the server is empty');
+        log.info('Call list on the server is empty');
       }else{
-        Log.info('$url gave: ${req.status} - ${req.statusText}');
+        log.info('${url} gave: ${req.status} - ${req.statusText}');
       }
     });
   }
 
   void _registrateSubscribers() {
-    notifi.Notification.instance.addEventHandler('queue_join', _queueJoin);
-    notifi.Notification.instance.addEventHandler('queue_leave', _queueLeave);
+    notify.notification.addEventHandler('queue_join', _queueJoin);
+    notify.notification.addEventHandler('queue_leave', _queueLeave);
     query('#btn_Pickup').onClick.listen(_pickUpNextCall);
   }
 
@@ -110,12 +111,12 @@ class GlobalQueue {
 
   //TODO All this pickup call stuff should not be here.
   _pickupCall(int id) {
-    Log.info('Initialize onClick to pickup call_id: $id');
+    log.info('Initialize onClick to pickup call_id: ${id}');
     return ((_) {
-      Log.info('Pressed to pickup ${id.toString()}');
+      log.info('Pressed to pickup ${id.toString()}');
       var baseUrl = "http://alice.adaheads.com:4242";
       //TODO Find a way to get the base url ie. http://alice.adaheads.com:4242
-      var url = "$baseUrl/call/pickup?agent_id=${configuration.asjson['Agent_ID']}&call_id=$id";
+      var url = "${baseUrl}/call/pickup?agent_id=${configuration.asJson['Agent_ID']}&call_id=${id}";
       var req = new HttpRequest();
       req.onLoad.listen((_) {
         if (req.readyState == HttpRequest.DONE) {
@@ -124,7 +125,7 @@ class GlobalQueue {
               _pickupCallSuccessResponse(req);
               break;
             case 204:
-              Log.info('Request call with id: $id but got Http code 204');
+              log.info('Request call with id: ${id} but got Http code 204');
               break;
             default:
               _pickupCallFailueResponse(req, url);
@@ -132,25 +133,25 @@ class GlobalQueue {
           }
         }
       });
-      req.onError.listen((_) => Log.critical('Tried to get call with id: $id'));
+      req.onError.listen((_) => log.critical('Tried to get call with id: ${id}'));
       req.open("POST", url, true);
       req.send();
     });
   }
 
   void _pickupCallSuccessResponse(HttpRequest req) {
-    Log.info('pickupCall:${req.responseText}');
+    log.info('pickupCall:${req.responseText}');
     var response = json.parse(req.responseText);
     if (!response.containsKey('organization_id')) {
-      Log.critical('The call had no organization_id. why?');
+      log.critical('The call had no organization_id. why?');
     }
     var orgId = response['organization_id'];
     Storage_Organization.instance.getOrganization(orgId,(org) =>
-        Environment.instance.organization = (org != null) ? org: Environment.instance.organization);
+        environment.setOrganization((org != null) ? org : environment.organization));
   }
 
   void _pickupCallFailueResponse(HttpRequest req, String url) {
-   Log.error('Pickup Call status code: ${req.status} - ${req.statusText} - ${req.responseText} - $url');
+   log.error('Pickup Call status code: ${req.status} - ${req.statusText} - ${req.responseText} - ${url}');
   }
 
   /**
@@ -159,12 +160,12 @@ class GlobalQueue {
   //TODO this should not be hidden. We need it for the keyboard bindings.
   //TODO never tested.
   _pickUpNextCall(event) {
-    Log.info("pickup next call button pressed - not implemented");
+    log.info("pickup next call button pressed - not implemented");
     return ((_) {
-      Log.info('Pressed to pickup the next call');
+      log.info('Pressed to pickup the next call');
       var baseUrl = "http://alice.adaheads.com:4242";
       //TODO Find a way to get the base url ie. http://alice.adaheads.com:4242
-      var url = "$baseUrl/call/pickup?agent_id=${configuration.asjson['Agent_ID']}";
+      var url = "${baseUrl}/call/pickup?agent_id=${configuration.asJson['Agent_ID']}";
       var req = new HttpRequest();
       req.onLoad.listen((_) {
         if (req.readyState == HttpRequest.DONE) {
@@ -173,7 +174,7 @@ class GlobalQueue {
               _pickupCallSuccessResponse(req);
               break;
             case 204:
-              Log.info('Asked for the next call but got 204');
+              log.info('Asked for the next call but got 204');
               break;
             default:
               _pickupCallFailueResponse(req, url);
@@ -181,7 +182,7 @@ class GlobalQueue {
           }
         }
       });
-      req.onError.listen((_) => Log.critical('Tried to get the next call'));
+      req.onError.listen((_) => log.critical('Tried to get the next call'));
       req.open("POST", url);
       req.send();
     });

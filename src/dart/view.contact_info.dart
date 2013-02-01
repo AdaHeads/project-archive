@@ -40,7 +40,7 @@ class ContactInfo {
   }
 
   void _registerSubscribers() {
-    Environment.instance.onChange.listen(_setContactInfo);
+    environment.onOrganizationChange(_setContactInfo);
   }
 
   void _setContactInfo(Organization org) {

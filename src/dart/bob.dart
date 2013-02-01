@@ -17,15 +17,13 @@
  * The Bob client. Helping receptionists do their work every day.
  */
 import 'dart:async';
-import 'dart:uri';
 import 'dart:html';
+import 'dart:uri';
 
 import 'common.dart';
 import 'configuration.dart';
 import 'environment.dart';
 import 'logger.dart';
-import 'model.dart';
-import 'notification.dart' as notifi;
 import 'storage.dart';
 import 'view.dart';
 
@@ -33,15 +31,13 @@ import 'view.dart';
  * Instantiates all the [view] objects and gets Bob going.
  */
 void main() {
-  final log = new Log();
-  Log.info('Hello Bob');
+  log.info('Hello Bob');
 
-  var result = fetchConfig();
-  result.then((success) {
-    assert(configuration.loaded);
-    Log.info("Got configuration");
+  var configLoaded = fetchConfig();
 
-    final notification   = new notifi.Notification();
+  configLoaded.then((_) {
+    log.info("Got configuration");
+
     final welcomeMessage = new WelcomeMessage();
     final agentInfo      = new AgentInfo();
     final companyInfo    = new CompanyInfo();
@@ -52,5 +48,5 @@ void main() {
     final overlay        = new Overlay();
     final navigation     = new Navigation(overlay);
 
-  }).catchError((e) => Log.info(e.toString()));
+  }).catchError((error) => log.critical(error.toString()));
 }

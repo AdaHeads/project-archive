@@ -39,7 +39,7 @@ class CompanyInfo {
       ..header = 'Virksomhed';
 
     _companySelector = new widgets.Selector(query('#company_info_select'))
-      ..addOption('', 'vælg virksomhed', disabled: true);
+      ..addOption('', 'vælg virksomhed', disabled: true, selected: true);
 
     _companyInfo_dump = query('#company_info_dump');
 
@@ -54,19 +54,20 @@ class CompanyInfo {
     _companySelector.element.onChange.listen((_) {
       Storage_Organization.instance.getOrganization(
           int.parse(_companySelector.value),
-          (org) => Environment.instance.organization = org);
+          (org) => environment.setOrganization(org));
     });
   }
 
   void _registerSubscribers() {
-    Environment.instance.onChange.listen(_setCompanyInfo);
+    environment.onOrganizationChange(_setCompanyInfo);
   }
 
-  void _setCompanySelector(OrganizationList orgList) {
-    var json = orgList.json;
-    json['organization_list'].forEach((v) {
-      _companySelector.addOption(v['organization_id'].toString(), v['full_name']);
+  void _setCompanySelector(OrganizationList organizationList) {
+    var json = organizationList.json;
+    json['organization_list'].forEach((value) {
+      _companySelector.addOption(value['organization_id'].toString(), value['full_name']);
     });
+
   }
 
   void _setCompanyInfo(Organization org) {

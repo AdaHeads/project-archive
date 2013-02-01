@@ -18,65 +18,51 @@
  */
 library notification;
 
+import 'dart:async';
+
 import 'common.dart';
 import 'configuration.dart';
 import 'logger.dart';
 import 'socket.dart';
-import 'utils.dart';
+import 'utilities.dart';
 
 /**
  * A Class to handle all the notifications from Alice.
  */
 class Notification {
-  static Notification _instance;
-  static Notification get instance => _instance;
-
+  var _eventHandlers = new Map<String, StreamController<Map>>();
   Socket _socket;
 
-  //TODO probably better to implement it with streams.
-  var _eventHandlers = new Map<String, List <Subscriber>>();
-
-  /**
-   * Adds subscribers for an event with the specified [name].
-   */
-  void addEventHandler(String name, Subscriber sub) {
-    if (!_eventHandlers.containsKey(name)) {
-      _eventHandlers[name] = new List<Subscriber>();
-    }
-    _eventHandlers[name].add(sub);
-  }
-
-  /**
-   * Singleton
-   */
-  factory Notification() {
-    if (_instance == null) {
-      _instance = new Notification._Internal();
-    }
-
-    return _instance;
-  }
-
-  Notification._Internal() {
+  Notification._internal() {
     assert(configuration.loaded);
 
-    String url = configuration.asjson['Websocket']['URI'];
+    String url = configuration.asJson['Websocket']['URI'];
     int reconnetInterval =
-        configuration.asjson['Websocket']['Reconnect_Interval'];
+        configuration.asJson['Websocket']['Reconnect_Interval'];
 
     _socket = new Socket(url,reconnetInterval);
     _socket.onMessage(_onMessage);
   }
 
+  /**
+   * Adds subscribers for an event with the specified [eventName].
+   */
+  void addEventHandler(String eventName, Subscriber subscriber) {
+    if (!_eventHandlers.containsKey(eventName)) {
+      _eventHandlers[eventName] = new StreamController<Map>();
+    }
+    _eventHandlers[eventName].stream.listen(subscriber);
+  }
+
   void _onMessage(Map json) {
     if (!json.containsKey('notification')) {
-      Log.critical('does not contains notification');
+      log.critical('does not contains notification');
       return;
     }
     var notificationMap = json['notification'];
 
     if (!notificationMap.containsKey('persistent')) {
-      Log.critical('does not contains persistent');
+      log.critical('does not contains persistent');
       return;
     }
     //Is it a persistent event or not.
@@ -88,22 +74,22 @@ class Notification {
   }
 
   void persistentNotification(Map json) {
-    Log.info('persistent notification');
+    log.info('persistent notification');
   }
 
   void nonPersistentNotification(Map json) {
-    Log.info('nonpersistent notification');
+    log.info('nonpersistent notification');
 
     if (!json.containsKey('event')) {
-      Log.critical('nonPersistensNotification did not have a event field.');
+      log.critical('nonPersistensNotification did not have a event field.');
     }
     var eventName = json['event'];
-    Log.info('notification with event: $eventName');
+    log.info('notification with event: ${eventName}');
 
     if (_eventHandlers.containsKey(eventName)) {
-      for (var sub in _eventHandlers[eventName]) {
-        sub(json);
-      }
+      _eventHandlers[eventName].sink.add(json);
     }
   }
 }
+
+final notification = new Notification._internal();

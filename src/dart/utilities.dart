@@ -16,21 +16,15 @@
 /**
  * Library containing various utility methods.
  */
-library utils;
+library utilities;
 
 /**
- * Prepend a # to [value] if the first character of [value] != #.
+ * Parses a String to a bool.
+ * TODO remove when Dart gets it.
  */
-String toSelector (String value) {
-  assert(!value.isEmpty);
 
-  return value.startsWith('#') ? value : '#${value}';
-}
-
-/**
- * Parses a String to a bool. Only needed until Dart gets updated.
- */
-bool parseBool (String s, [bool ifInvalid]) {
-  if(s == null || !(s == 'true' || s == 'false')) return ifInvalid;
+//TODO tjek om det er nok med: return s == 'true'; // og der med IKKE tjekke for null
+bool parseBool (String s) {
+  if(s == null) return false;
   return s == 'true';
 }

@@ -20,13 +20,12 @@ library view;
 
 import 'dart:html';
 import 'dart:json' as json;
-import 'dart:math';
 
 import 'configuration.dart';
 import 'environment.dart';
 import 'logger.dart';
 import 'model.dart';
-import 'notification.dart' as notifi;
+import 'notification.dart' as notify;
 import 'storage.dart';
 import 'widgets.dart' as widgets;
 

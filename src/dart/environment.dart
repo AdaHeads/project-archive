@@ -13,10 +13,14 @@
   <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * Contains the current state of Bob.
+ */
 library environment;
 
 import 'dart:async';
 
+import 'common.dart';
 import 'logger.dart';
 import 'model.dart';
 
@@ -24,34 +28,42 @@ import 'model.dart';
  * A class that contains the selected organization
  */
 class Environment{
+  Environment._internal();
+
+  /*
+     Organization
+  */
+  var organizationStream = new StreamController<Organization>.broadcast();
+
+  Organization _organization;
+  Organization get organization => _organization;
+
   /**
-   * Singleton pattern. Reference to the one and only object.
+   * Subscribe to organization changes.
    */
-  static final instance = new Environment._internal();
-  var streamControl = new StreamController<Organization>.broadcast();
+  void onOrganizationChange(organizationSubscriber subscriber){
+    organizationStream.stream.listen(subscriber);
+  }
 
-  Organization _org;
-
-  Organization get organization => _org;
-  set organization(Organization org) {
-    if (org == _org) {
+ /**
+  * TODO Comment
+  */
+  void setOrganization(Organization organization) {
+    if (organization == _organization) {
       return;
     }
-    _org = org;
-    Log.info('The current Organization is changed to: ${org.toString()}');
-    streamControl.sink.add(org);
+    _organization = organization;
+    log.info('The current organization is changed to: ${organization.toString()}');
     //dispatch the new organization.
+    organizationStream.sink.add(organization);
   }
 
-  //TODO Needs some work here. Multiple streams? or one stream to rule them all?
-  Map _call;
-
-  Map get call => _call;
-  set call(Map call) {
-    _call = call;
-  }
-
-  Stream get onChange => streamControl.stream;
-
-  Environment._internal() {}
+  /*
+     Call
+  */
 }
+
+/**
+ * Singleton pattern. Reference to the one and only object.
+ */
+final environment = new Environment._internal();

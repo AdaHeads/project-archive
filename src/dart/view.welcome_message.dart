@@ -34,11 +34,11 @@ class WelcomeMessage {
     assert(configuration.loaded);
     _viewPort = new widgets.Box(query('#welcome_message'),
                                 query('#welcome_message_body'))
-        ..body = configuration.asjson['Standard_Greeting'];
-    Environment.instance.onChange.listen(_setGreeting);
+        ..body = configuration.asJson['Standard_Greeting'];
+    environment.onOrganizationChange(_setGreeting);
   }
 
-  void _setGreeting (Organization org) {
-    _viewPort.body = org.orgInfo['greeting'];
+  void _setGreeting (Organization organization) {
+    _viewPort.body = organization.orgInfo['greeting'];
   }
 }

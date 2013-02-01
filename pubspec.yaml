@@ -1,6 +1,6 @@
-name:  Bob
-description:  A receptionist tool for handling calls.
-
+name: Bob
+author: Adaheads.com K/S
+description: A receptionist tool for handling calls.
 dependencies:
   browser: any
   logging: any
