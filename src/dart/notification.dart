@@ -19,6 +19,7 @@
 library notification;
 
 import 'dart:async';
+import 'dart:uri';
 
 import 'common.dart';
 import 'configuration.dart';
@@ -36,12 +37,16 @@ class Notification {
   Notification._internal() {
     assert(configuration.loaded);
 
-    String url = configuration.asJson['Websocket']['URI'];
+    var url = new Uri(configuration.asJson['Websocket']['URI']);
     int reconnetInterval =
         configuration.asJson['Websocket']['Reconnect_Interval'];
 
-    _socket = new Socket(url,reconnetInterval);
+    _socket = new Socket(url);
+    if (_socket == null){
+      throw new Exception('I used to be a Socket, but then i took an arrow to the knee.');
+    }
     _socket.onMessage(_onMessage);
+    //TODO add panic handler for onError.
   }
 
   /**

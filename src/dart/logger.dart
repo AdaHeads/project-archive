@@ -43,6 +43,11 @@ class Log{
   void critical (String message) => _logger.shout(message);
 
   /**
+   * TODO comment
+   */
+  void debug (String message) => _logger.finest(message);
+
+  /**
    * TODO comment.
    */
   void error(String message) => _logger.severe(message);

@@ -21,69 +21,122 @@ library socket;
 import 'dart:async';
 import 'dart:html';
 import 'dart:json' as json;
+import 'dart:uri';
 
 import 'common.dart';
 import 'configuration.dart';
 import 'logger.dart';
+
+class _ConnectionManager{
+  var connections = new List<Socket>();
+  const MAX_TICKS = 3;
+
+  /**
+   * TODO comment
+   */
+  void addConnection(Socket socket) => connections.add(socket);
+
+  _ConnectionManager(int reconnectInterval) {
+    new Timer.repeating(reconnectInterval,(timer) {
+      for (var connection in connections) {
+        if (connection.dead){
+
+          if (connection._connectTicks == 0) {
+            log.critical('${connection.toString()} is dead');
+            connection._reconnect();
+            connection._connectTicks += 1;
+
+          } else if(connection._connectTicks > MAX_TICKS) {
+            connection._connectTicks = 0;
+            connection._reconnect();
+
+          }else {
+            connection._connectTicks += 1;
+          }
+        }
+      }
+    });
+  }
+}
+
+final _connectionManager = new _ConnectionManager(1000);
+
 
 /**
  * A generic Websocket, that reconnects itself.
  */
 class Socket{
   WebSocket _channel;
-  int _reconnectInterval;
   //TODO Change to stream
-  var Subscribers = new List<Subscriber>();
+  var messageSubscribers = new List<Subscriber>();
+  var errorSubscribers = new List<Subscriber>();
   final String _url;
 
-  /**
-   * Make a websocket on the [_url]. If the connection fails if will try to
-   * reconnect with an interval of [reconnectInterval].
-   */
-  Socket(this._url, int reconnectInterval) {
-    _reconnectInterval = reconnectInterval < 1000 ? 1000 : reconnectInterval;
-    log.info(_url);
+  int _connectTicks = 0;
+
+  Socket._internal(this._url){
     _connector();
   }
+
+  /**
+   * Open a websocket on [url].
+   */
+  factory Socket(Uri url){
+    if (url.isAbsolute()) {
+      var socket = new Socket._internal(url.toString());
+      socket._connectTicks = 1;
+      _connectionManager.addConnection(socket);
+      return socket;
+    } else {
+      log.critical('${url.toString()} is not valid.');
+    }
+  }
+
+  void _connector() {
+    log.info('Opening websocket on ${_url}');
+    _channel = new WebSocket(_url);
+    _channel.onOpen.listen((_) => _connectTicks = 0);
+    _channel.onMessage.listen(_onMessage);
+    _channel.onError.listen(_onError);
+    _channel.onClose.listen(_onError);
+  }
+
+  /**
+   * Checks if the socket is dead.
+   */
+  bool get dead => _channel == null || _channel.readyState != WebSocket.OPEN;
+
+  void _onError (event) {
+    log.critical(event.toString());
+
+    for(var subscriber in errorSubscribers) {
+      subscriber({'error': 'Error on connection'});
+    }
+  }
+
+  /**
+   * Add subscriber for errors.
+   */
+  void onError(Subscriber subscriber) => errorSubscribers.add(subscriber);
 
   void _onMessage(MessageEvent event) {
     log.info('Notification message: ${event.data}');
 
     var data = json.parse(event.data);
 
-    for(var subscriber in Subscribers) {
+    for(var subscriber in messageSubscribers) {
       subscriber(data);
     }
   }
 
   /**
-   * Add subscriber for upcomming messages.
+   * Add subscriber for messages.
    */
-  void onMessage(Subscriber subscriber) => Subscribers.add(subscriber);
+  void onMessage(Subscriber subscriber) => messageSubscribers.add(subscriber);
 
-  void _onClose(event) {
-    _connector();
-  }
+  void _reconnect() => _connector();
 
-  void _onError(event) {
-    log.critical(event.toString());
-    _connector();
-  }
-
-  // TODO find a better way of doing this. It seems wrong like this.
-  void _connector() {
-    log.info('Socket reconnecting with interval: ${_reconnectInterval}');
-
-    new Timer.repeating(_reconnectInterval, (timer) {
-      log.info("socket trying to connect");
-      if (_channel != null && _channel.readyState == WebSocket.OPEN) {
-        timer.cancel();
-      }else{
-        _channel = new WebSocket(_url);
-        _channel.onMessage.listen(_onMessage);
-        _channel.onError.listen(_onError);
-        _channel.onClose.listen(_onClose);
-      }
-    });
+  String toString() {
+    return _url;
   }
 }

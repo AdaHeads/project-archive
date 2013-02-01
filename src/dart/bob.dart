@@ -36,8 +36,6 @@ void main() {
   var configLoaded = fetchConfig();
 
   configLoaded.then((_) {
-    log.info("Got configuration");
-
     final welcomeMessage = new WelcomeMessage();
     final agentInfo      = new AgentInfo();
     final companyInfo    = new CompanyInfo();
@@ -47,6 +45,5 @@ void main() {
     final localQueue     = new LocalQueue();
     final overlay        = new Overlay();
     final navigation     = new Navigation(overlay);
-
   }).catchError((error) => log.critical(error.toString()));
 }
