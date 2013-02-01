@@ -1,63 +1,105 @@
-library logger;
+/*                                Bob
+                   Copyright (C) 2012-, AdaHeads K/S
 
-import 'package:logging/logging.dart';
-import 'configuration.dart';
-import 'dart:html';
-import 'dart:json' as json;
-
-final Logger logger = new Logger("Adaheads");
+  This is free software;  you can redistribute it and/or modify it
+  under terms of the  GNU General Public License  as published by the
+  Free Software  Foundation;  either version 3,  or (at your  option) any
+  later version. This library is distributed in the hope that it will be
+  useful, but WITHOUT ANY WARRANTY;  without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  You should have received a copy of the GNU General Public License and
+  a copy of the GCC Runtime Library Exception along with this program;
+  see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+  <http://www.gnu.org/licenses/>.
+*/
 
 /**
- * [Log] TODO Write comment
+ * The logger interface on Bob.
+ */
+library logger;
+
+import 'dart:html';
+import 'dart:json' as json;
+import 'dart:uri';
+
+import 'package:logging/logging.dart';
+
+import 'configuration.dart';
+
+/**
+ * [Log] is a class to manage the logging system.
  */
 class Log{
-  static Log _instance;
-  bool _initialized = false;
+  final Logger _logger = new Logger("Bob");
 
-  Level serverLevel = Level.OFF;
+  Log._internal() {
+    _logger.on.record.add(_logSubscriber);
+    _logger.parent.level = Level.ALL;
+  }
 
   /**
-   * Constructor in singleton pattern.
+   * TODO comment.
    */
-  factory Log(){
-    if (_instance == null){
-      _instance = new Log._internal();
-    }
-    if (!_instance._initialized){
-      _instance._initializeLogger();
-    }
-  }
+  void critical (String message) => _logger.shout(message);
 
-  Log._internal (){}
+  /**
+   * TODO comment
+   */
+  void debug (String message) => _logger.finest(message);
 
-  void _initializeLogger() {
-    if (!_initialized){
-      logger.on.record.add(_loggerHandle);
-      _initialized = true;
-      logger.parent.level = Level.ALL;
-    }
-  }
+  /**
+   * TODO comment.
+   */
+  void error(String message) => _logger.severe(message);
 
-  _serverHandle(LogRecord record){
-    if (serverLevel >= record.level) {
-      // Send message to server.
-    }
-  }
+  /**
+   * TODO comment.
+   */
+  void info(String message) => _logger.info(message);
 
-  // FINEST  300
-  // FINER   400  DEBUG
-  // FINE    500
-
-  // CONFIG  700
-  // INFO    800  INFO (default)
-
-  // WARNING 900
-  // SEVERE  1000  WARNING
-  // SHOUT   1200
-
-  void _loggerHandle(LogRecord record) {
+  /**
+   * Writes log to console and send it to Alice.
+   */
+  void _logSubscriber(LogRecord record) {
     print('${record.sequenceNumber} - ${record.level.name} - ${record.message}');
-    _serverHandle(record);
+    _serverLog(record);
+  }
+
+  /**
+   * Send log messages to Alice.
+   */
+  _serverLog(LogRecord record) {
+    if (configuration.serverLogLevel <= record.level) {
+      var url = configuration.asJson['Alice_URI'];
+      var serverLogLevel = configuration.serverLogLevel;
+
+      if (serverLogLevel <= Level.INFO) {
+        url = '${url}log/info' ;
+      }else if (serverLogLevel > Level.INFO && serverLogLevel <= Level.SEVERE) {
+        url = "${url}log/error";
+      }else if (serverLogLevel > Level.SEVERE) {
+        url = "${url}log/critical";
+      }
+
+      var req = new HttpRequest();
+      req.open('POST', url);
+      req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+      req.onError.listen((_) {
+        //TODO log to DOM element
+        print('Critical: Log ${url} does not respond');
+      });
+
+      req.onLoad.listen((_) {
+        if (req.status != 204) {
+          print('Log error: ${record.message} - ${url} - ${req.status}:${req.statusText}');
+        }
+      });
+
+      var message = encodeUriComponent(record.message);
+      req.send('msg=${message}');
+    }
   }
 }
 
+final Log log = new Log._internal();

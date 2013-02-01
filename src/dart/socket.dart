@@ -1,61 +1,142 @@
+/*                                Bob
+                   Copyright (C) 2012-, AdaHeads K/S
+
+  This is free software;  you can redistribute it and/or modify it
+  under terms of the  GNU General Public License  as published by the
+  Free Software  Foundation;  either version 3,  or (at your  option) any
+  later version. This library is distributed in the hope that it will be
+  useful, but WITHOUT ANY WARRANTY;  without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  You should have received a copy of the GNU General Public License and
+  a copy of the GCC Runtime Library Exception along with this program;
+  see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+  <http://www.gnu.org/licenses/>.
+*/
+
+/**
+ * A class that contains a websocket.
+ */
 library socket;
 
 import 'dart:async';
 import 'dart:html';
 import 'dart:json' as json;
+import 'dart:uri';
 
 import 'common.dart';
 import 'configuration.dart';
 import 'logger.dart';
 
+class _ConnectionManager{
+  var connections = new List<Socket>();
+  const MAX_TICKS = 3;
+
+  /**
+   * TODO comment
+   */
+  void addConnection(Socket socket) => connections.add(socket);
+
+  _ConnectionManager(int reconnectInterval) {
+    new Timer.repeating(reconnectInterval,(timer) {
+      for (var connection in connections) {
+        if (connection.dead){
+
+          if (connection._connectTicks == 0) {
+            log.critical('${connection.toString()} is dead');
+            connection._reconnect();
+            connection._connectTicks += 1;
+
+          } else if(connection._connectTicks > MAX_TICKS) {
+            connection._connectTicks = 0;
+            connection._reconnect();
+
+          }else {
+            connection._connectTicks += 1;
+          }
+        }
+      }
+    });
+  }
+}
+
+final _connectionManager = new _ConnectionManager(1000);
+
+
+/**
+ * A generic Websocket, that reconnects itself.
+ */
 class Socket{
   WebSocket _channel;
+  //TODO Change to stream
+  var messageSubscribers = new List<Subscriber>();
+  var errorSubscribers = new List<Subscriber>();
   final String _url;
-  final int _RECONNECT_INTERVAL;
 
-  List<Subscriber> Subscribers = new List<Subscriber>();
+  int _connectTicks = 0;
 
-  Socket(this._url, this._RECONNECT_INTERVAL) {
-    logger.info(_url);
+  Socket._internal(this._url){
     _connector();
   }
 
-  void _onMessage(MessageEvent event) {
-    logger.finest('Notification message: ${event.data}');
-
-    var data = json.parse(event.data);
-
-    for(var sub in Subscribers){
-      sub(data);
+  /**
+   * Open a websocket on [url].
+   */
+  factory Socket(Uri url){
+    if (url.isAbsolute()) {
+      var socket = new Socket._internal(url.toString());
+      socket._connectTicks = 1;
+      _connectionManager.addConnection(socket);
+      return socket;
+    } else {
+      log.critical('${url.toString()} is not valid.');
     }
   }
 
-  void onMessage(Subscriber sub){
-    Subscribers.add(sub);
-  }
-
-  void _onClose(event) {
-    _connector();
-  }
-
-  void _onError(event) {
-    logger.shout(event.toString());
-    _connector();
-  }
-
   void _connector() {
-    logger.finer('Socket reconnecting with interval: $_RECONNECT_INTERVAL');
+    log.info('Opening websocket on ${_url}');
+    _channel = new WebSocket(_url);
+    _channel.onOpen.listen((_) => _connectTicks = 0);
+    _channel.onMessage.listen(_onMessage);
+    _channel.onError.listen(_onError);
+    _channel.onClose.listen(_onError);
+  }
 
-    new Timer.repeating(_RECONNECT_INTERVAL, (t) {
-      logger.finest("socket trying to connect");
-      if (_channel != null && _channel.readyState == WebSocket.OPEN) {
-        t.cancel();
-      }else{
-        _channel = new WebSocket(_url);
-        _channel.onMessage.listen(_onMessage);
-        _channel.onError.listen(_onError);
-        _channel.onClose.listen(_onClose);
-      }
-    });
+  /**
+   * Checks if the socket is dead.
+   */
+  bool get dead => _channel == null || _channel.readyState != WebSocket.OPEN;
+
+  void _onError (event) {
+    log.critical(event.toString());
+
+    for(var subscriber in errorSubscribers) {
+      subscriber({'error': 'Error on connection'});
+    }
+  }
+
+  /**
+   * Add subscriber for errors.
+   */
+  void onError(Subscriber subscriber) => errorSubscribers.add(subscriber);
+
+  void _onMessage(MessageEvent event) {
+    log.info('Notification message: ${event.data}');
+
+    var data = json.parse(event.data);
+
+    for(var subscriber in messageSubscribers) {
+      subscriber(data);
+    }
+  }
+
+  /**
+   * Add subscriber for messages.
+   */
+  void onMessage(Subscriber subscriber) => messageSubscribers.add(subscriber);
+
+  void _reconnect() => _connector();
+
+  String toString() {
+    return _url;
   }
 }

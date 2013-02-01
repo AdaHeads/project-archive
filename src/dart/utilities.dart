@@ -13,28 +13,18 @@
   <http://www.gnu.org/licenses/>.
 */
 
-part of view;
 /**
- * TODO Write comment.
+ * Library containing various utility methods.
  */
-class LocalQueue {
-  static LocalQueue _instance;
+library utilities;
 
-  widgets.Box _viewPort;
+/**
+ * Parses a String to a bool.
+ * TODO remove when Dart gets it.
+ */
 
-  factory LocalQueue() {
-    if(_instance == null) {
-      _instance = new LocalQueue._internal();
-    }
-
-    return _instance;
-  }
-
-  LocalQueue._internal() {
-    _viewPort = new widgets.Box(query('#local_queue'),
-                                query('#local_queue_body'),
-                                header: query('#local_queue_header'))
-      ..header = 'Lokal kø'
-      ..body = 'local_queue';
-  }
+//TODO tjek om det er nok med: return s == 'true'; // og der med IKKE tjekke for null
+bool parseBool (String s) {
+  if(s == null) return false;
+  return s == 'true';
 }

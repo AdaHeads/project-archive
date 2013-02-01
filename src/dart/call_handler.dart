@@ -13,16 +13,32 @@
   <http://www.gnu.org/licenses/>.
 */
 
-/**
- * This is a library ontainening all the storage classes.
- */
-library storage;
+library call_handler;
 
-import 'dart:uri';
-import 'dart:html';
-import 'dart:json' as json;
-
+import 'configuration.dart';
+import 'environment.dart';
 import 'logger.dart';
-import 'model.dart';
+import 'notification.dart' as notify;
 
-part 'storage.organization.dart';
+//void initializeCallHandler() {
+//  notifi.Notification.instance.addEventHandler('call_pickup', _callPickup);
+//  notifi.Notification.instance.addEventHandler('call_hangup', _callHangup);
+//}
+
+//void _callPickup(Map json) {
+//  var call = json['call'];
+//  if (call['assigned_to'] == configuration.asjson['Agent_ID']) {
+//    Log.info('Call pickup for this agent.');
+//    //it's to me! :D :D
+//  }else{
+//    //somebody else got a call.
+//  }
+//}
+//
+//void _callHangup(Map json) {
+//  var call = json['call'];
+//  if (call['id'] == environment.call['id']) {
+//    Log.info('The current call hangup');
+//    environment.call = null;
+//  }
+//}
