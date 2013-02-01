@@ -34,7 +34,7 @@ class Environment{
 
   Organization get organization => _org;
   set organization(Organization org) {
-    if (org == _org){
+    if (org == _org) {
       return;
     }
     _org = org;
@@ -53,5 +53,5 @@ class Environment{
 
   Stream get onChange => streamControl.stream;
 
-  Environment._internal(){}
+  Environment._internal() {}
 }

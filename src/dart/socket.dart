@@ -44,12 +44,12 @@ class Socket{
 
     var data = json.parse(event.data);
 
-    for(var sub in Subscribers){
+    for(var sub in Subscribers) {
       sub(data);
     }
   }
 
-  void onMessage(Subscriber sub){
+  void onMessage(Subscriber sub) {
     Subscribers.add(sub);
   }
 

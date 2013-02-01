@@ -20,7 +20,7 @@ import 'environment.dart';
 import 'logger.dart';
 import 'notification.dart' as notifi;
 
-void initializeCallHandler(){
+void initializeCallHandler() {
   notifi.Notification.instance.addEventHandler('call_pickup', _callPickup);
   notifi.Notification.instance.addEventHandler('call_hangup', _callHangup);
 }

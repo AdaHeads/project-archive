@@ -27,7 +27,7 @@ class Organization{
   Map _orgInfo;
   Map get orgInfo => _orgInfo;
 
-  Organization(json){
+  Organization(json) {
     _json = json;
 
     _contacts = json['contacts'];
@@ -36,7 +36,7 @@ class Organization{
     _orgInfo = json;
   }
 
-  Organization._null(){
+  Organization._null() {
     _orgInfo = null;
     _contacts = null;
   }

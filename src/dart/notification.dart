@@ -50,7 +50,7 @@ class Notification {
    * Singleton
    */
   factory Notification() {
-    if (_instance == null){
+    if (_instance == null) {
       _instance = new Notification._Internal();
     }
 
@@ -69,38 +69,38 @@ class Notification {
   }
 
   void _onMessage(Map json) {
-    if (!json.containsKey('notification')){
+    if (!json.containsKey('notification')) {
       Log.critical('does not contains notification');
       return;
     }
     var notificationMap = json['notification'];
 
-    if (!notificationMap.containsKey('persistent')){
+    if (!notificationMap.containsKey('persistent')) {
       Log.critical('does not contains persistent');
       return;
     }
     //Is it a persistent event or not.
-    if (parseBool(notificationMap['persistent'])){
+    if (parseBool(notificationMap['persistent'])) {
       persistentNotification(notificationMap);
     }else{
       nonPersistentNotification(notificationMap);
     }
   }
 
-  void persistentNotification(Map json){
+  void persistentNotification(Map json) {
     Log.info('persistent notification');
   }
 
-  void nonPersistentNotification(Map json){
+  void nonPersistentNotification(Map json) {
     Log.info('nonpersistent notification');
 
-    if (!json.containsKey('event')){
+    if (!json.containsKey('event')) {
       Log.critical('nonPersistensNotification did not have a event field.');
     }
     var eventName = json['event'];
     Log.info('notification with event: $eventName');
 
-    if (_eventHandlers.containsKey(eventName)){
+    if (_eventHandlers.containsKey(eventName)) {
       for (var sub in _eventHandlers[eventName]) {
         sub(json);
       }

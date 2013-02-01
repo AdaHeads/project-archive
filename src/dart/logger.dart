@@ -40,35 +40,35 @@ class Log{
   /**
    * Constructor in singleton pattern.
    */
-  factory Log(){
-    if (_instance == null){
+  factory Log() {
+    if (_instance == null) {
       _instance = new Log._internal();
     }
-    if (!_instance._initialized){
+    if (!_instance._initialized) {
       _instance._initializeLogger();
     }
   }
 
-  Log._internal (){}
+  Log._internal () {}
 
   void _initializeLogger() {
-    if (!_initialized){
+    if (!_initialized) {
       _logger.on.record.add(_loggerHandle);
       _initialized = true;
       _logger.parent.level = Level.ALL;
     }
   }
 
-  _serverHandle(LogRecord record){
+  _serverHandle(LogRecord record) {
     if (serverLevel <= record.level) {
       var baseUrl = "http://alice.adaheads.com:4242";
       String path;
 
-      if (serverLevel <= Level.INFO){
+      if (serverLevel <= Level.INFO) {
         path = "/log/info";
-      }else if (serverLevel <= Level.SEVERE){
+      }else if (serverLevel <= Level.SEVERE) {
         path = "/log/error";
-      }else if (serverLevel > Level.SEVERE){
+      }else if (serverLevel > Level.SEVERE) {
         path = "/log/critical";
       }
       var url = '$baseUrl$path';
@@ -78,7 +78,7 @@ class Log{
       req.onError.listen((_) {
         print('Critical: Log $url does not respond');
       });
-      req.onLoadEnd.listen((_) {
+      req.onLoad.listen((_) {
         //TODO Is this good enough?
         if (req.status != 204) {
           print('Log error: ${record.message} - $url');

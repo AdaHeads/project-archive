@@ -15,6 +15,7 @@
 
 part of storage;
 //TODO Should it be here or under the class declaration.
+//TODO Test if there are some encording problems.
 typedef void _requestOnComplete (HttpRequest req);
 /**
  * Storage class for Organization objects.
@@ -33,8 +34,8 @@ class Storage_Organization{
   /**
    * Gets an organization by [id] from alice if there is no cache of it.
    */
-  void getOrganization(int id, void onComplete(Organization)){
-    if (_cache.containsKey(id)){
+  void getOrganization(int id, void onComplete(Organization)) {
+    if (_cache.containsKey(id)) {
       onComplete(_cache[id]);
     }else{
       Log.info('$id is not cached');
@@ -46,7 +47,7 @@ class Storage_Organization{
   /**
    * Get the organization list from alice.
    */
-  void getOrganizationList(void onComplete(OrganizationList organizationList)){
+  void getOrganizationList(void onComplete(OrganizationList organizationList)) {
     var url = '$_baseUrl${_organizationListPath}';
     new HttpRequest.get(url, _onListComplete(onComplete));
   }
@@ -60,10 +61,10 @@ class Storage_Organization{
         var org = new Organization(orgJson);
         _cache[id] = org;
         onComplete(org);
-      } else if (req.status == 400){
+      } else if (req.status == 400) {
         //TODO make
         Log.error('failed on :$req');
-      } else if (req.status == 404){
+      } else if (req.status == 404) {
         //TODO make it.
         Log.info('failed on :$req');
       } else {
@@ -73,9 +74,9 @@ class Storage_Organization{
     };
   }
 
-  _requestOnComplete _onListComplete(void onComplete(OrganizationList)){
-    return (HttpRequest reg){
-      if (reg.status == 200){
+  _requestOnComplete _onListComplete(void onComplete(OrganizationList)) {
+    return (HttpRequest reg) {
+      if (reg.status == 200) {
         var res = new OrganizationList(json.parse(reg.responseText));
         onComplete(res);
       }else{
@@ -85,7 +86,7 @@ class Storage_Organization{
     };
   }
 
-  Storage_Organization._internal(){
+  Storage_Organization._internal() {
     var currentSite = new Uri(window.location.href);
     var baseUri =
         new Uri.fromComponents(scheme: currentSite.scheme,

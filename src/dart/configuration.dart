@@ -87,7 +87,7 @@ Future<bool> fetchConfig() {
       t.cancel();
       completer.complete(true);
     }
-    if (count >= MAX_WAIT/REPEAT_TIME_IN_MILISECONDS){
+    if (count >= MAX_WAIT/REPEAT_TIME_IN_MILISECONDS) {
       t.cancel();
       completer.completeError(
           new TimeoutException("Fetching configuration timedout"));

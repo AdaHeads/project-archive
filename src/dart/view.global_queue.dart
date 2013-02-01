@@ -37,7 +37,7 @@ class GlobalQueue {
     _viewPort = new widgets.Box(query('#global_queue'),
                                 query('#global_queue_body'),
                                 header: query('#global_queue_header'))
-      ..header = 'Kald';
+      ..header = 'Opkald';
 
     _registrateSubscribers();
 
@@ -48,18 +48,18 @@ class GlobalQueue {
     initialFill();
   }
 
-  void initialFill(){
+  void initialFill() {
     var baseUrl = 'http://alice.adaheads.com:4242';
     var url = '$baseUrl/call/list';
-    new HttpRequest.get(url,(HttpRequest req){
+    new HttpRequest.get(url,(HttpRequest req) {
       if (req.readyState == HttpRequest.DONE &&
-          (req.status == 200 || req.status == 0)){
+          (req.status == 200 || req.status == 0)) {
         Log.info('Initial call return with: ${req.responseText}');
         var calls = json.parse(req.responseText);
-        for (var call in calls['calls']){
+        for (var call in calls['calls']) {
           _addCall(call);
         }
-      }else if(req.readyState == HttpRequest.DONE && req.status == 204){
+      }else if(req.readyState == HttpRequest.DONE && req.status == 204) {
         //Nothing new
         Log.info('Call list on the server is empty');
       }else{
@@ -68,19 +68,19 @@ class GlobalQueue {
     });
   }
 
-  void _registrateSubscribers(){
+  void _registrateSubscribers() {
     notifi.Notification.instance.addEventHandler('queue_join', _queueJoin);
     notifi.Notification.instance.addEventHandler('queue_leave', _queueLeave);
     query('#btn_Pickup').onClick.listen(_pickUpNextCall);
   }
 
-  void _queueJoin(Map json){
+  void _queueJoin(Map json) {
     var call = json['call'];
 
     _addCall(call);
   }
 
-  void _queueLeave(Map json){
+  void _queueLeave(Map json) {
     var call = json['call'];
     for (var c in _internalCallList) {
       if (c['id'] == call['id']) {
@@ -95,13 +95,13 @@ class GlobalQueue {
     }
   }
 
-  void _addCall(Map call){
+  void _addCall(Map call) {
     _internalCallList.add(call);
 
     _addCallElement(call);
   }
 
-  void _addCallElement(Map call){
+  void _addCallElement(Map call) {
     var item = new LIElement()
       ..text = 'Channel: ${call['channel']}, arrival_time: ${call['arrival_time']}'
       ..onClick.listen(_pickupCall(int.parse(call['id'])));
@@ -109,20 +109,27 @@ class GlobalQueue {
   }
 
   //TODO All this pickup call stuff should not be here.
-  _pickupCall(int id){
-    Log.info('Initialize onClick to pickup: $id');
-    return ((e){
+  _pickupCall(int id) {
+    Log.info('Initialize onClick to pickup call_id: $id');
+    return ((_) {
       Log.info('Pressed to pickup ${id.toString()}');
       var baseUrl = "http://alice.adaheads.com:4242";
       //TODO Find a way to get the base url ie. http://alice.adaheads.com:4242
       var url = "$baseUrl/call/pickup?agent_id=${configuration.asjson['Agent_ID']}&call_id=$id";
       var req = new HttpRequest();
-      req.onLoadEnd.listen((_){
-        if (req.readyState == HttpRequest.DONE && req.status == 200){
-          _pickupCallSuccessResponse(req);
-          //TODO write code to the other status codes.
-        }else if (req.readyState == HttpRequest.DONE){
-          _pickupCallFailueResponse(req, url);
+      req.onLoad.listen((_) {
+        if (req.readyState == HttpRequest.DONE) {
+          switch(req.status) {
+            case 200:
+              _pickupCallSuccessResponse(req);
+              break;
+            case 204:
+              Log.info('Request call with id: $id but got Http code 204');
+              break;
+            default:
+              _pickupCallFailueResponse(req, url);
+              break;
+          }
         }
       });
       req.onError.listen((_) => Log.critical('Tried to get call with id: $id'));
@@ -131,10 +138,10 @@ class GlobalQueue {
     });
   }
 
-  void _pickupCallSuccessResponse(HttpRequest req){
+  void _pickupCallSuccessResponse(HttpRequest req) {
     Log.info('pickupCall:${req.responseText}');
     var response = json.parse(req.responseText);
-    if (!response.containsKey('organization_id')){
+    if (!response.containsKey('organization_id')) {
       Log.critical('The call had no organization_id. why?');
     }
     var orgId = response['organization_id'];
@@ -142,16 +149,41 @@ class GlobalQueue {
         Environment.instance.organization = (org != null) ? org: Environment.instance.organization);
   }
 
-  void _pickupCallFailueResponse(HttpRequest req, String url){
-    //TODO do not listen for status 500. Write the other ones instead
-    if (req.status == 500){
-      Log.critical('Got 500 on request to $url');
-    }else{
-      Log.info('Pickup Call status code: ${req.status} - ${req.statusText} - ${req.responseText}');
-    }
+  void _pickupCallFailueResponse(HttpRequest req, String url) {
+   Log.error('Pickup Call status code: ${req.status} - ${req.statusText} - ${req.responseText} - $url');
   }
 
-  void _pickUpNextCall(event){
+  /**
+   * Sends a request to alice for the next call.
+   */
+  //TODO this should not be hidden. We need it for the keyboard bindings.
+  //TODO never tested.
+  _pickUpNextCall(event) {
     Log.info("pickup next call button pressed - not implemented");
+    return ((_) {
+      Log.info('Pressed to pickup the next call');
+      var baseUrl = "http://alice.adaheads.com:4242";
+      //TODO Find a way to get the base url ie. http://alice.adaheads.com:4242
+      var url = "$baseUrl/call/pickup?agent_id=${configuration.asjson['Agent_ID']}";
+      var req = new HttpRequest();
+      req.onLoad.listen((_) {
+        if (req.readyState == HttpRequest.DONE) {
+          switch (req.status) {
+            case 200:
+              _pickupCallSuccessResponse(req);
+              break;
+            case 204:
+              Log.info('Asked for the next call but got 204');
+              break;
+            default:
+              _pickupCallFailueResponse(req, url);
+              break;
+          }
+        }
+      });
+      req.onError.listen((_) => Log.critical('Tried to get the next call'));
+      req.open("POST", url);
+      req.send();
+    });
   }
 }
