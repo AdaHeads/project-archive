@@ -37,9 +37,8 @@ class Notification {
   Notification._internal() {
     assert(configuration.loaded);
 
-    var url = new Uri(configuration.asJson['Websocket']['URI']);
-    int reconnetInterval =
-        configuration.asJson['Websocket']['Reconnect_Interval'];
+    var url = configuration.websocketUri;
+    int reconnetInterval = configuration.websocketInterval;
 
     _socket = new Socket(url);
     if (_socket == null){

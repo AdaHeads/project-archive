@@ -70,7 +70,7 @@ class Log{
    */
   _serverLog(LogRecord record) {
     if (configuration.serverLogLevel <= record.level) {
-      var url = configuration.asJson['Alice_URI'];
+      var url = configuration.aliceUri;
       var serverLogLevel = configuration.serverLogLevel;
 
       if (serverLogLevel <= Level.INFO) {
