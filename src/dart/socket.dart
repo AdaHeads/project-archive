@@ -24,7 +24,6 @@ import 'dart:json' as json;
 import 'dart:uri';
 
 import 'common.dart';
-import 'configuration.dart';
 import 'logger.dart';
 
 class _ConnectionManager{

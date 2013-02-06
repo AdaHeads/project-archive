@@ -1,6 +1,7 @@
 name: Bob
-author: Adaheads.com K/S
+author: AdaHeads K/S
 description: A receptionist tool for handling calls.
 dependencies:
+  json_object: any
   browser: any
   logging: any

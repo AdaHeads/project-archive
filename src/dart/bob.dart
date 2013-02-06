@@ -31,11 +31,11 @@ import 'view.dart';
  * Instantiates all the [view] objects and gets Bob going.
  */
 void main() {
-  log.info('Hello Bob');
-
   var configLoaded = fetchConfig();
 
   configLoaded.then((_) {
+    log.info('Hello Bob');
+
     final welcomeMessage = new WelcomeMessage();
     final agentInfo      = new AgentInfo();
     final companyInfo    = new CompanyInfo();
