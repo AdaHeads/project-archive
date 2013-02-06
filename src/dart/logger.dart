@@ -31,6 +31,13 @@ import 'configuration.dart';
  */
 class Log{
   final Logger _logger = new Logger("Bob");
+  /**
+   * Loglevels that represent the levels on the server side.
+   */
+  static const DEBUG = const Level('Debug', 300);
+  static const INFO = const Level('Info', 800);
+  static const ERROR = const Level('Error', 1000);
+  static const CRITICAL = const Level('Critical', 1200);
 
   Log._internal() {
     _logger.on.record.add(_logSubscriber);
@@ -40,22 +47,22 @@ class Log{
   /**
    * TODO comment.
    */
-  void critical (String message) => _logger.shout(message);
+  void critical (String message) => _logger.log(CRITICAL, message);
 
   /**
    * TODO comment
    */
-  void debug (String message) => _logger.finest(message);
+  void debug (String message) => _logger.log(DEBUG, message);
 
   /**
    * TODO comment.
    */
-  void error(String message) => _logger.severe(message);
+  void error(String message) => _logger.log(ERROR, message);
 
   /**
    * TODO comment.
    */
-  void info(String message) => _logger.info(message);
+  void info(String message) => _logger.log(INFO, message);
 
   /**
    * Writes log to console and send it to Alice.
@@ -73,11 +80,13 @@ class Log{
       var url = configuration.aliceUri;
       var serverLogLevel = configuration.serverLogLevel;
 
-      if (serverLogLevel <= Level.INFO) {
+      if (serverLogLevel <= INFO) {
         url = '${url}log/info' ;
-      }else if (serverLogLevel > Level.INFO && serverLogLevel <= Level.SEVERE) {
+
+      }else if (serverLogLevel > INFO && serverLogLevel <= ERROR) {
         url = "${url}log/error";
-      }else if (serverLogLevel > Level.SEVERE) {
+
+      }else if (serverLogLevel > ERROR) {
         url = "${url}log/critical";
       }
 
