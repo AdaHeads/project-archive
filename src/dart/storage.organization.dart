@@ -41,7 +41,7 @@ class Storage_Organization{
       var baseUrl = configuration.aliceBaseUrl.toString();
       var url = '${baseUrl}${_organizationPath}?${_getOrgFragment}=$id';
       HttpRequest.request(url)
-      ..then(_onComplete(onComplete));
+          ..then(_onComplete(onComplete));
     }
   }
 
@@ -52,7 +52,7 @@ class Storage_Organization{
     var baseUrl = configuration.aliceBaseUrl.toString();
     var url = '${baseUrl}${_organizationListPath}';
     HttpRequest.request(url)
-    ..then(_onListComplete(onComplete));
+        ..then(_onListComplete(onComplete));
   }
 
   _requestOnComplete _onComplete(void onComplete(Organization organization)) {

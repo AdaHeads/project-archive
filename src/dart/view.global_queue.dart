@@ -49,7 +49,7 @@ class GlobalQueue {
   }
 
   void initialFill() {
-    var baseUrl = 'http://alice.adaheads.com:4242';
+    var baseUrl = configuration.aliceBaseUrl.toString();
     var url = '${baseUrl}/call/list';
     log.info('Making http request for the call list');
     var requestFuture = HttpRequest.request(url);
@@ -116,8 +116,7 @@ class GlobalQueue {
     log.info('Initialize onClick to pickup call_id: ${id}');
     return ((_) {
       log.info('Pressed to pickup ${id.toString()}');
-      var baseUrl = "http://alice.adaheads.com:4242";
-      //TODO Find a way to get the base url ie. http://alice.adaheads.com:4242
+      var baseUrl = configuration.aliceBaseUrl.toString();
       var url = "${baseUrl}/call/pickup?agent_id=${configuration.agentID}&call_id=${id}";
       HttpRequest.request(url, method:'POST')
       ..then(
@@ -161,8 +160,7 @@ class GlobalQueue {
     log.info("pickup next call button pressed - not implemented");
     return ((_) {
       log.info('Pressed to pickup the next call');
-      var baseUrl = "http://alice.adaheads.com:4242";
-      //TODO Find a way to get the base url ie. http://alice.adaheads.com:4242
+      var baseUrl = configuration.aliceBaseUrl.toString();
       var url = "${baseUrl}/call/pickup?agent_id=${configuration.agentID}";
       HttpRequest.request(url, method:'POST')
           ..then(
