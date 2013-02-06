@@ -40,7 +40,8 @@ class Storage_Organization{
     }else{
       log.info('${id} is not cached');
       var url = '${_baseUrl}${_organizationPath}?${_getOrgFragment}=$id';
-      new HttpRequest.get(url,_onComplete(onComplete));
+      HttpRequest.request(url)
+      ..then(_onComplete(onComplete));
     }
   }
 
@@ -49,7 +50,8 @@ class Storage_Organization{
    */
   void getOrganizationList(void onComplete(OrganizationList organizationList)) {
     var url = '${_baseUrl}${_organizationListPath}';
-    new HttpRequest.get(url, _onListComplete(onComplete));
+    HttpRequest.request(url)
+    ..then(_onListComplete(onComplete));
   }
 
   _requestOnComplete _onComplete(void onComplete(Organization organization)) {

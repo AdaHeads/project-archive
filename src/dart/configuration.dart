@@ -49,7 +49,7 @@ class Configuration {
 
   bool websocketReconnect = false;
   int websocketInterval = 1000;
-  Uri websocketUri = new Uri('ws://alice.adaheads.com:4242/notifications');
+  Uri websocketUri = new Uri('ws://alice.adaheads.com:4242/notification');
 
   Uri pjsuaHttpdUri = new Uri ('http://localhost:30200');
   String pjsuaPassword;
@@ -82,7 +82,10 @@ class Configuration {
   }
 
   Configuration._internal(Uri URI) {
-    var request = new HttpRequest.get(URI.toString(), _onComplete);
+    HttpRequest.request(URI.toString())
+        ..then(_onComplete,
+               onError: (AsyncError error) => log.debug('Configuration request error'))
+        .catchError((error) => log.critical('configuration exception ${error.runtimeType.toString()}'));
   }
 
   void _onComplete(HttpRequest req) {

@@ -52,21 +52,23 @@ class GlobalQueue {
     var baseUrl = 'http://alice.adaheads.com:4242';
     var url = '${baseUrl}/call/list';
     log.info('Making http request for the call list');
-    new HttpRequest.get(url,(HttpRequest req) {
-      if (req.readyState == HttpRequest.DONE &&
-          (req.status == 200 || req.status == 0)) {
-        log.info('Initial call return with: ${req.responseText}');
-        var calls = json.parse(req.responseText);
-        for (var call in calls['calls']) {
-          _addCall(call);
-        }
-      }else if(req.readyState == HttpRequest.DONE && req.status == 204) {
-        //Nothing new
-        log.info('Call list on the server is empty');
-      }else{
-        log.info('${url} gave: ${req.status} - ${req.statusText}');
+    var requestFuture = HttpRequest.request(url);
+    requestFuture.then(_onComplete,
+        onError: (error) => log.debug('initialFill ${error.runtimeType.toString()}'))
+    .catchError((error) => log.error('Calllist initialfill error: ${error.toString()}'));
+  }
+
+  void _onComplete(HttpRequest request){
+    if (request.status == 200){
+      var calls = json.parse(request.responseText);
+      for (var call in calls['calls']) {
+        _addCall(call);
       }
-    });
+    } else if (request.status == 204){
+      log.debug('Initial CallList fill request gave empty list');
+    } else {
+      log.debug('Initial request for filling CallList gave ${request.status} - ${request.statusText}');
+    }
   }
 
   void _registrateSubscribers() {
