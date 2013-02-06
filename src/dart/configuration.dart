@@ -112,13 +112,13 @@ class Configuration {
     Map serverLogMap = json['serverLog'];
     switch (serverLogMap['level'].toLowerCase()){
       case 'info':
-        _serverLogLevel = Level.INFO;
+        _serverLogLevel = Log.INFO;
         break;
       case 'error':
-        _serverLogLevel = Level.SEVERE;
+        _serverLogLevel = Log.ERROR;
         break;
       case 'critical':
-        _serverLogLevel = Level.SHOUT;
+        _serverLogLevel = Log.CRITICAL;
         break;
       default:
         _serverLogLevel = Level.INFO;
@@ -126,9 +126,13 @@ class Configuration {
         break;
     }
 
-    _serverLogInterfaceCritical = new Uri('${aliceBaseUrl}${_stringValue(serverLogMap['interface'], 'critical', '/log/critical')}');
-    _serverLogInterfaceError = new Uri('${aliceBaseUrl}${_stringValue(serverLogMap['interface'], 'error', '/log/error')}');
-    _serverLogInterfaceInfo = new Uri('${aliceBaseUrl}${_stringValue(serverLogMap['interface'], 'info', '/log/info')}');
+    var criticalPath = _stringValue(serverLogMap['interface'], 'critical', '/log/critical');
+    var errorPath = _stringValue(serverLogMap['interface'], 'error', '/log/error');
+    var infoPath = _stringValue(serverLogMap['interface'], 'info', '/log/info');
+
+    _serverLogInterfaceCritical = new Uri('${aliceBaseUrl}${criticalPath}');
+    _serverLogInterfaceError = new Uri('${aliceBaseUrl}${errorPath}');
+    _serverLogInterfaceInfo = new Uri('${aliceBaseUrl}${infoPath}');
 
     _standardGreeting = _stringValue(json, 'standardGreeting', 'Velkommen til...');
   }
@@ -172,7 +176,7 @@ class Configuration {
    */
   String _stringValue (Map configMap, String key, String defaultValue) {
     if ((configMap.containsKey(key)) && (configMap[key] is String)) {
-      return (configMap[key].trim().length == 0) ? defaultValue : configMap[key];
+      return (configMap[key].trim().isEmpty) ? defaultValue : configMap[key];
     } else {
       log.critical('Configuration parameter ${key} does not validate as String');
       return defaultValue;
