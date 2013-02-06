@@ -24,7 +24,6 @@ class Storage_Organization{
   static final Storage_Organization instance =
       new Storage_Organization._internal();
 
-  String _baseUrl;
   const _organizationPath = "/organization";
   const _getOrgFragment = "org_id";
   const _organizationListPath = "/organization/list";
@@ -38,8 +37,9 @@ class Storage_Organization{
     if (_cache.containsKey(id)) {
       onComplete(_cache[id]);
     }else{
-      log.info('${id} is not cached');
-      var url = '${_baseUrl}${_organizationPath}?${_getOrgFragment}=$id';
+      log.debug('${id} is not cached');
+      var baseUrl = configuration.aliceBaseUrl.toString();
+      var url = '${baseUrl}${_organizationPath}?${_getOrgFragment}=$id';
       HttpRequest.request(url)
       ..then(_onComplete(onComplete));
     }
@@ -49,7 +49,8 @@ class Storage_Organization{
    * Get the organization list from alice.
    */
   void getOrganizationList(void onComplete(OrganizationList organizationList)) {
-    var url = '${_baseUrl}${_organizationListPath}';
+    var baseUrl = configuration.aliceBaseUrl.toString();
+    var url = '${baseUrl}${_organizationListPath}';
     HttpRequest.request(url)
     ..then(_onListComplete(onComplete));
   }
@@ -88,13 +89,5 @@ class Storage_Organization{
     };
   }
 
-  Storage_Organization._internal() {
-    var currentSite = new Uri(window.location.href);
-    var baseUri =
-        new Uri.fromComponents(scheme: currentSite.scheme,
-                                           domain: currentSite.domain,
-                                           port: currentSite.port);
-    baseUri = new Uri('http://alice.adaheads.com:4242'); //TODO temp value, remove
-    _baseUrl = baseUri.toString();
-  }
+  Storage_Organization._internal();
 }

@@ -15,7 +15,7 @@
 part of model;
 
 /**
- * TODO Write this comment, when the class have more to it, then a simple map.
+ * TODO comment, write this when the class have more to it, then a simple map.
  */
 class Organization{
   Map _json;

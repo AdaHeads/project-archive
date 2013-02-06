@@ -45,22 +45,22 @@ class Log{
   }
 
   /**
-   * TODO comment.
+   * Log [message] with level [CRITICAL].
    */
   void critical (String message) => _logger.log(CRITICAL, message);
 
   /**
-   * TODO comment
+   * Log [message] with level [DEBUG].
    */
   void debug (String message) => _logger.log(DEBUG, message);
 
   /**
-   * TODO comment.
+   * Log [message] with level [ERROR].
    */
   void error(String message) => _logger.log(ERROR, message);
 
   /**
-   * TODO comment.
+   * Log [message] with level [INFO].
    */
   void info(String message) => _logger.log(INFO, message);
 
@@ -68,12 +68,13 @@ class Log{
    * Writes log to console and send it to Alice.
    */
   void _logSubscriber(LogRecord record) {
+    //TODO log to DOM.
     print('${record.sequenceNumber} - ${record.level.name} - ${record.message}');
     _serverLog(record);
   }
 
   /**
-   * Send log messages to Alice.
+   * Sends log message to Alice.
    */
   _serverLog(LogRecord record) {
     if (configuration.serverLogLevel <= record.level) {

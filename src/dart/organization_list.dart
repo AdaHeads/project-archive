@@ -15,7 +15,7 @@
 part of model;
 
 /**
- * TODO write comment.
+ * TODO comment.
  */
 class OrganizationList{
   Map _json;

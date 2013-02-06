@@ -46,7 +46,7 @@ class Environment{
   }
 
  /**
-  * TODO Comment
+  * Replaces this environments organization with [organization].
   */
   void setOrganization(Organization organization) {
     if (organization == _organization) {

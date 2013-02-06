@@ -14,7 +14,7 @@
 */
 
 /**
- * TODO need comment
+ * Library to manager the notification interface at Alice.
  */
 library notification;
 
@@ -71,17 +71,17 @@ class Notification {
     }
     //Is it a persistent event or not.
     if (parseBool(notificationMap['persistent'])) {
-      persistentNotification(notificationMap);
+      _persistentNotification(notificationMap);
     }else{
-      nonPersistentNotification(notificationMap);
+      _nonPersistentNotification(notificationMap);
     }
   }
 
-  void persistentNotification(Map json) {
+  void _persistentNotification(Map json) {
     log.info('persistent notification');
   }
 
-  void nonPersistentNotification(Map json) {
+  void _nonPersistentNotification(Map json) {
     log.info('nonpersistent notification');
 
     if (!json.containsKey('event')) {

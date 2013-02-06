@@ -22,9 +22,6 @@ library utilities;
  * Parses a String to a bool.
  * TODO remove when Dart gets it.
  */
-
-//TODO tjek om det er nok med: return s == 'true'; // og der med IKKE tjekke for null
 bool parseBool (String s) {
-  if(s == null) return false;
-  return s == 'true';
+  return s.toLowerCase() == 'true';
 }

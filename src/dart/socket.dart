@@ -31,7 +31,7 @@ class _ConnectionManager{
   const MAX_TICKS = 3;
 
   /**
-   * TODO comment
+   * Adds a connection to the list of managed connections.
    */
   void addConnection(Socket socket) => connections.add(socket);
 
@@ -66,7 +66,7 @@ final _connectionManager = new _ConnectionManager(1000);
  */
 class Socket{
   WebSocket _channel;
-  //TODO Change to stream
+  //TODO Change to stream or what?
   var messageSubscribers = new List<Subscriber>();
   var errorSubscribers = new List<Subscriber>();
   final String _url;
