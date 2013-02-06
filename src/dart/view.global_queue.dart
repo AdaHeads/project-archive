@@ -119,25 +119,21 @@ class GlobalQueue {
       var baseUrl = "http://alice.adaheads.com:4242";
       //TODO Find a way to get the base url ie. http://alice.adaheads.com:4242
       var url = "${baseUrl}/call/pickup?agent_id=${configuration.agentID}&call_id=${id}";
-      var req = new HttpRequest();
-      req.onLoad.listen((_) {
-        if (req.readyState == HttpRequest.DONE) {
-          switch(req.status) {
-            case 200:
-              _pickupCallSuccessResponse(req);
-              break;
-            case 204:
-              log.info('Request call with id: ${id} but got Http code 204');
-              break;
-            default:
-              _pickupCallFailueResponse(req, url);
-              break;
-          }
-        }
-      });
-      req.onError.listen((_) => log.critical('Tried to get call with id: ${id}'));
-      req.open("POST", url, true);
-      req.send();
+      HttpRequest.request(url, method:'POST')
+      ..then(
+          (HttpRequest request){
+            switch(request.status){
+              case 200:
+                _pickupCallSuccessResponse(request);
+                break;
+              case 204:
+                log.info('Asked for the next call but got 204');
+                break;
+              default:
+                log.error('Pickup Call status code: ${request.status} - ${request.statusText} - ${request.responseText} - ${url}');
+                break;
+            }
+          });
     });
   }
 
@@ -168,25 +164,21 @@ class GlobalQueue {
       var baseUrl = "http://alice.adaheads.com:4242";
       //TODO Find a way to get the base url ie. http://alice.adaheads.com:4242
       var url = "${baseUrl}/call/pickup?agent_id=${configuration.agentID}";
-      var req = new HttpRequest();
-      req.onLoad.listen((_) {
-        if (req.readyState == HttpRequest.DONE) {
-          switch (req.status) {
-            case 200:
-              _pickupCallSuccessResponse(req);
-              break;
-            case 204:
-              log.info('Asked for the next call but got 204');
-              break;
-            default:
-              _pickupCallFailueResponse(req, url);
-              break;
-          }
-        }
-      });
-      req.onError.listen((_) => log.critical('Tried to get the next call'));
-      req.open("POST", url);
-      req.send();
+      HttpRequest.request(url, method:'POST')
+          ..then(
+              (HttpRequest request){
+                switch(request.status){
+                  case 200:
+                    _pickupCallSuccessResponse(request);
+                    break;
+                  case 204:
+                    log.info('Asked for the next call but got 204');
+                    break;
+                  default:
+                    log.error('Pickup Call status code: ${request.status} - ${request.statusText} - ${request.responseText} - ${url}');
+                    break;
+                }
+              });
     });
   }
 }
