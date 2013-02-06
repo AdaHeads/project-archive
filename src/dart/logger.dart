@@ -70,19 +70,17 @@ class Log{
    */
   _serverLog(LogRecord record) {
     if (configuration.serverLogLevel <= record.level) {
-      var url = configuration.aliceUri;
       var serverLogLevel = configuration.serverLogLevel;
+      Uri url = configuration.serverLogInterfaceInfo;
 
-      if (serverLogLevel <= Level.INFO) {
-        url = '${url}log/info' ;
-      }else if (serverLogLevel > Level.INFO && serverLogLevel <= Level.SEVERE) {
-        url = "${url}log/error";
+      if (serverLogLevel > Level.INFO && serverLogLevel <= Level.SEVERE) {
+        url = configuration.serverLogInterfaceError;
       }else if (serverLogLevel > Level.SEVERE) {
-        url = "${url}log/critical";
+        url = configuration.serverLogInterfaceCritical;
       }
 
       var req = new HttpRequest();
-      req.open('POST', url);
+      req.open('POST', url.toString());
       req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
       req.onError.listen((_) {

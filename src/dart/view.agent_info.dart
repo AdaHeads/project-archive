@@ -36,6 +36,6 @@ class AgentInfo {
                                 query('#agent_info_body'),
                                 header: query('#agent_info_header'))
         ..header = 'Agenter'
-        ..body = '${configuration.sipUsername}@${configuration.sipDomain}';
+        ..body = 'agentID: ${configuration.agentID}';
   }
 }

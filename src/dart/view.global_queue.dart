@@ -116,7 +116,7 @@ class GlobalQueue {
       log.info('Pressed to pickup ${id.toString()}');
       var baseUrl = "http://alice.adaheads.com:4242";
       //TODO Find a way to get the base url ie. http://alice.adaheads.com:4242
-      var url = "${baseUrl}/call/pickup?agent_id=${configuration.agentID}&call_id=${id}";
+      var url = "${baseUrl}/call/pickup?agent_id=${configuration._agentID}&call_id=${id}";
       var req = new HttpRequest();
       req.onLoad.listen((_) {
         if (req.readyState == HttpRequest.DONE) {
@@ -165,7 +165,7 @@ class GlobalQueue {
       log.info('Pressed to pickup the next call');
       var baseUrl = "http://alice.adaheads.com:4242";
       //TODO Find a way to get the base url ie. http://alice.adaheads.com:4242
-      var url = "${baseUrl}/call/pickup?agent_id=${configuration.agentID}";
+      var url = "${baseUrl}/call/pickup?agent_id=${configuration._agentID}";
       var req = new HttpRequest();
       req.onLoad.listen((_) {
         if (req.readyState == HttpRequest.DONE) {

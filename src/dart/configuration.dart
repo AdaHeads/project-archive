@@ -29,7 +29,7 @@ import 'common.dart';
 import 'logger.dart';
 
 /**
- * TODO: Write comment.
+ * Access to configuration parameters provided by Alice.
  */
 class Configuration {
   static Configuration _instance;
@@ -38,35 +38,35 @@ class Configuration {
   bool _loaded = false;
   bool get loaded => _loaded;
 
-  Level serverLogLevel = Level.OFF;
+  int _agentID;
+  int get agentID => _agentID;
 
-  String standardGreeting;
-  bool enablePolling;
-  Uri sipPbx;
-  int agentID = 1;
+  Uri _aliceBaseUrl;
+  Uri get aliceBaseUrl => _aliceBaseUrl;
 
-  bool websocketReconnect;
-  int websocketInterval;
-  Uri websocketUri;
+  Uri _notificationSocketInterface;
+  Uri get notificationSocketInterface => _notificationSocketInterface;
 
-  Uri pjsuaHttpdUri;
-  String pjsuaPassword;
-  String pjsuaUsername;
+  int _notificationSocketReconnectInterval;
+  int get notificationSocketReconnectInterval => _notificationSocketReconnectInterval;
 
-  int systemConsoleMaxItems;
-  int eventLogMaxItems;
-  Level logLevel = Level.ALL;
-  Uri aliceUri = new Uri('http://alice.adaheads.com:4242/');
+  Level _serverLogLevel = Level.OFF;
+  Level get serverLogLevel => _serverLogLevel;
 
-  String sipDomain = 'asterisk2.adaheads.com';
-  String sipUsername;
-  String sipPassword;
+  Uri _serverLogInterfaceCritical;
+  Uri get serverLogInterfaceCritical => _serverLogInterfaceCritical;
 
-  int pollingInterval = 2000;
-  String organizationListView = 'midi';
+  Uri _serverLogInterfaceError;
+  Uri get serverLogInterfaceError => _serverLogInterfaceError;
+
+  Uri _serverLogInterfaceInfo;
+  Uri get serverLogInterfaceInfo => _serverLogInterfaceInfo;
+
+  String _standardGreeting;
+  String get standardGreeting => _standardGreeting;
 
   /**
-   * TODO: Write comment
+   * Factory for the Configuration singleton.
    */
   factory Configuration() {
     var configUri = new Uri(CONFIGURATION_URL);
@@ -86,7 +86,7 @@ class Configuration {
   void _onComplete(HttpRequest req) {
     switch(req.status) {
       case 200:
-        _parseConfiguration(json.parse(req.responseText));
+        _parseConfiguration(json.parse(req.responseText)['dart']);
         _loaded = true;
         break;
       default:
@@ -94,89 +94,48 @@ class Configuration {
     }
   }
 
+  /**
+   * Parse and validate the configuration JSON from Alice.
+   */
   void _parseConfiguration(Map json){
-    standardGreeting = _stringValue(json, 'Standard_Greeting', 'Velkommen til...');
-    enablePolling = _boolValue(json, 'Enable_Polling', false);
-    sipPbx = new Uri(_stringValue (json, 'SIP_PBX', 'asterisk2.adaheads.com'));
-    agentID = _intValue (json, 'Agent_ID', 0);
+    _agentID = _intValue (json, 'agentID', 0);
+    _aliceBaseUrl = new Uri(_stringValue(json, 'aliceBaseUrl', 'http://alice.adaheads.com:4242'));
 
-    Map websocketMap = json['Websocket'];
-    websocketReconnect = _boolValue(websocketMap, 'Reconnect', false);
-    websocketInterval = _intValue(websocketMap, 'Reconnect_Interval', 1000);
-    websocketUri = new Uri(_stringValue(websocketMap, 'URI', 'ws://localhost:4242/notifications'));
+    Map notificationSocketMap = json['notificationSocket'];
+    _notificationSocketReconnectInterval = _intValue(notificationSocketMap, 'reconnectInterval', 1000);
+    _notificationSocketInterface =
+        new Uri(_stringValue(notificationSocketMap, 'interface', 'ws://alice.adaheads.com:4242/notifications'));
 
-    pjsuaHttpdUri = new Uri(_stringValue(json, 'PJSUA_HTTPD_URI', 'http://localhost:30200'));
-
-    Map systemConsoleMap = json['System_Console'];
-    systemConsoleMaxItems = _intValue(systemConsoleMap, 'Max_Items', 15);
-
-    Map eventLogMap = json['Event_Log'];
-    eventLogMaxItems = _intValue(eventLogMap, 'Max_Items', 20);
-
-    String currentNodeName = 'Standard_Greeting';
-
-    currentNodeName = 'Event_Log';
-    if (_validMap(json, currentNodeName)) {
-      var eventLog = json[currentNodeName];
-
-      currentNodeName = 'Max_Items';
-      if (_validInt(eventLog, currentNodeName)) {
-        eventLogMaxItems = eventLog[currentNodeName];
-      }
+    Map serverLogMap = json['serverLog'];
+    switch (serverLogMap['level'].toLowerCase()){
+      case 'info':
+        _serverLogLevel = Level.INFO;
+        break;
+      case 'error':
+        _serverLogLevel = Level.SEVERE;
+        break;
+      case 'critical':
+        _serverLogLevel = Level.SHOUT;
+        break;
+      default:
+        _serverLogLevel = Level.INFO;
+        log.error('Configuration logLevel had the invalid value: ${json['serverLogLevel']}');
+        break;
     }
 
-    currentNodeName = 'SIP_Account';
-    if (_validMap(json, currentNodeName)) {
-      var sipAccount = json[currentNodeName];
+    _serverLogInterfaceCritical = new Uri('${aliceBaseUrl}${_stringValue(serverLogMap['interface'], 'critical', '/log/critical')}');
+    _serverLogInterfaceError = new Uri('${aliceBaseUrl}${_stringValue(serverLogMap['interface'], 'error', '/log/error')}');
+    _serverLogInterfaceInfo = new Uri('${aliceBaseUrl}${_stringValue(serverLogMap['interface'], 'info', '/log/info')}');
 
-      currentNodeName = 'Password';
-      if (_validString(sipAccount, currentNodeName)) {
-        sipPassword = sipAccount[currentNodeName];
-      }
-
-      currentNodeName = 'Username';
-      if (_validString(sipAccount, currentNodeName)) {
-        sipUsername = sipAccount[currentNodeName];
-      }
-
-      currentNodeName = 'Domain';
-      if (_validString(sipAccount, currentNodeName)) {
-        sipDomain = sipAccount[currentNodeName];
-      }
-    }
-
-    currentNodeName = 'Polling_Interval';
-    if (_validInt(json, currentNodeName, min: 0)) {
-      pollingInterval = json[currentNodeName];
-    }
-
-    currentNodeName = 'Organizations_List_View';
-    if (_validString(json, currentNodeName)) {
-      organizationListView = json[currentNodeName];
-    }
-
-    currentNodeName = 'logLevel';
-    if (_validString(json, currentNodeName)) {
-      switch (json[currentNodeName].toLowerCase()){
-        case 'info':
-          serverLogLevel = Level.INFO;
-          break;
-        case 'error':
-          serverLogLevel = Level.SEVERE;
-          break;
-        case 'critical':
-          serverLogLevel = Level.SHOUT;
-          break;
-        default:
-          log.critical('Configuration logLevel had the invalid value: ${json[currentNodeName]}');
-          break;
-      }
-    } else {
-      serverLogLevel = Level.INFO;
-    }
-
+    _standardGreeting = _stringValue(json, 'standardGreeting', 'Velkommen til...');
   }
 
+  /**
+   * Return a bool from [configMap] or [defaultValue].
+   *
+   * If [key] is found in [configMap] and the value is a bool, return the found bool.
+   * if [key] is not found or does not validate as a bool, return [defaultValue].
+   */
   bool _boolValue (Map configMap, String key, bool defaultValue) {
     if ((configMap.containsKey(key)) && (configMap[key] is bool)) {
       return configMap[key];
@@ -186,6 +145,12 @@ class Configuration {
     }
   }
 
+  /**
+   * Return an int from [configMap] or [defaultValue].
+   *
+   * If [key] is found in [configMap] and the value is an int, return the found int.
+   * if [key] is not found or does not validate as an int, return [defaultValue].
+   */
   int _intValue (Map configMap, String key, int defaultValue) {
     if ((configMap.containsKey(key)) && (configMap[key] is int)) {
       return configMap[key];
@@ -195,6 +160,13 @@ class Configuration {
     }
   }
 
+  /**
+   * Return a String from [configMap] or [defaultValue].
+   *
+   * If [key] is found in [configMap] and the value is a String, return the found String.
+   * if [key] is not found or does not validate as a String, return [defaultValue].
+   * Note that [defaultValue] is also returned if the found String is empty.
+   */
   String _stringValue (Map configMap, String key, String defaultValue) {
     if ((configMap.containsKey(key)) && (configMap[key] is String)) {
       return (configMap[key].trim().length == 0) ? defaultValue : configMap[key];
@@ -203,67 +175,12 @@ class Configuration {
       return defaultValue;
     }
   }
-
-  bool _validBool (Map json, String node) {
-    if (!_containsNode(json, node)) return false;
-    if (json[node] is! bool) {
-      log.critical('Configuration node ${node} is not a bool');
-      return false;
-    }
-    return true;
-  }
-
-  bool _validString (Map map, String key, {bool nonEmptyValueRequired : true}) {
-    if ((map.containsKey(key)) && (map[key] is String)) {
-      if ((map[key].trim().length == 0) && (nonEmptyValueRequired)) {
-        return false;
-      } else {
-        return true;
-      }
-    } else {
-      log.critical('Configuration parameter ${key} does not validate');
-      return false;
-    }
-  }
-
-  bool _validInt (Map json, String node, {int min, int max}){
-    if (!_containsNode(json, node)) return false;
-    if (json[node] is! int) {
-      log.critical('Configuration node ${node} is not an int');
-      return false;
-    }
-    if (?min && json[node] < min) {
-      log.critical('Configuration node ${node} is less than ${min}');
-      return false;
-    }
-    if (?max && json[node] > max) {
-      log.critical('Configuration node ${node} is greater than ${max}');
-      return false;
-    }
-    return true;
-  }
-
-  bool _validMap (Map json, String node) {
-    if ((_containsNode(json, node)) && (json[node] is Map)) {
-      return true;
-    } else {
-      log.critical('Configuration node ${node} is not a Map');
-      return false;
-    }
-  }
-
-  bool _containsNode (Map json, String node) {
-    if (!json.containsKey(node)) {
-      log.critical('Configuration is missing ${node}');
-      return false;
-    }else{
-      return true;
-    }
-  }
 }
 
 /**
- * Fetching the configuration.
+ * Fetch the configuration.
+ *
+ * Completes when [Configuration.loaded] is true.
  */
 Future<bool> fetchConfig() {
   var completer = new Completer();
