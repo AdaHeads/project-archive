@@ -41,7 +41,7 @@ class Environment{
   /**
    * Subscribe to organization changes.
    */
-  void onOrganizationChange(organizationSubscriber subscriber){
+  void onOrganizationChange(OrganizationSubscriber subscriber){
     organizationStream.stream.listen(subscriber);
   }
 
@@ -61,6 +61,30 @@ class Environment{
   /*
      Call
   */
+  var callStream = new StreamController<Call>.broadcast();
+
+  Call _call;
+  Call get call => _call;
+
+  /**
+   * Subscribe to call changes.
+   */
+  void onCallChange(CallSubscriber subscriber){
+    callStream.stream.listen(subscriber);
+  }
+
+ /**
+  * Replaces this environments call with [call].
+  */
+  void setCall(Call call) {
+    if (call == _call) {
+      return;
+    }
+    _call = call;
+    log.info('The current call is changed to: ${call.toString()}');
+    //dispatch the new call.
+    callStream.sink.add(call);
+  }
 }
 
 /**

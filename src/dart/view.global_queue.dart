@@ -140,6 +140,7 @@ class GlobalQueue {
   void _pickupCallSuccessResponse(HttpRequest req) {
     log.info('pickupCall:${req.responseText}');
     var response = json.parse(req.responseText);
+    log.debug('pickupCallSuccessFull: <${req.responseText}>');
     if (!response.containsKey('organization_id')) {
       log.critical('The call had no organization_id. ${req.responseText}');
     }

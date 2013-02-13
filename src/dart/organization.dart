@@ -27,8 +27,8 @@ class Organization{
   Map _orgInfo;
   Map get orgInfo => _orgInfo;
 
-  Organization(json) {
-    _json = json;
+  Organization(Map json) {
+    _json = new Map.from(json);
 
     _contacts = json['contacts'];
 
@@ -39,6 +39,10 @@ class Organization{
   Organization._null() {
     _orgInfo = null;
     _contacts = null;
+  }
+
+  String toString(){
+    return _json.toString();
   }
 }
 Organization nullOrganization = new Organization._null();

@@ -41,7 +41,7 @@ class Storage_Organization{
     }
   }
 
-  void errorHandler(AsyncError e){
+  void errorHandler(AsyncError e) {
     var error = e.error as HttpRequestProgressEvent;
     if (error != null) {
       var request = error.currentTarget as HttpRequest;

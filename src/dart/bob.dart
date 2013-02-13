@@ -20,6 +20,7 @@ import 'dart:async';
 import 'dart:html';
 import 'dart:uri';
 
+import 'call_handler.dart';
 import 'common.dart';
 import 'configuration.dart';
 import 'environment.dart';
@@ -32,9 +33,10 @@ import 'view.dart';
  */
 void main() {
   var configLoaded = fetchConfig();
+  log.debug('Welcome to Bob.');
 
   configLoaded.then((_) {
-    log.info('Hello Bob');
+    log.info('Hello from Bob.');
 
     final welcomeMessage = new WelcomeMessage();
     final agentInfo      = new AgentInfo();
@@ -45,5 +47,8 @@ void main() {
     final localQueue     = new LocalQueue();
     final overlay        = new Overlay();
     final navigation     = new Navigation(overlay);
-  }).catchError((error) => log.critical(error.toString()));
+
+    initializeCallHandler();
+
+  }).catchError((error) => log.critical('Bob main exception: ${error.toString()}'));
 }

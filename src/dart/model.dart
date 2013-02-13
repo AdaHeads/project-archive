@@ -18,5 +18,6 @@
  */
 library model;
 
+part 'call.dart';
 part 'organization.dart';
 part 'organization_list.dart';

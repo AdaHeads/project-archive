@@ -12,21 +12,25 @@
   see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
   <http://www.gnu.org/licenses/>.
 */
+part of model;
+
 /**
- * A collection of common typedefs and exceptions for Bob.
+ * TODO comment, write this when the class have more to it, then a simple map.
  */
-library Common;
+class Call{
+  Map _json;
+  //Map get json => _json;
 
-import 'model.dart';
+  Map _call;
+  Map get content => _call;
 
-typedef void Subscriber(Map json);
-typedef void OrganizationSubscriber (Organization organization);
-typedef void CallSubscriber (Call call);
+  Call(Map json) {
+    _call = json;
+  }
 
-class TimeoutException implements Exception {
-  final String message;
-
-  const TimeoutException(this.message);
-
-  String toString() => message;
+  Call._null() {
+    _call = null;
+  }
 }
+Call nullCall = new Call._null();
+
