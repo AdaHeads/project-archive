@@ -28,7 +28,8 @@ void initializeCallHandler() {
 
 void _callPickup(Map json) {
   var call = new Call(json['call']);
-  if (call.content['assigned_to'] == configuration.agentID) {
+  //TODO it should not be nessesary to int.parse here.
+  if (int.parse(call.content['assigned_to']) == configuration.agentID) {
     //it's to me! :D :D
     log.info('Call pickup for this agent.');
     environment.setCall(call);
@@ -40,7 +41,8 @@ void _callPickup(Map json) {
 
 void _callHangup(Map json) {
   var call = json['call'];
-  if (call['id'] == environment.call.content['id']) {
+  //TODO We don't need no Int.parse here. Well.. Server sends it as string.
+  if (environment.call != null && int.parse(call['id']) == int.parse(environment.call.content['id'])) {
     log.info('The current call hangup');
     environment.setCall(nullCall);
   }

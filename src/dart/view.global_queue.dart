@@ -21,9 +21,9 @@ class GlobalQueue {
   static GlobalQueue _instance;
 
   widgets.Box _viewPort;
-  OListElement _callList;
+  OListElement _callQueue;
 
-  List<Map> _internalCallList = new List<Map>();
+  List<Map> _internalCallQueue = new List<Map>();
 
   factory GlobalQueue() {
     if(_instance == null) {
@@ -42,17 +42,17 @@ class GlobalQueue {
     _registrateSubscribers();
 
     //TODO Is this the right way, just by knowing it's id, or should it be found from knowing it's parant.
-    _callList = query('#global_call_queue');
+    _callQueue = query('#global_call_queue');
 
     //Fetches the call list from alice.
     initialFill();
   }
 
   void initialFill() {
-    var baseUrl = configuration.aliceBaseUrl.toString();
+    //var baseUrl = configuration.aliceBaseUrl.toString();
     //var url = '${baseUrl}/call/list';
-    var url = Protocol.getCallList();
-    log.info('Making http request for the call list');
+    var url = Protocol.getCallQueue();
+    log.info('Making http request for the call queue');
     var requestFuture = HttpRequest.request(url);
     requestFuture.then(_onComplete,
         onError: (error) => log.debug('initialFill ${error.runtimeType.toString()}'))
@@ -62,20 +62,21 @@ class GlobalQueue {
   void _onComplete(HttpRequest request){
     if (request.status == 200){
       var calls = json.parse(request.responseText);
+      log.debug('Initial filling of call queue gave ${calls['calls'].length} calls');
       for (var call in calls['calls']) {
         _addCall(call);
       }
     } else if (request.status == 204){
       log.debug('Initial CallList fill request gave empty list');
     } else {
-      log.debug('Initial request for filling CallList gave ${request.status} - ${request.statusText}');
+      log.debug('Initial request for filling CallQueue gave ${request.status} - ${request.statusText}');
     }
   }
 
   void _registrateSubscribers() {
     notify.notification.addEventHandler('queue_join', _queueJoin);
     notify.notification.addEventHandler('queue_leave', _queueLeave);
-    query('#btn_Pickup').onClick.listen(_pickUpNextCall);
+    //query('#btn_Pickup').onClick.listen(_pickUpNextCall);
   }
 
   void _queueJoin(Map json) {
@@ -86,21 +87,21 @@ class GlobalQueue {
 
   void _queueLeave(Map json) {
     var call = json['call'];
-    for (var c in _internalCallList) {
+    for (var c in _internalCallQueue) {
       if (c['id'] == call['id']) {
-        _internalCallList.remove(c);
+        _internalCallQueue.remove(c);
         break;
       }
     }
 
-    _callList.children.clear();
-    for (var c in _internalCallList) {
+    _callQueue.children.clear();
+    for (var c in _internalCallQueue) {
       _addCallElement(c);
     }
   }
 
   void _addCall(Map call) {
-    _internalCallList.add(call);
+    _internalCallQueue.add(call);
 
     _addCallElement(call);
   }
@@ -109,77 +110,84 @@ class GlobalQueue {
     var item = new LIElement()
       ..text = 'Channel: ${call['channel']}, arrival_time: ${call['arrival_time']}'
       ..onClick.listen(_pickupCall(int.parse(call['id'])));
-    _callList.children.add(item);
+    _callQueue.children.add(item);
   }
 
-  //TODO All this pickup call stuff should not be here.
-  _pickupCall(int id) {
-    log.info('Initialize onClick to pickup call_id: ${id}');
+  _pickupCall(int id){
     return ((_) {
       log.info('Pressed to pickup ${id.toString()}');
-      //var url = "${baseUrl}/call/pickup?agent_id=${configuration.agentID}&call_id=${id}";
-      var url = Protocol.pickUpCall(configuration.agentID, CallID: id.toString());
-      HttpRequest.request(url, method:'POST')
-      ..then(
-          (HttpRequest request){
-            switch(request.status){
-              case 200:
-                _pickupCallSuccessResponse(request);
-                break;
-              case 204:
-                log.info('Asked for the next call but got 204');
-                break;
-              default:
-                log.error('Pickup Call status code: ${request.status} - ${request.statusText} - ${request.responseText} - ${url}');
-                break;
-            }
-          });
+      pickupCall(id);
     });
   }
 
-  void _pickupCallSuccessResponse(HttpRequest req) {
-    log.info('pickupCall:${req.responseText}');
-    var response = json.parse(req.responseText);
-    log.debug('pickupCallSuccessFull: <${req.responseText}>');
-    if (!response.containsKey('organization_id')) {
-      log.critical('The call had no organization_id. ${req.responseText}');
-    }
-    var orgId = response['organization_id'];
-    Storage_Organization.instance.getOrganization(orgId,(org) =>
-        environment.setOrganization((org != null) ? org : environment.organization));
-  }
+//  //TODO All this pickup call stuff should not be here.
+//  _pickupCall(int id) {
+//    log.info('Initialize onClick to pickup call_id: ${id}');
+//    return ((_) {
+//      log.info('Pressed to pickup ${id.toString()}');
+//      //var url = "${baseUrl}/call/pickup?agent_id=${configuration.agentID}&call_id=${id}";
+//      var url = Protocol.pickUpCall(configuration.agentID, CallID: id.toString());
+//      HttpRequest.request(url, method:'POST')
+//      ..then(
+//          (HttpRequest request){
+//            switch(request.status){
+//              case 200:
+//                _pickupCallSuccessResponse(request);
+//                break;
+//              case 204:
+//                log.info('Asked for the next call but got 204');
+//                break;
+//              default:
+//                log.error('Pickup Call status code: ${request.status} - ${request.statusText} - ${request.responseText} - ${url}');
+//                break;
+//            }
+//          });
+//    });
+//  }
 
-  void _pickupCallFailueResponse(HttpRequest req, String url) {
-   log.error('Pickup Call status code: ${req.status} - ${req.statusText} - ${req.responseText} - ${url}');
-  }
+//  void _pickupCallSuccessResponse(HttpRequest req) {
+//    log.info('pickupCall:${req.responseText}');
+//    var response = json.parse(req.responseText);
+//    log.debug('pickupCallSuccessFull: <${req.responseText}>');
+//    if (!response.containsKey('organization_id')) {
+//      log.critical('The call had no organization_id. ${req.responseText}');
+//    }
+//    var orgId = response['organization_id'];
+//    Storage_Organization.instance.getOrganization(orgId,(org) =>
+//        environment.setOrganization((org != null) ? org : environment.organization));
+//  }
+//
+//  void _pickupCallFailueResponse(HttpRequest req, String url) {
+//   log.error('Pickup Call status code: ${req.status} - ${req.statusText} - ${req.responseText} - ${url}');
+//  }
 
-  /**
-   * Sends a request to alice for the next call.
-   */
-  //TODO this should not be hidden. We need it for the keyboard bindings.
-  //TODO never tested.
-  _pickUpNextCall(event) {
-    log.info("pickup next call button pressed - not implemented");
-    return ((_) {
-      log.info('Pressed to pickup the next call');
-//      var baseUrl = configuration.aliceBaseUrl.toString();
-//      var url = "${baseUrl}/call/pickup?agent_id=${configuration.agentID}";
-      var url = Protocol.pickUpCall(configuration.agentID);
-      HttpRequest.request(url, method:'POST')
-          ..then(
-              (HttpRequest request){
-                switch(request.status){
-                  case 200:
-                    _pickupCallSuccessResponse(request);
-                    break;
-                  case 204:
-                    log.info('Asked for the next call but got 204');
-                    break;
-                  default:
-                    log.error('Pickup Call status code: ${request.status} - ${request.statusText} - ${request.responseText} - ${url}');
-                    break;
-                }
-              });
-    });
-  }
+//  /**
+//   * Sends a request to alice for the next call.
+//   */
+//  //TODO this should not be hidden. We need it for the keyboard bindings.
+//  //TODO never tested.
+//  _pickUpNextCall(event) {
+//    log.info("pickup next call button pressed - not implemented");
+//    return ((_) {
+//      log.info('Pressed to pickup the next call');
+////      var baseUrl = configuration.aliceBaseUrl.toString();
+////      var url = "${baseUrl}/call/pickup?agent_id=${configuration.agentID}";
+//      var url = Protocol.pickUpCall(configuration.agentID);
+//      HttpRequest.request(url, method:'POST')
+//          ..then(
+//              (HttpRequest request){
+//                switch(request.status){
+//                  case 200:
+//                    _pickupCallSuccessResponse(request);
+//                    break;
+//                  case 204:
+//                    log.info('Asked for the next call but got 204');
+//                    break;
+//                  default:
+//                    log.error('Pickup Call status code: ${request.status} - ${request.statusText} - ${request.responseText} - ${url}');
+//                    break;
+//                }
+//              });
+//    });
+//  }
 }

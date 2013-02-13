@@ -12,11 +12,20 @@
   see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
   <http://www.gnu.org/licenses/>.
 */
+/**
+ * A library to make the Urls.
+ */
 library protocol;
 
 import 'configuration.dart';
 
+/**
+ * Class to contains all the Url.
+ */
 class Protocol{
+  /**
+   * Example: http://alice.adaheads.com:4242/call/list
+   */
   static String getCallList(){
     assert(configuration.loaded);
 
@@ -26,6 +35,21 @@ class Protocol{
     return _buildUrl(base, path);
   }
 
+  /**
+   * Example: http://alice.adaheads.com:4242/call/queue
+   */
+  static String getCallQueue(){
+    assert(configuration.loaded);
+
+    var base = configuration.aliceBaseUrl.toString();
+    var path = '/call/queue';
+
+    return _buildUrl(base, path);
+  }
+
+  /**
+   * Example: http://alice.adaheads.com:4242/organization?org_id=1
+   */
   static String getOrganization(int OrganizationID){
     assert(configuration.loaded);
 
@@ -38,6 +62,9 @@ class Protocol{
     return _buildUrl(base, path, fragments);
   }
 
+  /**
+   * Example: http://alice.adaheads.com:4242/organization/list
+   */
   static String getOrganizationList(){
     assert(configuration.loaded);
 
@@ -47,6 +74,9 @@ class Protocol{
     return _buildUrl(base, path);
   }
 
+  /**
+   * Example: http://alice.adaheads.com:4242/call/pickup?agent_id=1&call_id=1
+   */
   static String pickUpCall(int AgentID, {String CallID}){
     assert(configuration.loaded);
 
@@ -63,6 +93,10 @@ class Protocol{
     return _buildUrl(base, path, fragments);
   }
 
+  /**
+   * Makes a complete url from [base], [path] and the [fragments].
+   * Output: base + path + ? + fragment[0] + & + fragment[1] ...
+   */
   static String _buildUrl(String base, String path, [List<String> fragments]){
     var SB = new StringBuffer();
     var url = '${base}${path}';

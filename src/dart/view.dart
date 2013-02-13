@@ -21,6 +21,7 @@ library view;
 import 'dart:html';
 import 'dart:json' as json;
 
+import 'commands.dart';
 import 'configuration.dart';
 import 'environment.dart';
 import 'logger.dart';
