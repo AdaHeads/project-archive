@@ -50,7 +50,8 @@ class GlobalQueue {
 
   void initialFill() {
     var baseUrl = configuration.aliceBaseUrl.toString();
-    var url = '${baseUrl}/call/list';
+    //var url = '${baseUrl}/call/list';
+    var url = Protocol.getCallList();
     log.info('Making http request for the call list');
     var requestFuture = HttpRequest.request(url);
     requestFuture.then(_onComplete,
@@ -116,8 +117,8 @@ class GlobalQueue {
     log.info('Initialize onClick to pickup call_id: ${id}');
     return ((_) {
       log.info('Pressed to pickup ${id.toString()}');
-      var baseUrl = configuration.aliceBaseUrl.toString();
-      var url = "${baseUrl}/call/pickup?agent_id=${configuration.agentID}&call_id=${id}";
+      //var url = "${baseUrl}/call/pickup?agent_id=${configuration.agentID}&call_id=${id}";
+      var url = Protocol.pickUpCall(configuration.agentID, CallID: id.toString());
       HttpRequest.request(url, method:'POST')
       ..then(
           (HttpRequest request){
@@ -160,8 +161,9 @@ class GlobalQueue {
     log.info("pickup next call button pressed - not implemented");
     return ((_) {
       log.info('Pressed to pickup the next call');
-      var baseUrl = configuration.aliceBaseUrl.toString();
-      var url = "${baseUrl}/call/pickup?agent_id=${configuration.agentID}";
+//      var baseUrl = configuration.aliceBaseUrl.toString();
+//      var url = "${baseUrl}/call/pickup?agent_id=${configuration.agentID}";
+      var url = Protocol.pickUpCall(configuration.agentID);
       HttpRequest.request(url, method:'POST')
           ..then(
               (HttpRequest request){

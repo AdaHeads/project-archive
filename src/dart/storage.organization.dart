@@ -24,10 +24,6 @@ class Storage_Organization{
   static final Storage_Organization instance =
       new Storage_Organization._internal();
 
-  const _organizationPath = "/organization";
-  const _getOrgFragment = "org_id";
-  const _organizationListPath = "/organization/list";
-
   var _cache = new Map<int, Organization>();
 
   /**
@@ -38,10 +34,27 @@ class Storage_Organization{
       onComplete(_cache[id]);
     }else{
       log.debug('${id} is not cached');
-      var baseUrl = configuration.aliceBaseUrl.toString();
-      var url = '${baseUrl}${_organizationPath}?${_getOrgFragment}=$id';
+      var url = Protocol.getOrganization(id);
       HttpRequest.request(url)
-          ..then(_onComplete(onComplete));
+      //TODO write a better error handler.
+          ..then(_onComplete(onComplete)).catchError(errorHandler);
+    }
+  }
+
+  void errorHandler(AsyncError e){
+    var error = e.error as HttpRequestProgressEvent;
+    if (error != null) {
+      var request = error.currentTarget as HttpRequest;
+      if (request != null){
+        //TODO find a way to get the url.
+        log.critical('error with request to fetch organization: ${request.status} (${request.statusText})');
+
+      }else{
+        log.error('error with request to fetch organization: errorType=${e.toString()}');
+      }
+
+    }else{
+      log.error('error with request to fetch organization: errorType=${e.toString()}');
     }
   }
 
@@ -49,8 +62,7 @@ class Storage_Organization{
    * Get the organization list from alice.
    */
   void getOrganizationList(void onComplete(OrganizationList organizationList)) {
-    var baseUrl = configuration.aliceBaseUrl.toString();
-    var url = '${baseUrl}${_organizationListPath}';
+    var url = Protocol.getOrganizationList();
     HttpRequest.request(url)
         ..then(_onListComplete(onComplete));
   }
@@ -58,7 +70,7 @@ class Storage_Organization{
   _requestOnComplete _onComplete(void onComplete(Organization organization)) {
     return (HttpRequest req) {
       if (req.status == 200) {
-        log.info('Storage request: ${req.responseText}');
+        log.debug('Storage request: ${req.responseText}');
         var organizationJson = json.parse(req.responseText);
         int id = organizationJson['organization_id'];
         var org = new Organization(organizationJson);
