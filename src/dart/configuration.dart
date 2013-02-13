@@ -71,6 +71,8 @@ class Configuration {
   factory Configuration() {
     var configUri = new Uri(CONFIGURATION_URL);
 
+    // TODO Why does it have to be Absolute? couldn't it have a fragment to
+    //      indicate the company, or type of user. I just find it a strange restricting.
     assert(configUri.isAbsolute());
 
     if(_instance == null) {
