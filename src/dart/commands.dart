@@ -90,8 +90,10 @@ void hangupCall({int callID}){
   log.debug('The command hangupCall is called');
   String url;
   if (?callID){
+    log.debug('Command hangup with callid: ${callID}');
     url = Protocol.hangupCall(callID: callID);
   }else{
+    log.debug('Command hangup without callid');
     url = Protocol.hangupCall();
   }
 
@@ -217,7 +219,7 @@ void transferCall(int callId){
 }
 
 void holdCall(int callId){
-  String url = Protocol.holdCall();
+  String url = Protocol.holdCall(callId);
 
   HttpRequest.request(url, method:'POST')
   ..then(

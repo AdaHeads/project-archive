@@ -155,16 +155,20 @@ class Protocol{
     return _buildUrl(base, path, fragments);
   }
 
+  //TODO check up on Documentation. CallId is not needed there.
   /**
    * Example: http://alice.adaheads.com:4242/call/hold
    */
-  static String holdCall(){
+  static String holdCall(int callId){
     assert(configuration.loaded);
 
     var base = configuration.aliceBaseUrl.toString();
     var path = '/call/hold';
+    var fragments = new List<String>();
 
-    return _buildUrl(base, path);
+    fragments.add('call_id=${callId}');
+
+    return _buildUrl(base, path,fragments);
   }
 
   /**

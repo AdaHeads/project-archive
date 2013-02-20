@@ -78,7 +78,8 @@ class GlobalQueue {
     notify.notification.addEventHandler('queue_leave', _queueLeave);
     query('#btn_Pickup').onClick.listen(_pickupNextCall());
     query('#btn_Hangup').onClick.listen(_hangupCall);
-    environment.onCallChange(_callChangeHangup);
+    query('#btn_Hold').onClick.listen(_holdCall);
+    environment.onCallChange(_callChange);
   }
 
   void _queueJoin(Map json) {
@@ -130,12 +131,15 @@ class GlobalQueue {
     });
   }
 
-  void _callChangeHangup(Call call){
+  void _callChange(Call call){
     ButtonElement btnHangup = query('#btn_Hangup');
+    ButtonElement btnHold = query('#btn_Hold');
     if (call == null || call == nullCall){
       btnHangup.disabled = true;
+      btnHold.disabled = true;
     }else{
       btnHangup.disabled = false;
+      btnHold.disabled = false;
     }
   }
 
@@ -144,6 +148,11 @@ class GlobalQueue {
     //TODO Either the Json type, from Alice, for id should not be an String,
     //      or the Bob type should not be an Int
     hangupCall(callID: int.parse(environment.call.content['id']));
+  }
+
+  void _holdCall(_){
+    log.debug('The hold button is pressed.');
+    holdCall(int.parse(environment.call.content['id']));
   }
 
 

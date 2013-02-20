@@ -92,6 +92,9 @@ class Notification {
 
     if (_eventHandlers.containsKey(eventName)) {
       _eventHandlers[eventName].sink.add(json);
+    }else{
+      log.error('Unhandled event: ${eventName}');
+      log.debug(json.toString());
     }
   }
 }
