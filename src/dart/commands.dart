@@ -160,7 +160,7 @@ void originateCall(String address, int type){
             log.debug('The request to originate a call succeeded');
             break;
           default:
-            log.error('Pickup Call status code: ${request.status} - ${request.statusText} - ${request.responseText} - ${url}');
+            log.error('Originate Call status code: ${request.status} - ${request.statusText} - ${request.responseText} - ${url}');
             break;
         }
       }).catchError((AsyncError e){
@@ -178,6 +178,76 @@ void originateCall(String address, int type){
 
         }else{
           log.error('error with request to OriginateCall: errorType=${e.toString()}');
+        }
+        });
+}
+
+void transferCall(int callId){
+  int agentId = configuration.agentID;
+  String url = Protocol.transferCall(callId);
+
+  HttpRequest.request(url, method:'POST')
+  ..then(
+      (HttpRequest request){
+        switch(request.status){
+          case 200:
+            log.debug('The request to transfer call: ${callId} succeeded');
+            break;
+          default:
+            log.error('Transfer Call status code: ${request.status} - ${request.statusText} - ${request.responseText} - ${url}');
+            break;
+        }
+      }).catchError((AsyncError e){
+        log.error('Command transferCall with url: ${url} gave an error.');
+        var error = e.error as HttpRequestProgressEvent;
+        if (error != null) {
+          var request = error.currentTarget as HttpRequest;
+          if (request != null){
+            //TODO find a way to get the url.
+            log.critical('error with request to transferCall: ${request.status} (${request.statusText}) ${request.responseText}');
+
+          }else{
+            log.error('error with request to transferCall: errorType=${e.toString()}');
+          }
+
+        }else{
+          log.error('error with request to transferCall: errorType=${e.toString()}');
+        }
+        });
+}
+
+void holdCall(int callId){
+  String url = Protocol.holdCall();
+
+  HttpRequest.request(url, method:'POST')
+  ..then(
+      (HttpRequest request){
+        switch(request.status){
+          case 200:
+            log.debug('The request to hold call: ${callId} succeeded');
+            break;
+          case 204:
+            log.info('There is no call to hold.');
+            break;
+          default:
+            log.error('Hold Call status code: ${request.status} - ${request.statusText} - ${request.responseText} - ${url}');
+            break;
+        }
+      }).catchError((AsyncError e){
+        log.error('Command holdCall with url: ${url} gave an error.');
+        var error = e.error as HttpRequestProgressEvent;
+        if (error != null) {
+          var request = error.currentTarget as HttpRequest;
+          if (request != null){
+            //TODO find a way to get the url.
+            log.critical('error with request to holdCall: ${request.status} (${request.statusText}) ${request.responseText}');
+
+          }else{
+            log.error('error with request to holdCall: errorType=${e.toString()}');
+          }
+
+        }else{
+          log.error('error with request to holdCall: errorType=${e.toString()}');
         }
         });
 }

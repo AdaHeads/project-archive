@@ -111,9 +111,10 @@ class Protocol{
     return _buildUrl(base, path, fragments);
   }
 
-  //POST /call/originate?[agent_id=<agent_id>|cm_id=<cm_id>|pstn_number=<pstn_number>|sip=<sip_uri>]
   /**
    * Place a new call to an Agent, a Contact (via contact method, ), an arbitrary PSTn number or a SIP phone.
+   *
+   * Example: http://alice.adaheads.com:4242/call/originate?agent_id=1&extension=12345678
    */
   static String originateCall(int agentId,{ int cmId, String pstnNumber, String sip}){
     assert(configuration.loaded);
@@ -135,6 +136,49 @@ class Protocol{
     if (?sip && sip != null && !sip.isEmpty){
       fragments.add('sip=${sip}');
     }
+
+    return _buildUrl(base, path, fragments);
+  }
+
+  /**
+   * The transfer request connects the currently active call with the call specified in [sourceCallId].
+   */
+  static String transferCall(int sourceCallId){
+    assert(configuration.loaded);
+
+    var base = configuration.aliceBaseUrl.toString();
+    var path = '/call/transfer';
+    var fragments = new List<String>();
+
+    fragments.add('source=${sourceCallId}');
+
+    return _buildUrl(base, path, fragments);
+  }
+
+  /**
+   * Example: http://alice.adaheads.com:4242/call/hold
+   */
+  static String holdCall(){
+    assert(configuration.loaded);
+
+    var base = configuration.aliceBaseUrl.toString();
+    var path = '/call/hold';
+
+    return _buildUrl(base, path);
+  }
+
+  /**
+   * Gives the state of the call with the given [callId]
+   */
+  static String stateCall(int callId){
+    assert(configuration.loaded);
+    assert(callId != null);
+
+    var base = configuration.aliceBaseUrl.toString();
+    var path = '/call/state';
+    var fragments = new List<String>();
+
+    fragments.add('call_id=${callId}');
 
     return _buildUrl(base, path, fragments);
   }
