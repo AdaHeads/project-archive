@@ -76,7 +76,9 @@ class GlobalQueue {
   void _registrateSubscribers() {
     notify.notification.addEventHandler('queue_join', _queueJoin);
     notify.notification.addEventHandler('queue_leave', _queueLeave);
-    //query('#btn_Pickup').onClick.listen(_pickUpNextCall);
+    query('#btn_Pickup').onClick.listen(_pickupNextCall());
+    query('#btn_Hangup').onClick.listen(_hangupCall);
+    environment.onCallChange(_callChangeHangup);
   }
 
   void _queueJoin(Map json) {
@@ -113,12 +115,37 @@ class GlobalQueue {
     _callQueue.children.add(item);
   }
 
-  _pickupCall(int id){
+  //TODO Is this the right way of doing it? i'm thinking about the return type.
+  Function _pickupCall(int id){
     return ((_) {
-      log.info('Pressed to pickup ${id.toString()}');
+      log.info('Pressed to pickup. CallId: ${id.toString()}');
       pickupCall(id);
     });
   }
+
+  Function _pickupNextCall(){
+    return ((_) {
+      log.info('Pressed to pickup the next call');
+      pickupNextCall();
+    });
+  }
+
+  void _callChangeHangup(Call call){
+    ButtonElement btnHangup = query('#btn_Hangup');
+    if (call == null || call == nullCall){
+      btnHangup.disabled = true;
+    }else{
+      btnHangup.disabled = false;
+    }
+  }
+
+  void _hangupCall(_){
+    log.debug('The hangup button is pressed.');
+    //TODO Either the Json type, from Alice, for id should not be an String,
+    //      or the Bob type should not be an Int
+    hangupCall(callID: int.parse(environment.call.content['id']));
+  }
+
 
 //  //TODO All this pickup call stuff should not be here.
 //  _pickupCall(int id) {

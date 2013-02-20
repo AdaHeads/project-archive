@@ -14,6 +14,7 @@
 */
 library commands;
 
+import 'dart:async';
 import 'dart:html';
 import 'dart:json' as json;
 
@@ -29,12 +30,30 @@ import 'storage.dart';
  * If successful it then sets the environment to the call.
  */
 void pickupCall(int id){
-  log.info('commands pickupCall not implemented');
-
   log.info('Sending request to pickup ${id.toString()}');
-//  var baseUrl = configuration.aliceBaseUrl.toString();
-//  var url = "${baseUrl}/call/pickup?agent_id=${configuration.agentID}&call_id=${id}";
   var url = Protocol.pickUpCall(configuration.agentID, CallID: id.toString());
+  HttpRequest.request(url, method:'POST')
+  ..then(
+      (HttpRequest request){
+        //TODO propably
+        switch(request.status){
+          case 200:
+            _pickupCallSuccessResponse(request);
+            break;
+          case 204:
+            log.info('Asked for the call with id ${id} but got 204');
+            break;
+          default:
+            log.error('Pickup Call status code: ${request.status} - ${request.statusText} - ${request.responseText} - ${url}');
+            break;
+        }
+      }).catchError((error) =>
+          log.error('Commands PickupCall with url: ${url} got an error. ${error.toString()}'));
+}
+
+void pickupNextCall(){
+  log.info('Sending request to pickup the next call');
+  var url = Protocol.pickUpCall(configuration.agentID);
   HttpRequest.request(url, method:'POST')
   ..then(
       (HttpRequest request){
@@ -50,11 +69,7 @@ void pickupCall(int id){
             break;
         }
       }).catchError((error) =>
-          log.error('Commands PickupAll with url: ${url} got an error. ${error.toString()}'));
-}
-
-void pickupNextCall(){
-  log.error('Request for next call is not implemented.');
+          log.error('Commands PickupCall with url: ${url} got an error. ${error.toString()}'));
 }
 
 void _pickupCallSuccessResponse(HttpRequest req) {
@@ -66,4 +81,103 @@ void _pickupCallSuccessResponse(HttpRequest req) {
   var orgId = response['organization_id'];
   Storage_Organization.instance.getOrganization(orgId,(org) =>
       environment.setOrganization((org != null) ? org : environment.organization));
+}
+
+//TODO check up on the documentation. Today 20 feb 2013. did it wrongly say:
+//     POST /call/hangup[?call_id=<call_id>]
+//The call_id was not optional.
+void hangupCall({int callID}){
+  log.debug('The command hangupCall is called');
+  String url;
+  if (?callID){
+    url = Protocol.hangupCall(callID: callID);
+  }else{
+    url = Protocol.hangupCall();
+  }
+
+  HttpRequest.request(url, method:'POST')
+  ..then(
+      (HttpRequest request){
+        switch(request.status){
+          case 200:
+            log.debug('The request to hangup the call succeeded');
+            break;
+          case 204:
+            log.info('Asked for the next call but got 204');
+            break;
+          default:
+            log.error('Pickup Call status code: ${request.status} - ${request.statusText} - ${request.responseText} - ${url}');
+            break;
+        }
+      }).catchError((AsyncError e){
+        log.error('Command HangupCall with url: ${url} gave an error.');
+        var error = e.error as HttpRequestProgressEvent;
+        if (error != null) {
+          var request = error.currentTarget as HttpRequest;
+          if (request != null){
+            //TODO find a way to get the url.
+            log.critical('error with request to hangupCall: ${request.status} (${request.statusText}) ${request.responseText}');
+
+          }else{
+            log.error('error with request to hangupCall: errorType=${e.toString()}');
+          }
+
+        }else{
+          log.error('error with request to hangupCall: errorType=${e.toString()}');
+        }
+        });
+}
+
+const CONTACTID_TYPE = 1;
+const PSTN_TYPE = 2;
+const SIP_TYPE = 3;
+void originateCall(String address, int type){
+  int agentId = configuration.agentID;
+  String url;
+  switch(type){
+    case CONTACTID_TYPE:
+      url = Protocol.originateCall(agentId, cmId: int.parse(address));
+      break;
+
+    case PSTN_TYPE:
+      url = Protocol.originateCall(agentId, pstnNumber: address);
+      break;
+
+    case SIP_TYPE:
+      url = Protocol.originateCall(agentId, sip: address);
+      break;
+
+    default:
+      log.error('Invalid originate type: ${type}');
+      return;
+  }
+
+  HttpRequest.request(url, method:'POST')
+  ..then(
+      (HttpRequest request){
+        switch(request.status){
+          case 200:
+            log.debug('The request to originate a call succeeded');
+            break;
+          default:
+            log.error('Pickup Call status code: ${request.status} - ${request.statusText} - ${request.responseText} - ${url}');
+            break;
+        }
+      }).catchError((AsyncError e){
+        log.error('Command OriginateCall with url: ${url} gave an error.');
+        var error = e.error as HttpRequestProgressEvent;
+        if (error != null) {
+          var request = error.currentTarget as HttpRequest;
+          if (request != null){
+            //TODO find a way to get the url.
+            log.critical('error with request to OriginateCall: ${request.status} (${request.statusText}) ${request.responseText}');
+
+          }else{
+            log.error('error with request to OriginateCall: errorType=${e.toString()}');
+          }
+
+        }else{
+          log.error('error with request to OriginateCall: errorType=${e.toString()}');
+        }
+        });
 }

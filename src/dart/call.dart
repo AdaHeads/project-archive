@@ -18,9 +18,6 @@ part of model;
  * TODO comment, write this when the class have more to it, then a simple map.
  */
 class Call{
-  Map _json;
-  //Map get json => _json;
-
   Map _call;
   Map get content => _call;
 

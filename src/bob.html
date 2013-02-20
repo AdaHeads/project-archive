@@ -82,7 +82,18 @@
       -->
       <div id="send_message" class="window">
         <h1 id="send_message_header" class="window_header"></h1>
-        <div id="send_message_body" class="window_body"></div>
+        <div id="send_message_body" class="window_body">
+          <textarea rows="5" cols="28" id="in_send_message" placeholder="Please do not use me, i'm not implemented."></textarea>
+          <button id="btn_send_message">Send message</button><br><br>
+          <fieldset>
+            <legend>Originate Call - Not Implemented</legend>
+            Address: <input type="text" id="in_originate_address"><br>
+            <input type="radio" name="OriginateType" id="rad_originate_contactid">Contact_id<br>
+            <input type="radio" name="OriginateType" id="rad_originate_pstn">PSTN<br>
+            <input type="radio" name="OriginateType" id="rad_originate_sip" checked="true">SIP<br>
+            <button id="btn_originatecall" disabled="disabled">Make Call</button>
+          </fieldset>
+        </div>
       </div>
 
       <!--
@@ -92,6 +103,7 @@
         <h1 id="global_queue_header" class="window_header"></h1>
         <div id="global_queue_body" class="window_body">
           <button id="btn_Pickup">Pickup Next Call</button>
+          <button id="btn_Hangup" disabled="disabled">Hangup</button>
           <ol id="global_call_queue"></ol></div>
       </div>
 

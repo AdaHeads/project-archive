@@ -93,6 +93,52 @@ class Protocol{
     return _buildUrl(base, path, fragments);
   }
 
+  //TODO FiX doc or code. Doc says that call_id is optional, Alice says that it's not. 20 Feb 2013
+  /**
+   * Example: http://alice.adaheads.com:4242/call/hangup?call_id=1
+   */
+  static String hangupCall({int callID}){
+    assert(configuration.loaded);
+
+    var base = configuration.aliceBaseUrl.toString();
+    var path = '/call/hangup';
+    var fragments = new List<String>();
+
+    if (?callID && callID != null){
+      fragments.add('call_id=${callID}');
+    }
+
+    return _buildUrl(base, path, fragments);
+  }
+
+  //POST /call/originate?[agent_id=<agent_id>|cm_id=<cm_id>|pstn_number=<pstn_number>|sip=<sip_uri>]
+  /**
+   * Place a new call to an Agent, a Contact (via contact method, ), an arbitrary PSTn number or a SIP phone.
+   */
+  static String originateCall(int agentId,{ int cmId, String pstnNumber, String sip}){
+    assert(configuration.loaded);
+
+    var base = configuration.aliceBaseUrl.toString();
+    var path = '/call/originate';
+    var fragments = new List<String>();
+
+    fragments.add('agent_id=${agentId}');
+
+    if (?cmId && cmId != null){
+      fragments.add('cm_id=${cmId}');
+    }
+
+    if (?pstnNumber && pstnNumber != null){
+      fragments.add('pstn_number=${pstnNumber}');
+    }
+
+    if (?sip && sip != null && !sip.isEmpty){
+      fragments.add('sip=${sip}');
+    }
+
+    return _buildUrl(base, path, fragments);
+  }
+
   /**
    * Makes a complete url from [base], [path] and the [fragments].
    * Output: base + path + ? + fragment[0] + & + fragment[1] ...
@@ -101,7 +147,7 @@ class Protocol{
     var SB = new StringBuffer();
     var url = '${base}${path}';
 
-    if (?fragments && fragments != null){
+    if (?fragments && fragments != null && !fragments.isEmpty){
       SB.add('?${fragments.first}');
       fragments.skip(1).forEach((fragment) => SB.add('&${fragment}'));
     }

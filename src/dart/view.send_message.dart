@@ -34,7 +34,36 @@ class SendMessage {
     _viewPort = new widgets.Box(query('#send_message'),
                                 query('#send_message_body'),
                                 header: query('#send_message_header'))
-      ..header = 'Besked'
-      ..body = 'send_message';
+      ..header = 'Besked';
+
+    _registrateSubscribers();
+  }
+
+  void _registrateSubscribers(){
+    query('#btn_originatecall').onClick.listen(_originateCall);
+  }
+
+  void _originateCall(_){
+    log.debug('The button to make a call is pressed');
+    InputElement textAddress = query('#in_originate_address');
+    String address = textAddress.value;
+    log.debug('The entered address for the new call is:<${address}>');
+
+    InputElement radioContact = query('#rad_originate_contactid');
+    InputElement radioPstn = query('#rad_originate_pstn');
+    InputElement radioSip = query('#rad_originate_sip');
+
+    if(radioContact.checked){
+      originateCall(address, CONTACTID_TYPE);
+
+    }else if(radioPstn.checked){
+      originateCall(address, PSTN_TYPE);
+
+    }else if(radioSip.checked){
+      originateCall(address, SIP_TYPE);
+
+    }else{
+      log.debug('No originate type is chosen');
+    }
   }
 }
