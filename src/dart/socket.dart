@@ -81,7 +81,7 @@ class Socket{
    * Open a websocket on [url].
    */
   factory Socket(Uri url){
-    if (url.isAbsolute()) {
+    if (url.isAbsolute) {
       var socket = new Socket._internal(url.toString());
       socket._connectTicks = 1;
       _connectionManager.addConnection(socket);

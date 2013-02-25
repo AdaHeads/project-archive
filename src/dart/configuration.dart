@@ -73,7 +73,7 @@ class Configuration {
 
     // TODO Why does it have to be Absolute? couldn't it have a fragment to
     //      indicate the company, or type of user. I just find it a strange restricting.
-    assert(configUri.isAbsolute());
+    assert(configUri.isAbsolute);
 
     if(_instance == null) {
       _instance = new Configuration._internal(configUri);
