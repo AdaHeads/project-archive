@@ -25,6 +25,7 @@ import 'dart:uri';
 import 'package:logging/logging.dart';
 
 import 'configuration.dart';
+import 'protocol.dart' as protocol;
 
 /**
  * [Log] is a class to manage the logging system.
@@ -77,33 +78,26 @@ class Log{
    * Sends log message to Alice.
    */
   _serverLog(LogRecord record) {
+    var serverLogLevel = configuration.serverLogLevel;
+
     if (configuration.serverLogLevel <= record.level) {
-      var serverLogLevel = configuration.serverLogLevel;
-      Uri url = configuration.serverLogInterfaceInfo;
+      String text = '${record.sequenceNumber} ${record.message}';
 
       if (serverLogLevel > Level.INFO && serverLogLevel <= Level.SEVERE) {
-        url = configuration.serverLogInterfaceError;
+        new protocol.Log.Error(text)
+          ..onError((e) => print('CRITICAL server logging error: ${e}'))
+          ..send();
+
       }else if (serverLogLevel > Level.SEVERE) {
-        url = configuration.serverLogInterfaceCritical;
+        new protocol.Log.Critical(text)
+          ..onError((e) => print('CRITICAL server logging error: ${e}'))
+          ..send();
+
+      }else{
+        new protocol.Log.Info(text)
+          ..onError((e) => print('CRITICAL server logging error: ${e}'))
+          ..send();
       }
-
-      var req = new HttpRequest();
-      req.open('POST', url.toString());
-      req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-      req.onError.listen((_) {
-        //TODO log to DOM element
-        print('Critical: Log ${url} does not respond');
-      });
-
-      req.onLoad.listen((_) {
-        if (req.status != 204) {
-          print('Log error: ${record.message} - ${url} - ${req.status}:${req.statusText}');
-        }
-      });
-
-      var message = encodeUriComponent(record.message);
-      req.send('msg=${message}');
     }
   }
 }

@@ -26,6 +26,6 @@ import 'dart:json' as json;
 import 'configuration.dart';
 import 'logger.dart';
 import 'model.dart';
-import 'protocol.dart';
+import 'protocol.dart' as protocol;
 
 part 'storage.organization.dart';

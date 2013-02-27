@@ -17,181 +17,42 @@
  */
 library protocol;
 
+import 'dart:async';
+import 'dart:html';
+import 'dart:uri';
+
+import 'package:logging/logging.dart';
+
 import 'configuration.dart';
+import 'logger.dart';
+
+part 'protocol.call.dart';
+part 'protocol.log.dart';
+part 'protocol.organization.dart';
 
 /**
  * Class to contains all the Url.
  */
-class Protocol{
-  /**
-   * Example: http://alice.adaheads.com:4242/call/list
-   */
-  static String getCallList(){
-    assert(configuration.loaded);
+abstract class Protocol {
+  const String GET = "GET";
+  const String POST = "POST";
 
-    var base = configuration.aliceBaseUrl.toString();
-    var path = '/call/list';
+  String _url;
+  HttpRequest _request;
+  bool notSent = true;
 
-    return _buildUrl(base, path);
-  }
-
-  /**
-   * Example: http://alice.adaheads.com:4242/call/queue
-   */
-  static String getCallQueue(){
-    assert(configuration.loaded);
-
-    var base = configuration.aliceBaseUrl.toString();
-    var path = '/call/queue';
-
-    return _buildUrl(base, path);
-  }
-
-  /**
-   * Example: http://alice.adaheads.com:4242/organization?org_id=1
-   */
-  static String getOrganization(int OrganizationID){
-    assert(configuration.loaded);
-
-    var base = configuration.aliceBaseUrl.toString();
-    var path = '/organization';
-    var fragments = new List<String>();
-
-    fragments.add('org_id=${OrganizationID}');
-
-    return _buildUrl(base, path, fragments);
-  }
-
-  /**
-   * Example: http://alice.adaheads.com:4242/organization/list
-   */
-  static String getOrganizationList(){
-    assert(configuration.loaded);
-
-    var base = configuration.aliceBaseUrl.toString();
-    var path = '/organization/list';
-
-    return _buildUrl(base, path);
-  }
-
-  /**
-   * Example: http://alice.adaheads.com:4242/call/pickup?agent_id=1&call_id=1
-   */
-  static String pickUpCall(int AgentID, {String CallID}){
-    assert(configuration.loaded);
-
-    var base = configuration.aliceBaseUrl.toString();
-    var path = '/call/pickup';
-    var fragments = new List<String>();
-
-    fragments.add('agent_id=${AgentID}');
-
-    if (?CallID && CallID != null && !CallID.isEmpty){
-      fragments.add('call_id=${CallID}');
+  void send(){
+    if (notSent) {
+      _request.send();
+      notSent = false;
     }
-
-    return _buildUrl(base, path, fragments);
-  }
-
-  //TODO FiX doc or code. Doc says that call_id is optional, Alice says that it's not. 20 Feb 2013
-  /**
-   * Example: http://alice.adaheads.com:4242/call/hangup?call_id=1
-   */
-  static String hangupCall(int callID){
-    assert(configuration.loaded);
-
-    var base = configuration.aliceBaseUrl.toString();
-    var path = '/call/hangup';
-    var fragments = new List<String>();
-
-    if (callID != null){
-      fragments.add('call_id=${callID}');
-    }
-
-    return _buildUrl(base, path, fragments);
-  }
-
-  /**
-   * Place a new call to an Agent, a Contact (via contact method, ), an arbitrary PSTn number or a SIP phone.
-   *
-   * Example: http://alice.adaheads.com:4242/call/originate?agent_id=1&extension=12345678
-   */
-  static String originateCall(int agentId,{ int cmId, String pstnNumber, String sip}){
-    assert(configuration.loaded);
-
-    var base = configuration.aliceBaseUrl.toString();
-    var path = '/call/originate';
-    var fragments = new List<String>();
-
-    fragments.add('agent_id=${agentId}');
-
-    if (?cmId && cmId != null){
-      fragments.add('cm_id=${cmId}');
-    }
-
-    if (?pstnNumber && pstnNumber != null){
-      fragments.add('pstn_number=${pstnNumber}');
-    }
-
-    if (?sip && sip != null && !sip.isEmpty){
-      fragments.add('sip=${sip}');
-    }
-
-    return _buildUrl(base, path, fragments);
-  }
-
-  /**
-   * The transfer request connects the currently active call with the call specified in [sourceCallId].
-   */
-  static String transferCall(int sourceCallId){
-    assert(configuration.loaded);
-
-    var base = configuration.aliceBaseUrl.toString();
-    var path = '/call/transfer';
-    var fragments = new List<String>();
-
-    fragments.add('source=${sourceCallId}');
-
-    return _buildUrl(base, path, fragments);
-  }
-
-  //TODO check up on Documentation. CallId is not needed there.
-  /**
-   * Example: http://alice.adaheads.com:4242/call/hold
-   */
-  static String holdCall(int callId){
-    assert(configuration.loaded);
-
-    var base = configuration.aliceBaseUrl.toString();
-    var path = '/call/hold';
-    var fragments = new List<String>();
-
-    fragments.add('call_id=${callId}');
-
-    return _buildUrl(base, path,fragments);
-  }
-
-  /**
-   * Gives the state of the call with the given [callId]
-   */
-  static String stateCall(int callId){
-    assert(configuration.loaded);
-    assert(callId != null);
-
-    var base = configuration.aliceBaseUrl.toString();
-    var path = '/call/state';
-    var fragments = new List<String>();
-
-    fragments.add('call_id=${callId}');
-
-    return _buildUrl(base, path, fragments);
   }
 
   /**
    * Makes a complete url from [base], [path] and the [fragments].
    * Output: base + path + ? + fragment[0] + & + fragment[1] ...
    */
-  static String _buildUrl(String base, String path, [List<String> fragments]){
+  String _buildUrl(String base, String path, [List<String> fragments]){
     var SB = new StringBuffer();
     var url = '${base}${path}';
 
@@ -199,7 +60,11 @@ class Protocol{
       SB.write('?${fragments.first}');
       fragments.skip(1).forEach((fragment) => SB.write('&${fragment}'));
     }
-
+    log.debug('buildurl: ${url}${SB.toString()}');
     return '${url}${SB.toString()}';
+  }
+
+  String _errorLogMessage(String text){
+    return '${text} Status: [${_request.status}] URL: ${_url}';
   }
 }

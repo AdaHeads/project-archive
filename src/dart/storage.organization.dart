@@ -24,6 +24,7 @@ class Storage_Organization{
   static final Storage_Organization instance =
       new Storage_Organization._internal();
 
+  //TODO Make it possible to invalidate cached items.
   var _cache = new Map<int, Organization>();
 
   /**
@@ -32,29 +33,25 @@ class Storage_Organization{
   void getOrganization(int id, void onComplete(Organization)) {
     if (_cache.containsKey(id)) {
       onComplete(_cache[id]);
+
     }else{
       log.debug('${id} is not cached');
-      var url = Protocol.getOrganization(id);
-      HttpRequest.request(url)
-      //TODO write a better error handler.
-          ..then(_onComplete(onComplete)).catchError(errorHandler);
-    }
-  }
-
-  void errorHandler(AsyncError e) {
-    var error = e.error as HttpRequestProgressEvent;
-    if (error != null) {
-      var request = error.currentTarget as HttpRequest;
-      if (request != null){
-        //TODO find a way to get the url.
-        log.critical('error with request to fetch organization: ${request.status} (${request.statusText})');
-
-      }else{
-        log.error('error with request to fetch organization: errorType=${e.toString()}');
-      }
-
-    }else{
-      log.error('error with request to fetch organization: errorType=${e.toString()}');
+      new protocol.Organization.get(id)
+          ..onSuccess((text) {
+            var organizationJson = json.parse(text);
+            //TODO Should not read information directly from json. Read from org.
+            int id = organizationJson['organization_id'];
+            var org = new Organization(organizationJson);
+            _cache[id] = org;
+            onComplete(org);
+          })
+          ..onNotFound((){
+            //TODO Do something.
+          })
+          ..onError((){
+            //TODO Do something.
+          })
+          ..send();
     }
   }
 
@@ -62,43 +59,15 @@ class Storage_Organization{
    * Get the organization list from alice.
    */
   void getOrganizationList(void onComplete(OrganizationList organizationList)) {
-    var url = Protocol.getOrganizationList();
-    HttpRequest.request(url)
-        ..then(_onListComplete(onComplete));
-  }
-
-  _requestOnComplete _onComplete(void onComplete(Organization organization)) {
-    return (HttpRequest req) {
-      if (req.status == 200) {
-        log.debug('Storage request: ${req.responseText}');
-        var organizationJson = json.parse(req.responseText);
-        int id = organizationJson['organization_id'];
-        var org = new Organization(organizationJson);
-        _cache[id] = org;
-        onComplete(org);
-      } else if (req.status == 400) {
-        //TODO make
-        log.error('failed on :${req}');
-      } else if (req.status == 404) {
-        //TODO make it.
-        log.info('failed on :${req}');
-      } else {
-        // TODO: Proper error handling
-        log.critical('failed on :${req}');
-      }
-    };
-  }
-
-  _requestOnComplete _onListComplete(void onComplete(OrganizationList)) {
-    return (HttpRequest reg) {
-      if (reg.status == 200) {
-        var res = new OrganizationList(json.parse(reg.responseText));
-        onComplete(res);
-      }else{
-        // TODO: Proper error handling
-        log.error('failed on :${reg}');
-      }
-    };
+    new protocol.OrganizationList()
+        ..onSuccess((text) {
+          var res = new OrganizationList(json.parse(text));
+          onComplete(res);
+        })
+        ..onError(() {
+          //TODO Do something.
+        })
+        ..send();
   }
 
   Storage_Organization._internal();

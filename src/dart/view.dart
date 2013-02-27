@@ -27,7 +27,7 @@ import 'environment.dart';
 import 'logger.dart';
 import 'model.dart';
 import 'notification.dart' as notify;
-import 'protocol.dart';
+import 'protocol.dart' as protocol;
 import 'storage.dart';
 import 'widgets.dart' as widgets;
 

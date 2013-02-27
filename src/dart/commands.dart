@@ -21,7 +21,7 @@ import 'dart:json' as json;
 import 'configuration.dart';
 import 'environment.dart';
 import 'logger.dart';
-import 'protocol.dart';
+import 'protocol.dart' as protocol;
 import 'storage.dart';
 
 /**
@@ -31,52 +31,35 @@ import 'storage.dart';
  */
 void pickupCall(int id){
   log.info('Sending request to pickup ${id.toString()}');
-  var url = Protocol.pickUpCall(configuration.agentID, CallID: id.toString());
-  HttpRequest.request(url, method:'POST')
-  ..then(
-      (HttpRequest request){
-        //TODO propably
-        switch(request.status){
-          case 200:
-            _pickupCallSuccessResponse(request);
-            break;
-          case 204:
-            log.info('Asked for the call with id ${id} but got 204');
-            break;
-          default:
-            log.error('Pickup Call status code: ${request.status} - ${request.statusText} - ${request.responseText} - ${url}');
-            break;
-        }
-      }).catchError((error) =>
-          log.error('Commands PickupCall with url: ${url} got an error. ${error.toString()}'));
+  new protocol.PickupCall(configuration.agentID, callId: id.toString())
+      ..onSuccess(_pickupCallSuccess)
+      ..onNoCall((){
+        //TODO Do something
+      })
+      ..onError((){
+        //Todo Do something
+      })
+      ..send();
 }
 
 void pickupNextCall(){
   log.info('Sending request to pickup the next call');
-  var url = Protocol.pickUpCall(configuration.agentID);
-  HttpRequest.request(url, method:'POST')
-  ..then(
-      (HttpRequest request){
-        switch(request.status){
-          case 200:
-            _pickupCallSuccessResponse(request);
-            break;
-          case 204:
-            log.info('Asked for the next call but got 204');
-            break;
-          default:
-            log.error('Pickup Call status code: ${request.status} - ${request.statusText} - ${request.responseText} - ${url}');
-            break;
-        }
-      }).catchError((error) =>
-          log.error('Commands PickupCall with url: ${url} got an error. ${error.toString()}'));
+  new protocol.PickupCall(configuration.agentID)
+    ..onSuccess(_pickupCallSuccess)
+    ..onNoCall((){
+      //TODO Do Something
+    })
+    ..onError((){
+      //TODO Do Something
+    })
+    ..send();
 }
 
-void _pickupCallSuccessResponse(HttpRequest req) {
-  log.info('pickupCall:${req.responseText}');
-  var response = json.parse(req.responseText);
+void _pickupCallSuccess(String text) {
+  log.info('pickupCall:${text}');
+  var response = json.parse(text);
   if (!response.containsKey('organization_id')) {
-    log.critical('The call had no organization_id. ${req.responseText}');
+    log.critical('The call had no organization_id. ${text}');
   }
   var orgId = response['organization_id'];
   Storage_Organization.instance.getOrganization(orgId,(org) =>
@@ -86,42 +69,20 @@ void _pickupCallSuccessResponse(HttpRequest req) {
 //TODO check up on the documentation. Today 20 feb 2013. did it wrongly say:
 //     POST /call/hangup[?call_id=<call_id>]
 //The call_id was not optional.
-void hangupCall(int callID){
-  assert(callID != null);
-  log.debug('The command hangupCall is called with callid: ${callID}');
-  String url = Protocol.hangupCall(callID);
-
-  HttpRequest.request(url, method:'GET')
-  ..then(
-      (HttpRequest request){
-        switch(request.status){
-          case 200:
-            log.debug('The request to hangup the call succeeded');
-            break;
-          case 204:
-            log.info('Asked for the next call but got 204');
-            break;
-          default:
-            log.error('Pickup Call status code: ${request.status} - ${request.statusText} - ${request.responseText} - ${url}');
-            break;
-        }
-      }).catchError((AsyncError e){
-        log.error('Command HangupCall with url: ${url} gave an error.');
-        var error = e.error as HttpRequestProgressEvent;
-        if (error != null) {
-          var request = error.currentTarget as HttpRequest;
-          if (request != null){
-            //TODO find a way to get the url.
-            log.critical('error with request to hangupCall: ${request.status} (${request.statusText}) ${request.responseText}');
-
-          }else{
-            log.error('error with request to hangupCall: errorType=${e.toString()}');
-          }
-
-        }else{
-          log.error('error with request to hangupCall: errorType=${e.toString()}');
-        }
-        });
+void hangupCall(int callId){
+  log.debug('The command hangupCall is called with callid: ${callId}');
+  new protocol.HangupCall(callId:callId.toString())
+    ..onSuccess((text){
+      log.debug('Hangup call: ${callId} successed');
+    })
+    ..onNoCall((){
+      //TODO Do Something
+      log.debug('There ware no call with id: ${callId} to hangup.');
+    })
+    ..onError((){
+      //TODO Do something
+    })
+    ..send();
 }
 
 const CONTACTID_TYPE = 1;
@@ -129,18 +90,19 @@ const PSTN_TYPE = 2;
 const SIP_TYPE = 3;
 void originateCall(String address, int type){
   int agentId = configuration.agentID;
-  String url;
+  protocol.OriginateCall originateCallRequest;
+
   switch(type){
     case CONTACTID_TYPE:
-      url = Protocol.originateCall(agentId, cmId: int.parse(address));
+      originateCallRequest = new protocol.OriginateCall(agentId, cmId: int.parse(address));
       break;
 
     case PSTN_TYPE:
-      url = Protocol.originateCall(agentId, pstnNumber: address);
+      originateCallRequest = new protocol.OriginateCall(agentId, pstnNumber: address);
       break;
 
     case SIP_TYPE:
-      url = Protocol.originateCall(agentId, sip: address);
+      originateCallRequest = new protocol.OriginateCall(agentId, sip: address);
       break;
 
     default:
@@ -148,102 +110,38 @@ void originateCall(String address, int type){
       return;
   }
 
-  HttpRequest.request(url, method:'POST')
-  ..then(
-      (HttpRequest request){
-        switch(request.status){
-          case 200:
-            log.debug('The request to originate a call succeeded');
-            break;
-          default:
-            log.error('Originate Call status code: ${request.status} - ${request.statusText} - ${request.responseText} - ${url}');
-            break;
-        }
-      }).catchError((AsyncError e){
-        log.error('Command OriginateCall with url: ${url} gave an error.');
-        var error = e.error as HttpRequestProgressEvent;
-        if (error != null) {
-          var request = error.currentTarget as HttpRequest;
-          if (request != null){
-            //TODO find a way to get the url.
-            log.critical('error with request to OriginateCall: ${request.status} (${request.statusText}) ${request.responseText}');
-
-          }else{
-            log.error('error with request to OriginateCall: errorType=${e.toString()}');
-          }
-
-        }else{
-          log.error('error with request to OriginateCall: errorType=${e.toString()}');
-        }
-        });
+  originateCallRequest
+      ..onSuccess((text) {
+        //TODO Do something
+      })
+      ..onError((){
+        //TODO Do Something
+      })
+      ..send();
 }
 
 void transferCall(int callId){
-  int agentId = configuration.agentID;
-  String url = Protocol.transferCall(callId);
-
-  HttpRequest.request(url, method:'POST')
-  ..then(
-      (HttpRequest request){
-        switch(request.status){
-          case 200:
-            log.debug('The request to transfer call: ${callId} succeeded');
-            break;
-          default:
-            log.error('Transfer Call status code: ${request.status} - ${request.statusText} - ${request.responseText} - ${url}');
-            break;
-        }
-      }).catchError((AsyncError e){
-        log.error('Command transferCall with url: ${url} gave an error.');
-        var error = e.error as HttpRequestProgressEvent;
-        if (error != null) {
-          var request = error.currentTarget as HttpRequest;
-          if (request != null){
-            //TODO find a way to get the url.
-            log.critical('error with request to transferCall: ${request.status} (${request.statusText}) ${request.responseText}');
-
-          }else{
-            log.error('error with request to transferCall: errorType=${e.toString()}');
-          }
-
-        }else{
-          log.error('error with request to transferCall: errorType=${e.toString()}');
-        }
-        });
+  new protocol.TransferCall(callId)
+      ..onSuccess((text) {
+        //TODO Do Something.
+      })
+      ..onError(() {
+        //TODO Do Something.
+      })
+      ..send();
 }
 
+/**
+ * TODO comment
+ */
 void holdCall(int callId){
-  String url = Protocol.holdCall(callId);
-
-  HttpRequest.request(url, method:'POST')
-  ..then(
-      (HttpRequest request){
-        switch(request.status){
-          case 200:
-            log.debug('The request to hold call: ${callId} succeeded');
-            break;
-          case 204:
-            log.info('There is no call to hold.');
-            break;
-          default:
-            log.error('Hold Call status code: ${request.status} - ${request.statusText} - ${request.responseText} - ${url}');
-            break;
-        }
-      }).catchError((AsyncError e){
-        log.error('Command holdCall with url: ${url} gave an error.');
-        var error = e.error as HttpRequestProgressEvent;
-        if (error != null) {
-          var request = error.currentTarget as HttpRequest;
-          if (request != null){
-            //TODO find a way to get the url.
-            log.critical('error with request to holdCall: ${request.status} (${request.statusText}) ${request.responseText}');
-
-          }else{
-            log.error('error with request to holdCall: errorType=${e.toString()}');
-          }
-
-        }else{
-          log.error('error with request to holdCall: errorType=${e.toString()}');
-        }
-        });
+  new protocol.HoldCall(callId)
+    ..onSuccess((text){
+      log.debug('The request to hold call: ${callId} succeeded');
+    })
+    ..onNoCall((){
+      log.info('There is no call with id: ${callId} to hold.');
+    })
+    ..onError((){})
+    ..send();
 }

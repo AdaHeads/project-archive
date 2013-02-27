@@ -49,28 +49,21 @@ class GlobalQueue {
   }
 
   void initialFill() {
-    //var baseUrl = configuration.aliceBaseUrl.toString();
-    //var url = '${baseUrl}/call/list';
-    var url = Protocol.getCallQueue();
-    log.info('Making http request for the call queue');
-    var requestFuture = HttpRequest.request(url);
-    requestFuture.then(_onComplete,
-        onError: (error) => log.debug('initialFill ${error.runtimeType.toString()}'))
-    .catchError((error) => log.error('Calllist initialfill error: ${error.toString()}'));
-  }
-
-  void _onComplete(HttpRequest request){
-    if (request.status == 200){
-      var calls = json.parse(request.responseText);
-      log.debug('Initial filling of call queue gave ${calls['calls'].length} calls');
-      for (var call in calls['calls']) {
-        _addCall(call);
-      }
-    } else if (request.status == 204){
-      log.debug('Initial CallList fill request gave empty list');
-    } else {
-      log.debug('Initial request for filling CallQueue gave ${request.status} - ${request.statusText}');
-    }
+    new protocol.CallQueue()
+        ..onSuccess((text){
+          var calls = json.parse(text);
+          log.debug('Initial filling of call queue gave ${calls['calls'].length} calls');
+          for (var call in calls['calls']) {
+            _addCall(call);
+          }
+        })
+        ..onEmptyList((){
+          log.debug('Initial Filling of callqueue. Request returned empty.');
+        })
+        ..onError((){
+          //TODO Do Something.
+        })
+        ..send();
   }
 
   void _registrateSubscribers() {
