@@ -16,7 +16,7 @@ class PickupCall extends Protocol{
 
     fragments.add('agent_id=${AgentID}');
 
-    if (?callId && callId != null && !callId.isEmpty){
+    if (callId != null && !callId.isEmpty){
       fragments.add('call_id=${callId}');
     }
 

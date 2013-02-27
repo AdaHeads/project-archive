@@ -28,6 +28,7 @@ import 'logger.dart';
 
 part 'protocol.call.dart';
 part 'protocol.log.dart';
+part 'protocol.message.dart';
 part 'protocol.organization.dart';
 
 /**

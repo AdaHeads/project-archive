@@ -85,17 +85,17 @@ class Log{
 
       if (serverLogLevel > Level.INFO && serverLogLevel <= Level.SEVERE) {
         new protocol.Log.Error(text)
-          ..onError((e) => print('CRITICAL server logging error: ${e}'))
+          ..onError(() => print('CRITICAL server logging error'))
           ..send();
 
       }else if (serverLogLevel > Level.SEVERE) {
         new protocol.Log.Critical(text)
-          ..onError((e) => print('CRITICAL server logging error: ${e}'))
+          ..onError(() => print('CRITICAL server logging error'))
           ..send();
 
       }else{
         new protocol.Log.Info(text)
-          ..onError((e) => print('CRITICAL server logging error: ${e}'))
+          ..onError(() => print('CRITICAL server logging error'))
           ..send();
       }
     }

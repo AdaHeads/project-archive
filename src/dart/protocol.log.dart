@@ -52,13 +52,15 @@ class Log extends Protocol {
    * TODO Comment
    * TODO find better function type.
    */
-  void onError(void f(String responseText)) {
+  void onError(void f()) {
     assert(_request != null);
+    assert(notSent);
 
-    _request.onError.listen((e) => f(e.toString()));
-    _request.onLoad.listen((e){
+    _request.onError.listen((_) => f());
+
+    _request.onLoad.listen((_) {
       if (_request.status != 204){
-        f(e.toString());
+        f();
       }
     });
   }
