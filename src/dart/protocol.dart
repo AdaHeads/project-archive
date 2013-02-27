@@ -97,14 +97,14 @@ class Protocol{
   /**
    * Example: http://alice.adaheads.com:4242/call/hangup?call_id=1
    */
-  static String hangupCall({int callID}){
+  static String hangupCall(int callID){
     assert(configuration.loaded);
 
     var base = configuration.aliceBaseUrl.toString();
     var path = '/call/hangup';
     var fragments = new List<String>();
 
-    if (?callID && callID != null){
+    if (callID != null){
       fragments.add('call_id=${callID}');
     }
 
@@ -196,8 +196,8 @@ class Protocol{
     var url = '${base}${path}';
 
     if (?fragments && fragments != null && !fragments.isEmpty){
-      SB.add('?${fragments.first}');
-      fragments.skip(1).forEach((fragment) => SB.add('&${fragment}'));
+      SB.write('?${fragments.first}');
+      fragments.skip(1).forEach((fragment) => SB.write('&${fragment}'));
     }
 
     return '${url}${SB.toString()}';

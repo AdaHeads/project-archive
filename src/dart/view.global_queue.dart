@@ -147,7 +147,7 @@ class GlobalQueue {
     log.debug('The hangup button is pressed.');
     //TODO Either the Json type, from Alice, for id should not be an String,
     //      or the Bob type should not be an Int
-    hangupCall(callID: int.parse(environment.call.content['id']));
+    hangupCall(int.parse(environment.call.content['id']));
   }
 
   void _holdCall(_){

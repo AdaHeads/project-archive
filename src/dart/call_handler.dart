@@ -22,11 +22,11 @@ import 'model.dart';
 import 'notification.dart' as notify;
 
 void initializeCallHandler() {
-  notify.notification.addEventHandler('call_pickup', _callPickup);
-  notify.notification.addEventHandler('call_hangup', _callHangup);
+  notify.notification.addEventHandler('call_pickup', _callPickupEventHandler);
+  notify.notification.addEventHandler('call_hangup', _callHangupEventHandler);
 }
 
-void _callPickup(Map json) {
+void _callPickupEventHandler(Map json) {
   var call = new Call(json['call']);
   //TODO it should not be nessesary to int.parse here.
   if (int.parse(call.content['assigned_to']) == configuration.agentID) {
@@ -39,7 +39,7 @@ void _callPickup(Map json) {
   }
 }
 
-void _callHangup(Map json) {
+void _callHangupEventHandler(Map json) {
   var call = json['call'];
   //TODO We don't need no Int.parse here. Well.. Server sends it as string.
   if (environment.call != null && int.parse(call['id']) == int.parse(environment.call.content['id'])) {

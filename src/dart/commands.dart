@@ -86,18 +86,12 @@ void _pickupCallSuccessResponse(HttpRequest req) {
 //TODO check up on the documentation. Today 20 feb 2013. did it wrongly say:
 //     POST /call/hangup[?call_id=<call_id>]
 //The call_id was not optional.
-void hangupCall({int callID}){
-  log.debug('The command hangupCall is called');
-  String url;
-  if (?callID){
-    log.debug('Command hangup with callid: ${callID}');
-    url = Protocol.hangupCall(callID: callID);
-  }else{
-    log.debug('Command hangup without callid');
-    url = Protocol.hangupCall();
-  }
+void hangupCall(int callID){
+  assert(callID != null);
+  log.debug('The command hangupCall is called with callid: ${callID}');
+  String url = Protocol.hangupCall(callID);
 
-  HttpRequest.request(url, method:'POST')
+  HttpRequest.request(url, method:'GET')
   ..then(
       (HttpRequest request){
         switch(request.status){
