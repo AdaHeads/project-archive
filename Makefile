@@ -1,7 +1,7 @@
 all:
 
 ada-development: gnat xml-ada florist
-adaheads-development: ada-development gnatlib-tl aws yolk
+adaheads-development: ada-development gnatlib aws yolk
 
 
 ARCHIVE_FOLDER="tgz"
@@ -60,12 +60,11 @@ aws-git-src:
 ############
 
 gnatlib: gnatlib-svn-install
-gnatlib-tl: gnatlib-tl-install
 
-gnatlib-svn-install:
+gnatlib-svn-install: gnatlib-svn-build
 	$(SU_APPLICATION) make -C gnatlib install && touch gnatlib-svn-install
 
-gnatlib-svn-build:
+gnatlib-svn-build: gnatlib-svn
 	cd gnatlib && PATH=$(PATH):${PREFIX}/bin \
 	LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
 	./configure --prefix=${PREFIX} ${GNATCOLL_ARGS}
@@ -76,22 +75,6 @@ gnatlib-svn-build:
 gnatlib-svn:
 	@(svn co http://svn.eu.adacore.com/anonsvn/Dev/trunk/gps/gnatlib/ gnatlib || \
 	echo Checkout of GNATColl failed - maybe you do not have subversion installed?)
-
-gnatlib-tl-install: gnatlib-tl-build
-	$(SU_APPLICATION) make -C gnatlib-tl install && touch gnatlib-tl-install
-
-gnatlib-tl-build: gnatlib-tl-src
-	cd gnatlib-tl && PATH=$(PATH):${PREFIX}/bin \
-	LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
-	./configure --prefix=${PREFIX} ${GNATCOLL_ARGS}
-	make -e LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
-	        PATH=$(PATH):${PREFIX}/bin\
-	        -C gnatlib-tl && touch gnatlib-tl-build
-
-gnatlib-tl-src:
-	(test -d gnatlib-tl && (cd gnatlib-tl; git pull)) || \
-	git clone git://github.com/ThomasLocke/GNATColl.git gnatlib-tl
-
 
 ###########
 # Florist #
@@ -110,14 +93,16 @@ florist-gpl-2012-build: florist-gpl-2012-src
 	        PATH=$(PATH):${PREFIX}/bin\
 	        -C florist-gpl-2012-src && touch florist-gpl-2012-build
 
-florist-gpl-2012-src:
+florist-gpl-2012-src: tgz/florist-gpl-2012-src.tgz
 	echo Extracting ${ARCHIVE_FOLDER}/florist-gpl-2012-src.tgz ...
 	@tar xzf ${ARCHIVE_FOLDER}/florist-gpl-2012-src.tgz
 	@touch florist-gpl-2012-src
 
 tgz/florist-gpl-2012-src.tgz:
-	@echo Please download florist-gpl-2012-src.tgz from Libre.adacore.com and place it in the ./tgz folder
-
+	-mkdir tgz
+	(cd tgz && wget -H \
+	http://mirrors.cdn.adacore.com/art/47d2e0f943f4c34f5812df70c5a6c0379b7cf4fa -O \
+	florist-gpl-2012-src.tgz)
 
 ###########
 # XML-Ada #
@@ -139,17 +124,20 @@ xmlada-4.3-build: xmlada-4.3w-src
 	        PATH=$(PATH):${PREFIX}/bin\
 	        -C xmlada-4.3w-src && touch xmlada-4.3-built
 
-xmlada-4.3w-src:
+xmlada-4.3w-src: tgz/xmlada-gpl-4.3-src.tgz
 	echo Extracting ${ARCHIVE_FOLDER}/xmlada-gpl-4.3-src.tgz ...
 	@tar xzf ${ARCHIVE_FOLDER}/xmlada-gpl-4.3-src.tgz
 	@touch xmlada-4.3w-src
 
 tgz/xmlada-gpl-4.3-src.tgz:
-	@echo Please download xmlada-gpl-4.3-src.tgz from Libre.adacore.com and place it in the ./tgz folder
+	-mkdir tgz
+	(cd tgz && wget -H \
+	http://mirrors.cdn.adacore.com/art/0332ffe06bc598f0b94b3a027f30ea2be6dc5dec -O \
+	xmlada-gpl-4.3-src.tgz)
 
-#########
-# GTNAT #
-#########
+########
+# GNAT #
+########
 
 gnat: gnat-2012-x86_64-pc-linux-gnu-bin gnat-2012-install
 
@@ -163,7 +151,8 @@ gnat-2012-x86_64-pc-linux-gnu-bin: tgz/gnat-gpl-2012-x86_64-pc-linux-gnu-bin.tar
 	@touch gnat-2012-x86_64-pc-linux-gnu-bin
 
 tgz/gnat-gpl-2012-x86_64-pc-linux-gnu-bin.tar.gz:
-	@echo Please download gnat-gpl-2012-x86_64-pc-linux-gnu-bin.tar.gz from Libre.adacore.com and place it in the ./tgz folder
+	-mkdir tgz
+	cd tgz && wget -H http://mirrors.cdn.adacore.com/art/277d54e6ea00b2f55c07fbd6947239249f705d0a -O gnat-gpl-2012-x86_64-pc-linux-gnu-bin.tar.gz
 
 
 clean:
