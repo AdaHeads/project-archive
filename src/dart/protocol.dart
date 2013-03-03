@@ -26,6 +26,7 @@ import 'package:logging/logging.dart';
 import 'configuration.dart';
 import 'logger.dart';
 
+part 'protocol.agent.dart';
 part 'protocol.call.dart';
 part 'protocol.log.dart';
 part 'protocol.message.dart';
@@ -65,7 +66,12 @@ abstract class Protocol {
     return '${url}${SB.toString()}';
   }
 
-  String _errorLogMessage(String text){
-    return '${text} Status: [${_request.status}] URL: ${_url}';
+  String _errorLogMessage([String text]){
+    if (text != null){
+      return '${text} Status: [${_request.status}] URL: ${_url}';
+    }else{
+      return 'Protocol ${this.runtimeType.toString()} failed. Status: [${_request.status}] URL: ${_url}';
+    }
+
   }
 }

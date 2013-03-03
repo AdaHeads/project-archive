@@ -14,6 +14,7 @@ class PickupCall extends Protocol{
     var path = '/call/pickup';
     var fragments = new List<String>();
 
+    // TODO Check for null
     fragments.add('agent_id=${AgentID}');
 
     if (callId != null && !callId.isEmpty){
