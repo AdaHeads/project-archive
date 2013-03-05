@@ -62,6 +62,7 @@ abstract class Protocol {
       SB.write('?${fragments.first}');
       fragments.skip(1).forEach((fragment) => SB.write('&${fragment}'));
     }
+
     log.debug('buildurl: ${url}${SB.toString()}');
     return '${url}${SB.toString()}';
   }

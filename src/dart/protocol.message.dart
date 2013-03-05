@@ -15,6 +15,16 @@ class Message extends Protocol{
     var base = configuration.aliceBaseUrl.toString();
     var path = '/message/send';
 
+    if (cmId == null){
+      log.critical('Protocol.Message: cmId is null');
+      throw new Exception();
+    }
+
+    if (message == null){
+      log.critical('Protocol.Message: message is null');
+      throw new Exception();
+    }
+
     _url = _buildUrl(base, path);
     _request = new HttpRequest()
       ..open(POST, _url)
@@ -23,13 +33,13 @@ class Message extends Protocol{
     _payload = 'cm_id=${cmId}&msg=${encodeUriComponent(message)}';
   }
 
-  void onSuccess(void f(String responseText)){
+  void onSuccess(void onData(String responseText)){
     assert(_request != null);
     assert(notSent);
 
     _request.onLoad.listen((_) {
       if (_request.status == 204){
-        f(_request.responseText);
+        onData(_request.responseText);
       }
     });
   }
@@ -38,19 +48,19 @@ class Message extends Protocol{
    * TODO Comment
    * TODO find better function type.
    */
-  void onError(void f()) {
+  void onError(void onData()) {
     assert(_request != null);
     assert(notSent);
 
     _request.onError.listen((_) {
       log.critical(_errorLogMessage('Protocol Message failed.'));
-      f();
+      onData();
     });
 
     _request.onLoad.listen((_) {
       if (_request.status != 204){
         log.critical(_errorLogMessage('Protocol Message failed.'));
-        f();
+        onData();
       }
     });
   }

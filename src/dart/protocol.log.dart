@@ -30,6 +30,16 @@ class Log extends Protocol {
   _Log(String message, Uri url) {
     assert(configuration.loaded);
 
+    if (message == null){
+      log.critical('Protocol.Log: message is null');
+      throw new Exception();
+    }
+
+    if (url == null){
+      log.critical('Protocol.Log: url is null');
+      throw new Exception();
+    }
+
     _url = url.toString();
     _request = new HttpRequest()
       ..open(POST, _url)
@@ -52,15 +62,15 @@ class Log extends Protocol {
    * TODO Comment
    * TODO find better function type.
    */
-  void onError(void f()) {
+  void onError(void onData()) {
     assert(_request != null);
     assert(notSent);
 
-    _request.onError.listen((_) => f());
+    _request.onError.listen((_) => onData());
 
     _request.onLoad.listen((_) {
       if (_request.status != 204){
-        f();
+        onData();
       }
     });
   }

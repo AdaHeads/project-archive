@@ -7,15 +7,19 @@ class PickupCall extends Protocol{
   /**
    * TODO comment
    */
-  PickupCall(int AgentID, {String callId}){
+  PickupCall(int AgentId, {String callId}){
     assert(configuration.loaded);
 
     var base = configuration.aliceBaseUrl.toString();
     var path = '/call/pickup';
     var fragments = new List<String>();
 
-    // TODO Check for null
-    fragments.add('agent_id=${AgentID}');
+    if (AgentId == null){
+      log.critical('Protocol.PickupCall: AgentId is null');
+      throw new Exception();
+    }
+
+    fragments.add('agent_id=${AgentId}');
 
     if (callId != null && !callId.isEmpty){
       fragments.add('call_id=${callId}');
@@ -29,13 +33,13 @@ class PickupCall extends Protocol{
   /**
    * TODO comment
    */
-  void onSuccess(void f(String responseText)){
+  void onSuccess(void onData(String responseText)){
     assert(_request != null);
     assert(notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 200){
-        f(_request.responseText);
+        onData(_request.responseText);
       }
     });
   }
@@ -43,13 +47,13 @@ class PickupCall extends Protocol{
   /**
    * TODO comment
    */
-  void onNoCall(void f()){
+  void onNoCall(void onData()){
     assert(_request != null);
     assert(notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 204){
-        f();
+        onData();
       }
     });
   }
@@ -57,19 +61,19 @@ class PickupCall extends Protocol{
   /**
    * TODO comment
    */
-  void onError(void f()) {
+  void onError(void onData()) {
     assert(_request != null);
     assert(notSent);
 
     _request.onError.listen((_) {
       log.critical(_errorLogMessage('Protocol pickupCall failed.'));
-      f();
+      onData();
     });
 
     _request.onLoad.listen((_) {
       if (_request.status != 200 && _request.status != 204){
         log.critical(_errorLogMessage('Protocol pickupCall failed.'));
-        f();
+        onData();
       }
     });
   }
@@ -102,13 +106,13 @@ class HangupCall extends Protocol{
   /**
    * TODO comment
    */
-  void onSuccess(void f(String responseText)){
+  void onSuccess(void onData(String responseText)){
     assert(_request != null);
     assert(notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 200){
-        f(_request.responseText);
+        onData(_request.responseText);
       }
     });
   }
@@ -116,13 +120,13 @@ class HangupCall extends Protocol{
   /**
    * TODO comment
    */
-  void onNoCall(void f()){
+  void onNoCall(void onData()){
     assert(_request != null);
     assert(notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 404){
-        f();
+        onData();
       }
     });
   }
@@ -130,19 +134,19 @@ class HangupCall extends Protocol{
   /**
    * TODO comment
    */
-  void onError(void f()) {
+  void onError(void onData()) {
     assert(_request != null);
     assert(notSent);
 
     _request.onError.listen((_) {
       log.critical(_errorLogMessage('Protocol HangupCall failed.'));
-      f();
+      onData();
     });
 
     _request.onLoad.listen((_) {
       if (_request.status != 200 && _request.status != 404){
         log.critical(_errorLogMessage('Protocol HangupCall failed.'));
-        f();
+        onData();
       }
     });
   }
@@ -163,9 +167,12 @@ class HoldCall extends Protocol{
     var path = '/call/hold';
     var fragments = new List<String>();
 
-    if (callId != null){
-      fragments.add('call_id=${callId}');
+    if (callId == null){
+      log.critical('Protocol.HoldCall: callId is null');
+      throw new Exception();
     }
+
+    fragments.add('call_id=${callId}');
 
     _url = _buildUrl(base, path, fragments);
     _request = new HttpRequest()
@@ -175,13 +182,13 @@ class HoldCall extends Protocol{
   /**
    * TODO comment
    */
-  void onSuccess(void f(String responseText)){
+  void onSuccess(void onData(String responseText)){
     assert(_request != null);
     assert(notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 200){
-        f(_request.responseText);
+        onData(_request.responseText);
       }
     });
   }
@@ -189,13 +196,13 @@ class HoldCall extends Protocol{
   /**
    * TODO comment
    */
-  void onNoCall(void f()){
+  void onNoCall(void onData()){
     assert(_request != null);
     assert(notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 400){
-        f();
+        onData();
       }
     });
   }
@@ -203,19 +210,19 @@ class HoldCall extends Protocol{
   /**
    * TODO comment
    */
-  void onError(void f()) {
+  void onError(void onData()) {
     assert(_request != null);
     assert(notSent);
 
     _request.onError.listen((_) {
       log.critical(_errorLogMessage('Protocol HoldCall failed.'));
-      f();
+      onData();
     });
 
     _request.onLoad.listen((_) {
       if (_request.status != 200 && _request.status != 400){
         log.critical(_errorLogMessage('Protocol HoldCall failed.'));
-        f();
+        onData();
       }
     });
   }
@@ -234,39 +241,41 @@ class TransferCall extends Protocol{
     var path = '/call/transfer';
     var fragments = new List<String>();
 
-    if (callId != null){
-      fragments.add('source=${callId}');
+    if (callId == null){
+      log.critical('Protocol.TransferCall: callId is null');
     }
+
+    fragments.add('source=${callId}');
 
     _url = _buildUrl(base, path, fragments);
     _request = new HttpRequest()
         ..open(GET, _url);
   }
 
-  void onSuccess(void f(String Text)){
+  void onSuccess(void onData(String Text)){
     assert(_request != null);
     assert(notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 200){
-        f(_request.responseText);
+        onData(_request.responseText);
       }
     });
   }
 
-  void onError(void f()){
+  void onError(void onData()){
     assert(_request != null);
     assert(notSent);
 
     _request.onError.listen((_) {
       log.critical(_errorLogMessage('Protocol TransferCall failed.'));
-      f();
+      onData();
     });
 
     _request.onLoad.listen((_) {
       if (_request.status != 200){
         log.critical(_errorLogMessage('Protocol TransferCall failed.'));
-        f();
+        onData();
       }
     });
   }
@@ -293,13 +302,13 @@ class CallQueue extends Protocol{
   /**
    * TODO Comment
    */
-  void onSuccess(void f(String Text)){
+  void onSuccess(void onData(String Text)){
     assert(_request != null);
     assert(notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 200){
-        f(_request.responseText);
+        onData(_request.responseText);
       }
     });
   }
@@ -307,13 +316,13 @@ class CallQueue extends Protocol{
   /**
    * TODO Comment
    */
-  void onEmptyList(void f()){
+  void onEmptyList(void onData()){
     assert(_request != null);
     assert(notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 204){
-        f();
+        onData();
       }
     });
   }
@@ -321,19 +330,19 @@ class CallQueue extends Protocol{
   /**
    * TODO Comment
    */
-  void onError(void f()){
+  void onError(void onData()){
     assert(_request != null);
     assert(notSent);
 
     _request.onError.listen((_) {
       log.critical(_errorLogMessage('Protocol CallQueue failed.'));
-      f();
+      onData();
     });
 
     _request.onLoad.listen((_) {
       if (_request.status != 200 && _request.status != 204){
         log.critical(_errorLogMessage('Protocol CallQueue failed.'));
-        f();
+        onData();
       }
     });
   }
@@ -360,13 +369,13 @@ class CallList extends Protocol{
   /**
    * TODO Comment
    */
-  void onSuccess(void f(String Text)){
+  void onSuccess(void onData(String Text)){
     assert(_request != null);
     assert(notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 200){
-        f(_request.responseText);
+        onData(_request.responseText);
       }
     });
   }
@@ -374,13 +383,13 @@ class CallList extends Protocol{
   /**
    * TODO Comment
    */
-  void onEmptyList(void f()){
+  void onEmptyList(void onData()){
     assert(_request != null);
     assert(notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 204){
-        f();
+        onData();
       }
     });
   }
@@ -388,19 +397,19 @@ class CallList extends Protocol{
   /**
    * TODO Comment
    */
-  void onError(void f()){
+  void onError(void onData()){
     assert(_request != null);
     assert(notSent);
 
     _request.onError.listen((_) {
       log.critical(_errorLogMessage('Protocol CallList failed.'));
-      f();
+      onData();
     });
 
     _request.onLoad.listen((_) {
       if (_request.status != 200 && _request.status != 204){
         log.critical(_errorLogMessage('Protocol CallList failed.'));
-        f();
+        onData();
       }
     });
   }
@@ -421,39 +430,42 @@ class StatusCall extends Protocol{
     var path = '/call/state';
     var fragments = new List<String>();
 
-    if (callId != null){
-      fragments.add('call_id=${callId}');
+    if (callId == null){
+      log.critical('Protocol.StatusCall: callId is null');
+      throw new Exception();
     }
+
+    fragments.add('call_id=${callId}');
 
     _url = _buildUrl(base, path, fragments);
     _request = new HttpRequest()
         ..open(GET, _url);
   }
 
-  void onSuccess(void f(String Text)){
+  void onSuccess(void onData(String Text)){
     assert(_request != null);
     assert(notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 200){
-        f(_request.responseText);
+        onData(_request.responseText);
       }
     });
   }
 
-  void onError(void f()){
+  void onError(void onData()){
     assert(_request != null);
     assert(notSent);
 
     _request.onError.listen((_) {
       log.critical(_errorLogMessage('Protocol StatusCall failed.'));
-      f();
+      onData();
     });
 
     _request.onLoad.listen((_) {
       if (_request.status != 200){
         log.critical(_errorLogMessage('Protocol StatusCall failed.'));
-        f();
+        onData();
       }
     });
   }
@@ -472,6 +484,11 @@ class OriginateCall extends Protocol{
     var base = configuration.aliceBaseUrl.toString();
     var path = '/call/originate';
     var fragments = new List<String>();
+
+    if (agentId == null){
+      log.critical('Protocol.OriginateCall: agentId is null');
+      throw new Exception();
+    }
 
     fragments.add('agent_id=${agentId}');
 
@@ -492,30 +509,30 @@ class OriginateCall extends Protocol{
         ..open(POST, _url);
   }
 
-  void onSuccess(void f(String Text)){
+  void onSuccess(void onData(String Text)){
     assert(_request != null);
     assert(notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 200){
-        f(_request.responseText);
+        onData(_request.responseText);
       }
     });
   }
 
-  void onError(void f()){
+  void onError(void onData()){
     assert(_request != null);
     assert(notSent);
 
     _request.onError.listen((_) {
       log.critical(_errorLogMessage('Protocol OriginateCall failed.'));
-      f();
+      onData();
     });
 
     _request.onLoad.listen((_) {
       if (_request.status != 200){
         log.critical(_errorLogMessage('Protocol OriginateCall failed.'));
-        f();
+        onData();
       }
     });
   }
