@@ -35,7 +35,7 @@ class PickupCall extends Protocol{
    */
   void onSuccess(void onData(String responseText)){
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 200){
@@ -49,7 +49,7 @@ class PickupCall extends Protocol{
    */
   void onNoCall(void onData()){
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 204){
@@ -63,7 +63,7 @@ class PickupCall extends Protocol{
    */
   void onError(void onData()) {
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onError.listen((_) {
       log.critical(_errorLogMessage('Protocol pickupCall failed.'));
@@ -108,7 +108,7 @@ class HangupCall extends Protocol{
    */
   void onSuccess(void onData(String responseText)){
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 200){
@@ -122,7 +122,7 @@ class HangupCall extends Protocol{
    */
   void onNoCall(void onData()){
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 404){
@@ -136,7 +136,7 @@ class HangupCall extends Protocol{
    */
   void onError(void onData()) {
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onError.listen((_) {
       log.critical(_errorLogMessage('Protocol HangupCall failed.'));
@@ -184,7 +184,7 @@ class HoldCall extends Protocol{
    */
   void onSuccess(void onData(String responseText)){
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 200){
@@ -198,7 +198,7 @@ class HoldCall extends Protocol{
    */
   void onNoCall(void onData()){
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 400){
@@ -212,7 +212,7 @@ class HoldCall extends Protocol{
    */
   void onError(void onData()) {
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onError.listen((_) {
       log.critical(_errorLogMessage('Protocol HoldCall failed.'));
@@ -252,9 +252,12 @@ class TransferCall extends Protocol{
         ..open(GET, _url);
   }
 
+  /**
+   * TODO Comment
+   */
   void onSuccess(void onData(String Text)){
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 200){
@@ -263,9 +266,12 @@ class TransferCall extends Protocol{
     });
   }
 
+  /**
+   * TODO Comment
+   */
   void onError(void onData()){
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onError.listen((_) {
       log.critical(_errorLogMessage('Protocol TransferCall failed.'));
@@ -304,7 +310,7 @@ class CallQueue extends Protocol{
    */
   void onSuccess(void onData(String Text)){
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 200){
@@ -318,7 +324,7 @@ class CallQueue extends Protocol{
    */
   void onEmptyList(void onData()){
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 204){
@@ -332,7 +338,7 @@ class CallQueue extends Protocol{
    */
   void onError(void onData()){
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onError.listen((_) {
       log.critical(_errorLogMessage('Protocol CallQueue failed.'));
@@ -371,7 +377,7 @@ class CallList extends Protocol{
    */
   void onSuccess(void onData(String Text)){
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 200){
@@ -385,7 +391,7 @@ class CallList extends Protocol{
    */
   void onEmptyList(void onData()){
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 204){
@@ -399,7 +405,7 @@ class CallList extends Protocol{
    */
   void onError(void onData()){
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onError.listen((_) {
       log.critical(_errorLogMessage('Protocol CallList failed.'));
@@ -442,9 +448,12 @@ class StatusCall extends Protocol{
         ..open(GET, _url);
   }
 
+  /**
+   * TODO Comment
+   */
   void onSuccess(void onData(String Text)){
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 200){
@@ -453,9 +462,12 @@ class StatusCall extends Protocol{
     });
   }
 
+  /**
+   * TODO Comment
+   */
   void onError(void onData()){
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onError.listen((_) {
       log.critical(_errorLogMessage('Protocol StatusCall failed.'));
@@ -478,6 +490,9 @@ class StatusCall extends Protocol{
  * TODO Comment
  */
 class OriginateCall extends Protocol{
+  /**
+   * TODO Comment
+   */
   OriginateCall(int agentId,{ int cmId, String pstnNumber, String sip}){
     assert(configuration.loaded);
 
@@ -509,9 +524,12 @@ class OriginateCall extends Protocol{
         ..open(POST, _url);
   }
 
+  /**
+   * TODO Comment
+   */
   void onSuccess(void onData(String Text)){
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 200){
@@ -520,9 +538,12 @@ class OriginateCall extends Protocol{
     });
   }
 
+  /**
+   * TODO Comment
+   */
   void onError(void onData()){
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onError.listen((_) {
       log.critical(_errorLogMessage('Protocol OriginateCall failed.'));

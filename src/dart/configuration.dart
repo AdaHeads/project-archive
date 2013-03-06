@@ -197,18 +197,18 @@ Future<bool> fetchConfig() {
   if (configuration.loaded) {
     completer.complete(true);
   } else {
-    const REPEAT_TIME_IN_MILISECONDS = 5;
-    const MAX_WAIT = 3000;
+    final Duration repeatTime = new Duration(milliseconds: 5);
+    final Duration maxWait = new Duration(milliseconds: 3000);
     var count = 0;
 
-    new Timer.repeating(REPEAT_TIME_IN_MILISECONDS, (timer) {
+    new Timer.repeating(repeatTime, (timer) {
       count += 1;
       if (configuration.loaded) {
         timer.cancel();
         completer.complete(true);
       }
 
-      if (count >= MAX_WAIT/REPEAT_TIME_IN_MILISECONDS) {
+      if (count >= maxWait.inMilliseconds/repeatTime.inMilliseconds) {
        timer.cancel();
        completer.completeError(
            new TimeoutException("Could not fetch configuration."));

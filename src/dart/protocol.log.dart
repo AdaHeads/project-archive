@@ -51,10 +51,11 @@ class Log extends Protocol {
   /**
    * TODO Comment
    */
+  @override
   void send() {
-    if (notSent) {
+    if (_notSent) {
       _request.send(_payload);
-      notSent = false;
+      _notSent = false;
     }
   }
 
@@ -64,7 +65,7 @@ class Log extends Protocol {
    */
   void onError(void onData()) {
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onError.listen((_) => onData());
 

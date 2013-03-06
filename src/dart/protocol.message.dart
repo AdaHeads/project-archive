@@ -35,7 +35,7 @@ class Message extends Protocol{
 
   void onSuccess(void onData(String responseText)){
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onLoad.listen((_) {
       if (_request.status == 204){
@@ -50,7 +50,7 @@ class Message extends Protocol{
    */
   void onError(void onData()) {
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onError.listen((_) {
       log.critical(_errorLogMessage('Protocol Message failed.'));
@@ -68,10 +68,11 @@ class Message extends Protocol{
   /**
    * TODO Comment
    */
+  @override
   void send() {
-    if (notSent) {
+    if (_notSent) {
       _request.send(_payload);
-      notSent = false;
+      _notSent = false;
     }
   }
 }

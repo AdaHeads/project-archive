@@ -85,9 +85,18 @@ class Environment{
     //dispatch the new call.
     callStream.sink.add(call);
   }
+
+  static Environment _instance;
+
+  factory Environment() {
+    if(_instance == null) {
+      _instance = new Environment._internal();
+    }
+    return _instance;
+  }
 }
 
 /**
  * Singleton pattern. Reference to the one and only object.
  */
-final environment = new Environment._internal();
+final Environment environment = new Environment();

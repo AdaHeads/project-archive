@@ -22,6 +22,7 @@ import 'dart:html';
 import 'dart:uri';
 
 import 'package:logging/logging.dart';
+import 'package:meta/meta.dart';
 
 import 'configuration.dart';
 import 'logger.dart';
@@ -33,7 +34,8 @@ part 'protocol.message.dart';
 part 'protocol.organization.dart';
 
 /**
- * Class to contains all the Url.
+ * Class to contains the basics about a Protocol element,
+ *  like [_url], and the HttpRequest [_request].
  */
 abstract class Protocol {
   const String GET = "GET";
@@ -41,12 +43,12 @@ abstract class Protocol {
 
   String _url;
   HttpRequest _request;
-  bool notSent = true;
+  bool _notSent = true;
 
   void send(){
-    if (notSent) {
+    if (_notSent) {
       _request.send();
-      notSent = false;
+      _notSent = false;
     }
   }
 

@@ -24,13 +24,13 @@ class Organization extends Protocol {
   /**
    * TODO Comment
    */
-  void onSuccess(void f(String responseText)) {
+  void onSuccess(void onData(String responseText)) {
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onLoad.listen((_) {
       if (_request.status == 200) {
-        f(_request.responseText);
+        onData(_request.responseText);
       }
     });
   }
@@ -38,14 +38,14 @@ class Organization extends Protocol {
   /**
    * TODO Comment
    */
-  void onNotFound(void callback()) {
+  void onNotFound(void onData()) {
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onLoad.listen((_) {
       if (_request.status == 404) {
         log.error('Protocol Organization. Status: [${_request.status}] URL: ${_url}');
-        callback();
+        onData();
       }
     });
   }
@@ -54,24 +54,27 @@ class Organization extends Protocol {
    * TODO Comment
    * TODO find better function type.
    */
-  void onError(void f()) {
+  void onError(void onData()) {
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onError.listen((e){
       log.critical('Protocol Organization failed. Status: [${_request.status}] URL: ${_url}');
-      f();
+      onData();
     });
 
     _request.onLoad.listen((e){
       if (_request.status != 200 && _request.status != 404) {
         log.critical('Protocol Organization failed. Status: [${_request.status}] URL: ${_url}');
-        f();
+        onData();
       }
     });
   }
 }
 
+/**
+ * TODO Comment
+ */
 class OrganizationList extends Protocol {
   static const String MINI = 'mini';
   static const String MIDI = 'midi';
@@ -96,13 +99,13 @@ class OrganizationList extends Protocol {
   /**
    * TODO Comment
    */
-  void onSuccess(void f(String responseText)) {
+  void onSuccess(void onData(String responseText)) {
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onLoad.listen((_) {
       if (_request.status == 200) {
-        f(_request.responseText);
+        onData(_request.responseText);
       }
     });
   }
@@ -111,19 +114,19 @@ class OrganizationList extends Protocol {
    * TODO Comment
    * TODO find better function type.
    */
-  void onError(void f()) {
+  void onError(void onData()) {
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onError.listen((e){
       log.critical('Protocol Organization failed. Status: [${_request.status}] URL: ${_url}');
-      f();
+      onData();
     });
 
     _request.onLoad.listen((e){
       if (_request.status != 200) {
         log.critical('Protocol Organization failed. Status: [${_request.status}] URL: ${_url}');
-        f();
+        onData();
       }
     });
   }

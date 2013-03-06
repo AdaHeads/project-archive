@@ -5,3 +5,4 @@ dependencies:
   json_object: any
   browser: any
   logging: any
+  meta: any

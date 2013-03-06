@@ -76,7 +76,8 @@ class Box {
   void fadeOut() {
     _div.classes.remove('fadein');
     _div.classes.add('fadeout');
-    var timer = new Timer(300, (t) => hide()); // A bit of hack I admit. :D
+    Duration interval = new Duration(milliseconds: 300);
+    var timer = new Timer(interval, () => hide()); // A bit of hack I admit. :D
   }
 
   /**

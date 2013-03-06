@@ -21,6 +21,9 @@ class Call{
   Map _call;
   Map get content => _call;
 
+  /**
+   * TODO comment
+   */
   Call(Map json) {
     _call = json;
   }
@@ -29,5 +32,5 @@ class Call{
     _call = null;
   }
 }
-Call nullCall = new Call._null();
 
+final Call nullCall = new Call._null();

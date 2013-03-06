@@ -60,7 +60,7 @@ class AgentState extends Protocol{
    */
   void onSuccess(void onData(String response)){
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onLoad.listen((_){
       if (_request.status == 200){
@@ -74,7 +74,7 @@ class AgentState extends Protocol{
    */
   void onError(void onData()){
     assert(_request != null);
-    assert(notSent);
+    assert(_notSent);
 
     _request.onError.listen((_) {
       log.critical(_errorLogMessage('Protocol AgentState failed.'));

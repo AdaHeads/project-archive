@@ -51,5 +51,24 @@ void main() {
 
     initializeCallHandler();
 
+    window.onKeyDown.listen((KeyboardEvent event){
+      var key = new KeyEvent(event);
+      log.info('Location ${key.keyLocation} - Detail ${key.detail}');
+      log.info('KeyDown Charcode: ${key.keyCode} - ctrl: ${key.ctrlKey} - alt: ${key.altKey} - shift: ${key.shiftKey}');
+      });
+
+    window.onKeyPress.listen((KeyboardEvent event) {
+      var key = new KeyEvent(event);
+      log.info('PRESS Charcode: ${key.keyCode} - ctrl: ${key.ctrlKey} - alt: ${key.altKey} - shift: ${key.shiftKey}');
+      //print('.');
+    });
+
+    window.onKeyUp.listen((KeyboardEvent event) {
+      var key = new KeyEvent(event);
+      log.info('KeyUP Charcode: ${key.keyCode} - ctrl: ${key.ctrlKey} - alt: ${key.altKey} - shift: ${key.shiftKey}');
+      //print('.');
+    });
+
   }).catchError((error) => log.critical('Bob main exception: ${error.toString()}'));
+
 }
