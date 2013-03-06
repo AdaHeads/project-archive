@@ -75,4 +75,8 @@ class CompanyInfo {
     _companyInfo_dump.text = json.toString();
     _viewPort.header = json['full_name'];
   }
+
+  void focusSelector(){
+    _companySelector.element.focus();
+  }
 }

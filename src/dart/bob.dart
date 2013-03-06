@@ -24,6 +24,7 @@ import 'call_handler.dart';
 import 'common.dart';
 import 'configuration.dart';
 import 'environment.dart';
+import 'keyboardhandler.dart';
 import 'logger.dart';
 import 'storage.dart';
 import 'view.dart';
@@ -51,23 +52,9 @@ void main() {
 
     initializeCallHandler();
 
-    window.onKeyDown.listen((KeyboardEvent event){
-      var key = new KeyEvent(event);
-      log.info('Location ${key.keyLocation} - Detail ${key.detail}');
-      log.info('KeyDown Charcode: ${key.keyCode} - ctrl: ${key.ctrlKey} - alt: ${key.altKey} - shift: ${key.shiftKey}');
-      });
-
-    window.onKeyPress.listen((KeyboardEvent event) {
-      var key = new KeyEvent(event);
-      log.info('PRESS Charcode: ${key.keyCode} - ctrl: ${key.ctrlKey} - alt: ${key.altKey} - shift: ${key.shiftKey}');
-      //print('.');
-    });
-
-    window.onKeyUp.listen((KeyboardEvent event) {
-      var key = new KeyEvent(event);
-      log.info('KeyUP Charcode: ${key.keyCode} - ctrl: ${key.ctrlKey} - alt: ${key.altKey} - shift: ${key.shiftKey}');
-      //print('.');
-    });
+    //TODO Remove. Only for testing 6. marts
+    keyboardhandler.global[Keyboardhandler.V] = () => companyInfo.focusSelector();
+    keyboardhandler.global[Keyboardhandler.B] = () => query('#in_send_message').focus();
 
   }).catchError((error) => log.critical('Bob main exception: ${error.toString()}'));
 

@@ -20,6 +20,7 @@ library Common;
 import 'model.dart';
 
 typedef void Subscriber(Map json);
+typedef void Callback();
 typedef void OrganizationSubscriber (Organization organization);
 typedef void CallSubscriber (Call call);
 
