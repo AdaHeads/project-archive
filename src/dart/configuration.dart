@@ -33,7 +33,7 @@ import 'logger.dart';
  */
 class Configuration {
   static Configuration _instance;
-  static const String CONFIGURATION_URL = 'http://alice.adaheads.com:4242/configuration';
+  static const String CONFIGURATION_URL = 'https://alice.adaheads.com:4242/configuration';
 
   bool _loaded = false;
   bool get loaded => _loaded;
