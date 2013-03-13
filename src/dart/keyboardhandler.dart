@@ -99,7 +99,7 @@ class Keyboardhandler{
           callback();
 
         }else if(global.containsKey(keyCode)) {
-          log.debug('${key.keyCode} LEEEEEEEERRROOOYYY JEEEEEENNNKIIIIIINS!!!');
+          log.debug('Global Keyboard ${key.keyCode}');
           _locked = keyCode;
           Callback callback = global[keyCode];
           callback();
