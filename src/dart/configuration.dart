@@ -33,7 +33,7 @@ import 'logger.dart';
  */
 class Configuration {
   static Configuration _instance;
-  static const String CONFIGURATION_URL = 'https://alice.adaheads.com:4242/configuration';
+  static const String _CONFIGURATION_URL = 'http://alice.adaheads.com:4242/configuration';
 
   bool _loaded = false;
   bool get loaded => _loaded;
@@ -69,7 +69,7 @@ class Configuration {
    * Factory for the Configuration singleton.
    */
   factory Configuration() {
-    var configUri = new Uri(CONFIGURATION_URL);
+    var configUri = new Uri(_CONFIGURATION_URL);
 
     // TODO Why does it have to be Absolute? couldn't it have a fragment to
     //      indicate the company, or type of user. I just find it a strange restricting.
