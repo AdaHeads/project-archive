@@ -201,7 +201,7 @@ Future<bool> fetchConfig() {
     final Duration maxWait = new Duration(milliseconds: 3000);
     var count = 0;
 
-    new Timer.repeating(repeatTime, (timer) {
+    new Timer.periodic(repeatTime, (timer) {
       count += 1;
       if (configuration.loaded) {
         timer.cancel();

@@ -36,7 +36,7 @@ class _ConnectionManager{
   void addConnection(Socket socket) => connections.add(socket);
 
   _ConnectionManager(Duration reconnectInterval) {
-    new Timer.repeating(reconnectInterval,(timer) {
+    new Timer.periodic  (reconnectInterval,(timer) {
       for (var connection in connections) {
         if (connection.dead){
 
