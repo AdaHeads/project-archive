@@ -1,18 +1,9 @@
 # Do not track build objects.
-build*/*
-!build*/.gitignore
+build_production/
+build_debug/
 
-# Do not track the .ini and json files in exe/configuration
-exe/configuration/*.ini
-exe/configuration/*.json
-
-# Do not track pid files and the alice executable in exe/
-exe/alice
-exe/*.pid
-
-# Do not track alice session data
-exe/session/*
-!exe/session/.gitignore
+# Do not track built executables
+exe/
 
 # Do not track emacs temporary and backup files
 \#*#
@@ -24,9 +15,5 @@ exe/session/*
 # Do not track Vi(m) temporary files
 .*.swp
 
-# Local files @krc
-TODO
-
-# www content
-exe/www/*
-!exe/www/.gitignore
+# Do not track Jacobs merge script
+test_and_push_to_master
