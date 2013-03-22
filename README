@@ -29,7 +29,7 @@ excellent starting point.
 
 [1] XMLAda
     http://libre.adacore.com/tools/xmlada/
-    SVN: svn checkout ...://github.com/ThomasLocke/yolk.git
+    SVN: svn checkout http://svn.eu.adacore.com/anonsvn/Dev/trunk/xmlada/
 
 [2] Ada 2012 Reference Manual
     http://ada-auth.org/arm.html
