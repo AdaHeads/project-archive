@@ -24,7 +24,7 @@ package body Receptions.Branch is
    end Action;
 
    function Applicable (Item : in     Instance;
-                        Call : in     Call_ID)
+                        Call : in     PBX_Interface.Call'Class)
      return Boolean is
    begin
       for Condition of Item.Conditions loop

@@ -36,7 +36,7 @@ package body Receptions.Conditions.Inverse is
 
    overriding
    function True (Item : in Instance;
-                  Call : in Call_ID) return Boolean is
+                  Call : in PBX_Interface.Call'Class) return Boolean is
    begin
       return not Element (Item.Condition).True (Call);
    exception

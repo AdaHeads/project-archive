@@ -19,7 +19,7 @@ with Ada.Exceptions;
 
 package body Receptions.Decision_Tree is
    function Branch (Item : in     Instance;
-                    Call : in     Call_ID) return String is
+                    Call : in     PBX_Interface.Call'Class) return String is
    begin
       for Branch of Item.Branches loop
          if Branch.Applicable (Call) then

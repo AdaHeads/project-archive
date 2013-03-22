@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------------
 --                                                                           --
---                     Copyright (C) 2012-, AdaHeads K/S                     --
+--                      Copyright (C) 2013-, AdaHeads K/S                    --
 --                                                                           --
 --  This is free software;  you can redistribute it and/or modify it         --
 --  under terms of the  GNU General Public License  as published by the      --
@@ -15,31 +15,11 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with
-  Ada.Command_Line,
-  Ada.Text_IO;
-with
-  SIGHUP.Demonstration_Handlers;
+with Ada.Exceptions;
 
-procedure SIGHUP.Test is
-begin
-   Ada.Text_IO.Put_Line ("Waiting 4 seconds.");
-   delay 4.0;
-   Ada.Text_IO.Put_Line ("Stopping the SIGHUP handlers.");
-   SIGHUP.Stop;
-
-   if SIGHUP.Demonstration_Handlers.Called then
-      Ada.Text_IO.Put_Line ("At least one of the demonstration handlers were called.");
-   else
-      Ada.Text_IO.Put_Line ("None of the demonstration handlers were called.");
-   end if;
-
-   if Ada.Command_Line.Argument_Count = 2 or else
-        SIGHUP.Demonstration_Handlers.Called then
-      Ada.Command_Line.Set_Exit_Status (Ada.Command_Line.Success);
-   else
-      Ada.Command_Line.Set_Exit_Status (Ada.Command_Line.Failure);
-   end if;
-
-   Ada.Text_IO.Put_Line ("Test done.");
-end SIGHUP.Test;
+package Receptions.Messages.Critical is
+   procedure Exception_Raised
+     (Information : in     Ada.Exceptions.Exception_Occurrence;
+      Source      : in     String);
+   procedure No_Calendar_Database;
+end Receptions.Messages.Critical;

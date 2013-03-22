@@ -17,14 +17,14 @@
 
 with DOM.Core.Nodes;
 
-with System_Message.Debug;
+with Receptions.Messages.Debug;
 
 package body DOM.Support is
    function Attribute (Element : in     DOM.Core.Node;
                        Name    : in     String) return String is
       use DOM.Core, DOM.Core.Nodes;
    begin
-      System_Message.Debug.Looking_For_XML_Attribute (Message => Name);
+      Receptions.Messages.Debug.Looking_For_XML_Attribute (Name => Name);
 
       if Element = null then
          raise Constraint_Error with "No element.";
@@ -47,7 +47,7 @@ package body DOM.Support is
                     Name    : in     String) is
       use DOM.Core, DOM.Core.Nodes;
    begin
-      System_Message.Debug.Looking_For_XML_Element (Message => Name);
+      Receptions.Messages.Debug.Looking_For_XML_Element (Name => Name);
 
       if Element = null then
          raise Constraint_Error with "No element.";
@@ -62,7 +62,7 @@ package body DOM.Support is
                          Name    : in     String) is
       use DOM.Core, DOM.Core.Nodes;
    begin
-      System_Message.Debug.Looking_For_XML_Element (Message => Name);
+      Receptions.Messages.Debug.Looking_For_XML_Element (Name => Name);
 
       loop
          if Element = null then
@@ -82,7 +82,7 @@ package body DOM.Support is
                          Found   :    out Boolean) is
       use DOM.Core, DOM.Core.Nodes;
    begin
-      System_Message.Debug.Looking_For_XML_Element (Message => Name);
+      Receptions.Messages.Debug.Looking_For_XML_Element (Name => Name);
 
       loop
          if Element = null then
@@ -101,7 +101,7 @@ package body DOM.Support is
    procedure First (Element : in out DOM.Core.Node) is
       use DOM.Core, DOM.Core.Nodes;
    begin
-      System_Message.Debug.Looking_For_XML_Element;
+      Receptions.Messages.Debug.Looking_For_An_XML_Element;
 
       loop
          if Element = null then
@@ -119,7 +119,7 @@ package body DOM.Support is
                     Found   :    out Boolean) is
       use DOM.Core, DOM.Core.Nodes;
    begin
-      System_Message.Debug.Looking_For_XML_Element;
+      Receptions.Messages.Debug.Looking_For_An_XML_Element;
 
       loop
          if Element = null then

@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------------
 --                                                                           --
---                     Copyright (C) 2012-, AdaHeads K/S                     --
+--                      Copyright (C) 2013-, AdaHeads K/S                    --
 --                                                                           --
 --  This is free software;  you can redistribute it and/or modify it         --
 --  under terms of the  GNU General Public License  as published by the      --
@@ -15,18 +15,8 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with Ada.Command_Line;
-with PBX;
-
-procedure  Asterisk_AMI_Test is
-   use Ada.Command_Line;
-begin
-   PBX.Start;
-   delay 5.0;
-   PBX.Stop;
-
-   Set_Exit_Status (Success);
-exception
-   when others =>
-      Set_Exit_Status (Failure);
-end Asterisk_AMI_Test;
+package Receptions.Messages.Debug is
+   procedure Looking_For_XML_Attribute (Name : in     String);
+   procedure Looking_For_XML_Element (Name : in     String);
+   procedure Looking_For_An_XML_Element;
+end Receptions.Messages.Debug;

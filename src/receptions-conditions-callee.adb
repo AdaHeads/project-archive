@@ -15,9 +15,8 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with System_Message.Info;
-
-with Ada.Exceptions, Ada.Text_IO; use Ada.Exceptions, Ada.Text_IO;
+with Receptions.PBX,
+     Receptions.Messages.Critical;
 
 package body Receptions.Conditions.Callee is
    not overriding
@@ -27,23 +26,18 @@ package body Receptions.Conditions.Callee is
       return (Number => To_Unbounded_String (Number));
    exception
       when E : others =>
-         Put_Line (File => Standard_Error,
-                   Item => "Receptions.Conditions.Callee.Create raised " &
-                           Exception_Name (E) & " with " &
-                           Exception_Message (E) & ".");
+         Messages.Critical.Exception_Raised
+           (Information => E,
+            Source      => "Receptions.Conditions.Callee.Create");
          raise;
    end Create;
 
    overriding
    function True (Item : in Instance;
-                  Call : in Call_ID) return Boolean is
-      use Ada.Strings.Unbounded;
+                  Call : in PBX_Interface.Call'Class) return Boolean is
    begin
-      System_Message.Info.Jacob_Wants_To_See_This
-        (Message => "Actual callee: """ & Image (B_Leg (Get (Call))) &
-                    """. Checking for callee: """ & To_String (Item.Number) &
-                    """.");
-      return Image (B_Leg (Get (Call))) = To_String (Item.Number);
+      --  Should we leave it to the PBX to compare caller ID's?
+      return PBX.Callee (Call) = Ada.Strings.Unbounded.To_String (Item.Number);
    end True;
 
    overriding

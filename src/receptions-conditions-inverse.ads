@@ -15,7 +15,8 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with Receptions.Condition;
+with Receptions.PBX_Interface,
+     Receptions.Condition;
 
 private
 with Receptions.Condition_Container;
@@ -30,7 +31,7 @@ package Receptions.Conditions.Inverse is
 
    overriding
    function True (Item : in Instance;
-                  Call : in Call_ID) return Boolean;
+                  Call : in PBX_Interface.Call'Class) return Boolean;
 
    overriding
    function Value (Item : in Instance) return String;

@@ -16,9 +16,9 @@ exceptions="$(pwd)/exceptions"
 #-----------------------------------------------------------------------------
 #--  Find source files:
 
-cd ../../..
+cd ../..
 
-find src -type f \( -name '*.ads' -o -name '*.adb' -o -name '*.gpr' \) \
+find src tests -type f \( -name '*.ads' -o -name '*.adb' -o -name '*.gpr' \) \
   | LANG=C sort \
   > ${source_files}
 

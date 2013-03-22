@@ -26,7 +26,8 @@ with DOM.Core;                 use DOM.Core;
 with DOM.Core.Documents;       use DOM.Core.Documents;
 
 with Receptions.Dial_Plan,
-     Receptions.Dial_Plan.IO;
+     Receptions.Dial_Plan.IO,
+     Receptions.No_PBX;
 
 procedure Test_Dial_Plan is
    Input     : File_Input;
@@ -70,7 +71,7 @@ begin
    Ada.Text_IO.Put_Line
      (Item => "Current action:  " &
               Reception.Application
-                (Call => Null_Call_ID).Value);
+                (Call => Receptions.No_PBX.Null_Call).Value);
 exception
    when E : others =>
       Ada.Command_Line.Set_Exit_Status (Ada.Command_Line.Failure);

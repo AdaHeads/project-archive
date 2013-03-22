@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------------
 --                                                                           --
---                      Copyright (C) 2012-, AdaHeads K/S                    --
+--                      Copyright (C) 2013-, AdaHeads K/S                    --
 --                                                                           --
 --  This is free software;  you can redistribute it and/or modify it         --
 --  under terms of the  GNU General Public License  as published by the      --
@@ -15,17 +15,28 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with "../shared.gpr";
-with "aws";
-with "gnatcoll";
-with "yolk";
+with Receptions.PBX,
+     Receptions.PBX_Interface;
 
-project Asterisk_Tests is
-   for Main use ("asterisk_ami_test");
-   for Source_Dirs use ("../../../src/**");
-   for Object_Dir use "../../../build_production";
-   for Exec_Dir use ".";
+package body Receptions.Messages.Debug is
+   procedure Looking_For_An_XML_Element is
+   begin
+      Receptions.PBX.Log
+        (Level   => PBX_Interface.Debug,
+         Message => "Looking for an XML element.");
+   end Looking_For_An_XML_Element;
 
-   package Compiler renames Shared.Compiler;
-   package Ide renames Shared.Ide;
-end Asterisk_Tests;
+   procedure Looking_For_XML_Attribute (Name : in     String) is
+   begin
+      Receptions.PBX.Log
+        (Level   => PBX_Interface.Debug,
+         Message => "Looking for an XML attribute named """ & Name & """.");
+   end Looking_For_XML_Attribute;
+
+   procedure Looking_For_XML_Element (Name : in     String) is
+   begin
+      Receptions.PBX.Log
+        (Level   => PBX_Interface.Debug,
+         Message => "Looking for an XML element named <" & Name & ">.");
+   end Looking_For_XML_Element;
+end Receptions.Messages.Debug;

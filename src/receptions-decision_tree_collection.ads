@@ -21,8 +21,9 @@ with Ada.Containers.Indefinite_Hashed_Maps,
 with Receptions.Decision_Tree;
 
 package Receptions.Decision_Tree_Collection is
-  new Ada.Containers.Indefinite_Hashed_Maps (Key_Type        => String,
-                                             Element_Type    => Receptions.Decision_Tree.Class,
-                                             Hash            => Ada.Strings.Hash,
-                                             Equivalent_Keys => "=",
-                                             "="             => Receptions.Decision_Tree."=");
+  new Ada.Containers.Indefinite_Hashed_Maps
+        (Key_Type        => String,
+         Element_Type    => Receptions.Decision_Tree.Class,
+         Hash            => Ada.Strings.Hash,
+         Equivalent_Keys => "=",
+         "="             => Receptions.Decision_Tree."=");

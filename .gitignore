@@ -1,6 +1,8 @@
 # Do not track build objects.
 build_production/
 build_debug/
+*.ali
+*.o
 
 # Do not track built executables
 exe/

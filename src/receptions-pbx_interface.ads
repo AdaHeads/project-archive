@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------------
 --                                                                           --
---                      Copyright (C) 2012-, AdaHeads K/S                    --
+--                      Copyright (C) 2013-, AdaHeads K/S                    --
 --                                                                           --
 --  This is free software;  you can redistribute it and/or modify it         --
 --  under terms of the  GNU General Public License  as published by the      --
@@ -15,14 +15,18 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with "../shared.gpr";
-with "yolk";
+package Receptions.PBX_Interface is
+   type Instance is interface;
 
-project Test_Yolk_Command_Line is
-   for Main use ("test_yolk_command_line");
-   for Source_Dirs use ("../../../src/**");
-   for Object_Dir use "../../../build_production";
-   for Exec_Dir use ".";
+   type Log_Level is (Debug, Information, Notice, Warning,
+                      Error, Critical,    Alert,  Emergency);
+   procedure Log (PBX     : in     Instance;
+                  Level   : in     Log_Level;
+                  Message : in     String) is abstract;
 
-   package Compiler renames Shared.Compiler;
-end Test_Yolk_Command_Line;
+   type Call is interface;
+   function Caller (PBX  : in Instance;
+                    ID   : in Call'Class) return String is abstract;
+   function Callee (PBX  : in Instance;
+                    ID   : in Call'Class) return String is abstract;
+end Receptions.PBX_Interface;

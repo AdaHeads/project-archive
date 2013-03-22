@@ -15,29 +15,26 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with Receptions.PBX_Interface,
-     Receptions.Conditions;
+package body Receptions.PBX is
+   function Callee (ID : in PBX_Interface.Call'Class) return String is
+   begin
+      return Current.Element.Callee (ID => ID);
+   end Callee;
 
-private
-with Ada.Strings.Unbounded;
+   function Caller (ID : in PBX_Interface.Call'Class) return String is
+   begin
+      return Current.Element.Caller (ID => ID);
+   end Caller;
 
-package Receptions.Branch is
-   type Instance is tagged private;
-   subtype Class is Instance'Class;
+   procedure Log (Level   : in     PBX_Interface.Log_Level;
+                  Message : in     String) is
+   begin
+      Current.Element.Log (Level   => Level,
+                           Message => Message);
+   end Log;
 
-   function Create (Conditions : in     Receptions.Conditions.Instance;
-                    Action     : in     String) return Instance;
-
-   function Applicable (Item : in     Instance;
-                        Call : in     PBX_Interface.Call'Class) return Boolean;
-
-   function Action (Item : in     Instance) return String;
-
-   XML_Element_Name : constant String := "branch";
-private
-   type Instance is tagged
-      record
-         Conditions : Receptions.Conditions.Instance;
-         Action     : Ada.Strings.Unbounded.Unbounded_String;
-      end record;
-end Receptions.Branch;
+   procedure Set (PBX : in     PBX_Interface.Instance'Class) is
+   begin
+      Current.Replace_Element (PBX);
+   end Set;
+end Receptions.PBX;

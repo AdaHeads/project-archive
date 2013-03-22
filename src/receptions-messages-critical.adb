@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------------
 --                                                                           --
---                     Copyright (C) 2012-, AdaHeads K/S                     --
+--                      Copyright (C) 2013-, AdaHeads K/S                    --
 --                                                                           --
 --  This is free software;  you can redistribute it and/or modify it         --
 --  under terms of the  GNU General Public License  as published by the      --
@@ -15,9 +15,23 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-package SIGHUP.Demonstration_Handlers is
-   Called : Boolean := False;
-private
-   procedure Minimal;
-   procedure Put_Line;
-end SIGHUP.Demonstration_Handlers;
+with Receptions.PBX,
+     Receptions.PBX_Interface;
+
+package body Receptions.Messages.Critical is
+   procedure Exception_Raised
+     (Information : in     Ada.Exceptions.Exception_Occurrence;
+      Source      : in     String) is
+      use Ada.Exceptions;
+   begin
+      PBX.Log (Level   => PBX_Interface.Critical,
+               Message => Source & " raised " & Exception_Name (Information) &
+                          " with " & Exception_Message (Information) & ".");
+   end Exception_Raised;
+
+   procedure No_Calendar_Database is
+   begin
+      PBX.Log (Level   => PBX_Interface.Critical,
+               Message => "Calendar database has not been implemented yet.");
+   end No_Calendar_Database;
+end Receptions.Messages.Critical;

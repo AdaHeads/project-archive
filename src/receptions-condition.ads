@@ -15,12 +15,14 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
+with Receptions.PBX_Interface;
+
 package Receptions.Condition is
    type Instance is abstract tagged null record;
    subtype Class is Instance'Class;
 
    function True (Item : in Instance;
-                  Call : in Call_ID) return Boolean is
+                  Call : in PBX_Interface.Call'Class) return Boolean is
      abstract;
 
    function Value (Item : in Instance) return String is abstract;

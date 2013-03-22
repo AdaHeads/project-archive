@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------------
 --                                                                           --
---                     Copyright (C) 2012-, AdaHeads K/S                     --
+--                      Copyright (C) 2013-, AdaHeads K/S                    --
 --                                                                           --
 --  This is free software;  you can redistribute it and/or modify it         --
 --  under terms of the  GNU General Public License  as published by the      --
@@ -15,21 +15,30 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with
-  Ada.Text_IO;
+with Receptions.PBX_Interface;
 
-package body SIGHUP.Demonstration_Handlers is
-   procedure Minimal is
-   begin
-      Called := True;
-   end Minimal;
+package Receptions.No_PBX is
+   type Instance is new PBX_Interface.Instance with private;
+   Object : constant Instance;
 
-   procedure Put_Line is
-   begin
-      Called := True;
-      Ada.Text_IO.Put_Line ("Received a hangup signal.");
-   end Put_Line;
-begin
-   SIGHUP.Register (Minimal'Access);
-   SIGHUP.Register (Put_Line'Access);
-end SIGHUP.Demonstration_Handlers;
+   type Call is new PBX_Interface.Call with private;
+   Null_Call : constant Call;
+
+   overriding
+   procedure Log (PBX     : in     Instance;
+                  Level   : in     PBX_Interface.Log_Level;
+                  Message : in     String) is null;
+
+   function Caller (PBX  : in Instance;
+                    ID   : in PBX_Interface.Call'Class)
+     return String is ("<caller>");
+   function Callee (PBX  : in Instance;
+                    ID   : in PBX_Interface.Call'Class)
+     return String is ("<callee>");
+private
+   type Instance is new PBX_Interface.Instance with null record;
+   Object : constant Instance := (others => <>);
+
+   type Call is new PBX_Interface.Call with null record;
+   Null_Call : constant Call := (others => <>);
+end Receptions.No_PBX;

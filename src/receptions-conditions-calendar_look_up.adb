@@ -15,33 +15,30 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with System_Message.Critical;
-
-with Ada.Exceptions, Ada.Text_IO; use Ada.Exceptions, Ada.Text_IO;
+with Receptions.Messages.Critical;
 
 package body Receptions.Conditions.Calendar_Look_Up is
    not overriding
    function Create (Kind : in String) return Instance is
    begin
       --  Would like to check if Kind exists in the calendar database.
-      System_Message.Critical.No_Calendar_Database;
+      Receptions.Messages.Critical.No_Calendar_Database;
       return (Kind => Ada.Strings.Unbounded.To_Unbounded_String (Kind));
    exception
       when E : others =>
-         Put_Line (File => Standard_Error,
-                   Item => "Receptions.Conditions.Calendar_Look_Up.Create raised " &
-                           Exception_Name (E) & " with " &
-                           Exception_Message (E) & ".");
+         Receptions.Messages.Critical.Exception_Raised
+           (Information => E,
+            Source      => "Receptions.Conditions.Calendar_Look_Up.Create");
          raise;
    end Create;
 
    overriding
    function True (Item : in Instance;
-                  Call : in Call_ID) return Boolean is
+                  Call : in PBX_Interface.Call'Class) return Boolean is
       pragma Unreferenced (Call);
    begin
       --  Would like to look up todays date in the calendar database.
-      System_Message.Critical.No_Calendar_Database;
+      Receptions.Messages.Critical.No_Calendar_Database;
       return False;
    end True;
 

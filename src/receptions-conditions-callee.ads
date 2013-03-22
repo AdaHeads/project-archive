@@ -15,7 +15,8 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with Receptions.Condition;
+with Receptions.PBX_Interface,
+     Receptions.Condition;
 
 private
 with Ada.Strings.Unbounded;
@@ -29,7 +30,7 @@ package Receptions.Conditions.Callee is
 
    overriding
    function True (Item : in Instance;
-                  Call : in Call_ID) return Boolean;
+                  Call : in PBX_Interface.Call'Class) return Boolean;
 
    overriding
    function Value (Item : in Instance) return String;

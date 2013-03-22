@@ -15,29 +15,25 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with Receptions.PBX_Interface,
-     Receptions.Conditions;
+with Receptions.PBX_Interface;
 
 private
-with Ada.Strings.Unbounded;
+with Ada.Containers.Indefinite_Holders;
 
-package Receptions.Branch is
-   type Instance is tagged private;
-   subtype Class is Instance'Class;
-
-   function Create (Conditions : in     Receptions.Conditions.Instance;
-                    Action     : in     String) return Instance;
-
-   function Applicable (Item : in     Instance;
-                        Call : in     PBX_Interface.Call'Class) return Boolean;
-
-   function Action (Item : in     Instance) return String;
-
-   XML_Element_Name : constant String := "branch";
 private
-   type Instance is tagged
-      record
-         Conditions : Receptions.Conditions.Instance;
-         Action     : Ada.Strings.Unbounded.Unbounded_String;
-      end record;
-end Receptions.Branch;
+with Receptions.No_PBX;
+
+package Receptions.PBX is
+   procedure Set (PBX : in     PBX_Interface.Instance'Class);
+
+   procedure Log (Level   : in     PBX_Interface.Log_Level;
+                  Message : in     String);
+
+   function Caller (ID : in PBX_Interface.Call'Class) return String;
+   function Callee (ID : in PBX_Interface.Call'Class) return String;
+private
+   package PBX_Holder is
+     new Ada.Containers.Indefinite_Holders (PBX_Interface.Instance'Class,
+                                            PBX_Interface."=");
+   Current : PBX_Holder.Holder := PBX_Holder.To_Holder (No_PBX.Object);
+end Receptions.PBX;
