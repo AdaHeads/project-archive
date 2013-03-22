@@ -18,23 +18,23 @@ source_units=$(mktemp)
 #-----------------------------------------------------------------------------
 #--  List generated files:
 
-\ls *.ali *.o \
-  | perl -lpe 's/[.](ali|o)$//;' \
+find ../../ -type f \( -name '*.ali' -o -name '*.o' \) \
+  | perl -lpe 's:^.*/([^/]+)[.](ali|o)$:$1:;' \
   | LANG=C sort -u \
   > ${generated_units}
 
 #-----------------------------------------------------------------------------
 #--  List source files:
 
-\ls ../../dial-plans/*.ad[sb] \
-  | perl -lpe 's|^.+/||; s|[.]ad[sb]$||;' \
+find ../../ -type f \( -name '*.ads' -o -name '*.adb' \) \
+  | perl -lpe 's:^.*/([^/]+)[.](ad[sb])$:$1:;' \
   | LANG=C sort -u \
   > ${source_units}
 
 #-----------------------------------------------------------------------------
 
 if diff ${generated_units} ${source_units} | grep '^> ' 1>/dev/null; then
-   echo "Untested dial-plan units:"
+   echo "Untested units:"
    diff ${generated_units} ${source_units} | grep '^> '
    result=1
 else

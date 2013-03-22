@@ -15,7 +15,7 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with Ada.Exceptions, Ada.Text_IO; use Ada.Exceptions, Ada.Text_IO;
+with Receptions.Messages.Critical;
 
 package body Receptions.End_Points.Queue is
    not overriding
@@ -26,12 +26,17 @@ package body Receptions.End_Points.Queue is
               ID    => Ada.Strings.Unbounded.To_Unbounded_String (ID));
    exception
       when E : others =>
-         Put_Line (File => Standard_Error,
-                   Item => "Receptions.End_Points.Queue.Create raised " &
-                           Exception_Name (E) & " with " &
-                           Exception_Message (E) & ".");
+         Messages.Critical.Exception_Raised
+           (Information => E,
+            Source      => "Receptions.End_Points.Queue.Create");
          raise;
    end Create;
+
+   not overriding
+   function ID (Item : in     Instance) return String is
+   begin
+      return Ada.Strings.Unbounded.To_String (Item.ID);
+   end ID;
 
    overriding
    function Title (Item : in     Instance) return String is
@@ -46,10 +51,4 @@ package body Receptions.End_Points.Queue is
              Ada.Strings.Unbounded.To_String (Item.Title) & """, ID => """ &
              Ada.Strings.Unbounded.To_String (Item.ID) & """)";
    end Value;
-
-   not overriding
-   function ID (Item : in     Instance) return String is
-   begin
-      return Ada.Strings.Unbounded.To_String (Item.ID);
-   end ID;
 end Receptions.End_Points.Queue;

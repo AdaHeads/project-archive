@@ -18,7 +18,7 @@
 with Ada.Strings.Fixed,
      Ada.Strings.Unbounded;
 
-with Ada.Exceptions, Ada.Text_IO; use Ada.Exceptions, Ada.Text_IO;
+with Receptions.Messages.Critical;
 
 package body Receptions.Conditions.Day_Of_Month is
    not overriding
@@ -45,10 +45,9 @@ package body Receptions.Conditions.Day_Of_Month is
       end return;
    exception
       when E : others =>
-         Put_Line (File => Standard_Error,
-                   Item => "Receptions.Conditions.Day_Of_Month.Create raised " &
-                           Exception_Name (E) & " with " &
-                           Exception_Message (E) & ".");
+         Messages.Critical.Exception_Raised
+           (Information => E,
+            Source      => "Receptions.Conditions.Day_Of_Month.Create");
          raise;
    end Create;
 

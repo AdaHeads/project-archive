@@ -74,8 +74,8 @@ package body Receptions.End_Point.IO is
          begin
             return R;
          end;
-      elsif Node_Name (Action) = Interactive_Voice_Response.XML_Element_Name
-      then
+      elsif Node_Name (Action) =
+            Interactive_Voice_Response.XML_Element_Name then
          return Interactive_Voice_Response.Create (Title => Title);
       elsif Node_Name (Action) = Voice_Mail.XML_Element_Name then
          declare

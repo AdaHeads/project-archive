@@ -15,7 +15,7 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with Ada.Exceptions, Ada.Text_IO; use Ada.Exceptions, Ada.Text_IO;
+with Receptions.Messages.Critical;
 
 package body Receptions.End_Points.Hang_Up is
    not overriding
@@ -24,10 +24,9 @@ package body Receptions.End_Points.Hang_Up is
       return (Title => Ada.Strings.Unbounded.To_Unbounded_String (Title));
    exception
       when E : others =>
-         Put_Line (File => Standard_Error,
-                   Item => "Receptions.End_Points.Hang_Up.Create raised " &
-                           Exception_Name (E) & " with " &
-                           Exception_Message (E) & ".");
+         Messages.Critical.Exception_Raised
+           (Information => E,
+            Source      => "Receptions.End_Points.Hang_Up.Create");
          raise;
    end Create;
 

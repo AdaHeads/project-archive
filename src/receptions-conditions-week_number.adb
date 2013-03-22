@@ -19,7 +19,7 @@ with Ada.Calendar,
      Ada.Strings.Fixed,
      Ada.Strings.Unbounded;
 
-with Ada.Exceptions, Ada.Text_IO; use Ada.Exceptions, Ada.Text_IO;
+with Receptions.Messages.Critical;
 
 package body Receptions.Conditions.Week_Number is
    function Week_Number (Date : in Ada.Calendar.Time) return Week_Numbers;
@@ -49,10 +49,9 @@ package body Receptions.Conditions.Week_Number is
       end return;
    exception
       when E : others =>
-         Put_Line (File => Standard_Error,
-                   Item => "Receptions.Conditions.Week_Number.Create raised " &
-                           Exception_Name (E) & " with " &
-                           Exception_Message (E) & ".");
+         Messages.Critical.Exception_Raised
+           (Information => E,
+            Source      => "Receptions.Conditions.Week_Number.Create");
          raise;
    end Create;
 

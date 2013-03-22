@@ -15,7 +15,7 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with Ada.Exceptions, Ada.Text_IO; use Ada.Exceptions, Ada.Text_IO;
+with Receptions.Messages.Critical;
 
 package body Receptions.End_Points.Redirect is
    not overriding
@@ -26,10 +26,9 @@ package body Receptions.End_Points.Redirect is
               To    => Ada.Strings.Unbounded.To_Unbounded_String (To));
    exception
       when E : others =>
-         Put_Line (File => Standard_Error,
-                   Item => "Receptions.End_Points.Redirect.Create raised " &
-                           Exception_Name (E) & " with " &
-                           Exception_Message (E) & ".");
+         Messages.Critical.Exception_Raised
+           (Information => E,
+            Source      => "Receptions.End_Points.Redirect.Create");
          raise;
    end Create;
 
@@ -39,6 +38,12 @@ package body Receptions.End_Points.Redirect is
       return Ada.Strings.Unbounded.To_String (Item.Title);
    end Title;
 
+   not overriding
+   function To (Item : in     Instance) return String is
+   begin
+      return Ada.Strings.Unbounded.To_String (Item.To);
+   end To;
+
    overriding
    function Value (Item : in Instance) return String is
    begin
@@ -46,10 +51,4 @@ package body Receptions.End_Points.Redirect is
              Ada.Strings.Unbounded.To_String (Item.Title) & """, To => """ &
              Ada.Strings.Unbounded.To_String (Item.To) & """)";
    end Value;
-
-   not overriding
-   function To (Item : in     Instance) return String is
-   begin
-      return Ada.Strings.Unbounded.To_String (Item.To);
-   end To;
 end Receptions.End_Points.Redirect;

@@ -15,7 +15,7 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with Ada.Exceptions, Ada.Text_IO; use Ada.Exceptions, Ada.Text_IO;
+with Receptions.Messages.Critical;
 
 package body Receptions.Conditions.Inverse is
    use Receptions.Condition_Container;
@@ -27,10 +27,9 @@ package body Receptions.Conditions.Inverse is
       return (Condition => To_Holder (Condition));
    exception
       when E : others =>
-         Put_Line (File => Standard_Error,
-                   Item => "Receptions.Conditions.Inverse.Create raised " &
-                           Exception_Name (E) & " with " &
-                           Exception_Message (E) & ".");
+         Messages.Critical.Exception_Raised
+           (Information => E,
+            Source      => "Receptions.Conditions.Inverse.Create");
          raise;
    end Create;
 

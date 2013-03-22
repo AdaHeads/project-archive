@@ -17,7 +17,7 @@
 
 with Ada.Calendar.Formatting;
 
-with Ada.Exceptions, Ada.Text_IO; use Ada.Exceptions, Ada.Text_IO;
+with Receptions.Messages.Critical;
 
 package body Receptions.Conditions.Clock is
    not overriding
@@ -56,10 +56,9 @@ package body Receptions.Conditions.Clock is
            with "Failed to generate Ada object from <" & XML_Element_Name &
                 " from=""" & From & """ to=""" & To & """>.";
       when E : others =>
-         Put_Line (File => Standard_Error,
-                   Item => "Receptions.Conditions.Clock.Create raised " &
-                           Exception_Name (E) & " with " &
-                           Exception_Message (E) & ".");
+         Messages.Critical.Exception_Raised
+           (Information => E,
+            Source      => "Receptions.Conditions.Clock.Create");
          raise;
    end Create;
 

@@ -21,8 +21,9 @@ with Ada.Containers.Indefinite_Hashed_Maps,
 with Receptions.End_Point;
 
 package Receptions.End_Point_Collection is
-  new Ada.Containers.Indefinite_Hashed_Maps (Key_Type        => String,
-                                             Element_Type    => Receptions.End_Point.Class,
-                                             Hash            => Ada.Strings.Hash,
-                                             Equivalent_Keys => "=",
-                                             "="             => Receptions.End_Point."=");
+  new Ada.Containers.Indefinite_Hashed_Maps
+    (Key_Type        => String,
+     Element_Type    => Receptions.End_Point.Class,
+     Hash            => Ada.Strings.Hash,
+     Equivalent_Keys => "=",
+     "="             => Receptions.End_Point."=");
