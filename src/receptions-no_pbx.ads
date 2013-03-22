@@ -35,6 +35,9 @@ package Receptions.No_PBX is
    function Callee (PBX  : in Instance;
                     ID   : in PBX_Interface.Call'Class)
      return String is ("<callee>");
+
+   function Today_Is (PBX : in Instance;
+                      Day : in String) return Boolean is (False);
 private
    type Instance is new PBX_Interface.Instance with null record;
    Object : constant Instance := (others => <>);

@@ -29,4 +29,7 @@ package Receptions.PBX_Interface is
                     ID   : in Call'Class) return String is abstract;
    function Callee (PBX  : in Instance;
                     ID   : in Call'Class) return String is abstract;
+
+   function Today_Is (PBX : in Instance;
+                      Day : in String) return Boolean is abstract;
 end Receptions.PBX_Interface;

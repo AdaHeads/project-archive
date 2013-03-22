@@ -37,4 +37,9 @@ package body Receptions.PBX is
    begin
       Current.Replace_Element (PBX);
    end Set;
+
+   function Today_Is (Day : in String) return Boolean is
+   begin
+      return Current.Element.Today_Is (Day => Day);
+   end Today_Is;
 end Receptions.PBX;

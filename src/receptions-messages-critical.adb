@@ -28,10 +28,4 @@ package body Receptions.Messages.Critical is
                Message => Source & " raised " & Exception_Name (Information) &
                           " with " & Exception_Message (Information) & ".");
    end Exception_Raised;
-
-   procedure No_Calendar_Database is
-   begin
-      PBX.Log (Level   => PBX_Interface.Critical,
-               Message => "Calendar database has not been implemented yet.");
-   end No_Calendar_Database;
 end Receptions.Messages.Critical;

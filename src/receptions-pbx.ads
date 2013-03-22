@@ -31,6 +31,8 @@ package Receptions.PBX is
 
    function Caller (ID : in PBX_Interface.Call'Class) return String;
    function Callee (ID : in PBX_Interface.Call'Class) return String;
+
+   function Today_Is (Day : in String) return Boolean;
 private
    package PBX_Holder is
      new Ada.Containers.Indefinite_Holders (PBX_Interface.Instance'Class,

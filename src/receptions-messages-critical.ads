@@ -21,5 +21,4 @@ package Receptions.Messages.Critical is
    procedure Exception_Raised
      (Information : in     Ada.Exceptions.Exception_Occurrence;
       Source      : in     String);
-   procedure No_Calendar_Database;
 end Receptions.Messages.Critical;
