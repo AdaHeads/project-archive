@@ -36,9 +36,8 @@ package body Receptions.Conditions.Callee is
 
    overriding
    function True (Item : in Instance;
-                  Call : in PBX.Call.Identification) return Boolean is
-      use Ada.Strings.Unbounded,
-          PBX.Call;
+                  Call : in Call_ID) return Boolean is
+      use Ada.Strings.Unbounded;
    begin
       System_Message.Info.Jacob_Wants_To_See_This
         (Message => "Actual callee: """ & Image (B_Leg (Get (Call))) &

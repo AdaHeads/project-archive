@@ -19,7 +19,7 @@ with Ada.Exceptions;
 
 package body Receptions.Dial_Plan is
    function Application (Item : in     Instance;
-                         Call : in     PBX.Call.Identification)
+                         Call : in     Call_ID)
      return Receptions.End_Point.Class is
 
       function "+" (Item : in Ada.Strings.Unbounded.Unbounded_String)

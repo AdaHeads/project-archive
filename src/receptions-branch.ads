@@ -15,8 +15,7 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with PBX.Call,
-     Receptions.Conditions;
+with Receptions.Conditions;
 
 private
 with Ada.Strings.Unbounded;
@@ -29,7 +28,7 @@ package Receptions.Branch is
                     Action     : in     String) return Instance;
 
    function Applicable (Item : in     Instance;
-                        Call : in     PBX.Call.Identification) return Boolean;
+                        Call : in     Call_ID) return Boolean;
 
    function Action (Item : in     Instance) return String;
 

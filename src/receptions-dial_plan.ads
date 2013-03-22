@@ -15,8 +15,7 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with PBX.Call,
-     Receptions.Decision_Tree_Collection,
+with Receptions.Decision_Tree_Collection,
      Receptions.End_Point,
      Receptions.End_Point_Collection;
 
@@ -38,7 +37,7 @@ package Receptions.Dial_Plan is
    function Title (Item : in     Instance) return String;
 
    function Application (Item : in     Instance;
-                         Call : in     PBX.Call.Identification)
+                         Call : in     Call_ID)
      return Receptions.End_Point.Class;
 
    XML_Element_Name : constant String := "dial-plan";

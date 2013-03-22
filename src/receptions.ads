@@ -17,4 +17,6 @@
 
 package Receptions is
    pragma Pure;
+
+   type Call_ID is null record;
 end Receptions;

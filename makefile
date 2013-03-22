@@ -1,8 +1,8 @@
 ###############################################################################
 #                                                                             #
-#                                  Alice                                      #
+#                              libdialplan                                    #
 #                                                                             #
-#                                Make File                                    #
+#                                Makefile                                     #
 #                                                                             #
 #                       Copyright (C) 2012-, AdaHeads K/S                     #
 #                                                                             #
@@ -19,28 +19,26 @@
 #                                                                             #
 ###############################################################################
 
-ifeq ($(DATABASE),)
-DATABASE=SQLite
-endif
+PROJECT=libdialplan
 
 ifeq ($(PROCESSORS),)
 PROCESSORS=`(test -f /proc/cpuinfo && grep -c ^processor /proc/cpuinfo) || echo 1`
 endif
 
 all:
-	mkdir -p build_production
-	DATABASE=${DATABASE} gnatmake -j${PROCESSORS} -P alice
+	mkdir -p exe build_production
+	gnatmake -j${PROCESSORS} -P $(PROJECT)
 
 debug:
-	mkdir -p build_debug
-	BUILDTYPE=Debug DATABASE=${DATABASE} gnatmake -j${PROCESSORS} -P alice
+	mkdir -p exe build_debug
+	BUILDTYPE=Debug gnatmake -j${PROCESSORS} -P $(PROJECT)
 
 clean: cleanup_messy_temp_files
-	gnatclean -P alice
-	BUILDTYPE=Debug gnatclean -P alice
+	gnatclean -P $(PROJECT)
+	BUILDTYPE=Debug gnatclean -P $(PROJECT)
 
 distclean:
-	rm -rf build_production build_debug
+	rm -rf exe build_production build_debug
 
 tests: all
 	@./tests/build

@@ -51,7 +51,7 @@ package body Receptions.Conditions.Month is
 
    overriding
    function True (Item : in Instance;
-                  Call : in PBX.Call.Identification) return Boolean is
+                  Call : in Call_ID) return Boolean is
       pragma Unreferenced (Call);
    begin
       return

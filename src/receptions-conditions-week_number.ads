@@ -15,8 +15,7 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with PBX.Call,
-     Receptions.Condition;
+with Receptions.Condition;
 
 package Receptions.Conditions.Week_Number is
    type Instance is new Receptions.Condition.Instance with private;
@@ -27,7 +26,7 @@ package Receptions.Conditions.Week_Number is
 
    overriding
    function True (Item : in Instance;
-                  Call : in PBX.Call.Identification) return Boolean;
+                  Call : in Call_ID) return Boolean;
 
    overriding
    function Value (Item : in Instance) return String;

@@ -15,8 +15,7 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with PBX.Call,
-     Receptions.List_Of_Branches;
+with Receptions.List_Of_Branches;
 
 private
 with Ada.Strings.Unbounded;
@@ -32,7 +31,7 @@ package Receptions.Decision_Tree is
    function Title (Item : in     Instance) return String;
 
    function Branch (Item : in     Instance;
-                    Call : in     PBX.Call.Identification) return String;
+                    Call : in     Call_ID) return String;
 
    XML_Element_Name : constant String := "decision-tree";
 private
