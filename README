@@ -7,31 +7,32 @@ Contents of this README:
 --  Introduction  --
 --------------------
 
-Alice provides the glue between a PBX such as FreeSWITCH/Asterisk, a PostgreSQL
-or SQLite database and a client. She works by accepting plain HTTP commands in
-the shape of GET/POST and returning JSON objects to the client.
+libdialplan provides a data structure as well as query and I/O routines for
+dial-plans for reception management.
 
-Alice is GPLv3, see COPYING3 and COPYING.RUNTIME.
+Currently the only supported storage format for dial-plans is XML files.
+
+libdialplan is GPLv3, see COPYING3 and COPYING.RUNTIME.
 
 --------------------
 --  Dependencies  --
 --------------------
 
-Alice depends on Yolk[1], AWS[2] and GNATColl[3] being compiled with PostgreSQL
-and/or SQLite support.
+libdialplan depends on XMLAda[1] and any Ada 2012[2] compiler.
 
 ------------------
 --  References  --
 ------------------
 
-[1] Yolk
-    https://github.com/ThomasLocke/yolk
-    Git: git clone git://github.com/ThomasLocke/yolk.git
+If you want to find other free Ada tools or libraries AdaIC [3] is an
+excellent starting point.
 
-[2] Ada Web Server
-    http://libre.adacore.com/libre/tools/aws/
-    Git: git clone --recursive http://forge.open-do.org/anonscm/git/aws/aws.git
+[1] XMLAda
+    http://libre.adacore.com/tools/xmlada/
+    SVN: svn checkout ...://github.com/ThomasLocke/yolk.git
 
-[3] GNAT Component Collection
-    http://libre.adacore.com/libre/tools/gnat-component-collection/AA
-    SVN: svn co http://svn.eu.adacore.com/anonsvn/Dev/trunk/gps/gnatlib/
+[2] Ada 2012 Reference Manual
+    http://ada-auth.org/arm.html
+
+[3] Free Ada Tools and Libraries:
+    http://www.adaic.org/ada-resources/tools-libraries/

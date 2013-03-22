@@ -28,18 +28,23 @@ PROCESSORS=`(test -f /proc/cpuinfo && grep -c ^processor /proc/cpuinfo) || echo 
 endif
 
 all:
+	mkdir -p build_production
 	DATABASE=${DATABASE} gnatmake -j${PROCESSORS} -P alice
 
 debug:
+	mkdir -p build_debug
 	BUILDTYPE=Debug DATABASE=${DATABASE} gnatmake -j${PROCESSORS} -P alice
 
 clean: cleanup_messy_temp_files
 	gnatclean -P alice
 	BUILDTYPE=Debug gnatclean -P alice
 
+distclean:
+	rm -rf build_production build_debug
+
 tests: all
-	@./src/tests/build
-	@./src/tests/run
+	@./tests/build
+	@./tests/run
 
 cleanup_messy_temp_files:
 	find . -name "*~" -type f -print0 | xargs -0 -r /bin/rm

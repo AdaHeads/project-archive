@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 --                                                                           --
---                                 Alice                                     --
+--                                 libdialplan                               --
 --                                                                           --
---                           Alice Project File                              --
+--                           libdialplan Project File                        --
 --                                                                           --
 --                      Copyright (C) 2012-, AdaHeads K/S                    --
 --                                                                           --
@@ -19,23 +19,17 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with "aws";
-with "gnatcoll";
-with "gnatcoll_postgres";
-with "gnatcoll_sqlite";
-with "yolk";
+with "xmlada";
 
-project Alice is
+project libdialplan is
    type Build_Type is ("Debug", "Production");
    Build : Build_Type := External ("BUILDTYPE", "Production");
 
-   type Databases is ("PostgreSQL", "SQLite");
-   Database : Databases := External ("DATABASE", "SQLite");
+   for Source_Dirs use ("src/");
 
-   Source_Options := ("src/**");
-   for Source_Dirs use Source_Options;
-
-   for Main use ("alice.adb");
+   for Main use ("load_dial_plan",
+                 "normalise_dial_plan",
+                 "test_dial_plan");
 
    for Exec_Dir use "exe";
 
@@ -46,9 +40,9 @@ project Alice is
          for Object_Dir use "build_debug";
    end case;
 
-   package Ide is
+   package IDE is
       for Compiler_Command ("ada") use "gnatmake";
-   end Ide;
+   end IDE;
 
    package Compiler is
       case Build is
@@ -76,27 +70,4 @@ project Alice is
 
       end case;
    end Compiler;
-
-   package Naming is
-      case Database is
-         when "PostgreSQL" =>
-            for Specification ("Storage.Connection") use
-              "__storage-connection_postgresql.ads";
-            for Specification ("SQL_Prepared_Statements.Attribute") use
-              "__sql_prepared_statements-attribute_postgresql.ads";
-            for Specification ("SQL_Prepared_Statements.Contact") use
-              "__sql_prepared_statements-contact_postgresql.ads";
-            for Specification ("SQL_Prepared_Statements.Organization") use
-              "__sql_prepared_statements-organization_postgresql.ads";
-         when "SQLite" =>
-            for Specification ("Storage.Connection") use
-              "__storage-connection_sqlite.ads";
-            for Specification ("SQL_Prepared_Statements.Attribute") use
-              "__sql_prepared_statements-attribute_sqlite.ads";
-            for Specification ("SQL_Prepared_Statements.Contact") use
-              "__sql_prepared_statements-contact_sqlite.ads";
-            for Specification ("SQL_Prepared_Statements.Organization") use
-              "__sql_prepared_statements-organization_sqlite.ads";
-      end case;
-   end Naming;
-end Alice;
+end libdialplan;
