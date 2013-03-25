@@ -33,8 +33,8 @@ class NavigationButton {
   }
 
   void _resize() {
-    _element.style.height = '${_element.clientWidth}px';
-    _element.style.height = '${_element.clientWidth}px';
+    _element.style.height = '${_element.client.width}px';
+    _element.style.height = '${_element.client.width}px';
   }
 
   /**

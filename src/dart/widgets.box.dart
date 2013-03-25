@@ -42,7 +42,7 @@ class Box {
   }
 
   void _resize() {
-    int div_height = _div.clientHeight;
+    int div_height = _div.client.height;
     int head_height = 0;
 
     if (_header != null) {
@@ -50,7 +50,7 @@ class Box {
       // if there's no current header. This is done to make sure the header
       // element isn't flattened when we grab the clientHeight.
       _header.text = _header.text.isEmpty ? '-' : _header.text;
-      head_height = _header.clientHeight;
+      head_height = _header.client.height;
     }
 
     int body_height = div_height - head_height;
