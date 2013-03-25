@@ -31,6 +31,8 @@ class Call{
   Call._null() {
     _call = null;
   }
+
+  String toString() => _call.toString();
 }
 
 final Call nullCall = new Call._null();

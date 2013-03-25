@@ -53,8 +53,9 @@ void main() {
     initializeCallHandler();
 
     //TODO Remove. Only for testing 6. marts
-    keyboardhandler.global[Keyboardhandler.V] = () => companyInfo.focusSelector();
-    keyboardhandler.global[Keyboardhandler.B] = () => query('#in_send_message').focus();
+    keyboardHandler.global = new KeyboardShortcuts()
+        ..add(Keys.V, () => companyInfo.focusSelector())
+        ..add(Keys.B, () => query('#in_send_message').focus());
 
   }).catchError((error) => log.critical('Bob main exception: ${error.toString()}'));
 
