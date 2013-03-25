@@ -41,7 +41,7 @@ class Log{
   static const CRITICAL = const Level('Critical', 1200);
 
   Log._internal() {
-    _logger.on.record.add(_logSubscriber);
+    _logger.onRecord.listen(_logSubscriber);
     _logger.parent.level = Level.ALL;
   }
 
@@ -69,7 +69,6 @@ class Log{
    * Writes log to console and send it to Alice.
    */
   void _logSubscriber(LogRecord record) {
-    //TODO log to DOM.
     print('${record.sequenceNumber} - ${record.level.name} - ${record.message}');
     _serverLog(record);
   }

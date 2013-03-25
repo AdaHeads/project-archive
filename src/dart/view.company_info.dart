@@ -36,7 +36,7 @@ class CompanyInfo {
     _viewPort = new widgets.Box(query('#company_info'),
                                 query('#company_info_body'),
                                 header: query("#company_info_header"))
-      ..header = 'Virksomhed';
+      ..header = 'Virksomhed - (V)';
 
     _companySelector = new widgets.Selector(query('#company_info_select'))
       ..addOption('', 'vælg virksomhed', disabled: true, selected: true);
@@ -44,7 +44,7 @@ class CompanyInfo {
     _companyInfo_dump = query('#company_info_dump');
 
     // Porpulate the Selector.
-    Storage_Organization.instance.getOrganizationList(_setCompanySelector);
+    storageOrganization.getList(_setCompanySelector);
 
     _registerSubscribers();
     _registerEventHandlers();
@@ -52,7 +52,7 @@ class CompanyInfo {
 
   void _registerEventHandlers() {
     _companySelector.element.onChange.listen((_) {
-      Storage_Organization.instance.getOrganization(
+      storageOrganization.get(
           int.parse(_companySelector.value),
           (org) => environment.setOrganization(org));
     });

@@ -14,15 +14,14 @@
 */
 
 part of storage;
-//TODO Should it be here or under the class declaration.
-//TODO Test if there are some encording problems.
-typedef void _requestOnComplete (HttpRequest req);
+
+final Storage_Organization storageOrganization = new Storage_Organization._internal();
+
 /**
  * Storage class for Organization objects.
  */
 class Storage_Organization{
-  static final Storage_Organization instance =
-      new Storage_Organization._internal();
+  Storage_Organization._internal();
 
   //TODO Make it possible to invalidate cached items.
   var _cache = new Map<int, Organization>();
@@ -30,7 +29,7 @@ class Storage_Organization{
   /**
    * Gets an organization by [id] from alice if there is no cache of it.
    */
-  void getOrganization(int id, void onComplete(Organization)) {
+  void get(int id, OrganizationSubscriber onComplete) {
     if (_cache.containsKey(id)) {
       onComplete(_cache[id]);
 
@@ -58,7 +57,7 @@ class Storage_Organization{
   /**
    * Get the organization list from alice.
    */
-  void getOrganizationList(void onComplete(OrganizationList organizationList)) {
+  void getList(OrganizationListSubscriber onComplete) {
     new protocol.OrganizationList()
         ..onSuccess((text) {
           var res = new OrganizationList(json.parse(text));
@@ -69,6 +68,4 @@ class Storage_Organization{
         })
         ..send();
   }
-
-  Storage_Organization._internal();
 }

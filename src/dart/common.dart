@@ -22,6 +22,7 @@ import 'model.dart';
 typedef void Subscriber(Map json);
 typedef void Callback();
 typedef void OrganizationSubscriber (Organization organization);
+typedef void OrganizationListSubscriber (OrganizationList organizationList);
 typedef void CallSubscriber (Call call);
 
 class TimeoutException implements Exception {

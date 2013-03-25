@@ -24,6 +24,12 @@ import 'common.dart';
 import 'logger.dart';
 import 'model.dart';
 
+
+/**
+ * Singleton pattern. Reference to the one and only object.
+ */
+final Environment environment = new Environment._internal();
+
 /**
  * A class that contains the selected organization
  */
@@ -85,18 +91,4 @@ class Environment{
     //dispatch the new call.
     callStream.sink.add(call);
   }
-
-  static Environment _instance;
-
-  factory Environment() {
-    if(_instance == null) {
-      _instance = new Environment._internal();
-    }
-    return _instance;
-  }
 }
-
-/**
- * Singleton pattern. Reference to the one and only object.
- */
-final Environment environment = new Environment();

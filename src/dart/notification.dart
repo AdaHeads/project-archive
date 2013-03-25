@@ -44,7 +44,7 @@ class Notification {
     if (_socket == null){
       throw new Exception('I used to be a Socket, but then i took an arrow to the knee.');
     }
-    _socket.onMessage(_onMessage);
+    _socket.onMessage.listen(_onMessage);
     //TODO add panic handler for onError.
   }
 
@@ -53,7 +53,7 @@ class Notification {
    */
   void addEventHandler(String eventName, Subscriber subscriber) {
     if (!_eventHandlers.containsKey(eventName)) {
-      _eventHandlers[eventName] = new StreamController<Map>();
+      _eventHandlers[eventName] = new StreamController<Map>.broadcast();
     }
     _eventHandlers[eventName].stream.listen(subscriber);
   }

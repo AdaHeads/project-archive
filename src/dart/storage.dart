@@ -23,6 +23,7 @@ import 'dart:uri';
 import 'dart:html';
 import 'dart:json' as json;
 
+import 'common.dart';
 import 'configuration.dart';
 import 'logger.dart';
 import 'model.dart';

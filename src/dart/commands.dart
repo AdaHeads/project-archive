@@ -62,7 +62,7 @@ void _pickupCallSuccess(String text) {
     log.critical('The call had no organization_id. ${text}');
   }
   var orgId = response['organization_id'];
-  Storage_Organization.instance.getOrganization(orgId,(org) =>
+  storageOrganization.get(orgId,(org) =>
       environment.setOrganization((org != null) ? org : environment.organization));
 }
 

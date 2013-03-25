@@ -18,6 +18,6 @@
  */
 library model;
 
-part 'call.dart';
-part 'organization.dart';
-part 'organization_list.dart';
+part 'model.call.dart';
+part 'model.organization.dart';
+part 'model.organization_list.dart';

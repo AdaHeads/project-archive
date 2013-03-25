@@ -41,8 +41,7 @@ class Organization{
     _contacts = null;
   }
 
-  String toString(){
-    return _json.toString();
-  }
+  String toString() => _json.toString();
 }
+
 Organization nullOrganization = new Organization._null();

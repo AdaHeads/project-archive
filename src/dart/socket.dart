@@ -46,6 +46,7 @@ class _ConnectionManager{
             connection._connectTicks += 1;
 
           } else if(connection._connectTicks > MAX_TICKS) {
+            log.critical('${connection.toString()} is timedout');
             connection._connectTicks = 0;
             connection._reconnect();
 
@@ -66,9 +67,8 @@ final _connectionManager = new _ConnectionManager(new Duration(seconds: 1));
  */
 class Socket{
   WebSocket _channel;
-  //TODO Change to stream or what?
-  var messageSubscribers = new List<Subscriber>();
-  var errorSubscribers = new List<Subscriber>();
+  var _messageStream = new StreamController<Map>.broadcast();
+  var _errorStream = new StreamController<Map>.broadcast();
   final String _url;
 
   int _connectTicks = 0;
@@ -108,30 +108,23 @@ class Socket{
   void _onError (event) {
     log.critical(event.toString());
 
-    for(var subscriber in errorSubscribers) {
-      subscriber({'error': 'Error on connection'});
-    }
+    _errorStream.sink({'error': 'Error on connection'});
   }
 
   /**
-   * Add subscriber for errors.
+   * returns [errorStream] for subscribers.
    */
-  void onError(Subscriber subscriber) => errorSubscribers.add(subscriber);
+  Stream<Map> get onError => _errorStream.stream;
 
   void _onMessage(MessageEvent event) {
     log.info('Notification message: ${event.data}');
-
-    var data = json.parse(event.data);
-
-    for(var subscriber in messageSubscribers) {
-      subscriber(data);
-    }
+    _messageStream.sink(json.parse(event.data));
   }
 
   /**
-   * Add subscriber for messages.
+   * returns [messageStream] for subscribers.
    */
-  void onMessage(Subscriber subscriber) => messageSubscribers.add(subscriber);
+  Stream<Map> get onMessage => _messageStream.stream;
 
   void _reconnect() => _connector();
 
