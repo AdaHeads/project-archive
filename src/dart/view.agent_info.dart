@@ -54,9 +54,9 @@ class AgentInfo {
       var dataJson = json.parse(text);
       var state = dataJson['state'];
       if (state == 'idle'){
-        _viewPort.header = 'Agent ${configuration.agentID} er klar';
+        _viewPort.header = 'Agent ${configuration.agentID} er ledig';
       }else{
-        _viewPort.header = 'Agent ${configuration.agentID} er ikke klar';
+        _viewPort.header = 'Agent ${configuration.agentID} er optaget';
       }
     })
     ..onError(() => log.error('Could not fetch information about agent: ${configuration.agentID}'))

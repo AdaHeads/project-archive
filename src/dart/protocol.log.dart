@@ -16,27 +16,27 @@
 part of protocol;
 
 /**
- * TODO Comment.
+ * Class to send log messages to the server,
  */
 class Log extends Protocol {
   String _payload;
 
   /**
-   * TODO Comment
+   * Sends logmessage on the INFO interface.
    */
   Log.Info(String message) {
     _Log(message, configuration.serverLogInterfaceInfo);
   }
 
   /**
-   * TODO Comment
+   * Sends logmessage on the ERROR interface.
    */
   Log.Error(String message) {
     _Log(message, configuration.serverLogInterfaceError);
   }
 
   /**
-   * TODO Comment
+   * Sends logmessage on the CRITICAL interface.
    */
   Log.Critical(String message) {
     _Log(message, configuration.serverLogInterfaceCritical);
@@ -76,7 +76,6 @@ class Log extends Protocol {
 
   /**
    * TODO Comment
-   * TODO find better function type.
    */
   void onError(Callback onData) {
     assert(_request != null);

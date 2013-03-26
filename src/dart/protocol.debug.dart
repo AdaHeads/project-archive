@@ -16,7 +16,7 @@
 part of protocol;
 
 /**
- * TODO Comment
+ * Gives a list of peers.
  */
 class PeerList extends Protocol{
   /**
@@ -69,7 +69,7 @@ class PeerList extends Protocol{
 }
 
 /**
- * TODO Comment
+ * Gives a list of every channel in the PBX.
  */
 class ChannelList extends Protocol{
   /**

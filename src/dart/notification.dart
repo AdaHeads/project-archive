@@ -45,7 +45,8 @@ class Notification {
       throw new Exception('I used to be a Socket, but then i took an arrow to the knee.');
     }
     _socket.onMessage.listen(_onMessage);
-    //TODO add panic handler for onError.
+    //TODO make better panichandler for onError.
+    _socket.onError.listen((e) => log.error('notification socket error: ${e.toString()}'));
   }
 
   /**

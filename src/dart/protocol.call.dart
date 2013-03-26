@@ -16,7 +16,7 @@
 part of protocol;
 
 /**
- * TODO comment
+ * Class to get a list of every active call.
  */
 class CallList extends Protocol{
   /**
@@ -48,7 +48,7 @@ class CallList extends Protocol{
   }
 
   /**
-   * TODO Comment
+   * If there are no call in the system.
    */
   void onEmptyList(Callback onData){
     assert(_request != null);
@@ -83,7 +83,7 @@ class CallList extends Protocol{
 }
 
 /**
- * TODO comment
+ * Gives a list of calls that are waiting in a queue.
  */
 class CallQueue extends Protocol{
   /**
@@ -151,11 +151,11 @@ class CallQueue extends Protocol{
 
 /**
  * TODO FiX doc or code. Doc says that call_id is optional, Alice says that it's not. 20 Feb 2013
- * TODO comment
+ * Makes a request to hangup a call.
  */
 class HangupCall extends Protocol{
   /**
-   * TODO comment
+   * Hangups a call based on it's [callId].
    */
   HangupCall({String callId}){
     assert(configuration.loaded);
@@ -188,7 +188,7 @@ class HangupCall extends Protocol{
   }
 
   /**
-   * TODO comment
+   * If there are no call to hangup.
    */
   void onNoCall(Callback onData){
     assert(_request != null);
@@ -224,7 +224,7 @@ class HangupCall extends Protocol{
 
 /**
  * TODO Check up on Docs. It says nothing about call_id. 2013-02-27 Thomas P.
- * TODO comment
+ * Sets the call OnHold or park it, if the ask Asterisk.
  */
 class HoldCall extends Protocol{
   /**
@@ -301,7 +301,7 @@ class HoldCall extends Protocol{
 /**
  * Place a new call to an Agent, a Contact (via contact method, ), an arbitrary PSTn number or a SIP phone.
  *
- * TODO Comment
+ * Sends a request to make a new call.
  */
 class OriginateCall extends Protocol{
   /**
@@ -374,11 +374,13 @@ class OriginateCall extends Protocol{
 }
 
 /**
- * TODO comment
+ * Sends a request to pickup a call.
  */
 class PickupCall extends Protocol{
   /**
-   * TODO comment
+   * Sends a call based on the [callId], if present, to the agent with [AgentId].
+   * If no callId is specified, then the next call in line will be dispatched
+   * to the agent.
    */
   PickupCall(int AgentId, {String callId}){
     assert(configuration.loaded);
@@ -454,11 +456,11 @@ class PickupCall extends Protocol{
 
 /**
  * TODO Not implemented in Alice, as fare as i can see. 2013-02-27 Thomas P.
- * TODO comment
+ * Gives the status of a call.
  */
 class StatusCall extends Protocol{
   /**
-   * TODO Comment
+   * Gives the status of a call based on the [callId].
    */
   StatusCall(int callId){
     assert(configuration.loaded);
@@ -515,7 +517,8 @@ class StatusCall extends Protocol{
 }
 
 /**
- * TODO comment
+ * TODO write better comment.
+ * Sends a request to transfer a call.
  */
 class TransferCall extends Protocol{
   /**

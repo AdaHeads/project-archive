@@ -14,7 +14,7 @@
 */
 
 /**
- * TODO comment
+ * Library to manage keyboardshortcuts.
  */
 library keyboard;
 
@@ -25,14 +25,17 @@ import 'logger.dart';
 
 part 'keyboardshortcuts.dart';
 
+/**
+ * The one and only [keyboardhandler].
+ */
 final Keyboardhandler keyboardHandler = new Keyboardhandler._internal();
 
 /**
- * TODO comment
+ * Class to handler keyboard events, and activate the right keyboardshortcuts.
  */
 class Keyboardhandler{
   /**
-   * TODO Comment
+   * Global shortcuts are always active.
    */
   KeyboardShortcuts global;
 
@@ -49,7 +52,7 @@ class Keyboardhandler{
   int _locked = null;
 
   /**
-   * TODO Comment constructor.
+   * Private constructor to make sure there is only one instance of it.
    */
   Keyboardhandler._internal() {
     log.debug('keyboardHanlder Initialized');
@@ -90,6 +93,9 @@ class Keyboardhandler{
   }
 }
 
+/**
+ * Contains keyboardskeys for making keyboardshortcuts.
+ */
 class Keys{
   static const int UP = 38;
   static const int DOWN = 40;

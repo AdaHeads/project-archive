@@ -15,7 +15,7 @@
 
 part of view;
 /**
- * TODO Write comment.
+ * Class to magage the call queue widget.
  */
 class GlobalQueue {
   static GlobalQueue _instance;
@@ -139,7 +139,7 @@ class GlobalQueue {
   void _hangupCall(_){
     log.debug('The hangup button is pressed.');
     //TODO Either the Json type, from Alice, for id should not be an String,
-    //      or the Bob type should not be an Int
+    //      or the Bob type, should not be an Int
     hangupCall(int.parse(environment.call.content['id']));
   }
 

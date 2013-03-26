@@ -16,11 +16,11 @@
 part of protocol;
 
 /**
- * TODO Comment
+ * Protocol class to make the request for agent state.
  */
 class AgentState extends Protocol{
   /**
-   * TODO Comment
+   * Contructor to make a request to __get__ information about an agent,
    */
   AgentState.Get(int agentId){
     assert(configuration.loaded);
@@ -42,7 +42,7 @@ class AgentState extends Protocol{
   }
 
   /**
-   * TODO Comment
+   * Contructor to make a request to __set__ information about an agent,
    */
   AgentState.Set(String state, int agentId){
     assert(configuration.loaded);
@@ -71,7 +71,7 @@ class AgentState extends Protocol{
   }
 
   /**
-   * TODO Comment
+   * If the request gives a 200 Ok status code.
    */
   void onSuccess(void onData(String response)){
     assert(_request != null);
@@ -85,7 +85,7 @@ class AgentState extends Protocol{
   }
 
   /**
-   * TODO Comment
+   * if the request gives anything else but a 200 Ok back.
    */
   void onError(void onData()){
     assert(_request != null);
