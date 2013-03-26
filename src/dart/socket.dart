@@ -108,7 +108,7 @@ class Socket{
   void _onError (event) {
     log.critical(event.toString());
 
-    _errorStream.sink({'error': 'Error on connection'});
+    _errorStream.sink.add({'error': 'Error on connection'});
   }
 
   /**

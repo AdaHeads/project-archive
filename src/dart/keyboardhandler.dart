@@ -60,11 +60,13 @@ class Keyboardhandler{
 
   void _keyDown(KeyboardEvent event) {
     var key = new KeyEvent(event);
-    log.debug('${key.keyCode} - Down');
+    //log.debug('${key.keyCode} - Down');
 
     if (_locked == null) {
       if (key.ctrlKey && key.altKey) {
         int keyCode = key.keyCode;
+
+        log.debug('${keyCode} - Ctrl and Alt Down');
 
         if (widget != null && widget.callIfPresent(keyCode)) {
           _locked = keyCode;
@@ -82,7 +84,7 @@ class Keyboardhandler{
 
   void _keyUp(KeyboardEvent event) {
     var key = new KeyEvent(event);
-    log.debug('${key.keyCode} - Up');
+    //log.debug('${key.keyCode} - Up');
 
     if (_locked == key.keyCode){
       _locked = null;

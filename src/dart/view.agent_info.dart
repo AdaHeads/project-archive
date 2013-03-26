@@ -35,7 +35,17 @@ class AgentInfo {
     _viewPort = new widgets.Box(query('#agent_info'),
                                 query('#agent_info_body'),
                                 header: query('#agent_info_header'))
-        ..header = 'Agenter'
-        ..body = 'agentID: ${configuration.agentID}';
+        ..header = 'Agent: ${configuration.agentID}'
+        ..body = 'Agenter klar: 0';
+        _initialLoad();
+  }
+
+  void _initialLoad(){
+    new protocol.PeerList()
+    ..onSuccess((text){
+      var jsonData = json.parse(text);
+      _viewPort.body = 'Agenter klar: ${jsonData.length}';
+    })
+    ..send();
   }
 }
