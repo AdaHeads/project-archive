@@ -60,7 +60,6 @@ class Keyboardhandler{
 
   void _keyDown(KeyboardEvent event) {
     var key = new KeyEvent(event);
-    //log.debug('${key.keyCode} - Down');
 
     if (_locked == null) {
       if (key.ctrlKey && key.altKey) {
@@ -84,7 +83,6 @@ class Keyboardhandler{
 
   void _keyUp(KeyboardEvent event) {
     var key = new KeyEvent(event);
-    //log.debug('${key.keyCode} - Up');
 
     if (_locked == key.keyCode){
       _locked = null;

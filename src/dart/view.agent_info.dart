@@ -47,5 +47,19 @@ class AgentInfo {
       _viewPort.body = 'Agenter klar: ${jsonData.length}';
     })
     ..send();
+
+    new protocol.AgentState.Get(configuration.agentID)
+    ..onSuccess((text){
+      log.debug(text);
+      var dataJson = json.parse(text);
+      var state = dataJson['state'];
+      if (state == 'idle'){
+        _viewPort.header = 'Agent ${configuration.agentID} er klar';
+      }else{
+        _viewPort.header = 'Agent ${configuration.agentID} er ikke klar';
+      }
+    })
+    ..onError(() => log.error('Could not fetch information about agent: ${configuration.agentID}'))
+    ..send();
   }
 }
