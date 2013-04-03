@@ -15,6 +15,8 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
+with Ada.Calendar;
+
 package Receptions.PBX_Interface is
    type Instance is interface;
 
@@ -30,6 +32,8 @@ package Receptions.PBX_Interface is
    function Callee (PBX  : in Instance;
                     ID   : in Call'Class) return String is abstract;
 
+   function Clock (PBX : in Instance) return Ada.Calendar.Time is
+     (Ada.Calendar.Clock);
    function Today_Is (PBX : in Instance;
                       Day : in String) return Boolean is abstract;
 end Receptions.PBX_Interface;
