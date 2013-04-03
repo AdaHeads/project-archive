@@ -19,6 +19,8 @@
 #                                                                             #
 ###############################################################################
 
+include .config
+
 PROJECT=libdialplan
 
 ifeq ($(PROCESSORS),)
@@ -45,9 +47,11 @@ tests: all
 	@./tests/run
 
 install: tests
-	install --target-directory=$(DESTDIR)$(PREFIX)/lib/gnat           gpr/$(PROJECT).gpr
-	install --target-directory=$(DESTDIR)$(PREFIX)/$(PROJECT)         library/*
-	install --target-directory=$(DESTDIR)$(PREFIX)/include/$(PROJECT) src/*.ad[sb]
+	install --target-directory=$(DESTDIR)$(PREFIX)/lib/gnat                  gpr/$(PROJECT).gpr
+	install --target-directory=$(DESTDIR)$(PREFIX)/$(PROJECT)                library/*
+	install --target-directory=$(DESTDIR)$(PREFIX)/include/$(PROJECT)        src/*.ad[sb]
+	install --target-directory=$(DESTDIR)$(PREFIX)/share/doc/$(PROJECT)      README COPYING3 COPYING.RUNTIME dtds/*
+	install --target-directory=$(DESTDIR)$(PREFIX)/share/examples/$(PROJECT) examples/*
 
 cleanup_messy_temp_files:
 	find . -name "*~" -type f -print0 | xargs -0 -r /bin/rm

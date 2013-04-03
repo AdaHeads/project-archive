@@ -19,3 +19,7 @@ library/
 
 # Do not track Jacobs merge script
 test_and_push_to_master
+
+# Do not track configuration files:
+.config
+.config.sh
