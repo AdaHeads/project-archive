@@ -26,11 +26,11 @@ PROCESSORS=`(test -f /proc/cpuinfo && grep -c ^processor /proc/cpuinfo) || echo 
 endif
 
 all:
-	mkdir -p exe build_production
+	mkdir -p library build_production
 	gnatmake -j${PROCESSORS} -P $(PROJECT)
 
 debug:
-	mkdir -p exe build_debug
+	mkdir -p library build_debug
 	BUILDTYPE=Debug gnatmake -j${PROCESSORS} -P $(PROJECT)
 
 clean: cleanup_messy_temp_files
@@ -38,11 +38,16 @@ clean: cleanup_messy_temp_files
 	BUILDTYPE=Debug gnatclean -P $(PROJECT)
 
 distclean:
-	rm -rf exe build_production build_debug
+	rm -rf library build_production build_debug
 
 tests: all
 	@./tests/build
 	@./tests/run
+
+install: tests
+	install --target-directory=$(DESTDIR)$(PREFIX)/lib/gnat           gpr/$(PROJECT).gpr
+	install --target-directory=$(DESTDIR)$(PREFIX)/$(PROJECT)         library/*
+	install --target-directory=$(DESTDIR)$(PREFIX)/include/$(PROJECT) src/*.ad[sb]
 
 cleanup_messy_temp_files:
 	find . -name "*~" -type f -print0 | xargs -0 -r /bin/rm

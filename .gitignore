@@ -4,8 +4,8 @@ build_debug/
 *.ali
 *.o
 
-# Do not track built executables
-exe/
+# Do not track built library files 
+library/
 
 # Do not track emacs temporary and backup files
 \#*#
