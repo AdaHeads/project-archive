@@ -10,9 +10,11 @@ SU_APPLICATION=sudo
 PREFIX=/usr/gnat
 
 # Number of available CPU threads.
-PROCESSORS=4;
+ifeq ($(PROCESSORS),)
+PROCESSORS=`(test -f /proc/cpuinfo && grep -c ^processor /proc/cpuinfo) || echo 1`
+endif
 
-GNATCOLL_ARGS=--disable-projects
+GNATCOLL_ARGS=--disable-projects --with-postgresql --with-sqlite --enable-syslog
 
 ########
 # Yolk #
