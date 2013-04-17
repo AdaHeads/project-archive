@@ -21,8 +21,7 @@ with "xmlada";
 project Test is
    for Source_Dirs use (".", "../../src/");
 
-   for Main use ("load_dial_plan",
-                 "normalise_dial_plan",
+   for Main use ("normalise_dial_plan",
                  "test_dial_plan");
 
    package Compiler renames Shared.Compiler;
