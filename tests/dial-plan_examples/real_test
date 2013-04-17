@@ -20,11 +20,21 @@ cd "$(dirname "$0")" || exit -1
 
 errors=0
 
-for dial_plan in *.dial-plan; do
+# Known good:
+for dial_plan in ../../examples/*.dial-plan; do
    if xmllint --loaddtd --valid "${dial_plan}"; then
       true
    else
       let errors++
+   fi
+done
+
+# Known bad:
+for dial_plan in ../../examples/bad/*.dial-plan; do
+   if xmllint --loaddtd --valid "${dial_plan}"; then
+      let errors++
+   else
+      true
    fi
 done
 
