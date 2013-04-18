@@ -19,4 +19,5 @@ with DOM.Core;
 
 package Receptions.Dial_Plan.IO is
    function Load (From : in DOM.Core.Node) return Instance;
+   function From_XML (Item : in String) return Instance;
 end Receptions.Dial_Plan.IO;

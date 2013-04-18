@@ -22,6 +22,15 @@ with Receptions.Decision_Tree.IO,
      Receptions.End_Point.IO;
 
 package body Receptions.Dial_Plan.IO is
+   function From_XML (Item : in String) return Instance is
+   begin
+      raise Program_Error
+        with "Receptions.Dial_Plan.IO.From_XML is not implemented.";
+      return Dummy : Instance do
+         null;
+      end return;
+   end From_XML;
+
    function Load (From : in DOM.Core.Node) return Instance is
       function Title return String;
       function Start_At return String;
