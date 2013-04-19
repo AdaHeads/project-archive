@@ -15,9 +15,14 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
+with Ada.Text_IO;
+
+private
 with DOM.Core;
 
 package Receptions.Dial_Plan.IO is
+   function XML (Item : in     String) return Instance;
+   function XML (File : in     Ada.Text_IO.File_Type) return Instance;
+private
    function Load (From : in DOM.Core.Node) return Instance;
-   function From_XML (Item : in String) return Instance;
 end Receptions.Dial_Plan.IO;

@@ -15,22 +15,25 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with DOM.Core.Nodes,
-     DOM.Support;
+with
+  Ada.IO_Exceptions,
+  Ada.Strings.Unbounded,
+  Ada.Strings.Unbounded.Text_IO;
+
+with
+  DOM.Core.Documents,
+  DOM.Core.Nodes,
+  DOM.Readers,
+  DOM.Support,
+  Input_Sources.Strings,
+  Sax.Readers,
+  Unicode.CES.Utf8;
+--  UTF should be all upper-case, but AdaCore doesn't seem to get that.
 
 with Receptions.Decision_Tree.IO,
      Receptions.End_Point.IO;
 
 package body Receptions.Dial_Plan.IO is
-   function From_XML (Item : in String) return Instance is
-   begin
-      raise Program_Error
-        with "Receptions.Dial_Plan.IO.From_XML is not implemented.";
-      return Dummy : Instance do
-         null;
-      end return;
-   end From_XML;
-
    function Load (From : in DOM.Core.Node) return Instance is
       function Title return String;
       function Start_At return String;
@@ -112,4 +115,46 @@ package body Receptions.Dial_Plan.IO is
                      End_Points     => End_Points,
                      Decision_Trees => Decision_Trees);
    end Load;
+
+   function XML (Item : in     String) return Instance is
+      use DOM.Core, DOM.Readers, Input_Sources.Strings, Sax.Readers;
+      Input  : String_Input;
+      Reader : Tree_Reader;
+      Doc    : Document;
+   begin
+      Set_Public_Id (Input, Receptions.Dial_Plan.XML_Element_Name);
+      --  ID should be all upper-case, but AdaCore doesn't seem to get that.
+      --  Why do we call this procedure anyway?  What does it do for us?
+
+      Open (Input    => Input,
+            Str      => Item,
+            Encoding => Unicode.CES.Utf8.Utf8_Encoding);
+
+      Set_Feature (Reader, Validation_Feature, True);
+      Set_Feature (Reader, Namespace_Feature, False);
+
+      Parse (Reader, Input);
+      Close (Input);
+
+      Doc := Get_Tree (Reader);
+
+      return Load (From => Documents.Get_Element (Doc));
+   end XML;
+
+   function XML (File : in     Ada.Text_IO.File_Type) return Instance is
+      use Ada.Strings.Unbounded, Ada.Strings.Unbounded.Text_IO;
+      Buffer : Unbounded_String;
+   begin
+      Load :
+      begin
+         loop
+            Append (Buffer, Get_Line (File));
+         end loop;
+      exception
+         when Ada.IO_Exceptions.End_Error =>
+            null;
+      end Load;
+
+      return XML (Item => To_String (Buffer));
+   end XML;
 end Receptions.Dial_Plan.IO;
