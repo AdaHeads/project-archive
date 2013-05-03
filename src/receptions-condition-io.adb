@@ -20,6 +20,7 @@ with DOM.Core.Nodes,
 
 with Receptions.Conditions.Calendar_Look_Up,
      Receptions.Conditions.Callee,
+     Receptions.Conditions.Caller,
      Receptions.Conditions.Clock,
      Receptions.Conditions.Day_Of_Month,
      Receptions.Conditions.Day_Of_Week,
@@ -31,6 +32,7 @@ package body Receptions.Condition.IO is
    function Load (From : in DOM.Core.Node) return Class is
       package Calendar_Look_Up renames Receptions.Conditions.Calendar_Look_Up;
       package Callee           renames Receptions.Conditions.Callee;
+      package Caller           renames Receptions.Conditions.Caller;
       package Clock            renames Receptions.Conditions.Clock;
       package Day_Of_Month     renames Receptions.Conditions.Day_Of_Month;
       package Day_Of_Week      renames Receptions.Conditions.Day_Of_Week;
@@ -55,6 +57,11 @@ package body Receptions.Condition.IO is
       elsif Node_Name (Condition) = Callee.XML_Element_Name then
          return
            Callee.Create (Number => Attribute (Element => Condition,
+                                               Name    => "number"));
+
+      elsif Node_Name (Condition) = Caller.XML_Element_Name then
+         return
+           Caller.Create (Number => Attribute (Element => Condition,
                                                Name    => "number"));
 
       elsif Node_Name (Condition) = Clock.XML_Element_Name then
