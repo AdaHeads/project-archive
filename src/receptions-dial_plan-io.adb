@@ -130,7 +130,7 @@ package body Receptions.Dial_Plan.IO is
             Str      => Item,
             Encoding => Unicode.CES.Utf8.Utf8_Encoding);
 
-      Set_Feature (Reader, Validation_Feature, True);
+      Set_Feature (Reader, Validation_Feature, False);
       Set_Feature (Reader, Namespace_Feature, False);
 
       Parse (Reader, Input);
