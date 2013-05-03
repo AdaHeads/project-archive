@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE dial-plan SYSTEM "../dtds/dial-plan.dtd">
+
+<dial-plan title="Jacob: Hang up on anonymous callers">
+	<start do="Start"/>
+
+	<decision-tree title="Start">
+		<branch>
+			<conditions>
+			        <caller number=""/>
+			</conditions>
+			<action do="Hang up"/>
+		</branch>
+
+		<fall-back do="Pass through"/>
+	</decision-tree>
+
+	<end-point title="Hang up">
+		<hang-up/>
+	</end-point>
+
+	<end-point title="Pass through">
+		<redirect to="21490804"/>
+	</end-point>
+</dial-plan>
