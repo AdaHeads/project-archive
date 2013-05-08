@@ -1,5 +1,6 @@
-Bob
+Bob Legacy
 ===
+Do not use. Instead use https://github.com/AdaHeads/Bob 
 
 Receptionist browser-based console for Alice.
 
