@@ -1,0 +1,16 @@
+<!--  Jacob: Hang up on anonymous callers  -->
+
+<extension>
+ <condition destination_number="+45 21 49 08 04"/>
+
+ <caller number=""/>
+ 
+ <hang-up/>
+</extension>
+
+<extension>
+ <condition destination_number="+45 21 49 08 04"/>
+
+ <redirect to="21490804"/>
+</extension>
+
