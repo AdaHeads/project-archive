@@ -18,14 +18,15 @@ total_examples=0
 successes=0
 failures=0
 
-rm -f "${base_dir}"/*.freeswitch_xml
+rm -rf "${base_dir}/compiled"
+mkdir  "${base_dir}/compiled"
 
 for example in "${base_dir}"/../../examples/*.dial-plan; do
    if [ -f "${example}" ]; then
       let total_examples++
 
       "${base_dir}/dial_plan_to_freeswitch_xml" "${example}" "+45 21 49 08 04" \
-        > "${base_dir}/$(basename "${example}" .dial-plan).freeswitch_xml"
+        > "${base_dir}/compiled/$(basename "${example}" .dial-plan).freeswitch_xml"
       result=$?
 
       if [ ${result} -eq 0 ]; then
@@ -56,13 +57,25 @@ total_examples=0
 successes=0
 failures=0
 
-for compiled in "${base_dir}"/*.freeswitch_xml; do
+for compiled in "${base_dir}"/compiled/*.freeswitch_xml; do
    if [ -f "${compiled}" ]; then
       let total_examples++
 
-      if [ -f "${base_dir}/expected/$(basename "${compiled}")" ]; then
-         let successes++
+      name="$(basename "${compiled}")"
+      expected="${base_dir}/expected/${name}"
+
+      if [ -f "${expected}" ]; then
+         if diff --brief "${compiled}" "${expected}" 1>/dev/null; then
+            let successes++
+         else
+            let failures++
+
+            echo "'${name}' does not match the expected result:"
+            diff -u "${expected}" "${compiled}"
+            echo
+         fi
       else
+         echo "'${name}' has no expected result."
          let failures++
       fi
    fi

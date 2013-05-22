@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE dial-plan SYSTEM "../dtds/dial-plan.dtd">
+
+<dial-plan title="Send all calls to a queue no matter what">
+	<start do="Queue"/>
+
+	<end-point title="Queue">
+		<queue id="Danish+English"/>
+	</end-point>
+</dial-plan>
