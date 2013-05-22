@@ -65,13 +65,13 @@ for compiled in "${base_dir}"/compiled/*.freeswitch_xml; do
       expected="${base_dir}/expected/${name}"
 
       if [ -f "${expected}" ]; then
-         if diff --brief "${compiled}" "${expected}" 1>/dev/null; then
+         if diff --ignore-space-change --brief "${compiled}" "${expected}" 1>/dev/null; then
             let successes++
          else
             let failures++
 
             echo "'${name}' does not match the expected result:"
-            diff -u "${expected}" "${compiled}"
+            diff --ignore-space-change --unified "${expected}" "${compiled}"
             echo
          fi
       else
