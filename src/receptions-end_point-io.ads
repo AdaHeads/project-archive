@@ -15,8 +15,17 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
+with Ada.Containers;
+
 with DOM.Core;
+
+with Receptions.Conditions;
 
 package Receptions.End_Point.IO is
    function Load (From : in DOM.Core.Node) return Class;
+
+   function FreeSWITCH_XML
+     (Item          : in     Class;
+      Conditions    : in     Receptions.Conditions.Instance;
+      Maximum_Jumps : in     Ada.Containers.Count_Type) return String;
 end Receptions.End_Point.IO;

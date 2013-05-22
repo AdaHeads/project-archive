@@ -23,6 +23,9 @@ with DOM.Core;
 package Receptions.Dial_Plan.IO is
    function XML (Item : in     String) return Instance;
    function XML (File : in     Ada.Text_IO.File_Type) return Instance;
+
+   function FreeSWITCH_XML (Item   : in     Instance;
+                            Number : in     String) return String;
 private
    function Load (From : in DOM.Core.Node) return Instance;
 end Receptions.Dial_Plan.IO;

@@ -15,6 +15,8 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
+with Ada.Characters.Latin_1;
+
 with DOM.Core.Nodes,
      DOM.Support;
 
@@ -22,6 +24,15 @@ with Receptions.Branch,
      Receptions.Branch.IO;
 
 package body Receptions.Decision_Tree.IO is
+   function FreeSWITCH_XML
+     (Item          : in     Class;
+      Conditions    : in     Receptions.Conditions.Instance;
+      Maximum_Jumps : in     Ada.Containers.Count_Type) return String is
+      use Ada.Characters.Latin_1;
+   begin
+      return "<!--  Decision-tree: " & Title (Item) & "  -->" & LF;
+   end FreeSWITCH_XML;
+
    function Load (From : in DOM.Core.Node) return Instance is
       function Title return String;
       function Branches return Receptions.List_Of_Branches.Vector;

@@ -1,0 +1,6 @@
+*.ali
+*.o
+
+*.freeswitch_xml
+
+dial_plan_to_freeswitch_xml

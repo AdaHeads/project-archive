@@ -16,6 +16,7 @@
 -------------------------------------------------------------------------------
 
 with
+  Ada.Characters.Latin_1,
   Ada.IO_Exceptions,
   Ada.Strings.Unbounded,
   Ada.Strings.Unbounded.Text_IO;
@@ -30,10 +31,47 @@ with
   Unicode.CES.Utf8;
 --  UTF should be all upper-case, but AdaCore doesn't seem to get that.
 
-with Receptions.Decision_Tree.IO,
-     Receptions.End_Point.IO;
+with
+  Receptions.Conditions,
+  Receptions.Conditions.Callee,
+  Receptions.Decision_Tree.IO,
+  Receptions.End_Point.IO;
 
 package body Receptions.Dial_Plan.IO is
+   function FreeSWITCH_XML (Item   : in     Instance;
+                            Number : in     String) return String is
+      use Ada.Characters.Latin_1;
+      use Receptions.Conditions,
+          Receptions.Decision_Tree.IO,
+          Receptions.End_Point.IO;
+
+      function "+" (Item : in Ada.Strings.Unbounded.Unbounded_String)
+        return String
+        renames Ada.Strings.Unbounded.To_String;
+
+      Conditions : Receptions.Conditions.Instance;
+   begin
+      Conditions.Append (Callee.Create (Number => Number));
+
+      if Item.End_Points.Contains (+Item.Start_At) then
+         return
+           "<!--  " & Title (Item) & "  -->" & LF &
+           FreeSWITCH_XML (Item          => Item.End_Points.Element
+                                              (+Item.Start_At),
+                           Conditions    => Conditions,
+                           Maximum_Jumps => Item.Decision_Trees.Length);
+      elsif Item.Decision_Trees.Contains (+Item.Start_At) then
+         return
+           "<!--  " & Title (Item) & "  -->" & LF &
+           FreeSWITCH_XML (Item          => Item.Decision_Trees.Element
+                                              (+Item.Start_At),
+                           Conditions    => Conditions,
+                           Maximum_Jumps => Item.Decision_Trees.Length);
+      else
+         raise Dead_End;
+      end if;
+   end FreeSWITCH_XML;
+
    function Load (From : in DOM.Core.Node) return Instance is
       function Title return String;
       function Start_At return String;

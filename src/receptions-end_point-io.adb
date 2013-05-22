@@ -15,6 +15,8 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
+with Ada.Characters.Latin_1;
+
 with DOM.Core.Nodes,
      DOM.Support;
 
@@ -26,6 +28,15 @@ with Receptions.End_Points.Busy_Signal,
      Receptions.End_Points.Voice_Mail;
 
 package body Receptions.End_Point.IO is
+   function FreeSWITCH_XML
+     (Item          : in     Class;
+      Conditions    : in     Receptions.Conditions.Instance;
+      Maximum_Jumps : in     Ada.Containers.Count_Type) return String is
+      use Ada.Characters.Latin_1;
+   begin
+      return "<!--  End-point: " & Title (Item) & "  -->" & LF;
+   end FreeSWITCH_XML;
+
    function Load (From : in DOM.Core.Node) return Class is
       package Busy_Signal renames Receptions.End_Points.Busy_Signal;
       package Hang_Up renames Receptions.End_Points.Hang_Up;
