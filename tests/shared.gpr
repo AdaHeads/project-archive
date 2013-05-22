@@ -30,7 +30,7 @@ abstract project Shared is
                                         "-gnat2012");
    end Compiler;
 
-   package Ide is
+   package IDE is
       for Compiler_Command ("ada") use "gnatmake";
-   end Ide;
+   end IDE;
 end Shared;
