@@ -33,6 +33,12 @@ package body Receptions.End_Points.Redirect is
    end Create;
 
    overriding
+   function FreeSWITCH_XML (Item : in Instance) return String is
+   begin
+      return "<action application=""redirect"" data=""" & To (Item) & """/>";
+   end FreeSWITCH_XML;
+
+   overriding
    function Title (Item : in     Instance) return String is
    begin
       return Ada.Strings.Unbounded.To_String (Item.Title);

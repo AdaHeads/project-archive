@@ -19,9 +19,11 @@ with Receptions.Messages.Critical;
 
 package body Receptions.End_Points.Interactive_Voice_Response is
    not overriding
-   function Create (Title : in     String) return Instance is
+   function Create (Title : in     String;
+                    ID    : in     String) return Instance is
    begin
-      return (Title => Ada.Strings.Unbounded.To_Unbounded_String (Title));
+      return (Title => Ada.Strings.Unbounded.To_Unbounded_String (Title),
+              ID    => Ada.Strings.Unbounded.To_Unbounded_String (ID));
    exception
       when E : others =>
          Messages.Critical.Exception_Raised
@@ -32,6 +34,18 @@ package body Receptions.End_Points.Interactive_Voice_Response is
    end Create;
 
    overriding
+   function FreeSWITCH_XML (Item : in Instance) return String is
+   begin
+      return "<action application=""ivr"" data=""" & ID (Item) & """/>";
+   end FreeSWITCH_XML;
+
+   not overriding
+   function ID (Item : in     Instance) return String is
+   begin
+      return Ada.Strings.Unbounded.To_String (Item.ID);
+   end ID;
+
+   overriding
    function Title (Item : in     Instance) return String is
    begin
       return Ada.Strings.Unbounded.To_String (Item.Title);
@@ -40,7 +54,8 @@ package body Receptions.End_Points.Interactive_Voice_Response is
    overriding
    function Value (Item : in Instance) return String is
    begin
-      return "Interactive_Voice_Response'(Title => """ &
-             Ada.Strings.Unbounded.To_String (Item.Title) & """)";
+      return
+        "Interactive_Voice_Response'(Title => """ & Title (Item) &
+        """, ID => """ & ID (Item) & """)";
    end Value;
 end Receptions.End_Points.Interactive_Voice_Response;

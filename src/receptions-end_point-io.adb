@@ -31,8 +31,7 @@ with Receptions.Conditions.IO,
 package body Receptions.End_Point.IO is
    function FreeSWITCH_XML
      (Item          : in     Class;
-      Conditions    : in     Receptions.Conditions.Instance;
-      Maximum_Jumps : in     Ada.Containers.Count_Type) return String is
+      Conditions    : in     Receptions.Conditions.Instance) return String is
       use Ada.Characters.Latin_1;
       use Receptions.Conditions.IO;
    begin
@@ -94,7 +93,10 @@ package body Receptions.End_Point.IO is
          end;
       elsif Node_Name (Action) =
             Interactive_Voice_Response.XML_Element_Name then
-         return Interactive_Voice_Response.Create (Title => Title);
+         return Interactive_Voice_Response.Create
+                  (Title => Title,
+                   ID    => Attribute (Element => Action,
+                                       Name    => "id"));
       elsif Node_Name (Action) = Voice_Mail.XML_Element_Name then
          declare
             V : constant Voice_Mail.Instance :=

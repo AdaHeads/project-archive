@@ -56,10 +56,9 @@ package body Receptions.Dial_Plan.IO is
       if Item.End_Points.Contains (+Item.Start_At) then
          return
            "<!--  " & Title (Item) & "  -->" & LF &
-           FreeSWITCH_XML (Item          => Item.End_Points.Element
-                                              (+Item.Start_At),
-                           Conditions    => Conditions,
-                           Maximum_Jumps => Item.Decision_Trees.Length);
+           FreeSWITCH_XML (Item       => Item.End_Points.Element
+                                           (+Item.Start_At),
+                           Conditions => Conditions);
       elsif Item.Decision_Trees.Contains (+Item.Start_At) then
          return
            "<!--  " & Title (Item) & "  -->" & LF &

@@ -23,5 +23,7 @@ package Receptions.End_Point is
 
    function Value (Item : in Instance) return String is abstract;
 
+   function FreeSWITCH_XML (Item : in Instance) return String is abstract;
+
    XML_Element_Name : constant String := "end-point";
 end Receptions.End_Point;

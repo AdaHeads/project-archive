@@ -34,6 +34,9 @@ package Receptions.End_Points.Voice_Mail is
    overriding
    function Value (Item : in Instance) return String;
 
+   overriding
+   function FreeSWITCH_XML (Item : in Instance) return String;
+
    not overriding
    function Play (Item : in     Instance) return String;
 

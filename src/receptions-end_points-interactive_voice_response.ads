@@ -24,7 +24,8 @@ package Receptions.End_Points.Interactive_Voice_Response is
    type Instance is new End_Point.Instance with private;
 
    not overriding
-   function Create (Title : in     String) return Instance;
+   function Create (Title : in     String;
+                    ID    : in     String) return Instance;
 
    overriding
    function Title (Item : in     Instance) return String;
@@ -32,10 +33,17 @@ package Receptions.End_Points.Interactive_Voice_Response is
    overriding
    function Value (Item : in Instance) return String;
 
+   overriding
+   function FreeSWITCH_XML (Item : in Instance) return String;
+
+   not overriding
+   function ID (Item : in     Instance) return String;
+
    XML_Element_Name : constant String := "interactive-voice-response";
 private
    type Instance is new End_Point.Instance with
       record
          Title : Ada.Strings.Unbounded.Unbounded_String;
+         ID    : Ada.Strings.Unbounded.Unbounded_String;
       end record;
 end Receptions.End_Points.Interactive_Voice_Response;

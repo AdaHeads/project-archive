@@ -31,6 +31,14 @@ package body Receptions.End_Points.Busy_Signal is
    end Create;
 
    overriding
+   function FreeSWITCH_XML (Item : in Instance) return String is
+   begin
+      return
+        "<action application=""playback"" " &
+        "data=""tone_stream://%(500,500,480,620)""/>";
+   end FreeSWITCH_XML;
+
+   overriding
    function Title (Item : in     Instance) return String is
    begin
       return Ada.Strings.Unbounded.To_String (Item.Title);

@@ -33,6 +33,9 @@ package Receptions.End_Points.Queue is
    overriding
    function Value (Item : in Instance) return String;
 
+   overriding
+   function FreeSWITCH_XML (Item : in Instance) return String;
+
    not overriding
    function ID (Item : in     Instance) return String;
 

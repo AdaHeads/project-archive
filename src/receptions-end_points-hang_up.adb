@@ -31,6 +31,13 @@ package body Receptions.End_Points.Hang_Up is
    end Create;
 
    overriding
+   function FreeSWITCH_XML (Item : in Instance) return String is
+      pragma Unreferenced (Item);
+   begin
+      return "<action application=""hangup""/>";
+   end FreeSWITCH_XML;
+
+   overriding
    function Title (Item : in     Instance) return String is
    begin
       return Ada.Strings.Unbounded.To_String (Item.Title);

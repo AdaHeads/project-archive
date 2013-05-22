@@ -15,6 +15,8 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
+with Ada.Characters.Latin_1;
+
 with Receptions.Messages.Critical;
 
 package body Receptions.End_Points.Voice_Mail is
@@ -33,6 +35,17 @@ package body Receptions.End_Points.Voice_Mail is
             Source      => "Receptions.End_Points.Voice_Mail.Create");
          raise;
    end Create;
+
+   overriding
+   function FreeSWITCH_XML (Item : in Instance) return String is
+      use Ada.Characters.Latin_1;
+   begin
+      return
+        "<action application=""answer""/>" & LF &
+        "<!--  Configure to play: " & Play (Item) & "  -->" & LF &
+        "<action application=""voicemail"" data=""default $${domain} " &
+        Send_To (Item) & """/>";
+   end FreeSWITCH_XML;
 
    not overriding
    function Play (Item : in     Instance) return String is
