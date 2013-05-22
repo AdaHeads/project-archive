@@ -74,6 +74,7 @@
 <!ATTLIST redirect                    to            CDATA  #REQUIRED >
 
 <!ELEMENT interactive-voice-response  EMPTY >
+<!ATTLIST interactive-voice-response  id            CDATA  #REQUIRED >
 
 <!ELEMENT voice-mail                  EMPTY >
 <!ATTLIST voice-mail                  play          CDATA  #REQUIRED
