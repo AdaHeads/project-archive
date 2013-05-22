@@ -32,6 +32,7 @@ package body Receptions.End_Points.Busy_Signal is
 
    overriding
    function FreeSWITCH_XML (Item : in Instance) return String is
+      pragma Unreferenced (Item);
    begin
       return
         "<action application=""playback"" " &
