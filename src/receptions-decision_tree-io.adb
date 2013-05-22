@@ -15,7 +15,8 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with Ada.Characters.Latin_1;
+with Ada.Characters.Latin_1,
+     Ada.Strings.Unbounded;
 
 with DOM.Core.Nodes,
      DOM.Support;
@@ -28,9 +29,24 @@ package body Receptions.Decision_Tree.IO is
      (Item          : in     Class;
       Conditions    : in     Receptions.Conditions.Instance;
       Maximum_Jumps : in     Ada.Containers.Count_Type) return String is
-      use Ada.Characters.Latin_1;
+      use Ada.Characters.Latin_1, Ada.Strings.Unbounded;
+      use Receptions.Branch;
+
+      Buffer : Ada.Strings.Unbounded.Unbounded_String;
    begin
-      return "<!--  Decision-tree: " & Title (Item) & "  -->" & LF;
+      Append (Buffer,
+              "<!--  Decision-tree: " & Title (Item) & "  -->" & LF);
+
+      for Branch of Item.Branches loop
+         Append (Buffer,
+                 "<!--  Branch action: " & Action (Branch) & "  -->" & LF);
+      end loop;
+
+      Append (Buffer,
+              "<!--  Fall-back action: " & To_String (Item.Fall_Back) &
+              "  -->" & LF);
+
+      return To_String (Buffer);
    end FreeSWITCH_XML;
 
    function Load (From : in DOM.Core.Node) return Instance is

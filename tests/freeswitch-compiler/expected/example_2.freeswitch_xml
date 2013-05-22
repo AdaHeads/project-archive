@@ -1,3 +1,9 @@
 <!--  Example 2: Checking opening hours  -->
 <!--  Decision-tree: Start  -->
+<!--  Branch action: Inventory day  -->
+<!--  Branch action: Lukker klokken tolv  -->
+<!--  Branch action: Open  -->
+<!--  Branch action: Open  -->
+<!--  Branch action: Open  -->
+<!--  Fall-back action: Closed  -->
 

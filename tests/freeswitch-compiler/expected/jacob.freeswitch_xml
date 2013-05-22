@@ -1,3 +1,5 @@
 <!--  Jacob: Hang up on anonymous callers  -->
 <!--  Decision-tree: Start  -->
+<!--  Branch action: Hang up  -->
+<!--  Fall-back action: Pass through  -->
 
