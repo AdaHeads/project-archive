@@ -36,10 +36,9 @@ package body Receptions.End_Point.IO is
       use Receptions.Conditions.IO;
    begin
       return
-        "<!--  End-point: " & Title (Item) & "  -->" & LF &
         "<extension>" & LF &
         FreeSWITCH_XML (Item => Conditions) & LF &
-        " <some-action/>" & LF &
+        FreeSWITCH_XML (Item => Item) & LF &
         "</extension>" & LF;
    end FreeSWITCH_XML;
 

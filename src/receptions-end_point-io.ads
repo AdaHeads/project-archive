@@ -15,8 +15,6 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with Ada.Containers;
-
 with DOM.Core;
 
 with Receptions.Conditions;
