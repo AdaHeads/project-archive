@@ -1,3 +1,8 @@
 <!--  Send all calls to a queue no matter what  -->
 <!--  End-point: Queue  -->
+<extension>
+ Callee = "+45 21 49 08 04"
+
+ <some-action/>
+</extension>
 

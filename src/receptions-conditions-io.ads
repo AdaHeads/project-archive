@@ -20,4 +20,6 @@ with DOM.Core;
 
 package Receptions.Conditions.IO is
    function Load (From : in DOM.Core.Node) return Instance;
+
+   function FreeSWITCH_XML (Item : in     Instance) return String;
 end Receptions.Conditions.IO;

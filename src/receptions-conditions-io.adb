@@ -16,12 +16,27 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
+with Ada.Characters.Latin_1,
+     Ada.Strings.Unbounded;
+
 with DOM.Core.Nodes,
      DOM.Support;
 
 with Receptions.Condition.IO;
 
 package body Receptions.Conditions.IO is
+   function FreeSWITCH_XML (Item : in     Instance) return String is
+      use Ada.Characters.Latin_1, Ada.Strings.Unbounded;
+
+      Buffer : Ada.Strings.Unbounded.Unbounded_String;
+   begin
+      for C of Item loop
+         Append (Buffer, " " & C.Value & LF);
+      end loop;
+
+      return To_String (Buffer);
+   end FreeSWITCH_XML;
+
    function Load (From : in DOM.Core.Node) return Instance is
       use DOM.Core.Nodes, DOM.Support;
       Condition   : DOM.Core.Node;

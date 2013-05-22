@@ -20,7 +20,8 @@ with Ada.Characters.Latin_1;
 with DOM.Core.Nodes,
      DOM.Support;
 
-with Receptions.End_Points.Busy_Signal,
+with Receptions.Conditions.IO,
+     Receptions.End_Points.Busy_Signal,
      Receptions.End_Points.Hang_Up,
      Receptions.End_Points.Interactive_Voice_Response,
      Receptions.End_Points.Queue,
@@ -33,8 +34,14 @@ package body Receptions.End_Point.IO is
       Conditions    : in     Receptions.Conditions.Instance;
       Maximum_Jumps : in     Ada.Containers.Count_Type) return String is
       use Ada.Characters.Latin_1;
+      use Receptions.Conditions.IO;
    begin
-      return "<!--  End-point: " & Title (Item) & "  -->" & LF;
+      return
+        "<!--  End-point: " & Title (Item) & "  -->" & LF &
+        "<extension>" & LF &
+        FreeSWITCH_XML (Item => Conditions) & LF &
+        " <some-action/>" & LF &
+        "</extension>" & LF;
    end FreeSWITCH_XML;
 
    function Load (From : in DOM.Core.Node) return Class is
