@@ -16,8 +16,7 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with Ada.Characters.Latin_1,
-     Ada.Strings.Unbounded;
+with Ada.Strings.Unbounded;
 
 with DOM.Core.Nodes,
      DOM.Support;
@@ -26,12 +25,12 @@ with Receptions.Condition.IO;
 
 package body Receptions.Conditions.IO is
    function FreeSWITCH_XML (Item : in     Instance) return String is
-      use Ada.Characters.Latin_1, Ada.Strings.Unbounded;
+      use Ada.Strings.Unbounded;
 
       Buffer : Ada.Strings.Unbounded.Unbounded_String;
    begin
       for C of Item loop
-         Append (Buffer, " " & C.Value & LF);
+         Append (Buffer, C.FreeSWITCH_XML);
       end loop;
 
       return To_String (Buffer);

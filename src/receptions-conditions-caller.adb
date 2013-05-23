@@ -15,6 +15,8 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
+with Ada.Characters.Latin_1;
+
 with Receptions.PBX,
      Receptions.Messages.Critical;
 
@@ -31,6 +33,15 @@ package body Receptions.Conditions.Caller is
             Source      => "Receptions.Conditions.Caller.Create");
          raise;
    end Create;
+
+   overriding
+   function FreeSWITCH_XML (Item : in Instance) return String is
+      use Ada.Characters.Latin_1, Ada.Strings.Unbounded;
+   begin
+      return
+        " <condition caller_id_number=""" & To_String (Item.Number) &
+        """/>" & LF;
+   end FreeSWITCH_XML;
 
    overriding
    function True (Item : in Instance;

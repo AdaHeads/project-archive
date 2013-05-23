@@ -32,6 +32,7 @@ with
 --  UTF should be all upper-case, but AdaCore doesn't seem to get that.
 
 with
+  Receptions.Action.IO,
   Receptions.Conditions,
   Receptions.Conditions.Callee,
   Receptions.Decision_Tree.IO,
@@ -40,40 +41,21 @@ with
 package body Receptions.Dial_Plan.IO is
    function FreeSWITCH_XML (Item   : in     Instance;
                             Number : in     String) return String is
-      use Ada.Characters.Latin_1;
-      use Receptions.Conditions,
-          Receptions.Decision_Tree.IO,
-          Receptions.End_Point.IO;
+      use Ada.Characters.Latin_1, Ada.Strings.Unbounded;
+      use Receptions.Conditions;
 
-      function "+" (Item : in Ada.Strings.Unbounded.Unbounded_String)
-        return String
-        renames Ada.Strings.Unbounded.To_String;
-
-      Conditions               : Receptions.Conditions.Instance;
-      Decision_Trees_Minus_One : Receptions.Decision_Tree_Collection.Map;
+      Conditions : Receptions.Conditions.Instance;
    begin
       Conditions.Append (Callee.Create (Number => Number));
 
-      if Item.End_Points.Contains (+Item.Start_At) then
-         return
-           "<!--  " & Title (Item) & "  -->" & LF &
-           Receptions.End_Point.IO.FreeSWITCH_XML
-             (Item       => Item.End_Points.Element (+Item.Start_At),
-              Conditions => Conditions);
-      elsif Item.Decision_Trees.Contains (+Item.Start_At) then
-         Decision_Trees_Minus_One := Item.Decision_Trees;
-         Decision_Trees_Minus_One.Delete (+Item.Start_At);
-
-         return
-           "<!--  " & Title (Item) & "  -->" & LF &
-           Receptions.Decision_Tree.IO.FreeSWITCH_XML
-             (Item           => Item.Decision_Trees.Element (+Item.Start_At),
-              Conditions     => Conditions,
-              End_Points     => Item.End_Points,
-              Decision_Trees => Decision_Trees_Minus_One);
-      else
-         raise Dead_End;
-      end if;
+      return
+        "<!--  Reception: " & Title (Item) & "  -->" & LF & LF &
+        Receptions.Action.IO.FreeSWITCH_XML
+          (Item           => To_String (Item.Start_At),
+           Conditions     => Conditions,
+           End_Points     => Item.End_Points,
+           Decision_Trees => Item.Decision_Trees,
+           Path           => "");
    end FreeSWITCH_XML;
 
    function Load (From : in DOM.Core.Node) return Instance is

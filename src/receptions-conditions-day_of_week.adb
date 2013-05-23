@@ -15,7 +15,9 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with Ada.Strings.Fixed,
+with Ada.Characters.Handling,
+     Ada.Characters.Latin_1,
+     Ada.Strings.Fixed,
      Ada.Strings.Unbounded;
 
 with Receptions.Messages.Critical;
@@ -50,6 +52,31 @@ package body Receptions.Conditions.Day_Of_Week is
             Source      => "Receptions.Conditions.Day_Of_Week.Create");
          raise;
    end Create;
+
+   overriding
+   function FreeSWITCH_XML (Item : in Instance) return String is
+      use Ada.Calendar.Formatting,
+          Ada.Characters.Handling,
+          Ada.Characters.Latin_1,
+          Ada.Strings.Fixed,
+          Ada.Strings.Unbounded;
+      Result : Unbounded_String;
+      Prefix : Unbounded_String := To_Unbounded_String (" <condition wday=""");
+   begin
+      for Day in Item.Days'Range loop
+         if Item.Days (Day) then
+            Append (Result, Prefix);
+            Append (Result, To_Lower (Head (Day_Name'Image (Day), 3)));
+            Prefix := To_Unbounded_String (",");
+         end if;
+      end loop;
+
+      if Length (Result) = 0 then
+         return " <false/>" & LF;
+      else
+         return To_String (Result) & """/>" & LF;
+      end if;
+   end FreeSWITCH_XML;
 
    overriding
    function True (Item : in Instance;

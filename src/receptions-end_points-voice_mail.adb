@@ -44,7 +44,7 @@ package body Receptions.End_Points.Voice_Mail is
         " <action application=""answer""/>" & LF &
         " <!--  Configure to play: " & Play (Item) & "  -->" & LF &
         " <action application=""voicemail"" data=""default $${domain} " &
-        Send_To (Item) & """/>";
+        Send_To (Item) & """/>" & LF;
    end FreeSWITCH_XML;
 
    not overriding

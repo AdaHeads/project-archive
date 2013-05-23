@@ -15,6 +15,8 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
+with Ada.Characters.Latin_1;
+
 with Receptions.Messages.Critical;
 
 package body Receptions.End_Points.Busy_Signal is
@@ -33,10 +35,11 @@ package body Receptions.End_Points.Busy_Signal is
    overriding
    function FreeSWITCH_XML (Item : in Instance) return String is
       pragma Unreferenced (Item);
+      use Ada.Characters.Latin_1;
    begin
       return
         " <action application=""playback"" " &
-        "data=""tone_stream://%(500,500,480,620)""/>";
+        "data=""tone_stream://%(500,500,480,620)""/>" & LF;
    end FreeSWITCH_XML;
 
    overriding

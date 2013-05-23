@@ -26,4 +26,6 @@ package Receptions.Condition is
      abstract;
 
    function Value (Item : in Instance) return String is abstract;
+
+   function FreeSWITCH_XML (Item : in Instance) return String is abstract;
 end Receptions.Condition;

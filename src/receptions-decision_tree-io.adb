@@ -15,8 +15,7 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with Ada.Characters.Latin_1,
-     Ada.Strings.Unbounded;
+with Ada.Strings.Unbounded;
 
 with DOM.Core.Nodes,
      DOM.Support;
@@ -30,38 +29,31 @@ package body Receptions.Decision_Tree.IO is
      (Item           : in     Class;
       Conditions     : in     Receptions.Conditions.Instance;
       End_Points     : in     Receptions.End_Point_Collection.Map;
-      Decision_Trees : in     Receptions.Decision_Tree_Collection.Map)
-     return String is
+      Decision_Trees : in     Receptions.Decision_Tree_Collection.Map;
+      Path           : in     String) return String is
 
-      use Ada.Characters.Latin_1, Ada.Strings.Unbounded;
+      use Ada.Strings.Unbounded;
       use Receptions.Branch;
 
       Buffer : Ada.Strings.Unbounded.Unbounded_String;
    begin
-      Append (Buffer,
-              "<!--  Decision-tree: " & Title (Item) & "  -->" & LF);
-
       for Branch of Item.Branches loop
-         Append (Buffer,
-                 "<!--  Branch action: " & Branch.Action & "  -->" & LF);
          Append (Buffer,
                  Receptions.Branch.IO.FreeSWITCH_XML
                    (Item           => Branch,
                     Conditions     => Conditions,
                     End_Points     => End_Points,
-                    Decision_Trees => Decision_Trees) & LF);
+                    Decision_Trees => Decision_Trees,
+                    Path           => Path));
       end loop;
-
-      Append (Buffer,
-              "<!--  Fall-back action: " & To_String (Item.Fall_Back) &
-              "  -->" & LF);
 
       Append (Buffer,
               Receptions.Action.IO.FreeSWITCH_XML
                 (Item           => To_String (Item.Fall_Back),
                  Conditions     => Conditions,
                  End_Points     => End_Points,
-                 Decision_Trees => Decision_Trees) & LF);
+                 Decision_Trees => Decision_Trees,
+                 Path           => Path));
 
       return To_String (Buffer);
    end FreeSWITCH_XML;

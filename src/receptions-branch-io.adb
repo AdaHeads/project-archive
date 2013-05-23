@@ -27,15 +27,16 @@ package body Receptions.Branch.IO is
      (Item           : in     Class;
       Conditions     : in     Receptions.Conditions.Instance;
       End_Points     : in     Receptions.End_Point_Collection.Map;
-      Decision_Trees : in     Receptions.Decision_Tree_Collection.Map)
-     return String is
+      Decision_Trees : in     Receptions.Decision_Tree_Collection.Map;
+      Path           : in     String) return String is
       use type Receptions.Conditions.Instance;
    begin
       return Receptions.Action.IO.FreeSWITCH_XML
                (Item           => Action (Item),
                 Conditions     => Conditions & Item.Conditions,
                 End_Points     => End_Points,
-                Decision_Trees => Decision_Trees);
+                Decision_Trees => Decision_Trees,
+                Path           => Path);
    end FreeSWITCH_XML;
 
    function Load (From : in DOM.Core.Node) return Instance is

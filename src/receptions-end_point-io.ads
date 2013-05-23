@@ -24,5 +24,6 @@ package Receptions.End_Point.IO is
 
    function FreeSWITCH_XML
      (Item          : in     Class;
-      Conditions    : in     Receptions.Conditions.Instance) return String;
+      Conditions    : in     Receptions.Conditions.Instance;
+      Path          : in     String) return String;
 end Receptions.End_Point.IO;

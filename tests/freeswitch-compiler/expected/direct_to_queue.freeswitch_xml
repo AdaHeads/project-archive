@@ -1,7 +1,10 @@
-<!--  Send all calls to a queue no matter what  -->
+<!--  Reception: Send all calls to a queue no matter what  -->
+
+<!--  Path: Queue  -->
 <extension>
- Callee = "+45 21 49 08 04"
+ <condition destination_number="+45 21 49 08 04"/>
 
  <action application="queue" data="Danish+English"/>
 </extension>
+
 

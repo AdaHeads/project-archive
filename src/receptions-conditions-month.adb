@@ -15,7 +15,8 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with Ada.Strings.Fixed,
+with Ada.Characters.Latin_1,
+     Ada.Strings.Fixed,
      Ada.Strings.Unbounded;
 
 package body Receptions.Conditions.Month is
@@ -48,6 +49,31 @@ package body Receptions.Conditions.Month is
            with "Receptions.Conditions.Month: " &
                 "Failed to parse list of month numbers: """ & List & """.";
    end Create;
+
+   overriding
+   function FreeSWITCH_XML (Item : in Instance) return String is
+      use Ada.Calendar,
+          Ada.Characters.Latin_1,
+          Ada.Strings,
+          Ada.Strings.Fixed,
+          Ada.Strings.Unbounded;
+      Result : Unbounded_String;
+      Prefix : Unbounded_String := To_Unbounded_String (" <condition mon=""");
+   begin
+      for Month in Item.Months'Range loop
+         if Item.Months (Month) then
+            Append (Result, Prefix);
+            Append (Result, Trim (Month_Number'Image (Month), Both));
+            Prefix := To_Unbounded_String (",");
+         end if;
+      end loop;
+
+      if Length (Result) = 0 then
+         return " <false/>" & LF;
+      else
+         return To_String (Result) & """/>" & LF;
+      end if;
+   end FreeSWITCH_XML;
 
    overriding
    function True (Item : in Instance;

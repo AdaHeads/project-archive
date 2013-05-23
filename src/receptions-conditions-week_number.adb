@@ -16,6 +16,7 @@
 -------------------------------------------------------------------------------
 
 with Ada.Calendar,
+     Ada.Characters.Latin_1,
      Ada.Strings.Fixed,
      Ada.Strings.Unbounded;
 
@@ -54,6 +55,30 @@ package body Receptions.Conditions.Week_Number is
             Source      => "Receptions.Conditions.Week_Number.Create");
          raise;
    end Create;
+
+   overriding
+   function FreeSWITCH_XML (Item : in Instance) return String is
+      use Ada.Characters.Latin_1,
+          Ada.Strings,
+          Ada.Strings.Fixed,
+          Ada.Strings.Unbounded;
+      Result : Unbounded_String;
+      Prefix : Unbounded_String := To_Unbounded_String (" <condition week=""");
+   begin
+      for Week in Item.Weeks'Range loop
+         if Item.Weeks (Week) then
+            Append (Result, Prefix);
+            Append (Result, Trim (Week_Numbers'Image (Week), Both));
+            Prefix := To_Unbounded_String (",");
+         end if;
+      end loop;
+
+      if Length (Result) = 0 then
+         return " <false/>" & LF;
+      else
+         return To_String (Result) & """/>" & LF;
+      end if;
+   end FreeSWITCH_XML;
 
    overriding
    function True (Item : in Instance;

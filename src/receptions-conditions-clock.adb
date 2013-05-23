@@ -15,7 +15,8 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with Ada.Calendar.Formatting;
+with Ada.Calendar.Formatting,
+     Ada.Characters.Latin_1;
 
 with Receptions.Messages.Critical;
 
@@ -61,6 +62,15 @@ package body Receptions.Conditions.Clock is
             Source      => "Receptions.Conditions.Clock.Create");
          raise;
    end Create;
+
+   overriding
+   function FreeSWITCH_XML (Item : in Instance) return String is
+      use Ada.Calendar.Formatting, Ada.Characters.Latin_1;
+   begin
+      return
+        " <condition time-of-day=""" & Image (Item.From) & "-" &
+        Image (Item.To) & """/>" & LF;
+   end FreeSWITCH_XML;
 
    overriding
    function True (Item : in Instance;

@@ -15,6 +15,8 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
+with Ada.Characters.Latin_1;
+
 with Receptions.Messages.Critical;
 
 package body Receptions.End_Points.Hang_Up is
@@ -33,8 +35,9 @@ package body Receptions.End_Points.Hang_Up is
    overriding
    function FreeSWITCH_XML (Item : in Instance) return String is
       pragma Unreferenced (Item);
+      use Ada.Characters.Latin_1;
    begin
-      return " <action application=""hangup""/>";
+      return " <action application=""hangup""/>" & LF;
    end FreeSWITCH_XML;
 
    overriding

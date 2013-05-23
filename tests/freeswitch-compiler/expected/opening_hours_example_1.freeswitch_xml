@@ -1,31 +1,32 @@
-<!--  Example 1: Checking opening hours  -->
-<!--  Decision-tree: Start  -->
-<!--  Branch action: Open  -->
-<!--  Open  -->
+<!--  Reception: Example 1: Checking opening hours  -->
+
+<!--  Path: Start: Open  -->
 <extension>
- Callee = "+45 21 49 08 04"
- not (Looking up "ikke-bankdag" in calendar.)
- Day of week in {THURSDAY}
- Clock in  36000.000000000 ..  64800.000000000
+ <condition destination_number="+45 21 49 08 04"/>
+ <not>
+ <!--  Looking up "ikke-bankdag" in calendar.  --/>
+ </not>
+ <condition wday="thu"/>
+ <condition time-of-day="10:00:00-18:00:00"/>
 
  <action application="queue" data="common"/>
 </extension>
 
-<!--  Branch action: Open  -->
-<!--  Open  -->
+<!--  Path: Start: Open  -->
 <extension>
- Callee = "+45 21 49 08 04"
- not (Looking up "ikke-bankdag" in calendar.)
- Day of week in {MONDAY,TUESDAY,WEDNESDAY,FRIDAY}
- Clock in  32400.000000000 ..  61200.000000000
+ <condition destination_number="+45 21 49 08 04"/>
+ <not>
+ <!--  Looking up "ikke-bankdag" in calendar.  --/>
+ </not>
+ <condition wday="mon,tue,wed,fri"/>
+ <condition time-of-day="09:00:00-17:00:00"/>
 
  <action application="queue" data="common"/>
 </extension>
 
-<!--  Fall-back action: Closed  -->
-<!--  Closed  -->
+<!--  Path: Start: Closed  -->
 <extension>
- Callee = "+45 21 49 08 04"
+ <condition destination_number="+45 21 49 08 04"/>
 
  <action application="answer"/>
  <!--  Configure to play: example-1-closed  -->

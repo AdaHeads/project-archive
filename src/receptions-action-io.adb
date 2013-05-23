@@ -15,8 +15,6 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with Ada.Characters.Latin_1;
-
 with Receptions.Decision_Tree.IO,
      Receptions.Dial_Plan,
      Receptions.End_Point.IO;
@@ -26,31 +24,27 @@ package body Receptions.Action.IO is
      (Item           : in     String;
       Conditions     : in     Receptions.Conditions.Instance;
       End_Points     : in     Receptions.End_Point_Collection.Map;
-      Decision_Trees : in     Receptions.Decision_Tree_Collection.Map)
-     return String is
-
-      use Ada.Characters.Latin_1;
+      Decision_Trees : in     Receptions.Decision_Tree_Collection.Map;
+      Path           : in     String) return String is
 
       Action                   : String renames Item;
       Decision_Trees_Minus_One : Receptions.Decision_Tree_Collection.Map;
    begin
       if End_Points.Contains (Action) then
-         return
-           "<!--  " & Action & "  -->" & LF &
-           Receptions.End_Point.IO.FreeSWITCH_XML
-             (Item       => End_Points.Element (Action),
-              Conditions => Conditions);
+         return Receptions.End_Point.IO.FreeSWITCH_XML
+                  (Item       => End_Points.Element (Action),
+                   Conditions => Conditions,
+                   Path       => Path & ": " & Action);
       elsif Decision_Trees.Contains (Action) then
          Decision_Trees_Minus_One := Decision_Trees;
          Decision_Trees_Minus_One.Delete (Action);
 
-         return
-           "<!--  " & Action & "  -->" & LF &
-           Receptions.Decision_Tree.IO.FreeSWITCH_XML
-             (Item           => Decision_Trees.Element (Action),
-              Conditions     => Conditions,
-              End_Points     => End_Points,
-              Decision_Trees => Decision_Trees_Minus_One);
+         return Receptions.Decision_Tree.IO.FreeSWITCH_XML
+                  (Item           => Decision_Trees.Element (Action),
+                   Conditions     => Conditions,
+                   End_Points     => End_Points,
+                   Decision_Trees => Decision_Trees_Minus_One,
+                   Path           => Path & ": " & Action);
       else
          raise Receptions.Dial_Plan.Dead_End;
       end if;

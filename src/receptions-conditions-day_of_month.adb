@@ -15,7 +15,8 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with Ada.Strings.Fixed,
+with Ada.Characters.Latin_1,
+     Ada.Strings.Fixed,
      Ada.Strings.Unbounded;
 
 with Receptions.Messages.Critical;
@@ -50,6 +51,13 @@ package body Receptions.Conditions.Day_Of_Month is
             Source      => "Receptions.Conditions.Day_Of_Month.Create");
          raise;
    end Create;
+
+   overriding
+   function FreeSWITCH_XML (Item : in Instance) return String is
+      use Ada.Characters.Latin_1;
+   begin
+      return " <!--  " & Value (Item) & "  --/>" & LF;
+   end FreeSWITCH_XML;
 
    overriding
    function True (Item : in Instance;

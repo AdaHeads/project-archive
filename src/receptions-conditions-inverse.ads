@@ -36,6 +36,9 @@ package Receptions.Conditions.Inverse is
    overriding
    function Value (Item : in Instance) return String;
 
+   overriding
+   function FreeSWITCH_XML (Item : in Instance) return String;
+
    XML_Element_Name : constant String := "not";
 private
    type Instance is new Receptions.Condition.Instance with

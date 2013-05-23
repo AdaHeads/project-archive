@@ -15,6 +15,8 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
+with Ada.Characters.Latin_1;
+
 with Receptions.Messages.Critical;
 
 package body Receptions.Conditions.Inverse is
@@ -32,6 +34,20 @@ package body Receptions.Conditions.Inverse is
             Source      => "Receptions.Conditions.Inverse.Create");
          raise;
    end Create;
+
+   overriding
+   function FreeSWITCH_XML (Item : in Instance) return String is
+      use Ada.Characters.Latin_1;
+   begin
+      return
+        " <not>" & LF &
+        Element (Item.Condition).FreeSWITCH_XML &
+        " </not>" & LF;
+   exception
+      when Constraint_Error =>
+         raise Constraint_Error
+           with "<" & XML_Element_Name & "> object not initialized.";
+   end FreeSWITCH_XML;
 
    overriding
    function True (Item : in Instance;

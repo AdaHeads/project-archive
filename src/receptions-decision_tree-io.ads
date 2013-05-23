@@ -29,6 +29,6 @@ package Receptions.Decision_Tree.IO is
      (Item           : in     Class;
       Conditions     : in     Receptions.Conditions.Instance;
       End_Points     : in     Receptions.End_Point_Collection.Map;
-      Decision_Trees : in     Receptions.Decision_Tree_Collection.Map)
-     return String;
+      Decision_Trees : in     Receptions.Decision_Tree_Collection.Map;
+      Path           : in     String) return String;
 end Receptions.Decision_Tree.IO;

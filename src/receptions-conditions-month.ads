@@ -35,6 +35,9 @@ package Receptions.Conditions.Month is
    overriding
    function Value (Item : in Instance) return String;
 
+   overriding
+   function FreeSWITCH_XML (Item : in Instance) return String;
+
    XML_Element_Name : constant String := "month";
 private
    type Set_Of_Months is array (Ada.Calendar.Month_Number) of Boolean;

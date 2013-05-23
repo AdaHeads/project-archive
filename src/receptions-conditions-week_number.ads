@@ -32,6 +32,9 @@ package Receptions.Conditions.Week_Number is
    overriding
    function Value (Item : in Instance) return String;
 
+   overriding
+   function FreeSWITCH_XML (Item : in Instance) return String;
+
    XML_Element_Name : constant String := "week-number";
 private
    subtype Week_Numbers is Positive range 1 .. 53;

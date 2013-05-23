@@ -31,15 +31,19 @@ with Receptions.Conditions.IO,
 package body Receptions.End_Point.IO is
    function FreeSWITCH_XML
      (Item          : in     Class;
-      Conditions    : in     Receptions.Conditions.Instance) return String is
+      Conditions    : in     Receptions.Conditions.Instance;
+      Path          : in     String) return String is
       use Ada.Characters.Latin_1;
       use Receptions.Conditions.IO;
    begin
       return
+        "<!--  Path" & Path & "  -->" & LF &
         "<extension>" & LF &
-        FreeSWITCH_XML (Item => Conditions) & LF &
-        FreeSWITCH_XML (Item => Item) & LF &
-        "</extension>" & LF;
+        FreeSWITCH_XML (Item => Conditions) &
+        LF &
+        FreeSWITCH_XML (Item => Item) &
+        "</extension>" & LF &
+        LF;
    end FreeSWITCH_XML;
 
    function Load (From : in DOM.Core.Node) return Class is

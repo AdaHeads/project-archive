@@ -15,6 +15,8 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
+with Ada.Characters.Latin_1;
+
 with Receptions.Messages.Critical;
 
 package body Receptions.End_Points.Queue is
@@ -34,8 +36,10 @@ package body Receptions.End_Points.Queue is
 
    overriding
    function FreeSWITCH_XML (Item : in Instance) return String is
+      use Ada.Characters.Latin_1;
    begin
-      return " <action application=""queue"" data=""" & ID (Item) & """/>";
+      return
+        " <action application=""queue"" data=""" & ID (Item) & """/>" & LF;
    end FreeSWITCH_XML;
 
    not overriding
