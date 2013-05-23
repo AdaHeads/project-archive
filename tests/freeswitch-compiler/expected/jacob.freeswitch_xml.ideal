@@ -5,7 +5,7 @@
 
  <caller number=""/>
  
- <hang-up/>
+ <action application="hangup"/>
 </extension>
 
 <extension>
