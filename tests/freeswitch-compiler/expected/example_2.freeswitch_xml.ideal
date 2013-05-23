@@ -1,4 +1,4 @@
-<!--  Example 2: Checking opening hours  -->
+<!--  Reception: Example 2: Checking opening hours  -->
 
 <extension>
  <condition destination_number="+45 21 49 08 04"/>
@@ -72,4 +72,5 @@
  <!--  Configure to play: example-2-closed  -->
  <action application="voicemail" data="default $${domain} reception@two.example.com"/>
 </extension>
+
 
