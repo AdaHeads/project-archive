@@ -38,6 +38,9 @@ package body Receptions.Conditions.Calendar_Look_Up is
       use Ada.Characters.Latin_1;
    begin
       return " <!--  " & Value (Item) & "  --/>" & LF;
+
+      --  <action application="odbc_query" data="SELECT some_column_name AS
+      --  target_channel_variable_name FROM some_table_name WHERE 1;"/>
    end FreeSWITCH_XML;
 
    overriding
