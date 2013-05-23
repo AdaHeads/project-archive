@@ -34,7 +34,7 @@ package body Receptions.End_Points.Hang_Up is
    function FreeSWITCH_XML (Item : in Instance) return String is
       pragma Unreferenced (Item);
    begin
-      return "<action application=""hangup""/>";
+      return " <action application=""hangup""/>";
    end FreeSWITCH_XML;
 
    overriding

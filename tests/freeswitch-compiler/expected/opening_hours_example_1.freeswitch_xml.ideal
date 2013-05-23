@@ -25,7 +25,7 @@
 	</decision-tree>
 
 	<end-point title="Open">
-		<queue id="common"/>
+		<action application="queue" data="common"/>
 	</end-point>
 
 	<end-point title="Closed">

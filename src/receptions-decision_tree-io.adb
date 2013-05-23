@@ -23,9 +23,7 @@ with DOM.Core.Nodes,
 
 with Receptions.Action.IO,
      Receptions.Branch,
-     Receptions.Branch.IO,
-     Receptions.Dial_Plan,
-     Receptions.End_Point.IO;
+     Receptions.Branch.IO;
 
 package body Receptions.Decision_Tree.IO is
    function FreeSWITCH_XML

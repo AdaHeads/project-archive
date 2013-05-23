@@ -21,7 +21,7 @@
 
  <clock from="08:00" to="12:00"/>
 
- <queue id="common"/>
+ <action application="queue" data="common"/>
 </extension>
 
 <extension>
@@ -42,7 +42,7 @@
  <calendar-look-up kind="sidste-bankdag-i-måneden"/>
  <clock from="08:00" to="18:00"/>
 
- <queue id="common"/>
+ <action application="queue" data="common"/>
 </extension>
 
 <extension>
@@ -52,7 +52,7 @@
  <day-of-week is="Monday,Tuesday,Wednesday,Thursday,Friday"/>
  <clock from="10:00" to="16:00"/>
 
- <queue id="common"/>
+ <action application="queue" data="common"/>
 </extension>
 
 <extension>
@@ -62,7 +62,7 @@
  <day-of-week is="Saturday"/>
  <clock from="10:00" to="14:00"/>
 
- <queue id="common"/>
+ <action application="queue" data="common"/>
 </extension>
 
 <extension>

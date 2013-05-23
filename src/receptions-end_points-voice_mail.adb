@@ -41,9 +41,9 @@ package body Receptions.End_Points.Voice_Mail is
       use Ada.Characters.Latin_1;
    begin
       return
-        "<action application=""answer""/>" & LF &
-        "<!--  Configure to play: " & Play (Item) & "  -->" & LF &
-        "<action application=""voicemail"" data=""default $${domain} " &
+        " <action application=""answer""/>" & LF &
+        " <!--  Configure to play: " & Play (Item) & "  -->" & LF &
+        " <action application=""voicemail"" data=""default $${domain} " &
         Send_To (Item) & """/>";
    end FreeSWITCH_XML;
 

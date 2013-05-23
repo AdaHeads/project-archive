@@ -36,7 +36,7 @@ package body Receptions.End_Points.Interactive_Voice_Response is
    overriding
    function FreeSWITCH_XML (Item : in Instance) return String is
    begin
-      return "<action application=""ivr"" data=""" & ID (Item) & """/>";
+      return " <action application=""ivr"" data=""" & ID (Item) & """/>";
    end FreeSWITCH_XML;
 
    not overriding

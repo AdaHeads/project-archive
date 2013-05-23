@@ -35,7 +35,7 @@ package body Receptions.End_Points.Queue is
    overriding
    function FreeSWITCH_XML (Item : in Instance) return String is
    begin
-      return "<action application=""queue"" data=""" & ID (Item) & """/>";
+      return " <action application=""queue"" data=""" & ID (Item) & """/>";
    end FreeSWITCH_XML;
 
    not overriding

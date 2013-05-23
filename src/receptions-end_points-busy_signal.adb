@@ -35,7 +35,7 @@ package body Receptions.End_Points.Busy_Signal is
       pragma Unreferenced (Item);
    begin
       return
-        "<action application=""playback"" " &
+        " <action application=""playback"" " &
         "data=""tone_stream://%(500,500,480,620)""/>";
    end FreeSWITCH_XML;
 

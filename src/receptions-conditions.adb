@@ -15,12 +15,17 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with Receptions.Set_Of_Conditions;
+package body Receptions.Conditions is
+   function "&" (Left, Right : in     Instance) return Instance is
+   begin
+      return Result : Instance do
+         for E of Left loop
+            Result.Append (E);
+         end loop;
 
-package Receptions.Conditions is
-   type Instance is new Receptions.Set_Of_Conditions.List with null record;
-
-   function "&" (Left, Right : in     Instance) return Instance;
-
-   XML_Element_Name : constant String := "conditions";
+         for E of Right loop
+            Result.Append (E);
+         end loop;
+      end return;
+   end "&";
 end Receptions.Conditions;
