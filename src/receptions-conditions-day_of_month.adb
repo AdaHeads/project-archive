@@ -73,7 +73,7 @@ package body Receptions.Conditions.Day_Of_Month is
       use Ada.Calendar,
           Ada.Strings.Unbounded;
       Result : Unbounded_String;
-      Prefix : Unbounded_String := To_Unbounded_String ("Day of week in {");
+      Prefix : Unbounded_String := To_Unbounded_String ("Day of month in {");
    begin
       for Day in Item.Days'Range loop
          if Item.Days (Day) then
