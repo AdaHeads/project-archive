@@ -22,6 +22,16 @@ with Receptions.Action,
      Receptions.Conditions.IO;
 
 package body Receptions.Branch.IO is
+   function FreeSWITCH_XML
+     (Item           : in     Class;
+      Conditions     : in     Receptions.Conditions.Instance;
+      End_Points     : in     Receptions.End_Point_Collection.Map;
+      Decision_Trees : in     Receptions.Decision_Tree_Collection.Map)
+     return String is
+   begin
+      return "<extension/>";
+   end FreeSWITCH_XML;
+
    function Load (From : in DOM.Core.Node) return Instance is
       function Conditions return Receptions.Conditions.Instance;
       function Action return String;

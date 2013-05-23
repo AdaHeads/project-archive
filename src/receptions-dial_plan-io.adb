@@ -49,23 +49,28 @@ package body Receptions.Dial_Plan.IO is
         return String
         renames Ada.Strings.Unbounded.To_String;
 
-      Conditions : Receptions.Conditions.Instance;
+      Conditions               : Receptions.Conditions.Instance;
+      Decision_Trees_Minus_One : Receptions.Decision_Tree_Collection.Map;
    begin
       Conditions.Append (Callee.Create (Number => Number));
 
       if Item.End_Points.Contains (+Item.Start_At) then
          return
            "<!--  " & Title (Item) & "  -->" & LF &
-           FreeSWITCH_XML (Item       => Item.End_Points.Element
-                                           (+Item.Start_At),
-                           Conditions => Conditions);
+           Receptions.End_Point.IO.FreeSWITCH_XML
+             (Item       => Item.End_Points.Element (+Item.Start_At),
+              Conditions => Conditions);
       elsif Item.Decision_Trees.Contains (+Item.Start_At) then
+         Decision_Trees_Minus_One := Item.Decision_Trees;
+         Decision_Trees_Minus_One.Delete (+Item.Start_At);
+
          return
            "<!--  " & Title (Item) & "  -->" & LF &
-           FreeSWITCH_XML (Item          => Item.Decision_Trees.Element
-                                              (+Item.Start_At),
-                           Conditions    => Conditions,
-                           Maximum_Jumps => Item.Decision_Trees.Length);
+           Receptions.Decision_Tree.IO.FreeSWITCH_XML
+             (Item           => Item.Decision_Trees.Element (+Item.Start_At),
+              Conditions     => Conditions,
+              End_Points     => Item.End_Points,
+              Decision_Trees => Decision_Trees_Minus_One);
       else
          raise Dead_End;
       end if;

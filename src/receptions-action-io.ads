@@ -1,4 +1,3 @@
-
 -------------------------------------------------------------------------------
 --                                                                           --
 --                      Copyright (C) 2013-, AdaHeads K/S                    --
@@ -16,19 +15,15 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with DOM.Core;
-
 with Receptions.Conditions,
      Receptions.Decision_Tree_Collection,
      Receptions.End_Point_Collection;
 
-package Receptions.Decision_Tree.IO is
-   function Load (From : in DOM.Core.Node) return Instance;
-
+package Receptions.Action.IO is
    function FreeSWITCH_XML
-     (Item           : in     Class;
+     (Item           : in     String;
       Conditions     : in     Receptions.Conditions.Instance;
       End_Points     : in     Receptions.End_Point_Collection.Map;
       Decision_Trees : in     Receptions.Decision_Tree_Collection.Map)
      return String;
-end Receptions.Decision_Tree.IO;
+end Receptions.Action.IO;

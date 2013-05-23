@@ -1,9 +1,23 @@
 <!--  Example 2: Checking opening hours  -->
 <!--  Decision-tree: Start  -->
 <!--  Branch action: Inventory day  -->
+<extension/>
 <!--  Branch action: Lukker klokken tolv  -->
+<extension/>
 <!--  Branch action: Open  -->
+<extension/>
 <!--  Branch action: Open  -->
+<extension/>
 <!--  Branch action: Open  -->
+<extension/>
 <!--  Fall-back action: Closed  -->
+<!--  Closed  -->
+<extension>
+ Callee = "+45 21 49 08 04"
+
+<action application="answer"/>
+<!--  Configure to play: example-2-closed  -->
+<action application="voicemail" data="default $${domain} reception@two.example.com"/>
+</extension>
+
 

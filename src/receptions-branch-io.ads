@@ -18,6 +18,16 @@
 
 with DOM.Core;
 
+with Receptions.Decision_Tree_Collection,
+     Receptions.End_Point_Collection;
+
 package Receptions.Branch.IO is
    function Load (From : in DOM.Core.Node) return Instance;
+
+   function FreeSWITCH_XML
+     (Item           : in     Class;
+      Conditions     : in     Receptions.Conditions.Instance;
+      End_Points     : in     Receptions.End_Point_Collection.Map;
+      Decision_Trees : in     Receptions.Decision_Tree_Collection.Map)
+     return String;
 end Receptions.Branch.IO;

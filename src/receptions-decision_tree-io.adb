@@ -21,14 +21,20 @@ with Ada.Characters.Latin_1,
 with DOM.Core.Nodes,
      DOM.Support;
 
-with Receptions.Branch,
-     Receptions.Branch.IO;
+with Receptions.Action.IO,
+     Receptions.Branch,
+     Receptions.Branch.IO,
+     Receptions.Dial_Plan,
+     Receptions.End_Point.IO;
 
 package body Receptions.Decision_Tree.IO is
    function FreeSWITCH_XML
-     (Item          : in     Class;
-      Conditions    : in     Receptions.Conditions.Instance;
-      Maximum_Jumps : in     Ada.Containers.Count_Type) return String is
+     (Item           : in     Class;
+      Conditions     : in     Receptions.Conditions.Instance;
+      End_Points     : in     Receptions.End_Point_Collection.Map;
+      Decision_Trees : in     Receptions.Decision_Tree_Collection.Map)
+     return String is
+
       use Ada.Characters.Latin_1, Ada.Strings.Unbounded;
       use Receptions.Branch;
 
@@ -39,12 +45,25 @@ package body Receptions.Decision_Tree.IO is
 
       for Branch of Item.Branches loop
          Append (Buffer,
-                 "<!--  Branch action: " & Action (Branch) & "  -->" & LF);
+                 "<!--  Branch action: " & Branch.Action & "  -->" & LF);
+         Append (Buffer,
+                 Receptions.Branch.IO.FreeSWITCH_XML
+                   (Item           => Branch,
+                    Conditions     => Conditions,
+                    End_Points     => End_Points,
+                    Decision_Trees => Decision_Trees) & LF);
       end loop;
 
       Append (Buffer,
               "<!--  Fall-back action: " & To_String (Item.Fall_Back) &
               "  -->" & LF);
+
+      Append (Buffer,
+              Receptions.Action.IO.FreeSWITCH_XML
+                (Item           => To_String (Item.Fall_Back),
+                 Conditions     => Conditions,
+                 End_Points     => End_Points,
+                 Decision_Trees => Decision_Trees) & LF);
 
       return To_String (Buffer);
    end FreeSWITCH_XML;

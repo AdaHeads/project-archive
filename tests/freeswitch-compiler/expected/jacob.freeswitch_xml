@@ -1,5 +1,13 @@
 <!--  Jacob: Hang up on anonymous callers  -->
 <!--  Decision-tree: Start  -->
 <!--  Branch action: Hang up  -->
+<extension/>
 <!--  Fall-back action: Pass through  -->
+<!--  Pass through  -->
+<extension>
+ Callee = "+45 21 49 08 04"
+
+<action application="redirect" data="21490804"/>
+</extension>
+
 

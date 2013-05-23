@@ -1,4 +1,3 @@
-
 -------------------------------------------------------------------------------
 --                                                                           --
 --                      Copyright (C) 2013-, AdaHeads K/S                    --
@@ -16,19 +15,44 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
-with DOM.Core;
+with Ada.Characters.Latin_1;
 
-with Receptions.Conditions,
-     Receptions.Decision_Tree_Collection,
-     Receptions.End_Point_Collection;
+with Receptions.Decision_Tree.IO,
+     Receptions.Dial_Plan,
+     Receptions.End_Point.IO;
 
-package Receptions.Decision_Tree.IO is
-   function Load (From : in DOM.Core.Node) return Instance;
-
+package body Receptions.Action.IO is
    function FreeSWITCH_XML
-     (Item           : in     Class;
+     (Item           : in     String;
       Conditions     : in     Receptions.Conditions.Instance;
       End_Points     : in     Receptions.End_Point_Collection.Map;
       Decision_Trees : in     Receptions.Decision_Tree_Collection.Map)
-     return String;
-end Receptions.Decision_Tree.IO;
+     return String is
+
+      use Ada.Characters.Latin_1;
+
+      Action                   : String renames Item;
+      Decision_Trees_Minus_One : Receptions.Decision_Tree_Collection.Map;
+   begin
+      if End_Points.Contains (Action) then
+         return
+           "<!--  " & Action & "  -->" & LF &
+           Receptions.End_Point.IO.FreeSWITCH_XML
+             (Item       => End_Points.Element (Action),
+              Conditions => Conditions);
+      elsif Decision_Trees.Contains (Action) then
+         Decision_Trees_Minus_One := Decision_Trees;
+         Decision_Trees_Minus_One.Delete (Action);
+
+         return
+           "<!--  " & Action & "  -->" & LF &
+           Receptions.Decision_Tree.IO.FreeSWITCH_XML
+             (Item           => Decision_Trees.Element (Action),
+              Conditions     => Conditions,
+              End_Points     => End_Points,
+              Decision_Trees => Decision_Trees_Minus_One);
+      else
+         raise Receptions.Dial_Plan.Dead_End;
+      end if;
+   end FreeSWITCH_XML;
+end Receptions.Action.IO;
