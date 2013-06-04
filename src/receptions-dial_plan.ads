@@ -33,7 +33,7 @@ package Receptions.Dial_Plan is
       End_Points     : in     Receptions.End_Point_Collection.Map;
       Decision_Trees : in     Receptions.Decision_Tree_Collection.Map)
      return Instance
-     with Precondition => (not End_Points.Is_Empty);
+     with Pre => (not End_Points.Is_Empty);
 
    function Title (Item : in     Instance) return String;
 

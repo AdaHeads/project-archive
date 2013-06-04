@@ -27,7 +27,7 @@ package Receptions.Conditions.Clock is
 
    not overriding
    function Create (From, To : in String) return Instance
-     with Precondition => (From < To);
+     with Pre => (From < To);
 
    overriding
    function True (Item : in Instance;
