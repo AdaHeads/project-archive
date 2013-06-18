@@ -27,7 +27,7 @@ yolk-git-install: yolk-git-build
 
 yolk-git-build: yolk-git-src
 	PATH=$(PATH):${PREFIX}/bin \
-	LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
+	LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
 	make -C yolk -e prefix=${PREFIX}/bin/.. PROCESSORS=${PROCESSORS}  \
 
 yolk-git-src:
@@ -44,14 +44,14 @@ aws-git-install: aws-git-build
 
 aws-git-build: aws-git-setup
 	(PATH=$(PATH):${PREFIX}/bin \
-	LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
+	LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
 	make build -C aws -e prefix=${PREFIX}/bin/.. PROCESSORS=${PROCESSORS}) \
 	 && touch aws-git-build
 
 aws-git-setup: aws-git-src
 	PATH=$(PATH):${PREFIX}/bin \
-	LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
-	make setup -C aws -e prefix=${PREFIX}/bin/.. PROCESSORS=${PROCESSORS}
+	LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
+	make setup -C aws -e prefix=${PREFIX}/bin/.. PROCESSORS=${PROCESSORS} SOCKET=gnutls OpenID=true
 
 aws-git-src:
 	(test -d aws && (cd aws; git pull)) || \
@@ -68,9 +68,9 @@ gnatlib-svn-install: gnatlib-svn-build
 
 gnatlib-svn-build: gnatlib-svn
 	cd gnatlib && PATH=$(PATH):${PREFIX}/bin \
-	LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
+	LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
 	./configure --prefix=${PREFIX} ${GNATCOLL_ARGS}
-	make -e LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
+	make -e LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
 	        PATH=$(PATH):${PREFIX}/bin\
 	        -C gnatlib && touch gnatlib-svn-build
 
@@ -89,9 +89,9 @@ florist-gpl-2012-install: florist-gpl-2012-build
 
 florist-gpl-2012-build: florist-gpl-2012-src
 	cd florist-gpl-2012-src && PATH=$(PATH):${PREFIX}/bin \
-	LIBRARY_PATH=$(LIBRARY_PATH):/usr/lib/x86_64-linux-gnu \
+	LIBRARY_PATH=$(LIBRARY_PATH):/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu \
 	./configure --prefix=${PREFIX}
-	make -e LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
+	make -e LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
 	        PATH=$(PATH):${PREFIX}/bin\
 	        -C florist-gpl-2012-src && touch florist-gpl-2012-build
 
@@ -120,9 +120,9 @@ xmlada-4.3-install: xmlada-4.3-build
 
 xmlada-4.3-build: xmlada-4.3w-src
 	cd xmlada-4.3w-src && PATH=$(PATH):${PREFIX}/bin \
-	LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
+	LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
 	./configure --prefix=${PREFIX}
-	make -e LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
+	make -e LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
 	        PATH=$(PATH):${PREFIX}/bin\
 	        -C xmlada-4.3w-src && touch xmlada-4.3-built
 
