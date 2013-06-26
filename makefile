@@ -48,9 +48,13 @@ tests: all
 
 install: tests
 	install --target-directory=$(DESTDIR)$(PREFIX)/lib/gnat                  gpr/$(PROJECT).gpr
+	install --directory        $(DESTDIR)$(PREFIX)/$(PROJECT)
 	install --target-directory=$(DESTDIR)$(PREFIX)/$(PROJECT)                library/*
+	install --directory        $(DESTDIR)$(PREFIX)/include/$(PROJECT)
 	install --target-directory=$(DESTDIR)$(PREFIX)/include/$(PROJECT)        src/*.ad[sb]
+	install --directory        $(DESTDIR)$(PREFIX)/share/doc/$(PROJECT)
 	install --target-directory=$(DESTDIR)$(PREFIX)/share/doc/$(PROJECT)      README COPYING3 COPYING.RUNTIME dtds/*
+	install --directory        $(DESTDIR)$(PREFIX)/share/examples/$(PROJECT)
 	install --target-directory=$(DESTDIR)$(PREFIX)/share/examples/$(PROJECT) examples/*.dial-plan
 
 cleanup_messy_temp_files:
