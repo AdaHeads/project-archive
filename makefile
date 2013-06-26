@@ -41,6 +41,7 @@ clean: cleanup_messy_temp_files
 
 distclean:
 	rm -rf library build_production build_debug
+	rm -rf tests/freeswitch-compiler/compiled
 
 tests: all
 	@./tests/build
