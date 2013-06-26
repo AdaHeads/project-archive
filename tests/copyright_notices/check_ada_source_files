@@ -19,6 +19,7 @@ exceptions="$(pwd)/exceptions"
 cd ../..
 
 find src tests -type f \( -name '*.ads' -o -name '*.adb' -o -name '*.gpr' \) \
+  | egrep -v '/b[~]' \
   | LANG=C sort \
   > ${source_files}
 
