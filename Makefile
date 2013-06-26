@@ -25,7 +25,7 @@ yolk: yolk-git-install
 yolk-git-install: yolk-git-build
 	$(SU_APPLICATION) make -C yolk install && touch yolk-git-install
 
-yolk-git-build: yolk-git-src
+yolk-git-build: yolk-git-src gnat
 	PATH=$(PATH):${PREFIX}/bin \
 	LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
 	make -C yolk -e prefix=${PREFIX}/bin/.. PROCESSORS=${PROCESSORS}  \
@@ -48,7 +48,7 @@ aws-git-build: aws-git-setup
 	make build -C aws -e prefix=${PREFIX}/bin/.. PROCESSORS=${PROCESSORS}) \
 	 && touch aws-git-build
 
-aws-git-setup: aws-git-src
+aws-git-setup: aws-git-src gnat
 	PATH=$(PATH):${PREFIX}/bin \
 	LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
 	make setup -C aws -e prefix=${PREFIX}/bin/.. PROCESSORS=${PROCESSORS} SOCKET=gnutls OpenID=true
@@ -66,7 +66,7 @@ gnatlib: gnatlib-svn-install
 gnatlib-svn-install: gnatlib-svn-build
 	$(SU_APPLICATION) make -C gnatlib install && touch gnatlib-svn-install
 
-gnatlib-svn-build: gnatlib-svn
+gnatlib-svn-build: gnatlib-svn gnat
 	cd gnatlib && PATH=$(PATH):${PREFIX}/bin \
 	LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
 	./configure --prefix=${PREFIX} ${GNATCOLL_ARGS}
@@ -82,83 +82,58 @@ gnatlib-svn:
 # Florist #
 ###########
 
-florist: florist-gpl-2012-install
+florist: florist-gpl-2013-install
 
-florist-gpl-2012-install: florist-gpl-2012-build
-	$(SU_APPLICATION) make -C florist-gpl-2012-src install && touch florist-gpl-2012-install
+florist-gpl-2013-install: florist-gpl-2013-build
+	$(SU_APPLICATION) make -C florist-gpl-2013-src install && touch florist-gpl-2013-install
 
-florist-gpl-2012-build: florist-gpl-2012-src
-	cd florist-gpl-2012-src && PATH=$(PATH):${PREFIX}/bin \
+florist-gpl-2013-build: florist-gpl-2013-src gnat
+	cd florist-gpl-2013-src && PATH=$(PATH):${PREFIX}/bin \
 	LIBRARY_PATH=$(LIBRARY_PATH):/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu \
 	./configure --prefix=${PREFIX}
 	make -e LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
 	        PATH=$(PATH):${PREFIX}/bin\
-	        -C florist-gpl-2012-src && touch florist-gpl-2012-build
+	        -C florist-gpl-2013-src && touch florist-gpl-2013-build
 
-florist-gpl-2012-src: tgz/florist-gpl-2012-src.tgz
-	echo Extracting ${ARCHIVE_FOLDER}/florist-gpl-2012-src.tgz ...
-	@tar xzf ${ARCHIVE_FOLDER}/florist-gpl-2012-src.tgz
-	@touch florist-gpl-2012-src
+florist-gpl-2013-src: tgz/florist-gpl-2013-src.tgz
+	echo Extracting ${ARCHIVE_FOLDER}/florist-gpl-2013-src.tgz ...
+	@tar xzf ${ARCHIVE_FOLDER}/florist-gpl-2013-src.tgz
+	@touch florist-gpl-2013-src
 
-tgz/florist-gpl-2012-src.tgz:
+tgz/florist-gpl-2013-src.tgz:
 	-mkdir tgz
 	(cd tgz && wget -H \
-	http://mirrors.cdn.adacore.com/art/47d2e0f943f4c34f5812df70c5a6c0379b7cf4fa -O \
-	florist-gpl-2012-src.tgz)
+	http://mirrors.cdn.adacore.com/art/3a9157f1ba735ee0f0f9cf032b381032736d7263 -O \
+	florist-gpl-2013-src.tgz)
 
 ###########
 # XML-Ada #
 ###########
 
-xml-ada: xmlada-4.3-install
-
-# XML-Ada 4.3
-
-xmlada-4.3-install: xmlada-4.3-build
-	$(SU_APPLICATION) make -C xmlada-4.3w-src install && touch xmlada-4.3-install
-
-
-xmlada-4.3-build: xmlada-4.3w-src
-	cd xmlada-4.3w-src && PATH=$(PATH):${PREFIX}/bin \
-	LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
-	./configure --prefix=${PREFIX}
-	make -e LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
-	        PATH=$(PATH):${PREFIX}/bin\
-	        -C xmlada-4.3w-src && touch xmlada-4.3-built
-
-xmlada-4.3w-src: tgz/xmlada-gpl-4.3-src.tgz
-	echo Extracting ${ARCHIVE_FOLDER}/xmlada-gpl-4.3-src.tgz ...
-	@tar xzf ${ARCHIVE_FOLDER}/xmlada-gpl-4.3-src.tgz
-	@touch xmlada-4.3w-src
-
-tgz/xmlada-gpl-4.3-src.tgz:
-	-mkdir tgz
-	(cd tgz && wget -H \
-	http://mirrors.cdn.adacore.com/art/0332ffe06bc598f0b94b3a027f30ea2be6dc5dec -O \
-	xmlada-gpl-4.3-src.tgz)
+xml-ada: gnat-2013-install
 
 ########
 # GNAT #
 ########
 
-gnat: gnat-2012-x86_64-pc-linux-gnu-bin gnat-2012-install
+gnat: gnat-2013-install
 
-gnat-2012-install:
-	(cd gnat-2012-x86_64-pc-linux-gnu-bin && \
-        $(SU_APPLICATION) ${MAKE} -e prefix=${PREFIX}) && touch gnat-2012-install
+gnat-2013-install: gnat-2013-x86_64-pc-linux-gnu-bin
+	(cd gnat-2013-x86_64-pc-linux-gnu-bin && \
+        $(SU_APPLICATION) ${MAKE} -e prefix=${PREFIX}) && touch gnat-2013-install
 
-gnat-2012-x86_64-pc-linux-gnu-bin: tgz/gnat-gpl-2012-x86_64-pc-linux-gnu-bin.tar.gz
-	@echo Extracting tgz/gnat-gpl-2012-x86_64-pc-linux-gnu-bin.tar.gz ...
-	@tar xzf tgz/gnat-gpl-2012-x86_64-pc-linux-gnu-bin.tar.gz
-	@touch gnat-2012-x86_64-pc-linux-gnu-bin
+gnat-2013-x86_64-pc-linux-gnu-bin: tgz/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz
+	@echo Extracting tgz/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz ...
+	@tar xzf tgz/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz
+	@touch gnat-2013-x86_64-pc-linux-gnu-bin
 
-tgz/gnat-gpl-2012-x86_64-pc-linux-gnu-bin.tar.gz:
+tgz/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz:
 	-mkdir tgz
-	cd tgz && wget -H http://mirrors.cdn.adacore.com/art/277d54e6ea00b2f55c07fbd6947239249f705d0a -O gnat-gpl-2012-x86_64-pc-linux-gnu-bin.tar.gz
+	cd tgz && wget -H http://mirrors.cdn.adacore.com/art/1db1fa7e867c63098c4775c387e1a287274d9c87 -O gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz
 
 
 clean:
-	rm -rf gnat-2012-x86_64-pc-linux-gnu-bin
+	rm -rf gnat-201?-x86_64-pc-linux-gnu-bin
 	rm -rf xmlada-4.3w-src
-	rm gnat-2012-install
+	rm gnat-201?-install
 	rm xmlada-4.3-install xmlada-4.3-build
