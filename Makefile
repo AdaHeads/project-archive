@@ -118,14 +118,14 @@ xml-ada: gnat-2013-install
 
 gnat: gnat-2013-install
 
-gnat-2013-install: gnat-2013-x86_64-pc-linux-gnu-bin
-	(cd gnat-2013-x86_64-pc-linux-gnu-bin && \
+gnat-2013-install: gnat-gpl-2013-x86_64-pc-linux-gnu-bin
+	(cd gnat-gpl-2013-x86_64-pc-linux-gnu-bin && \
         $(SU_APPLICATION) ${MAKE} -e prefix=${PREFIX}) && touch gnat-2013-install
 
-gnat-2013-x86_64-pc-linux-gnu-bin: tgz/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz
+gnat-gpl-2013-x86_64-pc-linux-gnu-bin: tgz/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz
 	@echo Extracting tgz/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz ...
 	@tar xzf tgz/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz
-	@touch gnat-2013-x86_64-pc-linux-gnu-bin
+	@touch gnat-gpl-2013-x86_64-pc-linux-gnu-bin
 
 tgz/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz:
 	-mkdir tgz
