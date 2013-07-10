@@ -30,8 +30,13 @@ libdialplan depends on XMLAda[1] and any Ada 2012[2] compiler.
 You build and install libdialplan using this sequence of commands:
 
    ./configure
-   make
-   make install (with appropriate permissions)
+   make install
+
+If you want to override the installation location, you can do it with the
+variables PREFIX and DESTDIR.
+
+The 'install' target in the makefile uses 'sudo install' as the default
+command to install files.  This can be overridden with the INSTALL variable.
 
 -----------
 --  Use  --
