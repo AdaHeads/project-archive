@@ -27,6 +27,10 @@ ifeq ($(PROCESSORS),)
 PROCESSORS=`(test -f /proc/cpuinfo && grep -c ^processor /proc/cpuinfo) || echo 1`
 endif
 
+ifeq ($(INSTALL),)
+INSTALL=sudo install
+endif
+
 all:
 	mkdir -p library build_production
 	gnatmake -j${PROCESSORS} -P $(PROJECT)
@@ -48,15 +52,15 @@ tests: all
 	@./tests/run
 
 install: tests
-	install --target-directory=$(DESTDIR)$(PREFIX)/lib/gnat                  gpr/$(PROJECT).gpr
-	install --directory        $(DESTDIR)$(PREFIX)/$(PROJECT)
-	install --target-directory=$(DESTDIR)$(PREFIX)/$(PROJECT)                library/*
-	install --directory        $(DESTDIR)$(PREFIX)/include/$(PROJECT)
-	install --target-directory=$(DESTDIR)$(PREFIX)/include/$(PROJECT)        src/*.ad[sb]
-	install --directory        $(DESTDIR)$(PREFIX)/share/doc/$(PROJECT)
-	install --target-directory=$(DESTDIR)$(PREFIX)/share/doc/$(PROJECT)      README COPYING3 COPYING.RUNTIME dtds/*
-	install --directory        $(DESTDIR)$(PREFIX)/share/examples/$(PROJECT)
-	install --target-directory=$(DESTDIR)$(PREFIX)/share/examples/$(PROJECT) examples/*.dial-plan
+	$(INSTALL) --target-directory=$(DESTDIR)$(PREFIX)/lib/gnat                  gpr/$(PROJECT).gpr
+	$(INSTALL) --directory        $(DESTDIR)$(PREFIX)/$(PROJECT)
+	$(INSTALL) --target-directory=$(DESTDIR)$(PREFIX)/$(PROJECT)                library/*
+	$(INSTALL) --directory        $(DESTDIR)$(PREFIX)/include/$(PROJECT)
+	$(INSTALL) --target-directory=$(DESTDIR)$(PREFIX)/include/$(PROJECT)        src/*.ad[sb]
+	$(INSTALL) --directory        $(DESTDIR)$(PREFIX)/share/doc/$(PROJECT)
+	$(INSTALL) --target-directory=$(DESTDIR)$(PREFIX)/share/doc/$(PROJECT)      README COPYING3 COPYING.RUNTIME dtds/*
+	$(INSTALL) --directory        $(DESTDIR)$(PREFIX)/share/examples/$(PROJECT)
+	$(INSTALL) --target-directory=$(DESTDIR)$(PREFIX)/share/examples/$(PROJECT) examples/*.dial-plan
 
 cleanup_messy_temp_files:
 	find . -name "*~" -type f -print0 | xargs -0 -r /bin/rm
