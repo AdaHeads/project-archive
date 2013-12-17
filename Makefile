@@ -118,7 +118,13 @@ xml-ada: gnat-2013-install
 # GNAT #
 ########
 
-gnat: gnat-2013-install
+ifeq ($(GNAT_REVISION), )
+$(error A specific version of GNAT should be selected.)
+endif
+
+gnat: $(GNAT_REVISION)
+
+gnat-gpl-2013: gnat-2013-install
 
 gnat-2013-install: gnat-gpl-2013-x86_64-pc-linux-gnu-bin
 	(cd gnat-gpl-2013-x86_64-pc-linux-gnu-bin && \
