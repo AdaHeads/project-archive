@@ -62,31 +62,27 @@ $(DOWNLOADS)/yolk:
 	git clone git://github.com/ThomasLocke/yolk.git $@
 
 ############################################################################
+# AWS
 
-#######
-# AWS #
-#######
+AWS_DEPENDENCIES=gnat
 
-aws: aws-git-install
+AWS_ARGS=SOCKET=gnutls OpenID=true
 
-aws-git-install: aws-git-build
-	$(SU_APPLICATION) make -C aws install
-	@touch $@
+ifeq ($(AWS_REVISION),)
+$(error A specific version of AWS should be selected.)
+endif
 
-aws-git-build: aws-git-setup
-	(PATH=$(PATH):${PREFIX}/bin \
-	LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
-	make build -C aws -e prefix=${PREFIX}/bin/.. PROCESSORS=${PROCESSORS})
-	@touch $@
+aws: $(DOWNLOADS)/aws $(AWS_DEPENDENCIES)
+	cd $< && git pull && git checkout $(AWS_REVISION)
+	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make setup -C $< -e $(AWS_ARGS)
+	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make build -C $< -e
+	$(SU_APPLICATION) make -C $< install
 
-aws-git-setup: aws-git-src gnat
-	PATH=$(PATH):${PREFIX}/bin \
-	LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
-	make setup -C aws -e prefix=${PREFIX}/bin/.. PROCESSORS=${PROCESSORS} SOCKET=gnutls OpenID=true
+$(DOWNLOADS)/aws:
+	mkdir -p $(DOWNLOADS)
+	git clone --recursive http://forge.open-do.org/anonscm/git/aws/aws.git $@
 
-aws-git-src:
-	(test -d aws && (cd aws; git pull)) || \
-	git clone --recursive http://forge.open-do.org/anonscm/git/aws/aws.git
+############################################################################
 
 ############
 # GNATColl #
