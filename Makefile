@@ -2,16 +2,27 @@ include Makefile.revisions
 
 all: gnat
 
+############################################################################
+# Common parameters:
+
+# Location for downloaded files:
 DOWNLOADS=downloads
+
+# System administrator rights:
 SU_APPLICATION=sudo -E
+
+# Required location for GNAT:
 PREFIX=/usr/gnat
+
+# Execution path including GNAT:
+EXTENDED_PATH=$(PREFIX)/bin:$(PATH)
 
 # Number of available CPU threads.
 ifeq ($(PROCESSORS),)
 PROCESSORS=`(test -f /proc/cpuinfo && grep -c ^processor /proc/cpuinfo) || echo 1`
 endif
 
-GNATCOLL_ARGS=--disable-projects --with-postgresql --with-sqlite --enable-syslog
+############################################################################
 
 ########
 # Yolk #
@@ -59,6 +70,8 @@ aws-git-src:
 ############
 # GNATColl #
 ############
+
+GNATCOLL_ARGS=--disable-projects --with-postgresql --with-sqlite --enable-syslog
 
 gnatlib: gnatlib-svn-install
 
@@ -113,31 +126,35 @@ $(DOWNLOADS)/florist-gpl-2013-src.tgz:
 
 xml-ada: gnat-2013-install
 
-########
-# GNAT #
-########
+############################################################################
+# GNAT
 
 ifeq ($(GNAT_REVISION),)
 $(error A specific version of GNAT should be selected.)
 endif
 
-gnat: $(GNAT_REVISION)
+gnat: gnat-$(GNAT_REVISION)
 
 gnat-gpl-2013: gnat-2013-install
 
 gnat-2013-install: gnat-gpl-2013-x86_64-pc-linux-gnu-bin
-        $(SU_APPLICATION) ${MAKE} -C gnat-gpl-2013-x86_64-pc-linux-gnu-bin -e prefix=${PREFIX}
+        $(SU_APPLICATION) ${MAKE} -C $< -e prefix=${PREFIX}
 	@touch $@
 
 gnat-gpl-2013-x86_64-pc-linux-gnu-bin: $(DOWNLOADS)/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz
-	@echo Extracting $(DOWNLOADS)/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz ...
-	@tar xzf $(DOWNLOADS)/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz
+	@echo Extracting $< ...
+	@tar xzf $<
 	@touch $@
 
 $(DOWNLOADS)/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz:
 	mkdir -p $(DOWNLOADS)
-	wget -H http://mirrors.cdn.adacore.com/art/1db1fa7e867c63098c4775c387e1a287274d9c87 -O $(DOWNLOADS)/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz
+	wget -H http://mirrors.cdn.adacore.com/art/1db1fa7e867c63098c4775c387e1a287274d9c87 -O $@
 
+############################################################################
+
+###########
+# Cleanup #
+###########
 
 clean:
 	rm -rf gnat-201?-x86_64-pc-linux-gnu-bin

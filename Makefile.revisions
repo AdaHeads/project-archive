@@ -1,3 +1,3 @@
 # Select specific revisions of in-flux repositories here:
 
-GNAT_REVISION=gnat-gpl-2013
+GNAT_REVISION=gpl-2013
