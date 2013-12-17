@@ -1,4 +1,6 @@
-all:
+include Makefile.revisions
+
+all: gnat
 
 ada-development: gnat xml-ada florist
 adaheads-development: ada-development gnatlib aws yolk
