@@ -2,13 +2,8 @@ include Makefile.revisions
 
 all: gnat
 
-ada-development: gnat xml-ada florist
-adaheads-development: ada-development gnatlib aws yolk
-
-
-ARCHIVE_FOLDER="tgz"
-
-SU_APPLICATION=sudo
+DOWNLOADS=downloads
+SU_APPLICATION=sudo -E
 PREFIX=/usr/gnat
 
 # Number of available CPU threads.
@@ -25,7 +20,8 @@ GNATCOLL_ARGS=--disable-projects --with-postgresql --with-sqlite --enable-syslog
 yolk: yolk-git-install
 
 yolk-git-install: yolk-git-build
-	$(SU_APPLICATION) make -C yolk install && touch yolk-git-install
+	$(SU_APPLICATION) make -C yolk install
+	@touch $@
 
 yolk-git-build: yolk-git-src gnat
 	PATH=$(PATH):${PREFIX}/bin \
@@ -42,13 +38,14 @@ yolk-git-src:
 aws: aws-git-install
 
 aws-git-install: aws-git-build
-	$(SU_APPLICATION) make -C aws install && touch aws-git-install
+	$(SU_APPLICATION) make -C aws install
+	@touch $@
 
 aws-git-build: aws-git-setup
 	(PATH=$(PATH):${PREFIX}/bin \
 	LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
-	make build -C aws -e prefix=${PREFIX}/bin/.. PROCESSORS=${PROCESSORS}) \
-	 && touch aws-git-build
+	make build -C aws -e prefix=${PREFIX}/bin/.. PROCESSORS=${PROCESSORS})
+	@touch $@
 
 aws-git-setup: aws-git-src gnat
 	PATH=$(PATH):${PREFIX}/bin \
@@ -66,7 +63,8 @@ aws-git-src:
 gnatlib: gnatlib-svn-install
 
 gnatlib-svn-install: gnatlib-svn-build
-	$(SU_APPLICATION) make -C gnatlib install && touch gnatlib-svn-install
+	$(SU_APPLICATION) make -C gnatlib install
+	@touch $@
 
 gnatlib-svn-build: gnatlib-svn gnat
 	cd gnatlib && PATH=$(PATH):${PREFIX}/bin \
@@ -74,7 +72,8 @@ gnatlib-svn-build: gnatlib-svn gnat
 	./configure --prefix=${PREFIX} ${GNATCOLL_ARGS}
 	make -e LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
 	        PATH=$(PATH):${PREFIX}/bin\
-	        -C gnatlib && touch gnatlib-svn-build
+	        -C gnatlib
+	@touch $@
 
 gnatlib-svn:
 	@(svn co http://svn.eu.adacore.com/anonsvn/Dev/trunk/gps/gnatlib/ gnatlib || \
@@ -87,7 +86,8 @@ gnatlib-svn:
 florist: florist-gpl-2013-install
 
 florist-gpl-2013-install: florist-gpl-2013-build
-	$(SU_APPLICATION) make -C florist-gpl-2013-src install && touch florist-gpl-2013-install
+	$(SU_APPLICATION) make -C florist-gpl-2013-src install
+	@touch $@
 
 florist-gpl-2013-build: florist-gpl-2013-src gnat
 	cd florist-gpl-2013-src && PATH=$(PATH):${PREFIX}/bin \
@@ -95,18 +95,17 @@ florist-gpl-2013-build: florist-gpl-2013-src gnat
 	./configure --prefix=${PREFIX}
 	make -e LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
 	        PATH=$(PATH):${PREFIX}/bin\
-	        -C florist-gpl-2013-src && touch florist-gpl-2013-build
+	        -C florist-gpl-2013-src
+	@touch $@
 
-florist-gpl-2013-src: tgz/florist-gpl-2013-src.tgz
-	echo Extracting ${ARCHIVE_FOLDER}/florist-gpl-2013-src.tgz ...
-	@tar xzf ${ARCHIVE_FOLDER}/florist-gpl-2013-src.tgz
-	@touch florist-gpl-2013-src
+florist-gpl-2013-src: $(DOWNLOADS)/florist-gpl-2013-src.tgz
+	echo Extracting $(DOWNLOADS)/florist-gpl-2013-src.tgz ...
+	@tar xzf $(DOWNLOADS)/florist-gpl-2013-src.tgz
+	@touch $@
 
-tgz/florist-gpl-2013-src.tgz:
-	-mkdir tgz
-	(cd tgz && wget -H \
-	http://mirrors.cdn.adacore.com/art/3a9157f1ba735ee0f0f9cf032b381032736d7263 -O \
-	florist-gpl-2013-src.tgz)
+$(DOWNLOADS)/florist-gpl-2013-src.tgz:
+	mkdir -p $(DOWNLOADS)
+	wget -H http://mirrors.cdn.adacore.com/art/3a9157f1ba735ee0f0f9cf032b381032736d7263 -O $(DOWNLOADS)/florist-gpl-2013-src.tgz
 
 ###########
 # XML-Ada #
@@ -118,7 +117,7 @@ xml-ada: gnat-2013-install
 # GNAT #
 ########
 
-ifeq ($(GNAT_REVISION), )
+ifeq ($(GNAT_REVISION),)
 $(error A specific version of GNAT should be selected.)
 endif
 
@@ -127,17 +126,17 @@ gnat: $(GNAT_REVISION)
 gnat-gpl-2013: gnat-2013-install
 
 gnat-2013-install: gnat-gpl-2013-x86_64-pc-linux-gnu-bin
-	(cd gnat-gpl-2013-x86_64-pc-linux-gnu-bin && \
-        $(SU_APPLICATION) ${MAKE} -e prefix=${PREFIX}) && touch gnat-2013-install
+        $(SU_APPLICATION) ${MAKE} -C gnat-gpl-2013-x86_64-pc-linux-gnu-bin -e prefix=${PREFIX}
+	@touch $@
 
-gnat-gpl-2013-x86_64-pc-linux-gnu-bin: tgz/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz
-	@echo Extracting tgz/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz ...
-	@tar xzf tgz/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz
-	@touch gnat-gpl-2013-x86_64-pc-linux-gnu-bin
+gnat-gpl-2013-x86_64-pc-linux-gnu-bin: $(DOWNLOADS)/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz
+	@echo Extracting $(DOWNLOADS)/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz ...
+	@tar xzf $(DOWNLOADS)/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz
+	@touch $@
 
-tgz/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz:
-	-mkdir tgz
-	cd tgz && wget -H http://mirrors.cdn.adacore.com/art/1db1fa7e867c63098c4775c387e1a287274d9c87 -O gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz
+$(DOWNLOADS)/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz:
+	mkdir -p $(DOWNLOADS)
+	wget -H http://mirrors.cdn.adacore.com/art/1db1fa7e867c63098c4775c387e1a287274d9c87 -O $(DOWNLOADS)/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz
 
 
 clean:
