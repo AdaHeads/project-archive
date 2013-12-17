@@ -1,6 +1,6 @@
 include Makefile.revisions
 
-all: gnat
+all: alice
 
 ############################################################################
 # Common parameters:
@@ -31,13 +31,12 @@ endif
 ALICE_DEPENDENCIES=gnat yolk aws gnatcoll libdialplan libesl
 
 ifeq ($(ALICE_REVISION),)
-$(error A specific version of ALICE should be selected.)
+$(error A specific version of Alice should be selected.)
 endif
 
 alice: $(DOWNLOADS)/alice $(ALICE_DEPENDENCIES)
-	cd $< && git pull
-	cd $< && git checkout $(ALICE_REVISION)
-	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=${PROCESSORS} make -C $<
+	cd $< && git pull && git checkout $(ALICE_REVISION)
+	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make -C $< -e
 	@touch $@
 
 $(DOWNLOADS)/alice:
@@ -45,24 +44,24 @@ $(DOWNLOADS)/alice:
 	git clone git://github.com/AdaHeads/Alice.git $@
 
 ############################################################################
+# Yolk
 
-########
-# Yolk #
-########
+YOLK_DEPENDENCIES=gnat aws gnatcoll
 
-yolk: yolk-git-install
+ifeq ($(YOLK_REVISION),)
+$(error A specific version of Yolk should be selected.)
+endif
 
-yolk-git-install: yolk-git-build
-	$(SU_APPLICATION) make -C yolk install
-	@touch $@
+yolk: $(DOWNLOADS)/yolk $(YOLK_DEPENDENCIES)
+	cd $< && git pull && git checkout $(YOLK_REVISION)
+	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make -C $< -e
+	$(SU_APPLICATION) make -C $< install
 
-yolk-git-build: yolk-git-src gnat
-	PATH=$(PATH):${PREFIX}/bin \
-	LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
-	make -C yolk -e prefix=${PREFIX}/bin/.. PROCESSORS=${PROCESSORS}  \
+$(DOWNLOADS)/yolk:
+	mkdir -p $(DOWNLOADS)
+	git clone git://github.com/ThomasLocke/yolk.git $@
 
-yolk-git-src:
-	(test -d yolk && (cd yolk; git pull)) || git clone git://github.com/ThomasLocke/yolk.git
+############################################################################
 
 #######
 # AWS #
