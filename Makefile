@@ -118,7 +118,7 @@ florist-gpl-2013-src: $(DOWNLOADS)/florist-gpl-2013-src.tgz
 
 $(DOWNLOADS)/florist-gpl-2013-src.tgz:
 	mkdir -p $(DOWNLOADS)
-	wget -H http://mirrors.cdn.adacore.com/art/3a9157f1ba735ee0f0f9cf032b381032736d7263 -O $(DOWNLOADS)/florist-gpl-2013-src.tgz
+	wget --timestamping --output-document=$@ http://mirrors.cdn.adacore.com/art/3a9157f1ba735ee0f0f9cf032b381032736d7263
 
 ###########
 # XML-Ada #
@@ -148,7 +148,7 @@ gnat-gpl-2013-x86_64-pc-linux-gnu-bin: $(DOWNLOADS)/gnat-gpl-2013-x86_64-pc-linu
 
 $(DOWNLOADS)/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz:
 	mkdir -p $(DOWNLOADS)
-	wget -H http://mirrors.cdn.adacore.com/art/1db1fa7e867c63098c4775c387e1a287274d9c87 -O $@
+	wget --timestamping --output-document=$@ http://mirrors.cdn.adacore.com/art/1db1fa7e867c63098c4775c387e1a287274d9c87
 
 ############################################################################
 
