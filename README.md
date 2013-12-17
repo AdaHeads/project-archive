@@ -1,14 +1,23 @@
-Ada development Makefile
-=========
+The Grand AdaHeads Build System
+===============================
 
-This is a primitive automagic wrapper around the tedious and manual process
-of installing and building Ada tools.
+This repository is intended to help building all the Ada based components of
+our hosted telephone reception management system.
 
-It's created to scratch a local itch within our company - but could perhaps be
-used elsewhere.
+It will fetch and install needed sources or ready-to-install binaries in the
+appropriate versions, before attempting to build the system.
+
+In-flux components will (eventually) automagically be checked out in matching
+versions.
 
 
-This work is licenced under GPLv2
+Licence
+-------
+
+This work is distributed under GPLv2.
+
+
+------------------------------------------------------------------------------
 
 Dependencies
 ------------
