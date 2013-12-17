@@ -138,7 +138,7 @@ gnat: gnat-$(GNAT_REVISION)
 gnat-gpl-2013: gnat-2013-install
 
 gnat-2013-install: gnat-gpl-2013-x86_64-pc-linux-gnu-bin
-        $(SU_APPLICATION) ${MAKE} -C $< -e prefix=${PREFIX}
+	$(SU_APPLICATION) ${MAKE} -C $< -e prefix=${PREFIX}
 	@touch $@
 
 gnat-gpl-2013-x86_64-pc-linux-gnu-bin: $(DOWNLOADS)/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz
