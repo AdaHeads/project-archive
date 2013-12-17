@@ -17,10 +17,32 @@ PREFIX=/usr/gnat
 # Execution path including GNAT:
 EXTENDED_PATH=$(PREFIX)/bin:$(PATH)
 
+# Library path including some things GNAT needs:
+EXTENDED_LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH)
+
 # Number of available CPU threads.
 ifeq ($(PROCESSORS),)
 PROCESSORS=`(test -f /proc/cpuinfo && grep -c ^processor /proc/cpuinfo) || echo 1`
 endif
+
+############################################################################
+# Alice:
+
+ALICE_DEPENDENCIES=gnat yolk aws gnatcoll libdialplan libesl
+
+ifeq ($(ALICE_REVISION),)
+$(error A specific version of ALICE should be selected.)
+endif
+
+alice: $(DOWNLOADS)/alice $(ALICE_DEPENDENCIES)
+	cd $< && git pull
+	cd $< && git checkout $(ALICE_REVISION)
+	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=${PROCESSORS} make -C $<
+	@touch $@
+
+$(DOWNLOADS)/alice:
+	mkdir -p $(DOWNLOADS)
+	git clone git://github.com/AdaHeads/Alice.git $@
 
 ############################################################################
 

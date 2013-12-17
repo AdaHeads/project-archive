@@ -1,3 +1,5 @@
 # Select specific revisions of in-flux repositories here:
 
 GNAT_REVISION=gpl-2013
+ALICE_REVISION=master
+
