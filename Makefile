@@ -15,7 +15,7 @@ SU_APPLICATION=sudo -E
 PREFIX=/usr/gnat
 
 # Execution path including GNAT:
-EXTENDED_PATH=$(PREFIX)/bin:$(PATH)
+EXTENDED_PATH=$(PATH):$(PREFIX)/bin
 
 # Library path including some things GNAT needs:
 EXTENDED_LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH)
