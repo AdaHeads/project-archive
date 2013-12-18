@@ -209,13 +209,11 @@ $(DOWNLOADS)/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz:
 	wget --timestamping --output-document=$@ http://mirrors.cdn.adacore.com/art/1db1fa7e867c63098c4775c387e1a287274d9c87
 
 ############################################################################
-
-###########
-# Cleanup #
-###########
+# Clean
 
 clean:
-	rm -rf gnat-201?-x86_64-pc-linux-gnu-bin
-	rm -rf xmlada-4.3w-src
-	rm gnat-201?-install
-	rm xmlada-4.3-install xmlada-4.3-build
+	rm -rf gnat-*
+	rm -rf xmlada-*
+	rm -rf florist-*
+
+############################################################################
