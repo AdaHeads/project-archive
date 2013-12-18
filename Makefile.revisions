@@ -1,7 +1,8 @@
 # Select specific revisions of in-flux repositories here:
 
 GNAT_REVISION=gpl-2013
-ALICE_REVISION=master
-YOLK_REVISION=master
-AWS_REVISION=master
+
+ALICE_REVISION=a04d5815f00e171e5abc8fb87fcdb944714469c7
+YOLK_REVISION=f7da8aba35141a568d15d1881b722292375c7e11
+AWS_REVISION=79cd2d1ae1b7e924f7c6d36ba7f2ee36ad39f713
 
