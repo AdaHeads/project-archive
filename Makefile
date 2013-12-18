@@ -124,34 +124,37 @@ $(DOWNLOADS)/libdialplan:
 	git clone git://github.com/AdaHeads/libdialplan.git $@
 
 ############################################################################
+# FLORIST
 
-###########
-# Florist #
-###########
+FLORIST_DEPENDENCIES=gnat
 
-florist: florist-gpl-2013-install
+ifeq ($(FLORIST_REVISION),)
+$(error A specific version of FLORIST should be selected.)
+endif
+
+florist: florist-$(FLORIST_REVISION)
+
+florist-gpl-2013: florist-gpl-2013-install
 
 florist-gpl-2013-install: florist-gpl-2013-build
 	$(SU_APPLICATION) make -C florist-gpl-2013-src install
 	@touch $@
 
 florist-gpl-2013-build: florist-gpl-2013-src gnat
-	cd florist-gpl-2013-src && PATH=$(PATH):${PREFIX}/bin \
-	LIBRARY_PATH=$(LIBRARY_PATH):/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu \
-	./configure --prefix=${PREFIX}
-	make -e LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
-	        PATH=$(PATH):${PREFIX}/bin\
-	        -C florist-gpl-2013-src
+	cd $< && PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) ./configure --prefix=$(PREFIX)
+	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make -C $< -e
 	@touch $@
 
 florist-gpl-2013-src: $(DOWNLOADS)/florist-gpl-2013-src.tgz
-	echo Extracting $(DOWNLOADS)/florist-gpl-2013-src.tgz ...
-	@tar xzf $(DOWNLOADS)/florist-gpl-2013-src.tgz
+	@echo Extracting $< ...
+	@tar xzf $<
 	@touch $@
 
 $(DOWNLOADS)/florist-gpl-2013-src.tgz:
 	mkdir -p $(DOWNLOADS)
 	wget --timestamping --output-document=$@ http://mirrors.cdn.adacore.com/art/3a9157f1ba735ee0f0f9cf032b381032736d7263
+
+############################################################################
 
 ###########
 # XML-Ada #
