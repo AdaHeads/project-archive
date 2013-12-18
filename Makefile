@@ -155,12 +155,15 @@ $(DOWNLOADS)/florist-gpl-2013-src.tgz:
 	wget --timestamping --output-document=$@ http://mirrors.cdn.adacore.com/art/3a9157f1ba735ee0f0f9cf032b381032736d7263
 
 ############################################################################
+# XML-Ada
 
-###########
-# XML-Ada #
-###########
+ifeq ($(XMLADA_REVISION),)
+$(error A specific version of XML-Ada should be selected.)
+endif
 
-xml-ada: gnat-2013-install
+xmlada: xmlada-$(XMLADA_REVISION)
+
+xmlada-gpl-2013: gnat-gpl-2013
 
 ############################################################################
 # GNAT
