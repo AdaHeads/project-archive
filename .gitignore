@@ -1,5 +1,7 @@
 # Editor temporary and backup files:
 *\~
+\#*\#
+.\#*
 
 # Downloaded sources:
 downloads/
