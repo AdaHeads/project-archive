@@ -38,7 +38,7 @@ $(error A specific version of Alice should be selected.)
 endif
 
 alice: $(DOWNLOADS)/alice $(ALICE_DEPENDENCIES) $(DEPENDENCIES)
-	cd $< && git pull && git checkout $(ALICE_REVISION)
+	cd $< && git checkout master && git pull && git checkout $(ALICE_REVISION)
 	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make -C $< -e
 
 $(DOWNLOADS)/alice:
@@ -55,7 +55,7 @@ $(error A specific version of Yolk should be selected.)
 endif
 
 yolk: $(DOWNLOADS)/yolk $(YOLK_DEPENDENCIES) $(DEPENDENCIES)
-	cd $< && git pull && git checkout $(YOLK_REVISION)
+	cd $< && git checkout master && git pull && git checkout $(YOLK_REVISION)
 	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make -C $< -e
 	$(SU_APPLICATION) make -C $< install
 
@@ -75,7 +75,7 @@ $(error A specific version of AWS should be selected.)
 endif
 
 aws: $(DOWNLOADS)/aws $(AWS_DEPENDENCIES) $(DEPENDENCIES)
-	cd $< && git pull && git checkout $(AWS_REVISION)
+	cd $< && git checkout master && git pull && git checkout $(AWS_REVISION)
 	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make setup -C $< -e $(AWS_ARGS)
 	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make build -C $< -e
 	$(SU_APPLICATION) make -C $< install
@@ -115,7 +115,7 @@ $(error A specific version of libdialplan should be selected.)
 endif
 
 libdialplan: $(DOWNLOADS)/libdialplan $(LIBDIALPLAN_DEPENDENCIES) $(DEPENDENCIES)
-	cd $< && git pull && git checkout $(LIBDIALPLAN_REVISION)
+	cd $< && git checkout master && git pull && git checkout $(LIBDIALPLAN_REVISION)
 	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make -C $< -e
 	$(SU_APPLICATION) make -C $< install
 
