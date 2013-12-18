@@ -25,6 +25,9 @@ ifeq ($(PROCESSORS),)
 PROCESSORS=`(test -f /proc/cpuinfo && grep -c ^processor /proc/cpuinfo) || echo 1`
 endif
 
+# Common dependencies for all build targets:
+DEPENDENCIES=Makefile Makefile.revisions
+
 ############################################################################
 # Alice:
 
@@ -34,10 +37,9 @@ ifeq ($(ALICE_REVISION),)
 $(error A specific version of Alice should be selected.)
 endif
 
-alice: $(DOWNLOADS)/alice $(ALICE_DEPENDENCIES)
+alice: $(DOWNLOADS)/alice $(ALICE_DEPENDENCIES) $(DEPENDENCIES)
 	cd $< && git pull && git checkout $(ALICE_REVISION)
 	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make -C $< -e
-	@touch $@
 
 $(DOWNLOADS)/alice:
 	mkdir -p $(DOWNLOADS)
@@ -52,7 +54,7 @@ ifeq ($(YOLK_REVISION),)
 $(error A specific version of Yolk should be selected.)
 endif
 
-yolk: $(DOWNLOADS)/yolk $(YOLK_DEPENDENCIES)
+yolk: $(DOWNLOADS)/yolk $(YOLK_DEPENDENCIES) $(DEPENDENCIES)
 	cd $< && git pull && git checkout $(YOLK_REVISION)
 	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make -C $< -e
 	$(SU_APPLICATION) make -C $< install
@@ -72,7 +74,7 @@ ifeq ($(AWS_REVISION),)
 $(error A specific version of AWS should be selected.)
 endif
 
-aws: $(DOWNLOADS)/aws $(AWS_DEPENDENCIES)
+aws: $(DOWNLOADS)/aws $(AWS_DEPENDENCIES) $(DEPENDENCIES)
 	cd $< && git pull && git checkout $(AWS_REVISION)
 	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make setup -C $< -e $(AWS_ARGS)
 	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make build -C $< -e
@@ -93,7 +95,7 @@ ifeq ($(GNATCOLL_REVISION),)
 $(error A specific version of GNATColl should be selected.)
 endif
 
-gnatcoll: $(DOWNLOADS)/gnatcoll $(GNATCOLL_DEPENDENCIES)
+gnatcoll: $(DOWNLOADS)/gnatcoll $(GNATCOLL_DEPENDENCIES) $(DEPENDENCIES)
 	cd $< && svn update && svn update -r $(GNATCOLL_REVISION)
 	cd $< && PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) ./configure --prefix=$(PREFIX) $(GNATCOLL_ARGS)
 	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make -C $< -e
@@ -102,6 +104,24 @@ gnatcoll: $(DOWNLOADS)/gnatcoll $(GNATCOLL_DEPENDENCIES)
 $(DOWNLOADS)/gnatcoll:
 	mkdir -p $(DOWNLOADS)
 	svn checkout http://svn.eu.adacore.com/anonsvn/Dev/trunk/gps/gnatlib/ $@
+
+############################################################################
+# libdialplan:
+
+LIBDIALPLAN_DEPENDENCIES=gnat xmlada
+
+ifeq ($(LIBDIALPLAN_REVISION),)
+$(error A specific version of libdialplan should be selected.)
+endif
+
+libdialplan: $(DOWNLOADS)/libdialplan $(LIBDIALPLAN_DEPENDENCIES) $(DEPENDENCIES)
+	cd $< && git pull && git checkout $(LIBDIALPLAN_REVISION)
+	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make -C $< -e
+	$(SU_APPLICATION) make -C $< install
+
+$(DOWNLOADS)/libdialplan:
+	mkdir -p $(DOWNLOADS)
+	git clone git://github.com/AdaHeads/libdialplan.git $@
 
 ############################################################################
 
