@@ -116,6 +116,7 @@ endif
 
 libdialplan: $(DOWNLOADS)/libdialplan $(LIBDIALPLAN_DEPENDENCIES)
 	cd $< && git checkout master && git pull && git checkout $(LIBDIALPLAN_REVISION)
+	cd $< && PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) ./configure
 	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make -C $< -e
 	$(SU_APPLICATION) make -C $< install
 
