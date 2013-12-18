@@ -46,7 +46,7 @@ $(DOWNLOADS)/alice:
 ############################################################################
 # Yolk
 
-YOLK_DEPENDENCIES=gnat aws gnatcoll
+YOLK_DEPENDENCIES=gnat aws florist gnatcoll
 
 ifeq ($(YOLK_REVISION),)
 $(error A specific version of Yolk should be selected.)
@@ -83,31 +83,27 @@ $(DOWNLOADS)/aws:
 	git clone --recursive http://forge.open-do.org/anonscm/git/aws/aws.git $@
 
 ############################################################################
+# GNATColl
 
-############
-# GNATColl #
-############
+GNATCOLL_DEPENDENCIES=gnat
 
 GNATCOLL_ARGS=--disable-projects --with-postgresql --with-sqlite --enable-syslog
 
-gnatlib: gnatlib-svn-install
+ifeq ($(GNATCOLL_REVISION),)
+$(error A specific version of GNATColl should be selected.)
+endif
 
-gnatlib-svn-install: gnatlib-svn-build
-	$(SU_APPLICATION) make -C gnatlib install
-	@touch $@
+gnatcoll: $(DOWNLOADS)/gnatcoll $(GNATCOLL_DEPENDENCIES)
+	cd $< && svn update && svn update -r $(GNATCOLL_REVISION)
+	cd $< && PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) ./configure --prefix=$(PREFIX) $(GNATCOLL_ARGS)
+	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make -C $< -e
+	$(SU_APPLICATION) make -C $< install
 
-gnatlib-svn-build: gnatlib-svn gnat
-	cd gnatlib && PATH=$(PATH):${PREFIX}/bin \
-	LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
-	./configure --prefix=${PREFIX} ${GNATCOLL_ARGS}
-	make -e LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH) \
-	        PATH=$(PATH):${PREFIX}/bin\
-	        -C gnatlib
-	@touch $@
+$(DOWNLOADS)/gnatcoll:
+	mkdir -p $(DOWNLOADS)
+	svn checkout http://svn.eu.adacore.com/anonsvn/Dev/trunk/gps/gnatlib/ $@
 
-gnatlib-svn:
-	@(svn co http://svn.eu.adacore.com/anonsvn/Dev/trunk/gps/gnatlib/ gnatlib || \
-	echo Checkout of GNATColl failed - maybe you do not have subversion installed?)
+############################################################################
 
 ###########
 # Florist #
