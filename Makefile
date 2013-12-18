@@ -216,4 +216,7 @@ clean:
 	rm -rf xmlada-*
 	rm -rf florist-*
 
+distclean: clean
+	rm -rf $(DOWNLOADS)
+
 ############################################################################
