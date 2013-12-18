@@ -78,6 +78,8 @@ aws: $(DOWNLOADS)/aws $(AWS_DEPENDENCIES)
 	cd $< && git checkout master && git pull && git checkout $(AWS_REVISION)
 	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make setup -C $< -e $(AWS_ARGS)
 	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make build -C $< -e
+	if [ -d $(PREFIX)/`gcc -dumpmachine` ]; then $(SU_APPLICATION) rm -rf $(PREFIX)/`gcc -dumpmachine`; fi
+	$(SU_APPLICATION) ln -fs $(PREFIX) $(PREFIX)/`gcc -dumpmachine`
 	$(SU_APPLICATION) make -C $< install
 
 $(DOWNLOADS)/aws:
