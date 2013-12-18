@@ -125,6 +125,24 @@ $(DOWNLOADS)/libdialplan:
 	git clone git://github.com/AdaHeads/libdialplan.git $@
 
 ############################################################################
+# libesl:
+
+LIBESL_DEPENDENCIES=$(COMMON_DEPENDENCIES) aws gnatcoll
+
+ifeq ($(LIBESL_REVISION),)
+$(error A specific version of libesl should be selected.)
+endif
+
+libesl: $(DOWNLOADS)/libesl $(LIBESL_DEPENDENCIES)
+	cd $< && git checkout master && git pull && git checkout $(LIBESL_REVISION)
+	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make -C $< -e
+	$(SU_APPLICATION) make -C $< install
+
+$(DOWNLOADS)/libesl:
+	mkdir -p $(DOWNLOADS)
+	git clone git://github.com/AdaHeads/libesl.git $@
+
+############################################################################
 # FLORIST
 
 FLORIST_DEPENDENCIES=$(COMMON_DEPENDENCIES)
