@@ -851,8 +851,8 @@ diff --new-file '--exclude=templates_parser' '--exclude=.git' --recursive --unif
  	SOEXT="$(SOEXT)" BUILD_DOC_SCRIPT="false" GNAT="$(GNAT)" \
  	T2A="../../$(BDIR)/static/tools/templates2ada" \
  	LIBRARY_TYPE="$(LIBRARY_TYPE)" PYTHON="$(PYTHON)" \
--	TARGET="$(TARGET)" IS_CROSS=$(IS_CROSS) GPRINSTALL="$(GPRINSTALL)"
-+	TARGET="$(TARGET)" IS_CROSS=$(IS_CROSS) GPRINSTALL="$(GPRINSTALL)" OpenID="$(OpenID)" \
+-	TARGET="$(TARGET)" IS_CROSS=$(IS_CROSS)
++	TARGET="$(TARGET)" IS_CROSS=$(IS_CROSS) OpenID="$(OpenID)" \
 +	AUTHENTICATION_DATABASE_IMPLEMENTATION="$(AUTHENTICATION_DATABASE_IMPLEMENTATION)"
  
  build-doc:
@@ -954,6 +954,15 @@ diff --new-file '--exclude=templates_parser' '--exclude=.git' --recursive --unif
 +   ------------
     -- SOCKET --
     ------------
+ 
+@@ -116,7 +123,7 @@ abstract project Shared is
+    --  Options used for all Ada units in both Debug and Release modes
+ 
+    Common_Options :=
+-     ("-gnat05", "-gnatwcfijkmRuv", "-gnaty3abBcefhiIklmnoprstx", "-Wall")
++     ("-gnat2012", "-gnatwcfijkmRuv", "-gnaty3abBcefhiIklmnoprstx", "-Wall")
+      & Global_Options;
+    --  Common options used for the Debug and Release modes
  
 diff --new-file '--exclude=templates_parser' '--exclude=.git' --recursive --unified aws.upstream/src/openid/authentication_database-hashed_map/aws-openid-authentication_database.adb Ada-development-Makefile/aws/src/openid/authentication_database-hashed_map/aws-openid-authentication_database.adb
 --- aws.upstream/src/openid/authentication_database-hashed_map/aws-openid-authentication_database.adb	1970-01-01 00:00:00.000000000 +0000

@@ -75,7 +75,7 @@ $(error A specific version of AWS should be selected.)
 endif
 
 aws: $(DOWNLOADS)/aws $(AWS_DEPENDENCIES)
-	cd $< && git clean -dxff && git reset --hard origin/master && git pull && git checkout $(AWS_REVISION)
+	cd $< && git checkout --force master && git clean -dxff && git reset --hard && git pull && git checkout $(AWS_REVISION)
 	( cd $< && patch -f -p1 ) < patches/aws.patch
 	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make setup -C $< -e $(AWS_ARGS)
 	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make build -C $< -e
@@ -174,7 +174,7 @@ florist-gpl-2013-src: $(DOWNLOADS)/florist-gpl-2013-src.tgz
 
 $(DOWNLOADS)/florist-gpl-2013-src.tgz:
 	mkdir -p $(DOWNLOADS)
-	wget --timestamping --output-document=$@ http://mirrors.cdn.adacore.com/art/3a9157f1ba735ee0f0f9cf032b381032736d7263
+	wget --output-document=$@ http://mirrors.cdn.adacore.com/art/3a9157f1ba735ee0f0f9cf032b381032736d7263
 
 ############################################################################
 # XML-Ada
@@ -209,7 +209,7 @@ gnat-gpl-2013-x86_64-pc-linux-gnu-bin: $(DOWNLOADS)/gnat-gpl-2013-x86_64-pc-linu
 
 $(DOWNLOADS)/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz:
 	mkdir -p $(DOWNLOADS)
-	wget --timestamping --output-document=$@ http://mirrors.cdn.adacore.com/art/1db1fa7e867c63098c4775c387e1a287274d9c87
+	wget --output-document=$@ http://mirrors.cdn.adacore.com/art/1db1fa7e867c63098c4775c387e1a287274d9c87
 
 ############################################################################
 # Clean
