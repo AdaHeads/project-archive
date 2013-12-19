@@ -22,6 +22,7 @@ Dependencies
   * Syslog
   * SQLite
   * PostgreSQL
+  * libgcrypt(11)-dev
 
 
 Usage
