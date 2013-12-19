@@ -37,7 +37,7 @@ list above), and then compile Alice.
 To make the installed tools and libraries generally accessible, you
 should put this in your shell configuration file:
 
-    export PATH=${PATH}:/usr/gnat/bin
+    export PATH=/usr/gnat/bin:${PATH}
     export LIBRARY_PATH=${LIBRARY_PATH}:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu
 
 At this point your system should be ready for continued development of
