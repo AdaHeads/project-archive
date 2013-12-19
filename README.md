@@ -1,11 +1,11 @@
-The Grand AdaHeads Build System
+[The Grand AdaHeads Build System](https://github.com/AdaHeads/Build-system)
 ===============================
 
-This repository is intended to help building all the Ada based components of
-our hosted telephone reception management system.
+This repository is intended to help building all the Ada based
+components of our hosted telephone reception management system.
 
-It will fetch and install needed sources or ready-to-install binaries in the
-appropriate versions, before attempting to build the system.
+It will fetch and install needed sources or ready-to-install binaries
+in the appropriate versions, before attempting to build the system.
 
 In-flux components will automagically be checked out in matching
 versions.
@@ -49,3 +49,13 @@ Licence
 
 This work is distributed under GPLv2.
 
+
+More
+----
+
+If you want to find free Ada tools or libraries
+[AdaIC](http://www.adaic.org/ada-resources/tools-libraries/) is an
+excellent starting point.
+
+You can also take a look at [our other repositories on
+GitHub](https://github.com/AdaHeads).
