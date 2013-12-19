@@ -75,7 +75,7 @@ $(error A specific version of AWS should be selected.)
 endif
 
 aws: $(DOWNLOADS)/aws $(AWS_DEPENDENCIES)
-	cd $< && git checkout master && git pull && git checkout $(AWS_REVISION) && git clean --force && git reset --hard
+	cd $< && git clean -dxff && git reset --hard origin/master && git pull && git checkout $(AWS_REVISION)
 	( cd $< && patch -f -p1 ) < patches/aws.patch
 	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make setup -C $< -e $(AWS_ARGS)
 	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make build -C $< -e
