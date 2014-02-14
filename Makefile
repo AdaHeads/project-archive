@@ -168,11 +168,13 @@ florist-gpl-2013-build: florist-gpl-2013-src gnat
 	@touch $@
 
 florist-gpl-2013-src: $(DOWNLOADS)/florist-gpl-2013-src.tgz
+	@test -x "`which tar`"   || (echo "Please install 'tar'." ; false)
 	@echo Extracting $< ...
 	@tar xzf $<
 	@touch $@
 
 $(DOWNLOADS)/florist-gpl-2013-src.tgz:
+	@test -x "`which wget`"  || (echo "Please install 'wget'." ; false)
 	mkdir -p $(DOWNLOADS)
 	wget --output-document=$@ http://mirrors.cdn.adacore.com/art/3a9157f1ba735ee0f0f9cf032b381032736d7263
 
@@ -203,13 +205,33 @@ gnat-2013-install: gnat-gpl-2013-x86_64-pc-linux-gnu-bin
 	@touch $@
 
 gnat-gpl-2013-x86_64-pc-linux-gnu-bin: $(DOWNLOADS)/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz
+	@test -x "`which tar`"   || (echo "Please install 'tar'." ; false)
 	@echo Extracting $< ...
 	@tar xzf $<
 	@touch $@
 
 $(DOWNLOADS)/gnat-gpl-2013-x86_64-pc-linux-gnu-bin.tar.gz:
+	@test -x "`which wget`"  || (echo "Please install 'wget'." ; false)
 	mkdir -p $(DOWNLOADS)
 	wget --output-document=$@ http://mirrors.cdn.adacore.com/art/1db1fa7e867c63098c4775c387e1a287274d9c87
+
+############################################################################
+# Dart SDK:
+
+dart: /opt/dart-sdk
+
+/opt/dart-sdk: $(DOWNLOADS)/dart-sdk
+	sudo rm -rf $@
+	sudo cp -pr $< $@
+
+$(DOWNLOADS)/dart-sdk: $(DOWNLOADS)/dartsdk-linux-x64-release.zip
+	@test -x "`which unzip`" || (echo "Please install 'unzip'." ; false)
+	cd $(DOWNLOADS) && unzip -uoa `basename $<` && touch dart-sdk
+
+$(DOWNLOADS)/dartsdk-linux-x64-release.zip:
+	@test -x "`which wget`"  || (echo "Please install 'wget'." ; false)
+	mkdir -p $(DOWNLOADS)
+	wget --output-document=$@ http://storage.googleapis.com/dart-archive/channels/stable/release/latest/sdk/dartsdk-linux-x64-release.zip
 
 ############################################################################
 # Clean
