@@ -1,6 +1,6 @@
 include Makefile.revisions
 
-all: alice
+all: call-flow-control
 
 ############################################################################
 # Common parameters:
@@ -29,21 +29,21 @@ endif
 COMMON_DEPENDENCIES=Makefile Makefile.revisions gnat
 
 ############################################################################
-# Alice:
+# Call-flow-control:
 
-ALICE_DEPENDENCIES=$(COMMON_DEPENDENCIES) yolk aws gnatcoll libdialplan libesl
+CALL_FLOW_CONTROL_DEPENDENCIES=$(COMMON_DEPENDENCIES) yolk aws gnatcoll libdialplan libesl
 
-ifeq ($(ALICE_REVISION),)
-$(error A specific version of Alice should be selected.)
+ifeq ($(CALL_FLOW_CONTROL_REVISION),)
+$(error A specific version of Call-flow-control should be selected.)
 endif
 
-alice: $(DOWNLOADS)/alice $(ALICE_DEPENDENCIES)
-	cd $< && git checkout master && git pull && git checkout $(ALICE_REVISION)
+call-flow-control: $(DOWNLOADS)/call-flow-control $(CALL_FLOW_CONTROL_DEPENDENCIES)
+	cd $< && git checkout master && git pull && git checkout $(CALL_FLOW_CONTROL_REVISION)
 	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make -C $< -e
 
-$(DOWNLOADS)/alice:
+$(DOWNLOADS)/call-flow-control:
 	mkdir -p $(DOWNLOADS)
-	git clone git://github.com/AdaHeads/Alice.git $@
+	git clone git://github.com/AdaHeads/call-flow-control.git $@
 
 ############################################################################
 # Yolk
