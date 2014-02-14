@@ -31,7 +31,7 @@ COMMON_DEPENDENCIES=Makefile Makefile.revisions
 ############################################################################
 # Call-flow-control:
 
-CALL_FLOW_CONTROL_DEPENDENCIES=$(COMMON_DEPENDENCIES) gnat yolk aws gnatcoll libdialplan libesl
+CALL_FLOW_CONTROL_DEPENDENCIES=$(COMMON_DEPENDENCIES) gnat aws libdialplan libesl
 
 ifeq ($(CALL_FLOW_CONTROL_REVISION),)
 $(error A specific version of Call-flow-control should be selected.)
@@ -44,24 +44,6 @@ call-flow-control: $(DOWNLOADS)/call-flow-control $(CALL_FLOW_CONTROL_DEPENDENCI
 $(DOWNLOADS)/call-flow-control:
 	mkdir -p $(DOWNLOADS)
 	git clone git://github.com/AdaHeads/call-flow-control.git $@
-
-############################################################################
-# Yolk
-
-YOLK_DEPENDENCIES=$(COMMON_DEPENDENCIES) gnat aws florist gnatcoll
-
-ifeq ($(YOLK_REVISION),)
-$(error A specific version of Yolk should be selected.)
-endif
-
-yolk: $(DOWNLOADS)/yolk $(YOLK_DEPENDENCIES)
-	cd $< && git checkout master && git pull && git checkout $(YOLK_REVISION)
-	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make -C $< -e
-	$(SU_APPLICATION) make -C $< install
-
-$(DOWNLOADS)/yolk:
-	mkdir -p $(DOWNLOADS)
-	git clone git://github.com/ThomasLocke/yolk.git $@
 
 ############################################################################
 # AWS
@@ -101,27 +83,6 @@ $(DOWNLOADS)/aws-gpl-3.1.0-src.tgz:
 	wget --output-document=$@ http://mirrors.cdn.adacore.com/art/12063471a424d3b33f8d7f86c7e6e8f7ab8079fc
 
 ############################################################################
-# GNATColl
-
-GNATCOLL_DEPENDENCIES=$(COMMON_DEPENDENCIES) gnat
-
-GNATCOLL_ARGS=--disable-projects --with-postgresql --with-sqlite --enable-syslog
-
-ifeq ($(GNATCOLL_REVISION),)
-$(error A specific version of GNATColl should be selected.)
-endif
-
-gnatcoll: $(DOWNLOADS)/gnatcoll $(GNATCOLL_DEPENDENCIES)
-	cd $< && svn update && svn update -r $(GNATCOLL_REVISION)
-	cd $< && PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) ./configure --prefix=$(PREFIX) $(GNATCOLL_ARGS)
-	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make -C $< -e
-	$(SU_APPLICATION) make -C $< install
-
-$(DOWNLOADS)/gnatcoll:
-	mkdir -p $(DOWNLOADS)
-	svn checkout http://svn.eu.adacore.com/anonsvn/Dev/trunk/gps/gnatlib/ $@
-
-############################################################################
 # libdialplan:
 
 LIBDIALPLAN_DEPENDENCIES=$(COMMON_DEPENDENCIES) gnat xmlada
@@ -143,7 +104,7 @@ $(DOWNLOADS)/libdialplan:
 ############################################################################
 # libesl:
 
-LIBESL_DEPENDENCIES=$(COMMON_DEPENDENCIES) gnat aws gnatcoll
+LIBESL_DEPENDENCIES=$(COMMON_DEPENDENCIES) gnat aws
 
 ifeq ($(LIBESL_REVISION),)
 $(error A specific version of libesl should be selected.)
