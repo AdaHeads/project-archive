@@ -207,7 +207,7 @@ $(DOWNLOADS)/dartsdk-linux-x64-release.zip: scripts/patch-dartsdk-64
 	@test -x "`which unzip`" || (echo "Please install 'unzip'." ; false)
 	@test -x "`which zip`"   || (echo "Please install 'zip'."   ; false)
 	mkdir -p $(DOWNLOADS)
-	cd $(DOWNLOADS) ../scripts/patch-dartsdk-64
+	cd $(DOWNLOADS) && ../scripts/patch-dartsdk-64
 
 ############################################################################
 # Database Servers:
