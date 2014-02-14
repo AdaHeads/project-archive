@@ -1,6 +1,6 @@
 include Makefile.revisions
 
-all: call-flow-control
+all: call-flow-control database-servers
 
 ############################################################################
 # Common parameters:
@@ -26,12 +26,12 @@ PROCESSORS=`(test -f /proc/cpuinfo && grep -c ^processor /proc/cpuinfo) || echo 
 endif
 
 # Common dependencies for all build targets:
-COMMON_DEPENDENCIES=Makefile Makefile.revisions gnat
+COMMON_DEPENDENCIES=Makefile Makefile.revisions
 
 ############################################################################
 # Call-flow-control:
 
-CALL_FLOW_CONTROL_DEPENDENCIES=$(COMMON_DEPENDENCIES) yolk aws gnatcoll libdialplan libesl
+CALL_FLOW_CONTROL_DEPENDENCIES=$(COMMON_DEPENDENCIES) gnat yolk aws gnatcoll libdialplan libesl
 
 ifeq ($(CALL_FLOW_CONTROL_REVISION),)
 $(error A specific version of Call-flow-control should be selected.)
@@ -48,7 +48,7 @@ $(DOWNLOADS)/call-flow-control:
 ############################################################################
 # Yolk
 
-YOLK_DEPENDENCIES=$(COMMON_DEPENDENCIES) aws florist gnatcoll
+YOLK_DEPENDENCIES=$(COMMON_DEPENDENCIES) gnat aws florist gnatcoll
 
 ifeq ($(YOLK_REVISION),)
 $(error A specific version of Yolk should be selected.)
@@ -66,7 +66,7 @@ $(DOWNLOADS)/yolk:
 ############################################################################
 # AWS
 
-AWS_DEPENDENCIES=$(COMMON_DEPENDENCIES) patches/aws.patch
+AWS_DEPENDENCIES=$(COMMON_DEPENDENCIES) gnat patches/aws.patch
 
 AWS_ARGS=SOCKET=gnutls OpenID=enabled
 
@@ -90,7 +90,7 @@ $(DOWNLOADS)/aws:
 ############################################################################
 # GNATColl
 
-GNATCOLL_DEPENDENCIES=$(COMMON_DEPENDENCIES)
+GNATCOLL_DEPENDENCIES=$(COMMON_DEPENDENCIES) gnat
 
 GNATCOLL_ARGS=--disable-projects --with-postgresql --with-sqlite --enable-syslog
 
@@ -111,7 +111,7 @@ $(DOWNLOADS)/gnatcoll:
 ############################################################################
 # libdialplan:
 
-LIBDIALPLAN_DEPENDENCIES=$(COMMON_DEPENDENCIES) xmlada
+LIBDIALPLAN_DEPENDENCIES=$(COMMON_DEPENDENCIES) gnat xmlada
 
 ifeq ($(LIBDIALPLAN_REVISION),)
 $(error A specific version of libdialplan should be selected.)
@@ -130,7 +130,7 @@ $(DOWNLOADS)/libdialplan:
 ############################################################################
 # libesl:
 
-LIBESL_DEPENDENCIES=$(COMMON_DEPENDENCIES) aws gnatcoll
+LIBESL_DEPENDENCIES=$(COMMON_DEPENDENCIES) gnat aws gnatcoll
 
 ifeq ($(LIBESL_REVISION),)
 $(error A specific version of libesl should be selected.)
@@ -148,7 +148,7 @@ $(DOWNLOADS)/libesl:
 ############################################################################
 # FLORIST
 
-FLORIST_DEPENDENCIES=$(COMMON_DEPENDENCIES)
+FLORIST_DEPENDENCIES=$(COMMON_DEPENDENCIES) gnat
 
 ifeq ($(FLORIST_REVISION),)
 $(error A specific version of FLORIST should be selected.)
@@ -228,10 +228,29 @@ $(DOWNLOADS)/dart-sdk: $(DOWNLOADS)/dartsdk-linux-x64-release.zip
 	@test -x "`which unzip`" || (echo "Please install 'unzip'." ; false)
 	cd $(DOWNLOADS) && unzip -uoa `basename $<` && touch dart-sdk
 
-$(DOWNLOADS)/dartsdk-linux-x64-release.zip:
-	@test -x "`which wget`"  || (echo "Please install 'wget'." ; false)
+$(DOWNLOADS)/dartsdk-linux-x64-release.zip: scripts/patch-dartsdk-64
+	@test -x "`which curl`"  || (echo "Please install 'curl'."  ; false)
+	@test -x "`which unzip`" || (echo "Please install 'unzip'." ; false)
+	@test -x "`which zip`"   || (echo "Please install 'zip'."   ; false)
 	mkdir -p $(DOWNLOADS)
-	wget --output-document=$@ http://storage.googleapis.com/dart-archive/channels/stable/release/latest/sdk/dartsdk-linux-x64-release.zip
+	cd $(DOWNLOADS) ../scripts/patch-dartsdk-64
+
+############################################################################
+# Database Servers:
+
+DATABASE_SERVERS_DEPENDENCIES=$(COMMON_DEPENDENCIES) dart
+
+ifeq ($(DATABASE_SERVERS_REVISION),)
+$(error A specific version of Database Servers should be selected.)
+endif
+
+database-servers: $(DOWNLOADS)/database-servers $(DATABASE_SERVERS_DEPENDENCIES)
+	cd $< && git checkout master && git pull && git checkout $(DATABASE_SERVERS_REVISION)
+	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make -C $< -e
+
+$(DOWNLOADS)/database-servers:
+	mkdir -p $(DOWNLOADS)
+	git clone git://github.com/AdaHeads/DatabaseServers.git $@
 
 ############################################################################
 # Clean
