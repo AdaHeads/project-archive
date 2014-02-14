@@ -15,7 +15,7 @@ SU_APPLICATION=sudo -E
 PREFIX=/usr/gnat
 
 # Execution path including GNAT:
-EXTENDED_PATH=$(PATH):$(PREFIX)/bin
+EXTENDED_PATH=/usr/bin:$(PATH):$(PREFIX)/bin
 
 # Library path including some things GNAT needs:
 EXTENDED_LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$(LIBRARY_PATH)
@@ -68,24 +68,37 @@ $(DOWNLOADS)/yolk:
 
 AWS_DEPENDENCIES=$(COMMON_DEPENDENCIES) gnat patches/aws.patch
 
-AWS_ARGS=SOCKET=gnutls OpenID=enabled
+AWS_ARGS=SOCKET=gnutls
 
 ifeq ($(AWS_REVISION),)
 $(error A specific version of AWS should be selected.)
 endif
 
-aws: $(DOWNLOADS)/aws $(AWS_DEPENDENCIES)
-	cd $< && git checkout --force master && git clean -dxff && git reset --hard && git pull && git checkout $(AWS_REVISION)
-	( cd $< && patch -f -p1 ) < patches/aws.patch
+aws: aws-$(AWS_REVISION)
+
+aws-$(AWS_REVISION): aws-$(AWS_REVISION)-install
+
+aws-$(AWS_REVISION)-install: aws-$(AWS_REVISION)-build
+	$(SU_APPLICATION) rm -rf /usr/gnat/*/aws /usr/gnat/*/*/aws
+	$(SU_APPLICATION) make -C aws-$(AWS_REVISION)-src install
+	@touch $@
+
+aws-$(AWS_REVISION)-build: aws-$(AWS_REVISION)-src gnat
+	$(SU_APPLICATION) rm -rf /usr/gnat/*/aws /usr/gnat/*/*/aws
 	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make setup -C $< -e $(AWS_ARGS)
 	PATH=$(EXTENDED_PATH) LIBRARY_PATH=$(EXTENDED_LIBRARY_PATH) PROCESSORS=$(PROCESSORS) PREFIX=$(PREFIX) make build -C $< -e
-	if [ -d $(PREFIX)/`gcc -dumpmachine` ]; then $(SU_APPLICATION) rm -rf $(PREFIX)/`gcc -dumpmachine`; fi
-	$(SU_APPLICATION) ln -fs $(PREFIX) $(PREFIX)/`gcc -dumpmachine`
-	$(SU_APPLICATION) make -C $< install
+	@touch $@
 
-$(DOWNLOADS)/aws:
+aws-$(AWS_REVISION)-src: $(DOWNLOADS)/aws-$(AWS_REVISION)-src.tgz
+	@test -x "`which tar`"   || (echo "Please install 'tar'." ; false)
+	@echo Extracting $< ...
+	@tar xzf $<
+	@touch $@
+
+$(DOWNLOADS)/aws-gpl-3.1.0-src.tgz:
+	@test -x "`which wget`"  || (echo "Please install 'wget'." ; false)
 	mkdir -p $(DOWNLOADS)
-	git clone --recursive http://forge.open-do.org/anonscm/git/aws/aws.git $@
+	wget --output-document=$@ http://mirrors.cdn.adacore.com/art/12063471a424d3b33f8d7f86c7e6e8f7ab8079fc
 
 ############################################################################
 # GNATColl
@@ -258,9 +271,10 @@ $(DOWNLOADS)/database-servers:
 clean:
 	rm -rf gnat-*
 	rm -rf xmlada-*
+	rm -rf aws-*
 	rm -rf florist-*
 
 distclean: clean
-	rm -rf $(DOWNLOADS)
+	$(SU_APPLICATION) rm -rf $(DOWNLOADS)
 
 ############################################################################
