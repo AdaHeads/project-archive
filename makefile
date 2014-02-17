@@ -19,7 +19,7 @@
 #                                                                             #
 ###############################################################################
 
-include .config
+-include .config
 
 PROJECT=libdialplan
 
@@ -31,27 +31,32 @@ ifeq ($(INSTALL),)
 INSTALL=sudo install
 endif
 
-all:
-	mkdir -p library build_production
-	gnatmake -j${PROCESSORS} -P $(PROJECT)
+ifeq ($(PREFIX),)
+PREFIX=/usr/local
+endif
+
+all: tests
+
+build: fix-whitespace
+	gnatmake -j${PROCESSORS} -p -P$(PROJECT)
 
 debug:
-	mkdir -p library build_debug
-	BUILDTYPE=Debug gnatmake -j${PROCESSORS} -P $(PROJECT)
+	BUILDTYPE=Debug gnatmake -j${PROCESSORS} -p -P$(PROJECT)
 
 clean: cleanup_messy_temp_files
-	gnatclean -P $(PROJECT)
-	BUILDTYPE=Debug gnatclean -P $(PROJECT)
+	gnatclean -P$(PROJECT) || true
+	BUILDTYPE=Debug gnatclean -P$(PROJECT) || true
 
-distclean:
-	rm -rf library build_production build_debug
-	rm -rf tests/freeswitch-compiler/compiled
+distclean: clean
+	rm -f  .config
+	rm -fr library build_production build_debug
+	rm -fr tests/freeswitch-compiler/compiled
 
-tests: all
+tests: build
 	@./tests/build
 	@./tests/run
 
-install: tests
+install: tests .config
 	$(INSTALL) --target-directory=$(DESTDIR)$(PREFIX)/lib/gnat                  gpr/$(PROJECT).gpr
 	$(INSTALL) --directory        $(DESTDIR)$(PREFIX)/$(PROJECT)
 	$(INSTALL) --target-directory=$(DESTDIR)$(PREFIX)/$(PROJECT)                library/*
@@ -67,3 +72,4 @@ cleanup_messy_temp_files:
 
 fix-whitespace:
 	@find src tests -name '*.ad?' | xargs --no-run-if-empty egrep -l '	| $$' | grep -v '^b[~]' | xargs --no-run-if-empty perl -i -lpe 's|	|        |g; s| +$$||g'
+
