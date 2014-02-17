@@ -170,7 +170,8 @@ ifeq ($(GNAT_REVISION),)
 $(error A specific version of GNAT should be selected.)
 endif
 
-gnat: gnat-$(GNAT_REVISION)
+gnat:
+	@if [ -x "`which gnatmake`" ]; then touch $@; else echo "Please run 'make gnat-$(GNAT_REVISION)' or install GNAT through your OS package manager."; false; fi
 
 gnat-gpl-2013: gnat-2013-install
 
