@@ -7,15 +7,25 @@ A collection of examples using the HTTP library Black.
 Building
 --------
 
+```
 make
+```
 
-The resulting executables can be found in the directory `bin/`.
+The resulting executables can be found in the directory `bin/`:
+
+- `bin/single_thread_server` is a simple HTTP server listening on port 8080.
+  It has three distinct resources:
+  1. `/` - reporting its identity.
+  2. `/redirect` - redirecting you to another server.
+  3. `/stop` - stopping the server.
 
 
 Testing
 -------
 
+```
 make test
+```
 
 The resulting test reports (in JUnit format) can be found in the directory `tests/results/`.
 
