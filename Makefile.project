@@ -1,0 +1,11 @@
+PROJECT=black_examples
+
+GENERATED_EXECUTABLES=bin/single_thread_server
+
+GENERATED_SOURCES=ahven \
+                  black \
+                  gnat-sockets-extras \
+                  libesl
+
+SCRIPTS=
+
