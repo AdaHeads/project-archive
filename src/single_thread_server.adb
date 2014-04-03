@@ -38,19 +38,25 @@ begin
                   Instance'Output (Stream (Connection), R);
                end;
             elsif Request.Resource = "/" then
+               pragma Warnings (Off); --  Workaround for GNAT-4.6.
                Instance'Output
                  (Stream (Connection),
                   OK (Data => "You've visited the single threaded Black " &
                               "example server."));
+               pragma Warnings (On); --  Workaround for GNAT-4.6.
             elsif Request.Resource = "/stop" then
+               pragma Warnings (Off); --  Workaround for GNAT-4.6.
                Instance'Output
                  (Stream (Connection),
                   OK (Data => "You've visited the single threaded Black " &
                               "example server.  Stopping..."));
+               pragma Warnings (On); --  Workaround for GNAT-4.6.
                exit;
             else
+               pragma Warnings (Off); --  Workaround for GNAT-4.6.
                Instance'Output (Stream (Connection),
                                 Not_Found (Resource => Request.Resource));
+               pragma Warnings (On); --  Workaround for GNAT-4.6.
             end if;
          end;
 
