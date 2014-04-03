@@ -28,10 +28,15 @@ begin
             use Black.Response;
          begin
             if Request.Resource = "/redirect" then
-               Instance'Output
-                 (Stream (Connection),
-                  Redirect (Target    => "http://www.jacob-sparre.dk/",
-                            Permanent => False));
+               declare
+                  --  Workaround for GNAT-4.6:
+                  --  Declare an object containing the response.
+                  R : constant Class :=
+                        Redirect (Target    => "http://www.jacob-sparre.dk/",
+                                  Permanent => False);
+               begin
+                  Instance'Output (Stream (Connection), R);
+               end;
             elsif Request.Resource = "/" then
                Instance'Output
                  (Stream (Connection),
