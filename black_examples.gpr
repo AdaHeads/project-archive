@@ -8,7 +8,8 @@ project Black_examples is
                         "gnat-sockets-extras/src/",
                         "libesl/src/");
 
-   for Main use ("single_thread_server");
+   for Main use ("client",
+                 "single_thread_server");
 
    package Builder  renames Ada_2005.Builder;
    package Compiler renames Ada_2005.Compiler;

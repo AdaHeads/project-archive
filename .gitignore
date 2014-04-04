@@ -38,5 +38,6 @@
 /tests/*/*.o
 
 # Generated executables:
+/bin/client
 /bin/single_thread_server
 

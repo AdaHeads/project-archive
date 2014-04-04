@@ -1,6 +1,7 @@
 PROJECT=black_examples
 
-GENERATED_EXECUTABLES=bin/single_thread_server
+GENERATED_EXECUTABLES=bin/client \
+                      bin/single_thread_server
 
 GENERATED_SOURCES=ahven \
                   black \
