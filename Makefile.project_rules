@@ -37,5 +37,9 @@ libesl-update: libesl
 	cd libesl && git pull
 	rm -f libesl/src/esl*.ad[sb]
 
-.PHONY: ahven-update black-update gnat-sockets-extras-update libesl-update
+DEPENDENCY_UPDATES=ahven-update black-update gnat-sockets-extras-update libesl-update
+
+update: $(DEPENDENCY_UPDATES)
+
+.PHONY: $(DEPENDENCY_UPDATES) update
 
