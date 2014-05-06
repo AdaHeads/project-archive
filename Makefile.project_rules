@@ -3,21 +3,43 @@ ifndef OS_VERSION
 endif
 
 ahven:
-	if [ -d ahven ]; then ( cd ahven && hg pull && hg update && hg revert --all ); else ( rm -f ahven && hg clone https://bitbucket.org/tkoskine/ahven ); fi
+	if [ ! -d ahven ]; then ( rm -f ahven && hg clone https://bitbucket.org/tkoskine/ahven ); fi
+	perl -i~ -lpe 's|external [(]"OS_VERSION", "[^"]"[)];|external ("OS_VERSION");|' ahven/gnat/ahven*.gpr
 	mkdir -p tests/results
 
+ahven-update: ahven
+	cd ahven && hg pull && hg update && hg revert --all
+	perl -i~ -lpe 's|external [(]"OS_VERSION", "[^"]"[)];|external ("OS_VERSION");|' ahven/gnat/ahven*.gpr
+
 black:
-	if [ -d black ]; then ( cd black && git pull ); else ( rm -f black && git clone https://github.com/AdaHeads/Black black ); fi
+	if [ ! -d black ]; then ( rm -f black && git clone https://github.com/AdaHeads/black black ); fi
+
+black-update: black
+	cd black && git pull
 
 gnat-sockets-extras:
-	if [ -d gnat-sockets-extras ]; then ( cd gnat-sockets-extras && hg pull && hg update && hg revert --all ); else ( rm -f gnat-sockets-extras && hg clone http://repositories.jacob-sparre.dk/gnat-sockets-extras ); fi
+	if [ ! -d gnat-sockets-extras ]; then ( rm -f gnat-sockets-extras && hg clone http://repositories.jacob-sparre.dk/gnat-sockets-extras ); fi
+	rm -f gnat-sockets-extras/src/demo.adb
+	rm -f gnat-sockets-extras/src/gnat-sockets-compatibility.ads
+	rm -f gnat-sockets-extras/src/gnat-sockets-compatibility.adb
+
+gnat-sockets-extras-update: gnat-sockets-extras
+	cd gnat-sockets-extras && hg pull && hg update && hg revert --all
 	rm -f gnat-sockets-extras/src/demo.adb
 	rm -f gnat-sockets-extras/src/gnat-sockets-compatibility.ads
 	rm -f gnat-sockets-extras/src/gnat-sockets-compatibility.adb
 
 libesl:
-	if [ -d libesl ]; then ( cd libesl && git pull ); else ( rm -f libesl && git clone https://github.com/AdaHeads/libesl libesl ); fi
+	if [ ! -d libesl ]; then ( rm -f libesl && git clone https://github.com/AdaHeads/libesl libesl ); fi
 	rm -f libesl/src/esl*.ad[sb]
 
-.PHONY: ahven black gnat-sockets-extras libesl
+libesl-update: libesl
+	cd libesl && git pull
+	rm -f libesl/src/esl*.ad[sb]
+
+DEPENDENCY_UPDATES=ahven-update black-update gnat-sockets-extras-update libesl-update
+
+update: $(DEPENDENCY_UPDATES)
+
+.PHONY: $(DEPENDENCY_UPDATES) update
 
