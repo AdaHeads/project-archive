@@ -1,0 +1,63 @@
+Contents of this README:
+
+    1. Introduction
+    2. Dependencies
+    3. Installation
+    4. Use
+    5. References
+
+--------------------
+--  Introduction  --
+--------------------
+
+libdialplan provides a data structure as well as query and I/O routines for
+dial-plans for reception management.
+
+Currently the only supported storage format for dial-plans is XML files.
+
+libdialplan is GPLv3, see COPYING3 and COPYING.RUNTIME.
+
+--------------------
+--  Dependencies  --
+--------------------
+
+libdialplan depends on XMLAda[1] and any Ada 2012[2] compiler.
+
+--------------------
+--  Installation  --
+--------------------
+
+You build and install libdialplan using this sequence of commands:
+
+   ./configure
+   make install
+
+If you want to override the installation location, you can do it with the
+variables PREFIX and DESTDIR.
+
+The 'install' target in the makefile uses 'sudo install' as the default
+command to install files.  This can be overridden with the INSTALL variable.
+
+-----------
+--  Use  --
+-----------
+
+Include a 'with "libdialplan";' in your GNAT project file and you should be
+set.
+
+------------------
+--  References  --
+------------------
+
+If you want to find other free Ada tools or libraries AdaIC [3] is an
+excellent starting point.
+
+[1] XMLAda
+    http://libre.adacore.com/tools/xmlada/
+    SVN: svn checkout http://svn.eu.adacore.com/anonsvn/Dev/trunk/xmlada/
+
+[2] Ada 2012 Reference Manual
+    http://ada-auth.org/arm.html
+
+[3] Free Ada Tools and Libraries:
+    http://www.adaic.org/ada-resources/tools-libraries/

@@ -1,0 +1,97 @@
+#! /bin/bash
+#-----------------------------------------------------------------------------
+#--  Base directory:
+
+base_dir="$(cd "$(dirname "$0")" && pwd)"
+
+if [ ! -d "${base_dir}" ]; then
+   echo "Can not identify base directory."
+   exit -1
+fi
+
+cd "${base_dir}/.."
+
+#-----------------------------------------------------------------------------
+#--  Compiling:
+
+total_examples=0
+successes=0
+failures=0
+
+rm -rf "${base_dir}/compiled"
+mkdir  "${base_dir}/compiled"
+
+for example in "${base_dir}"/../../examples/*.dial-plan; do
+   if [ -f "${example}" ]; then
+      let total_examples++
+
+      "${base_dir}/dial_plan_to_freeswitch_xml" "${example}" "+45 21 49 08 04" \
+        > "${base_dir}/compiled/$(basename "${example}" .dial-plan).freeswitch_xml"
+      result=$?
+
+      if [ ${result} -eq 0 ]; then
+         let successes++
+      else
+         let failures++
+      fi
+   fi
+done
+
+#-----------------------------------------------------------------------------
+#--  Reporting:
+
+if [ ${total_examples} -eq 0 ]; then
+   echo "Can not find any examples to compile."
+   exit -2
+elif [ ${failures} -gt 0 ]; then
+   echo "Failed compiling ${failures} out of ${total_examples} dial-plans."
+   exit ${failures}
+else
+   echo "Compiled ${successes} dial-plans successfully."
+fi
+
+#-----------------------------------------------------------------------------
+#--  Comparing:
+
+total_examples=0
+successes=0
+failures=0
+
+for compiled in "${base_dir}"/compiled/*.freeswitch_xml; do
+   if [ -f "${compiled}" ]; then
+      let total_examples++
+
+      name="$(basename "${compiled}")"
+      expected="${base_dir}/expected/${name}"
+
+      if [ -f "${expected}" ]; then
+         if diff --ignore-space-change --brief "${compiled}" "${expected}" 1>/dev/null; then
+            let successes++
+         else
+            let failures++
+
+            echo "'${name}' does not match the expected result:"
+            diff --ignore-space-change --unified "${expected}" "${compiled}"
+            echo
+         fi
+      else
+         echo "'${name}' has no expected result."
+         let failures++
+      fi
+   fi
+done
+
+#-----------------------------------------------------------------------------
+#--  Reporting:
+
+if [ ${total_examples} -eq 0 ]; then
+   echo "Can not find any examples to compare."
+   exit -3
+elif [ ${failures} -gt 0 ]; then
+   echo "${failures} out of ${total_examples} compiled dial-plans do not match the expected result."
+   exit ${failures}
+else
+   echo "All ${total_examples} compiled dial-plans match the expected result."
+fi
+
+#-----------------------------------------------------------------------------

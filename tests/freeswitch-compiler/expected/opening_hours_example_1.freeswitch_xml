@@ -1,0 +1,36 @@
+<!--  Reception: Example 1: Checking opening hours  -->
+
+<!--  Path: Start: Open  -->
+<extension>
+ <condition destination_number="+45 21 49 08 04"/>
+ <not>
+ <!--  Looking up "ikke-bankdag" in calendar.  --/>
+ </not>
+ <condition wday="thu"/>
+ <condition time-of-day="10:00:00-18:00:00"/>
+
+ <action application="queue" data="common"/>
+</extension>
+
+<!--  Path: Start: Open  -->
+<extension>
+ <condition destination_number="+45 21 49 08 04"/>
+ <not>
+ <!--  Looking up "ikke-bankdag" in calendar.  --/>
+ </not>
+ <condition wday="mon,tue,wed,fri"/>
+ <condition time-of-day="09:00:00-17:00:00"/>
+
+ <action application="queue" data="common"/>
+</extension>
+
+<!--  Path: Start: Closed  -->
+<extension>
+ <condition destination_number="+45 21 49 08 04"/>
+
+ <action application="answer"/>
+ <!--  Configure to play: example-1-closed  -->
+ <action application="voicemail" data="default $${domain} reception@example.com"/>
+</extension>
+
+

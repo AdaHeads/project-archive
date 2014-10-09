@@ -1,0 +1,84 @@
+<!--  Reception: Example 2: Checking opening hours  -->
+
+<!--  Path: Start: Inventory day  -->
+<extension>
+ <condition destination_number="+45 21 49 08 04"/>
+ <condition mon="1"/>
+ <!--  Looking up "første-bankdag-i-måneden" in calendar.  --/>
+ <condition time-of-day="08:00:00-18:00:00"/>
+
+ <action application="answer"/>
+ <!--  Configure to play: example-2-inventory-day  -->
+ <action application="voicemail" data="default $${domain} reception@two.example.com"/>
+</extension>
+
+<!--  Path: Start: Lukker klokken tolv: Open  -->
+<extension>
+ <condition destination_number="+45 21 49 08 04"/>
+ <not>
+ <!--  Looking up "ikke-bankdag" in calendar.  --/>
+ </not>
+ <condition mon="6"/>
+ <!--  Day of month in { 5}  --/>
+ <condition time-of-day="08:00:00-12:00:00"/>
+
+ <action application="queue" data="common"/>
+</extension>
+
+<!--  Path: Start: Lukker klokken tolv: Closed  -->
+<extension>
+ <condition destination_number="+45 21 49 08 04"/>
+ <not>
+ <!--  Looking up "ikke-bankdag" in calendar.  --/>
+ </not>
+ <condition mon="6"/>
+ <!--  Day of month in { 5}  --/>
+
+ <action application="answer"/>
+ <!--  Configure to play: example-2-closed  -->
+ <action application="voicemail" data="default $${domain} reception@two.example.com"/>
+</extension>
+
+<!--  Path: Start: Open  -->
+<extension>
+ <condition destination_number="+45 21 49 08 04"/>
+ <!--  Looking up "sidste-bankdag-i-måneden" in calendar.  --/>
+ <condition time-of-day="08:00:00-18:00:00"/>
+
+ <action application="queue" data="common"/>
+</extension>
+
+<!--  Path: Start: Open  -->
+<extension>
+ <condition destination_number="+45 21 49 08 04"/>
+ <not>
+ <!--  Looking up "ikke-bankdag" in calendar.  --/>
+ </not>
+ <condition wday="mon,tue,wed,thu,fri"/>
+ <condition time-of-day="10:00:00-16:00:00"/>
+
+ <action application="queue" data="common"/>
+</extension>
+
+<!--  Path: Start: Open  -->
+<extension>
+ <condition destination_number="+45 21 49 08 04"/>
+ <not>
+ <!--  Looking up "helligdag" in calendar.  --/>
+ </not>
+ <condition wday="sat"/>
+ <condition time-of-day="10:00:00-14:00:00"/>
+
+ <action application="queue" data="common"/>
+</extension>
+
+<!--  Path: Start: Closed  -->
+<extension>
+ <condition destination_number="+45 21 49 08 04"/>
+
+ <action application="answer"/>
+ <!--  Configure to play: example-2-closed  -->
+ <action application="voicemail" data="default $${domain} reception@two.example.com"/>
+</extension>
+
+

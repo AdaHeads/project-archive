@@ -1,0 +1,25 @@
+# Do not track build objects.
+build_production/
+build_debug/
+*.ali
+*.o
+
+# Do not track built library files 
+library/
+
+# Do not track emacs temporary and backup files
+\#*#
+*~
+
+# Do not track Nano temporary files
+.#*
+
+# Do not track Vi(m) temporary files
+.*.swp
+
+# Do not track Jacobs merge script
+test_and_push_to_master
+
+# Do not track configuration files:
+.config
+.config.sh

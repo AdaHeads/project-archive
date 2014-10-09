@@ -1,0 +1,76 @@
+<!--  Reception: Example 2: Checking opening hours  -->
+
+<extension>
+ <condition destination_number="+45 21 49 08 04"/>
+
+ <month is="01"/>
+ <calendar-look-up kind="første-bankdag-i-måneden"/>
+ <clock from="08:00" to="18:00"/>
+
+ <action application="answer"/>
+ <!--  Configure to play: example-2-inventory-day  -->
+ <action application="voicemail" data="default $${domain} reception@two.example.com"/>
+</extension>
+
+<extension>
+ <condition destination_number="+45 21 49 08 04"/>
+
+ <not><calendar-look-up kind="ikke-bankdag"/></not>
+ <month is="06"/>
+ <day-of-month is="05"/>
+
+ <clock from="08:00" to="12:00"/>
+
+ <action application="queue" data="common"/>
+</extension>
+
+<extension>
+ <condition destination_number="+45 21 49 08 04"/>
+
+ <not><calendar-look-up kind="ikke-bankdag"/></not>
+ <month is="06"/>
+ <day-of-month is="05"/>
+
+ <action application="answer"/>
+ <!--  Configure to play: example-2-closed  -->
+ <action application="voicemail" data="default $${domain} reception@two.example.com"/>
+</extension>
+
+<extension>
+ <condition destination_number="+45 21 49 08 04"/>
+
+ <calendar-look-up kind="sidste-bankdag-i-måneden"/>
+ <clock from="08:00" to="18:00"/>
+
+ <action application="queue" data="common"/>
+</extension>
+
+<extension>
+ <condition destination_number="+45 21 49 08 04"/>
+
+ <not><calendar-look-up kind="ikke-bankdag"/></not>
+ <day-of-week is="Monday,Tuesday,Wednesday,Thursday,Friday"/>
+ <clock from="10:00" to="16:00"/>
+
+ <action application="queue" data="common"/>
+</extension>
+
+<extension>
+ <condition destination_number="+45 21 49 08 04"/>
+
+ <not><calendar-look-up kind="helligdag"/></not>
+ <day-of-week is="Saturday"/>
+ <clock from="10:00" to="14:00"/>
+
+ <action application="queue" data="common"/>
+</extension>
+
+<extension>
+ <condition destination_number="+45 21 49 08 04"/>
+
+ <action application="answer"/>
+ <!--  Configure to play: example-2-closed  -->
+ <action application="voicemail" data="default $${domain} reception@two.example.com"/>
+</extension>
+
+
