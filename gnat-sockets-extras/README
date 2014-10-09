@@ -1,0 +1,7 @@
+Packages to make life easier, when you write networking applications using
+GNAT.Sockets.
+
+GNAT.Sockets.Convenience - sets up typically configured client and server
+                           sockets in one operation.
+GNAT.Sockets.Compatibility - allows you to operate on GNAT sockets using the
+                             standard POSIX Ada API.
