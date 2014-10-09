@@ -1,0 +1,9 @@
+# Editor temporary and backup files:
+*\~
+\#*\#
+.\#*
+.*.swp
+
+# Downloaded sources:
+downloads/
+
