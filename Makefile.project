@@ -1,0 +1,9 @@
+PROJECT=black
+
+GENERATED_EXECUTABLES=
+
+GENERATED_SOURCES=ahven \
+                  libesl
+
+SCRIPTS=
+
