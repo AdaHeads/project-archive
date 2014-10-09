@@ -1,0 +1,12 @@
+#company_info {
+  position: absolute;
+  top: 10%;
+  left: 4%;
+  height: 45%;
+  width: 96%;
+}
+
+#company_info_body select {
+  font-size: 1em;
+  width: 30%;
+}

@@ -1,0 +1,8 @@
+name: Bob
+author: AdaHeads K/S
+description: A receptionist tool for handling calls.
+dependencies:
+  json_object: any
+  browser: any
+  logging: any
+  meta: any

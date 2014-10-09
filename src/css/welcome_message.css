@@ -1,0 +1,11 @@
+#welcome_message {
+  position: absolute;
+  left: 4%;
+  top: 0%;
+  height: 8%;
+  width: 71%;
+}
+
+#welcome_message_body {
+  font-size: 1.5em;
+}

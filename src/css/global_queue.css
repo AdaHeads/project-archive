@@ -1,0 +1,11 @@
+#global_queue {
+  position: absolute;
+  top: 57%;
+  left: 78%;
+  height: 26%;
+  width: 22%;
+}
+
+#global_call_queue > li {
+  font-size: 70%;
+}

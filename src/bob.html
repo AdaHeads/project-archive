@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Bob</title>
+    <link rel="stylesheet" href="css/bob.css?v=1">
+    <link rel="stylesheet" href="css/keyframes.css?v=1">
+    <link rel="stylesheet" href="css/navigation.css?v=1">
+    <link rel="stylesheet" href="css/welcome_message.css?v=1">
+    <link rel="stylesheet" href="css/agent_info.css?v=1">
+    <link rel="stylesheet" href="css/company_info.css?v=1">
+    <link rel="stylesheet" href="css/contact_info.css?v=1">
+    <link rel="stylesheet" href="css/send_message.css?v=1">
+    <link rel="stylesheet" href="css/global_queue.css?v=1">
+    <link rel="stylesheet" href="css/local_queue.css?v=1">
+    <link rel="stylesheet" href="css/overlay.css?v=1">
+  </head>
+  <body>
+    <div id="root_view">
+      <!--
+        The navigation pane. The buttons here are used to activate the overlay
+        element.
+      -->
+      <ul id="navigation">
+        <li>
+          <button id="button1" class="notactivated">1</button>
+        </li>
+        <li>
+          <button id="button2" class="notactivated">2</button>
+        </li>
+        <li>
+          <button id="button3" class="notactivated">3</button>
+        </li>
+        <li>
+          <button id="button4" class="notactivated">4</button>
+        </li>
+      </ul>
+
+      <!--
+        The welcome message for a company.
+      -->
+      <div id="welcome_message" class="window">
+        <div id="welcome_message_body" class="window_body"></div>
+      </div>
+
+      <!--
+        The agent information window. Keeps track of active, available and
+        paused agents. The header should be populated with the name of the
+        currently logged in agent.
+      -->
+      <div id="agent_info" class="window">
+        <h1 id="agent_info_header" class="window_header"></h1>
+        <div id="agent_info_body" class="window_body"></div>
+      </div>
+
+      <!--
+        Information about the currently selected company.
+      -->
+      <div id="company_info" class="window">
+        <h1 id="company_info_header" class="window_header"></h1>
+        <div id="company_info_body" class="window_body">
+          <select id="company_info_select" class=""></select>
+          <div id="company_info_dump"></div><!-- temporary dump container -->
+        </div>
+      </div>
+
+      <!--
+        List of contacts for the currently selected company.
+      -->
+      <div id="contact_info" class="window">
+        <h1 id="contact_info_header" class="window_header"></h1>
+        <div id="contact_info_body" class="window_body">
+          <ul>
+            <li>What is orange and sounds like parrot?</li>
+          </ul>
+        </div>
+      </div>
+
+      <!--
+        Interface to write and send a message to a contact.
+      -->
+      <div id="send_message" class="window">
+        <h1 id="send_message_header" class="window_header"></h1>
+        <div id="send_message_body" class="window_body">
+          <textarea rows="5" cols="25" id="in_send_message" placeholder="Please do not use me, i'm not implemented. - (B)"></textarea>
+          <button id="btn_send_message">Send message</button><br><br>
+          <fieldset>
+            <legend>Originate Call - Not Working</legend>
+            Address: <input type="text" id="in_originate_address"><br>
+            <input type="radio" name="OriginateType" id="rad_originate_contactid">Contact_id<br>
+            <input type="radio" name="OriginateType" id="rad_originate_pstn">PSTN<br>
+            <input type="radio" name="OriginateType" id="rad_originate_sip" checked="true">SIP<br>
+            <button id="btn_originatecall" disabled="disabled">Make Call</button>
+          </fieldset>
+        </div>
+      </div>
+
+      <!--
+        List of currently unanswered calls.
+      -->
+      <div id="global_queue" class="window">
+        <h1 id="global_queue_header" class="window_header"></h1>
+        <div id="global_queue_body" class="window_body">
+          <button id="btn_Pickup">Pickup Next Call</button>
+          <button id="btn_Hangup" disabled="disabled">Hangup</button>
+          <button id="btn_Hold" disabled="disabled">Hold</button>
+          <ol id="global_call_queue"></ol></div>
+      </div>
+
+      <!--
+        List of calls queued by the agent.
+      -->
+      <div id="local_queue" class="window">
+        <h1 id="local_queue_header" class="window_header"></h1>
+        <div id="local_queue_body" class="window_body"></div>
+      </div>
+
+      <!--
+        This contents of this box corresponds to the button clicked in the
+        navigation pane. We probably need more of these overlays.
+      -->
+      <div id="overlay" class="window">
+        <h1 id="overlay_header" class="window_header"></h1>
+        <div id="overlay_body" class="window_body"></div>
+      </div>
+    </div>
+
+    <script type="application/dart" src="dart/bob.dart"></script>
+    <script src="dart/packages/browser/dart.js"></script>
+  </body>
+</html>
