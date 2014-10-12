@@ -1,0 +1,12 @@
+Test wave files.
+
+Conversion to a PJSUA compatible format can be done using sox with the following parameters:
+
+  sox original.wav -c1 -r 16000 infile.wav
+
+If there is a need to trim down on wave file length, the trim filter can be applied, like so.
+
+  sox original.wav -c1 -r 16000 infile.wav trim 10 5
+
+The example above will give a sequence of 5 second length, starting from position 10 seconds in the original file.
+The other parameters can be omitted
